@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { LocalDataSource } from "ng2-smart-table";
 import { SmartTableData } from "../../../@core/data/smart-table";
+import { DeviceTypeCellComponent } from "../../shared/custom-table-cell-render/device-type-cell.component";
 
 @Component({
   selector: "ngx-devices",
@@ -27,6 +28,10 @@ export class DevicesComponent {
       id: {
         title: "ID",
         type: "number",
+        editable: false,
+        filter: false,
+        sort: true,
+        sortDirection: "desc",
       },
       firstName: {
         title: "First Name",
@@ -45,6 +50,40 @@ export class DevicesComponent {
         type: "string",
       },
       age: {
+        title: "Age",
+        type: "number",
+      },
+      status: {
+        title: "Status",
+        filter: {
+          type: "list",
+          config: {
+            selectText: "Select...",
+            list: [
+              { value: "Glenna Reichert", title: "Glenna Reichert" },
+              { value: "Kurtis Weissnat", title: "Kurtis Weissnat" },
+              { value: "Chelsey Dietrich", title: "Chelsey Dietrich" },
+            ],
+          },
+        },
+      },
+      type: {
+        title: "Type",
+        type: "custom",
+        renderComponent: DeviceTypeCellComponent,
+      },
+      passed: {
+        title: "Passed",
+        filter: {
+          type: "checkbox",
+          config: {
+            true: "Yes",
+            false: "No",
+            resetText: "clear",
+          },
+        },
+      },
+      actions: {
         title: "Age",
         type: "number",
       },
