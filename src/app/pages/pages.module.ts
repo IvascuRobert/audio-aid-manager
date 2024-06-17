@@ -17,8 +17,6 @@ import { PagesComponent } from "./pages.component";
     ECommerceModule,
     MiscellaneousModule,
   ],
-  declarations: [
-    PagesComponent,
-  ],
+  declarations: [PagesComponent],
 })
 export class PagesModule {}

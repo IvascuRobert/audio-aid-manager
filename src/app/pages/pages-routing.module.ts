@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { AppointmentsComponent } from "./appointments/appointments.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ECommerceComponent } from "./e-commerce/e-commerce.component";
 import { NotFoundComponent } from "./miscellaneous/not-found/not-found.component";
@@ -14,7 +13,10 @@ const routes: Routes = [
     children: [
       {
         path: "appointments",
-        component: AppointmentsComponent,
+        loadChildren: () =>
+          import("./appointments/appointments.module").then(
+            (m) => m.AppointmentsModule
+          ),
       },
       {
         path: "products",
@@ -38,6 +40,11 @@ const routes: Routes = [
         path: "layout",
         loadChildren: () =>
           import("./layout/layout.module").then((m) => m.LayoutModule),
+      },
+      {
+        path: "setup",
+        loadChildren: () =>
+          import("./setup/setup.module").then((m) => m.SetupModule),
       },
       {
         path: "forms",

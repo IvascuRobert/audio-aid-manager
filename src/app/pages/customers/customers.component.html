@@ -1,12 +1,26 @@
 <nb-card>
-  <nb-card-header> Smart Table </nb-card-header>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-8">
+        <span>{{ source.count() }} Customers</span>
+      </div>
+      <div class="col-4">
+        <nb-select
+          fullWidth
+          multiple
+          placeholder="Columns"
+          [(selected)]="selectedColumns"
+          (selectedChange)="handleSelectedColumns($event)"
+        >
+          <nb-option *ngFor="let item of hiddenColumns" [value]="item">
+            {{ item }}
+          </nb-option>
+        </nb-select>
+      </div>
+    </div>
+  </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table
-      [settings]="settings"
-      [source]="source"
-      (deleteConfirm)="onDeleteConfirm($event)"
-    >
-    </ng2-smart-table>
+    <ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
   </nb-card-body>
 </nb-card>

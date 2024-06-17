@@ -28,25 +28,34 @@ export class ServicesComponent {
         title: "ID",
         type: "number",
       },
-      firstName: {
-        title: "First Name",
-        type: "string",
-      },
-      lastName: {
+      name: {
         title: "Last Name",
         type: "string",
       },
-      username: {
+      price: {
+        // optional
+        title: "Age",
+        type: "number",
+      },
+      brand: {
         title: "Username",
         type: "string",
       },
-      email: {
+      quantity: {
+        title: "Username",
+        type: "string",
+      },
+      type: {
         title: "E-mail",
         type: "string",
       },
-      age: {
-        title: "Age",
-        type: "number",
+      location: {
+        title: "E-mail",
+        type: "string",
+      },
+      customer: {
+        title: "E-mail",
+        type: "string",
       },
     },
   };

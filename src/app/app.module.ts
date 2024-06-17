@@ -16,10 +16,24 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from "@nebular/theme";
+import {
+  CalendarDateFormatter,
+  CalendarModule,
+  CalendarMomentDateFormatter,
+  DateAdapter,
+  MOMENT,
+} from "angular-calendar";
 import { CoreModule } from "./@core/core.module";
 import { ThemeModule } from "./@theme/theme.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+
+import { adapterFactory } from "angular-calendar/date-adapters/moment";
+import * as moment from "moment";
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +51,25 @@ import { AppComponent } from "./app.component";
     NbChatModule.forRoot({}),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    CalendarModule.forRoot(
+      {
+        provide: DateAdapter,
+        useFactory: momentAdapterFactory,
+      },
+      {
+        dateFormatter: {
+          provide: CalendarDateFormatter,
+          useClass: CalendarMomentDateFormatter,
+        },
+      }
+    ),
   ],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: MOMENT,
+      useValue: moment,
+    },
+  ],
 })
 export class AppModule {}

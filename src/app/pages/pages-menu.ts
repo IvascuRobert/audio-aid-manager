@@ -38,15 +38,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: "Utilities",
         link: "/pages/products/utilities",
       },
-      {
-        title: "Services",
-        link: "/pages/products/services",
-      },
     ],
   },
   {
     title: "SETTINGS",
     group: true,
+  },
+  {
+    title: "Setup",
+    icon: "settings-2-outline",
+    children: [
+      {
+        title: "Employee",
+        link: "/pages/setup/employee",
+      },
+      {
+        title: "Rooms",
+        link: "/pages/setup/rooms",
+      },
+      {
+        title: "Locations",
+        link: "/pages/setup/locations",
+      },
+      {
+        title: "Clinics",
+        link: "/pages/setup/clinics",
+      },
+      {
+        title: "Doctors",
+        link: "/pages/setup/doctors",
+      },
+    ],
   },
   // {
   //   title: "E-commerce",
