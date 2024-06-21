@@ -323,7 +323,7 @@ var Gender;
 (function (Gender) {
   Gender["male"] = "male";
   Gender["female"] = "female";
-  Gender["unknown"] = "unknown";
+  Gender["unknown"] = "transgender";
 })(Gender || (Gender = {}));
 
 /***/ }),
@@ -461,6 +461,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ProfitChartData": () => (/* binding */ ProfitChartData)
 /* harmony export */ });
 class ProfitChartData {}
+
+/***/ }),
+
+/***/ 12854:
+/*!************************************!*\
+  !*** ./src/app/@core/data/role.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Role": () => (/* binding */ Role)
+/* harmony export */ });
+var Role;
+(function (Role) {
+  Role["employee"] = "employee";
+  Role["admin"] = "admin";
+})(Role || (Role = {}));
 
 /***/ }),
 
@@ -1519,16 +1538,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_accessory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/accessory */ 15104);
 /* harmony import */ var _data_customer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/customer */ 35051);
 /* harmony import */ var _data_device__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data/device */ 61930);
-/* harmony import */ var _data_smart_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/smart-table */ 98152);
-/* harmony import */ var _data_utility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../data/utility */ 15451);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _data_role__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/role */ 12854);
+/* harmony import */ var _data_smart_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../data/smart-table */ 98152);
+/* harmony import */ var _data_utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../data/utility */ 15451);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
 
 
 
 
-class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.SmartTableData {
+
+class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.SmartTableData {
   constructor() {
     super(...arguments);
     this.data = {
@@ -1620,7 +1641,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_4__.UtilityType.battery
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.battery
       }, {
         id: 2,
         name: "Power 8 mm",
@@ -1628,7 +1649,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_4__.UtilityType.domes
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.domes
       }, {
         id: 3,
         name: "ProWax",
@@ -1636,7 +1657,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_4__.UtilityType.filter
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.filter
       }],
       accessories: [{
         id: 1,
@@ -1810,6 +1831,136 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.S
         price: 200,
         location: "Milano 21",
         customer: "Macac Macacutz"
+      }],
+      users: [{
+        id: 1,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+      }, {
+        id: 2,
+        email: "vgj@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
+        name: "Vlad Gaujaneanu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+      }, {
+        id: 3,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+      }, {
+        id: 4,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.unknown,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+      }, {
+        id: 5,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+      }, {
+        id: 6,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+      }, {
+        id: 7,
+        email: "robi_ivas@yahoo.com",
+        gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+      }],
+      doctors: [{
+        id: 1,
+        name: "Dr. Emil Laurentiu"
+      }, {
+        id: 2,
+        name: "Dr. Emil Laurentiu"
+      }, {
+        id: 3,
+        name: "Dr. Emil Laurentiu"
+      }, {
+        id: 4,
+        name: "Dr. Emil Laurentiu"
+      }],
+      rooms: [{
+        id: 1,
+        name: "Room 1"
+      }, {
+        id: 2,
+        name: "Room 2"
+      }, {
+        id: 3,
+        name: "Room 3"
+      }, {
+        id: 4,
+        name: "Room 4"
+      }],
+      locations: [{
+        id: 1,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 2,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 3,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 4,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 5,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 6,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 7,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 8,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 9,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }, {
+        id: 10,
+        name: "Milano 231",
+        address: "Pantelimon 266, Bl. E"
+      }],
+      clinics: [{
+        id: 1,
+        name: "Clinic 1"
+      }, {
+        id: 2,
+        name: "Clinic 2"
+      }, {
+        id: 3,
+        name: "Clinic 3"
+      }, {
+        id: 4,
+        name: "Clinic 4"
       }]
     };
   }
@@ -1819,10 +1970,10 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_3__.S
   static #_ = this.ɵfac = /*@__PURE__*/function () {
     let ɵSmartTableService_BaseFactory;
     return function SmartTableService_Factory(t) {
-      return (ɵSmartTableService_BaseFactory || (ɵSmartTableService_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵgetInheritedFactory"](SmartTableService)))(t || SmartTableService);
+      return (ɵSmartTableService_BaseFactory || (ɵSmartTableService_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵgetInheritedFactory"](SmartTableService)))(t || SmartTableService);
     };
   }();
-  static #_2 = this.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
+  static #_2 = this.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({
     token: SmartTableService,
     factory: SmartTableService.ɵfac
   });

@@ -11,24 +11,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ClinicsComponent": () => (/* binding */ ClinicsComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+
+
 
 class ClinicsComponent {
+  constructor(service) {
+    this.service = service;
+    this.settings = {
+      actions: false,
+      columns: {
+        id: {
+          title: "ID",
+          type: "number",
+          width: "10%"
+        },
+        name: {
+          title: "Name",
+          type: "string"
+        }
+      }
+    };
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.LocalDataSource();
+    const data = this.service.getData().clinics;
+    this.source.load(data);
+  }
   static #_ = this.ɵfac = function ClinicsComponent_Factory(t) {
-    return new (t || ClinicsComponent)();
+    return new (t || ClinicsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__.SmartTableData));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
     type: ClinicsComponent,
     selectors: [["ngx-clinics"]],
-    decls: 2,
-    vars: 0,
+    decls: 3,
+    vars: 2,
+    consts: [[3, "settings", "source"]],
     template: function ClinicsComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "clinic works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-body");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](2, "ng2-smart-table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.Ng2SmartTableComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -45,24 +78,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DoctorsComponent": () => (/* binding */ DoctorsComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+
+
 
 class DoctorsComponent {
+  constructor(service) {
+    this.service = service;
+    this.settings = {
+      actions: false,
+      columns: {
+        id: {
+          title: "ID",
+          type: "number",
+          width: "10%"
+        },
+        name: {
+          title: "Name",
+          type: "string"
+        }
+      }
+    };
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.LocalDataSource();
+    const data = this.service.getData().doctors;
+    this.source.load(data);
+  }
   static #_ = this.ɵfac = function DoctorsComponent_Factory(t) {
-    return new (t || DoctorsComponent)();
+    return new (t || DoctorsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__.SmartTableData));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
     type: DoctorsComponent,
     selectors: [["ngx-doctors"]],
-    decls: 2,
-    vars: 0,
+    decls: 3,
+    vars: 2,
+    consts: [[3, "settings", "source"]],
     template: function DoctorsComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "doctors works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-body");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](2, "ng2-smart-table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.Ng2SmartTableComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -79,24 +145,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EmployeeComponent": () => (/* binding */ EmployeeComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _shared_custom_table_cell_render_gender_cell_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/gender-cell.component */ 53161);
+/* harmony import */ var _shared_custom_table_cell_render_email_cell_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/email-cell.component */ 24502);
+/* harmony import */ var _shared_custom_table_cell_render_role_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/role-cell.component */ 19190);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+
+
+
+
+
 
 class EmployeeComponent {
+  constructor(service) {
+    this.service = service;
+    this.settings = {
+      actions: false,
+      columns: {
+        id: {
+          title: "ID",
+          type: "number",
+          width: "10%"
+        },
+        email: {
+          title: "Email",
+          type: "custom",
+          renderComponent: _shared_custom_table_cell_render_email_cell_component__WEBPACK_IMPORTED_MODULE_1__.EmailCellComponent
+        },
+        gender: {
+          title: "Gender",
+          type: "custom",
+          renderComponent: _shared_custom_table_cell_render_gender_cell_component__WEBPACK_IMPORTED_MODULE_0__.GenderCellComponent
+        },
+        name: {
+          title: "Name",
+          type: "string"
+        },
+        password: {
+          title: "Password",
+          type: "string"
+        },
+        role: {
+          title: "Role",
+          type: "custom",
+          renderComponent: _shared_custom_table_cell_render_role_cell_component__WEBPACK_IMPORTED_MODULE_2__.RoleCellComponent
+        }
+      }
+    };
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_4__.LocalDataSource();
+    const data = this.service.getData().users;
+    this.source.load(data);
+  }
   static #_ = this.ɵfac = function EmployeeComponent_Factory(t) {
-    return new (t || EmployeeComponent)();
+    return new (t || EmployeeComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__.SmartTableData));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({
     type: EmployeeComponent,
     selectors: [["ngx-employee"]],
-    decls: 2,
-    vars: 0,
+    decls: 3,
+    vars: 2,
+    consts: [[3, "settings", "source"]],
     template: function EmployeeComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "employee works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-body");
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](2, "ng2-smart-table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_6__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_6__.NbCardBodyComponent, ng2_smart_table__WEBPACK_IMPORTED_MODULE_4__.Ng2SmartTableComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -113,24 +237,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LocationsComponent": () => (/* binding */ LocationsComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+
+
 
 class LocationsComponent {
+  constructor(service) {
+    this.service = service;
+    this.settings = {
+      actions: false,
+      columns: {
+        id: {
+          title: "ID",
+          type: "number",
+          width: "10%"
+        },
+        name: {
+          title: "Name",
+          type: "string"
+        },
+        address: {
+          title: "Address",
+          type: "string"
+        }
+      }
+    };
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.LocalDataSource();
+    const data = this.service.getData().locations;
+    this.source.load(data);
+  }
   static #_ = this.ɵfac = function LocationsComponent_Factory(t) {
-    return new (t || LocationsComponent)();
+    return new (t || LocationsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__.SmartTableData));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
     type: LocationsComponent,
     selectors: [["ngx-locations"]],
-    decls: 2,
-    vars: 0,
+    decls: 3,
+    vars: 2,
+    consts: [[3, "settings", "source"]],
     template: function LocationsComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "locations works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-body");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](2, "ng2-smart-table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.Ng2SmartTableComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -147,24 +308,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RoomsComponent": () => (/* binding */ RoomsComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+
+
 
 class RoomsComponent {
+  constructor(service) {
+    this.service = service;
+    this.settings = {
+      actions: false,
+      columns: {
+        id: {
+          title: "ID",
+          type: "number",
+          width: "10%"
+        },
+        name: {
+          title: "Name",
+          type: "string"
+        }
+      }
+    };
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.LocalDataSource();
+    const data = this.service.getData().rooms;
+    this.source.load(data);
+  }
   static #_ = this.ɵfac = function RoomsComponent_Factory(t) {
-    return new (t || RoomsComponent)();
+    return new (t || RoomsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__.SmartTableData));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
     type: RoomsComponent,
     selectors: [["ngx-rooms"]],
-    decls: 2,
-    vars: 0,
+    decls: 3,
+    vars: 2,
+    consts: [[3, "settings", "source"]],
     template: function RoomsComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "rooms works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-body");
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](2, "ng2-smart-table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.Ng2SmartTableComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -284,6 +478,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SetupModule": () => (/* binding */ SetupModule)
 /* harmony export */ });
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 94666);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng2-smart-table */ 46819);
 /* harmony import */ var _clinics_clinics_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./clinics/clinics.component */ 98186);
 /* harmony import */ var _doctors_doctors_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./doctors/doctors.component */ 78756);
 /* harmony import */ var _employee_employee_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./employee/employee.component */ 77365);
@@ -301,6 +497,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 class SetupModule {
   static #_ = this.ɵfac = function SetupModule_Factory(t) {
     return new (t || SetupModule)();
@@ -309,15 +507,106 @@ class SetupModule {
     type: SetupModule
   });
   static #_3 = this.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineInjector"]({
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule, _setup_routing_module__WEBPACK_IMPORTED_MODULE_5__.SetupRoutingModule]
+    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule, _setup_routing_module__WEBPACK_IMPORTED_MODULE_5__.SetupRoutingModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_10__.Ng2SmartTableModule]
   });
 }
 (function () {
   (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵsetNgModuleScope"](SetupModule, {
     declarations: [_employee_employee_component__WEBPACK_IMPORTED_MODULE_2__.EmployeeComponent, _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_4__.RoomsComponent, _locations_locations_component__WEBPACK_IMPORTED_MODULE_3__.LocationsComponent, _clinics_clinics_component__WEBPACK_IMPORTED_MODULE_0__.ClinicsComponent, _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_4__.RoomsComponent, _doctors_doctors_component__WEBPACK_IMPORTED_MODULE_1__.DoctorsComponent, _setup_component__WEBPACK_IMPORTED_MODULE_6__.SetupComponent],
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule, _setup_routing_module__WEBPACK_IMPORTED_MODULE_5__.SetupRoutingModule]
+    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule, _setup_routing_module__WEBPACK_IMPORTED_MODULE_5__.SetupRoutingModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_10__.Ng2SmartTableModule]
   });
 })();
+
+/***/ }),
+
+/***/ 24502:
+/*!*******************************************************************************!*\
+  !*** ./src/app/pages/shared/custom-table-cell-render/email-cell.component.ts ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EmailCellComponent": () => (/* binding */ EmailCellComponent)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+class EmailCellComponent {
+  static #_ = this.ɵfac = function EmailCellComponent_Factory(t) {
+    return new (t || EmailCellComponent)();
+  };
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+    type: EmailCellComponent,
+    selectors: [["ng-component"]],
+    inputs: {
+      value: "value"
+    },
+    decls: 2,
+    vars: 2,
+    consts: [["nbButton", "", "ghost", "", 1, "text-lowercase", 3, "href"]],
+    template: function EmailCellComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("href", "mailto:" + ctx.value, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.value, " ");
+      }
+    },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_1__.NbButtonComponent],
+    encapsulation: 2
+  });
+}
+
+/***/ }),
+
+/***/ 53161:
+/*!********************************************************************************!*\
+  !*** ./src/app/pages/shared/custom-table-cell-render/gender-cell.component.ts ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GenderCellComponent": () => (/* binding */ GenderCellComponent)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nebular/theme */ 96953);
+
+
+class GenderCellComponent {
+  static #_ = this.ɵfac = function GenderCellComponent_Factory(t) {
+    return new (t || GenderCellComponent)();
+  };
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
+    type: GenderCellComponent,
+    selectors: [["ng-component"]],
+    inputs: {
+      value: "value"
+    },
+    decls: 2,
+    vars: 2,
+    consts: [[1, "d-flex", "justify-content-center"], ["nbPopoverTrigger", "hint", "pack", "ion", 3, "nbPopover", "icon"]],
+    template: function GenderCellComponent_Template(rf, ctx) {
+      if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "nb-icon", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+      }
+      if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nbPopover", ctx.value)("icon", ctx.value);
+      }
+    },
+    dependencies: [_nebular_theme__WEBPACK_IMPORTED_MODULE_1__.NbPopoverDirective, _nebular_theme__WEBPACK_IMPORTED_MODULE_1__.NbIconComponent],
+    encapsulation: 2
+  });
+}
 
 /***/ })
 
