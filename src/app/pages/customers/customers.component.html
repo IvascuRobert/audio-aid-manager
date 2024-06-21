@@ -1,11 +1,42 @@
-<nb-card>
-  <nb-card-header>
-    <div class="row align-items-center">
-      <div class="col-8">
-        <span>{{ source.count() }} Customers</span>
-      </div>
-      <div class="col-4">
+<nb-card class="actions-card">
+  <nb-card-header>Actions</nb-card-header>
+  <nb-card-body>
+    <nb-actions size="medium">
+      <nb-action
+        [nbTooltip]="
+          selectedRows.length === 1 ? 'Edit a customer' : 'Add a customer'
+        "
+        nbTooltipPlacement="top"
+        [icon]="
+          selectedRows.length === 1 ? 'edit-2-outline' : 'plus-circle-outline'
+        "
+        (click)="openDialog()"
+      ></nb-action>
+      <nb-action
+        [nbTooltip]="
+          selectedRows.length === 0
+            ? 'Please select a customer'
+            : 'Remove customers'
+        "
+        nbTooltipPlacement="top"
+        icon="trash-2-outline"
+        [badgeText]="selectedRows.length"
+        badgeStatus="warning"
+        [disabled]="selectedRows.length === 0"
+      >
+      </nb-action>
+      <nb-action icon="email-outline"></nb-action>
+      <nb-action
+        icon="bell-outline"
+        badgeDot
+        badgePosition="top right"
+        badgeStatus="danger"
+      >
+      </nb-action>
+      <nb-action icon="settings-2-outline"></nb-action>
+      <nb-action>
         <nb-select
+          shape="round"
           fullWidth
           multiple
           placeholder="Columns"
@@ -16,11 +47,29 @@
             {{ item }}
           </nb-option>
         </nb-select>
+      </nb-action>
+    </nb-actions>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-8">
+        <span *ngIf="selectedRows.length; else allRows">
+          {{ selectedRows.length }} selected customers
+        </span>
+        <ng-template #allRows>{{ source.count() }} Customers</ng-template>
       </div>
+      <div class="col-4"></div>
     </div>
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (rowSelect)="handleSelectedRow($event)"
+    >
+    </ng2-smart-table>
   </nb-card-body>
 </nb-card>

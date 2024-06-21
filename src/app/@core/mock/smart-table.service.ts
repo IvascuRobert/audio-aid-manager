@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Accessory, AccessoryStatus, AccessoryType } from "../data/accessory";
+import { Clinic } from "../data/clinic";
 import {
   Customer,
   CustomerContactNoteType,
@@ -14,7 +15,12 @@ import {
   DeviceStatus,
   DeviceType,
 } from "../data/device";
+import { Doctor } from "../data/doctor";
+import { Location } from "../data/location";
+import { Role } from "../data/role";
+import { Room } from "../data/room";
 import { SmartTableData } from "../data/smart-table";
+import { User } from "../data/user";
 import { Utility, UtilityType } from "../data/utility";
 
 @Injectable()
@@ -324,6 +330,94 @@ export class SmartTableService extends SmartTableData {
         customer: "Macac Macacutz",
       },
     ] as Device[],
+    users: [
+      {
+        id: 1,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.male,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.admin,
+      },
+      {
+        id: 2,
+        email: "vgj@yahoo.com",
+        gender: Gender.male,
+        name: "Vlad Gaujaneanu",
+        password: "21ikifjaawf",
+        role: Role.employee,
+      },
+      {
+        id: 3,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.employee,
+      },
+      {
+        id: 4,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.unknown,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.employee,
+      },
+      {
+        id: 5,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.admin,
+      },
+      {
+        id: 6,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.female,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.admin,
+      },
+      {
+        id: 7,
+        email: "robi_ivas@yahoo.com",
+        gender: Gender.male,
+        name: "Robert Ivascu",
+        password: "21ikifjaawf",
+        role: Role.employee,
+      },
+    ] as User[],
+    doctors: [
+      { id: 1, name: "Dr. Emil Laurentiu" },
+      { id: 2, name: "Dr. Emil Laurentiu" },
+      { id: 3, name: "Dr. Emil Laurentiu" },
+      { id: 4, name: "Dr. Emil Laurentiu" },
+    ] as Doctor[],
+    rooms: [
+      { id: 1, name: "Room 1" },
+      { id: 2, name: "Room 2" },
+      { id: 3, name: "Room 3" },
+      { id: 4, name: "Room 4" },
+    ] as Room[],
+    locations: [
+      { id: 1, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 2, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 3, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 4, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 5, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 6, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 7, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 8, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 9, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+      { id: 10, name: "Milano 231", address: "Pantelimon 266, Bl. E" },
+    ] as Location[],
+    clinics: [
+      { id: 1, name: "Clinic 1" },
+      { id: 2, name: "Clinic 2" },
+      { id: 3, name: "Clinic 3" },
+      { id: 4, name: "Clinic 4" },
+    ] as Clinic[],
   };
 
   getData() {
