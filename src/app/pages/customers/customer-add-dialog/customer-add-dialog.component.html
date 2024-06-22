@@ -1,6 +1,17 @@
 <form [formGroup]="customerAddForm" (ngSubmit)="submit()">
   <nb-card>
-    <nb-card-header>Add new customer</nb-card-header>
+    <nb-card-header>
+      <div class="d-flex align-items-center">
+        <nb-icon
+          class="skip mr-2"
+          icon="plus-circle-outline"
+          pack="eva"
+          status="primary"
+          [options]="{ animation: { type: 'pulse' } }"
+        ></nb-icon>
+        Add new customer
+      </div>
+    </nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col-6">

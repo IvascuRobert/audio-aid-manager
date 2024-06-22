@@ -10,7 +10,7 @@
         [icon]="
           selectedRows.length === 1 ? 'edit-2-outline' : 'plus-circle-outline'
         "
-        (click)="openDialog()"
+        (click)="addDialog()"
       ></nb-action>
       <nb-action
         [nbTooltip]="
@@ -23,31 +23,25 @@
         [badgeText]="selectedRows.length"
         badgeStatus="warning"
         [disabled]="selectedRows.length === 0"
+        (click)="removeDialog()"
       >
       </nb-action>
-      <nb-action icon="email-outline"></nb-action>
       <nb-action
-        icon="bell-outline"
-        badgeDot
-        badgePosition="top right"
-        badgeStatus="danger"
-      >
-      </nb-action>
-      <nb-action icon="settings-2-outline"></nb-action>
-      <nb-action>
-        <nb-select
-          shape="round"
-          fullWidth
-          multiple
-          placeholder="Columns"
-          [(selected)]="selectedColumns"
-          (selectedChange)="handleSelectedColumns($event)"
-        >
-          <nb-option *ngFor="let item of hiddenColumns" [value]="item">
-            {{ item }}
-          </nb-option>
-        </nb-select>
-      </nb-action>
+        [disabled]="selectedRows.length === 0"
+        [nbTooltip]="
+          selectedRows.length === 0
+            ? 'Please select a customer'
+            : 'View customer'
+        "
+        nbTooltipPlacement="top"
+        icon="eye-outline"
+        (click)="view()"
+      ></nb-action>
+      <nb-action icon="refresh-outline" (click)="reload()"></nb-action>
+      <nb-action
+        icon="settings-2-outline"
+        (click)="settingsDialog()"
+      ></nb-action>
     </nb-actions>
   </nb-card-body>
 </nb-card>

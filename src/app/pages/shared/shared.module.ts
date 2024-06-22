@@ -4,14 +4,16 @@ import { NbEvaIconsModule } from "@nebular/eva-icons";
 import {
   NbButtonModule,
   NbCardModule,
-  NbCheckboxModule,
+  NbContextMenuModule,
   NbIconModule,
   NbPopoverModule,
+  NbSpinnerModule,
   NbTabsetModule,
   NbTagModule,
 } from "@nebular/theme";
 import { ThemeModule } from "../../@theme/theme.module";
 import { AccessoryStatusCellComponent } from "./custom-table-cell-render/accessory-status-cell.component";
+import { ActionsCellComponent } from "./custom-table-cell-render/actions-cell.component";
 import { AgeCellComponent } from "./custom-table-cell-render/age-cell.component";
 import { BoldTextCellComponent } from "./custom-table-cell-render/bold-text-cell.component";
 import { ColorCellComponent } from "./custom-table-cell-render/color-cell.component";
@@ -23,6 +25,7 @@ import { PhoneCellComponent } from "./custom-table-cell-render/phone-cell.compon
 import { PriceCellComponent } from "./custom-table-cell-render/price-cell.component";
 import { ProcessStatusCellComponent } from "./custom-table-cell-render/process-status-cell.component";
 import { RoleCellComponent } from "./custom-table-cell-render/role-cell.component";
+import { RemoveDialogComponent } from "./remove-dialog/remove-dialog.component";
 
 @NgModule({
   imports: [
@@ -35,7 +38,8 @@ import { RoleCellComponent } from "./custom-table-cell-render/role-cell.componen
     NbCardModule,
     NbIconModule,
     NbEvaIconsModule,
-    NbCheckboxModule
+    NbContextMenuModule,
+    NbSpinnerModule,
   ],
   declarations: [
     AgeCellComponent,
@@ -50,6 +54,8 @@ import { RoleCellComponent } from "./custom-table-cell-render/role-cell.componen
     AccessoryStatusCellComponent,
     ColorCellComponent,
     RoleCellComponent,
+    ActionsCellComponent,
+    RemoveDialogComponent,
   ],
   exports: [
     AgeCellComponent,
@@ -64,6 +70,8 @@ import { RoleCellComponent } from "./custom-table-cell-render/role-cell.componen
     AccessoryStatusCellComponent,
     ColorCellComponent,
     RoleCellComponent,
+    ActionsCellComponent,
+    RemoveDialogComponent,
   ],
 })
 export class SharedModule {}

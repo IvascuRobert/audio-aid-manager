@@ -2,6 +2,7 @@
 
 @include nb-install-component() {
   nb-card {
-    max-width: 1000px;
+    margin: auto;
+    max-height: 90vh;
   }
 }

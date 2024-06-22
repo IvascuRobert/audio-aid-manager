@@ -32,3 +32,82 @@
 }
 
 @import "../../../../node_modules/angular-calendar/css/angular-calendar.css";
+
+ng2-smart-table {
+  table {
+    tr.ng2-smart-titles {
+      input[type="checkbox"] {
+        @apply checkbox-base-styles;
+        background-color: var(--checkbox-primary-background-color);
+        border-color: var(--checkbox-primary-border-color);
+      }
+    }
+
+    tr.ng2-smart-titles[ng-reflect-is-all-selected="true"] {
+      input[type="checkbox"] {
+        @apply checkbox-base-styles;
+        background-color: var(--checkbox-primary-checked-background-color);
+        border-color: var(--checkbox-primary-checked-border-color);
+
+        &:hover {
+          background-color: var(
+            --checkbox-primary-hover-checked-background-color
+          );
+          border-color: var(--checkbox-primary-hover-checked-border-color);
+        }
+
+        &:before {
+          content: url("../../../assets/images/checkmark-outline.svg");
+        }
+      }
+    }
+
+    tr.ng2-smart-row {
+      input[type="checkbox"].form-control {
+        @apply checkbox-base-styles;
+        background-color: var(--checkbox-primary-background-color);
+        border-color: var(--checkbox-primary-border-color);
+      }
+    }
+
+    tr.ng2-smart-row.selected {
+      input[type="checkbox"].form-control {
+        @apply checkbox-base-styles;
+        background-color: var(--checkbox-primary-checked-background-color);
+        border-color: var(--checkbox-primary-checked-border-color);
+
+        &:hover {
+          background-color: var(
+            --checkbox-primary-hover-checked-background-color
+          );
+          border-color: var(--checkbox-primary-hover-checked-border-color);
+        }
+
+        &:before {
+          content: url("../../../assets/images/checkmark-outline.svg");
+        }
+      }
+    }
+  }
+}
+
+.checkbox-base-styles {
+  transition-duration: 0.15s;
+  transition-property: background-color, border, box-shadow;
+  transition-timing-function: ease-in;
+  appearance: none;
+  width: var(--checkbox-width);
+  height: var(--checkbox-height);
+  border-style: var(--checkbox-border-style);
+  border-width: var(--checkbox-border-width);
+  border-radius: var(--checkbox-border-radius);
+  text-align: center;
+}
+
+ng2-smart-table table tr.ng2-smart-row input[type="checkbox"].form-control {
+  @extend .checkbox-base-styles;
+}
+
+ng2-smart-table table tr.ng2-smart-titles input[type="checkbox"] {
+  @extend .checkbox-base-styles;
+}

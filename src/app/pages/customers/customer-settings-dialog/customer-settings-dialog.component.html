@@ -1,0 +1,62 @@
+<form [formGroup]="customerSettingsForm" (ngSubmit)="submit()">
+  <nb-card>
+    <nb-card-header>
+      <div class="d-flex align-items-center">
+        <nb-icon
+          class="skip mr-2"
+          icon="settings-2-outline"
+          pack="eva"
+          status="basic"
+          [options]="{ animation: { type: 'pulse' } }"
+        ></nb-icon>
+        Settings
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="columns" class="label">Columns</label>
+            <nb-select
+              id="columns"
+              fullWidth
+              placeholder="Columns"
+              formControlName="columns"
+              multiple
+              [status]="isValid('columns') ? 'danger' : 'basic'"
+            >
+              <nb-option *ngFor="let item of hiddenColumns" [value]="item">
+                {{ item }}
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="d-flex justify-content-end">
+        <button
+          class="mr-2"
+          type="button"
+          nbButton
+          status="basic"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          nbButton
+          hero
+          status="primary"
+          [nbSpinner]="loadingLargeGroup"
+          nbSpinnerStatus="success"
+          nbSpinnerMessage=""
+        >
+          Save
+        </button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>

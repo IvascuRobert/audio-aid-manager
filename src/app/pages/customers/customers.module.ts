@@ -22,6 +22,7 @@ import { CustomerApportunityComponent } from "./customer-apportunity/customer-ap
 import { CustomerDetailsComponent } from "./customer-details/customer-details.component";
 import { CustomersRoutingModule } from "./customers-routing.module";
 import { CustomersComponent } from "./customers.component";
+import { CustomerSettingsDialogComponent } from './customer-settings-dialog/customer-settings-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { CustomersComponent } from "./customers.component";
     CustomerDetailsComponent,
     CustomerApportunityComponent,
     CustomerAddDialogComponent,
+    CustomerSettingsDialogComponent,
   ],
   imports: [
     CommonModule,

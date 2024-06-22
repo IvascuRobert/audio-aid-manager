@@ -8,16 +8,14 @@ const routes: Routes = [
   {
     path: "",
     component: CustomersComponent,
-    children: [
-      {
-        path: "details/:id",
-        component: CustomerDetailsComponent,
-      },
-      {
-        path: "details/:id/opportunity",
-        component: CustomerApportunityComponent,
-      },
-    ],
+  },
+  {
+    path: "details/:id",
+    component: CustomerDetailsComponent,
+  },
+  {
+    path: "details/:id/opportunity",
+    component: CustomerApportunityComponent,
   },
 ];
 @NgModule({
