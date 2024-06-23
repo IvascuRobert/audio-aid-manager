@@ -434,6 +434,32 @@ class OrdersProfitChartData {}
 
 /***/ }),
 
+/***/ 5316:
+/*!***************************************!*\
+  !*** ./src/app/@core/data/process.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProcessEndReason": () => (/* binding */ ProcessEndReason),
+/* harmony export */   "UserHasDeviceType": () => (/* binding */ UserHasDeviceType)
+/* harmony export */ });
+var UserHasDeviceType;
+(function (UserHasDeviceType) {
+  UserHasDeviceType["none"] = "none";
+  UserHasDeviceType["lessThanThreeYears"] = "lessThanThreeYears";
+  UserHasDeviceType["moreThanThreeYears"] = "moreThanThreeYears";
+})(UserHasDeviceType || (UserHasDeviceType = {}));
+var ProcessEndReason;
+(function (ProcessEndReason) {
+  ProcessEndReason["money"] = "money";
+  ProcessEndReason["style"] = "style";
+})(ProcessEndReason || (ProcessEndReason = {}));
+
+/***/ }),
+
 /***/ 59322:
 /*!**********************************************************!*\
   !*** ./src/app/@core/data/profit-bar-animation-chart.ts ***!
@@ -1538,10 +1564,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_accessory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/accessory */ 15104);
 /* harmony import */ var _data_customer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/customer */ 35051);
 /* harmony import */ var _data_device__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data/device */ 61930);
-/* harmony import */ var _data_role__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/role */ 12854);
-/* harmony import */ var _data_smart_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../data/smart-table */ 98152);
-/* harmony import */ var _data_utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../data/utility */ 15451);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _data_process__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/process */ 5316);
+/* harmony import */ var _data_role__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../data/role */ 12854);
+/* harmony import */ var _data_smart_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../data/smart-table */ 98152);
+/* harmony import */ var _data_utility__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../data/utility */ 15451);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
 
@@ -1549,7 +1576,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.SmartTableData {
+
+class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_5__.SmartTableData {
   constructor() {
     super(...arguments);
     this.data = {
@@ -1641,7 +1669,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.battery
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_6__.UtilityType.battery
       }, {
         id: 2,
         name: "Power 8 mm",
@@ -1649,7 +1677,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.domes
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_6__.UtilityType.domes
       }, {
         id: 3,
         name: "ProWax",
@@ -1657,7 +1685,7 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
         location: "Milano 21",
         price: 200,
         quantity: 20,
-        type: _data_utility__WEBPACK_IMPORTED_MODULE_5__.UtilityType.filter
+        type: _data_utility__WEBPACK_IMPORTED_MODULE_6__.UtilityType.filter
       }],
       accessories: [{
         id: 1,
@@ -1838,49 +1866,49 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.admin
       }, {
         id: 2,
         email: "vgj@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
         name: "Vlad Gaujaneanu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.employee
       }, {
         id: 3,
         email: "robi_ivas@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.employee
       }, {
         id: 4,
         email: "robi_ivas@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.unknown,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.employee
       }, {
         id: 5,
         email: "robi_ivas@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.admin
       }, {
         id: 6,
         email: "robi_ivas@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.female,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.admin
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.admin
       }, {
         id: 7,
         email: "robi_ivas@yahoo.com",
         gender: _data_customer__WEBPACK_IMPORTED_MODULE_1__.Gender.male,
         name: "Robert Ivascu",
         password: "21ikifjaawf",
-        role: _data_role__WEBPACK_IMPORTED_MODULE_3__.Role.employee
+        role: _data_role__WEBPACK_IMPORTED_MODULE_4__.Role.employee
       }],
       doctors: [{
         id: 1,
@@ -1961,6 +1989,113 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
       }, {
         id: 4,
         name: "Clinic 4"
+      }],
+      processes: [{
+        id: 1,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.end,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 1",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 2,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.lost,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 2",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 3,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 3",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 4,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.trial,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 4",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 5,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.win,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 5",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 6,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 6",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }, {
+        id: 7,
+        status: _data_customer__WEBPACK_IMPORTED_MODULE_1__.ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: _data_process__WEBPACK_IMPORTED_MODULE_3__.UserHasDeviceType.none,
+        comment: "Comment test 7",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: _data_process__WEBPACK_IMPORTED_MODULE_3__.ProcessEndReason.money
+      }],
+      services: [{
+        id: 1,
+        name: "Service 1",
+        price: 12
+      }, {
+        id: 2,
+        name: "Service 2",
+        price: 299
+      }, {
+        id: 3,
+        name: "Service 3",
+        price: 14
+      }, {
+        id: 4,
+        name: "Service 4",
+        price: 22
+      }, {
+        id: 5,
+        name: "Service 5",
+        price: 77
+      }, {
+        id: 6,
+        name: "Service 6",
+        price: 88
+      }, {
+        id: 7,
+        name: "Service 7",
+        price: 54
       }]
     };
   }
@@ -1970,10 +2105,10 @@ class SmartTableService extends _data_smart_table__WEBPACK_IMPORTED_MODULE_4__.S
   static #_ = this.ɵfac = /*@__PURE__*/function () {
     let ɵSmartTableService_BaseFactory;
     return function SmartTableService_Factory(t) {
-      return (ɵSmartTableService_BaseFactory || (ɵSmartTableService_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵgetInheritedFactory"](SmartTableService)))(t || SmartTableService);
+      return (ɵSmartTableService_BaseFactory || (ɵSmartTableService_BaseFactory = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵgetInheritedFactory"](SmartTableService)))(t || SmartTableService);
     };
   }();
-  static #_2 = this.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineInjectable"]({
+  static #_2 = this.ɵprov = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineInjectable"]({
     token: SmartTableService,
     factory: SmartTableService.ɵfac
   });

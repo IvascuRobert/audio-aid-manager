@@ -11,15 +11,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AccessoriesComponent": () => (/* binding */ AccessoriesComponent)
 /* harmony export */ });
-/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ng2-smart-table */ 46819);
-/* harmony import */ var _core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/utils/map-hide-or-show-columns */ 95430);
-/* harmony import */ var _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../@core/utils/save-local-storage */ 80392);
-/* harmony import */ var _shared_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/accessory-status-cell.component */ 1949);
-/* harmony import */ var _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/price-cell.component */ 41681);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/utils/save-local-storage */ 80392);
+/* harmony import */ var _shared_components_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/accessory-status-cell.component */ 31802);
+/* harmony import */ var _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/actions-cell.component */ 78711);
+/* harmony import */ var _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/price-cell.component */ 6515);
+/* harmony import */ var _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/directives/base-table.directive */ 43194);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/components/custom-actions/custom-actions.component */ 64522);
 
 
 
@@ -30,23 +31,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function AccessoriesComponent_nb_option_8_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "nb-option", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-  }
-  if (rf & 2) {
-    const item_r1 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("value", item_r1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", item_r1, " ");
-  }
-}
-class AccessoriesComponent {
-  constructor(service) {
+
+class AccessoriesComponent extends _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_4__.BaseTable {
+  constructor(service, dialogService) {
+    super(dialogService);
     this.service = service;
+    this.dialogService = dialogService;
     this.settings = {
+      selectMode: "multi",
       actions: false,
       columns: {
         id: {
@@ -56,7 +48,7 @@ class AccessoriesComponent {
         status: {
           title: "Status",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_2__.AccessoryStatusCellComponent
+          renderComponent: _shared_components_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__.AccessoryStatusCellComponent
         },
         group: {
           title: "Group",
@@ -81,7 +73,7 @@ class AccessoriesComponent {
         price: {
           title: "Price",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__.PriceCellComponent,
+          renderComponent: _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__.PriceCellComponent,
           hide: true
         },
         location: {
@@ -91,65 +83,67 @@ class AccessoriesComponent {
         customer: {
           title: "Customer",
           type: "string"
+        },
+        actions: {
+          title: "Actions",
+          type: "custom",
+          width: "1%",
+          renderComponent: _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__.ActionsCellComponent,
+          sort: false,
+          filter: false
         }
       }
     };
+    this.localStorageSettingsKey = _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_0__.LOCAL_STORAGE_KEYS_FOR_TABLE.accessories;
     this.hiddenColumns = ["price"];
     this.selectedColumns = [];
-    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__.LocalDataSource();
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__.LocalDataSource();
     const data = this.service.getData().accessories;
     this.source.load(data);
-    this.loadTableSettingsFromLocalStorage();
-  }
-  handleSelectedColumns(columns) {
-    this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
-    (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.setItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.accessories, columns);
-  }
-  loadTableSettingsFromLocalStorage() {
-    const columns = (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.getItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.accessories);
-    if (columns) {
-      this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
-      this.selectedColumns = columns;
-    }
   }
   static #_ = this.ɵfac = function AccessoriesComponent_Factory(t) {
-    return new (t || AccessoriesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_4__.SmartTableData));
+    return new (t || AccessoriesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__.SmartTableData), _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdirectiveInject"](_nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbDialogService));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵdefineComponent"]({
     type: AccessoriesComponent,
     selectors: [["ngx-accessories"]],
-    decls: 11,
-    vars: 5,
-    consts: [[1, "row", "align-items-center"], [1, "col-8"], [1, "col-4"], ["fullWidth", "", "multiple", "", "placeholder", "Columns", 3, "selected", "selectedChange"], [3, "value", 4, "ngFor", "ngForOf"], [3, "settings", "source"], [3, "value"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵInheritDefinitionFeature"]],
+    decls: 13,
+    vars: 4,
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function AccessoriesComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header")(2, "div", 0)(3, "div", 1)(4, "span");
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](6, "div", 2)(7, "nb-select", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("selectedChange", function AccessoriesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.selectedColumns = $event;
-        })("selectedChange", function AccessoriesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.handleSelectedColumns($event);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](2, "Actions");
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](3, "nb-card-body")(4, "ngx-custom-actions", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("handleRemoveAction", function AccessoriesComponent_Template_ngx_custom_actions_handleRemoveAction_4_listener() {
+          return ctx.removeItem();
+        })("handleReloadAction", function AccessoriesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
+          return ctx.reload();
+        })("handleSettingsAction", function AccessoriesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
+          return ctx.settingsDialog();
         });
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](8, AccessoriesComponent_nb_option_8_Template, 2, 2, "nb-option", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](9, "nb-card-body");
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](10, "ng2-smart-table", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtext"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]()()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementStart"](11, "nb-card-body")(12, "ng2-smart-table", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵlistener"]("rowSelect", function AccessoriesComponent_Template_ng2_smart_table_rowSelect_12_listener($event) {
+          return ctx.handleSelectedRow($event);
+        });
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵelementEnd"]()()();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Customers");
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("selected", ctx.selectedColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx.hiddenColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("selectedRows", ctx.selectedRows);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Customers");
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_8__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.NgForOf, ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardHeaderComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbSelectComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbOptionComponent],
+    dependencies: [ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardHeaderComponent, _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_6__.CustomActionsComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -166,16 +160,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DevicesComponent": () => (/* binding */ DevicesComponent)
 /* harmony export */ });
-/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng2-smart-table */ 46819);
-/* harmony import */ var _core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/utils/map-hide-or-show-columns */ 95430);
-/* harmony import */ var _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../@core/utils/save-local-storage */ 80392);
-/* harmony import */ var _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/price-cell.component */ 41681);
-/* harmony import */ var _shared_custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/color-cell.component */ 21559);
-/* harmony import */ var _shared_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/accessory-status-cell.component */ 1949);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/utils/save-local-storage */ 80392);
+/* harmony import */ var _shared_components_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/accessory-status-cell.component */ 31802);
+/* harmony import */ var _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/actions-cell.component */ 78711);
+/* harmony import */ var _shared_components_custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/color-cell.component */ 93120);
+/* harmony import */ var _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/price-cell.component */ 6515);
+/* harmony import */ var _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/directives/base-table.directive */ 43194);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../shared/components/custom-actions/custom-actions.component */ 64522);
 
 
 
@@ -187,23 +182,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function DevicesComponent_nb_option_8_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](0, "nb-option", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]();
-  }
-  if (rf & 2) {
-    const item_r1 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("value", item_r1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate1"](" ", item_r1, " ");
-  }
-}
-class DevicesComponent {
-  constructor(service) {
+
+class DevicesComponent extends _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_5__.BaseTable {
+  constructor(service, dialogService) {
+    super(dialogService);
     this.service = service;
+    this.dialogService = dialogService;
     this.settings = {
+      selectMode: "multi",
       actions: false,
       columns: {
         id: {
@@ -213,7 +199,7 @@ class DevicesComponent {
         status: {
           title: "Status",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_4__.AccessoryStatusCellComponent
+          renderComponent: _shared_components_custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__.AccessoryStatusCellComponent
         },
         group: {
           title: "Group",
@@ -246,7 +232,7 @@ class DevicesComponent {
         color: {
           title: "Color",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_3__.ColorCellComponent
+          renderComponent: _shared_components_custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_3__.ColorCellComponent
         },
         aslGroup: {
           title: "ASL Group",
@@ -256,7 +242,7 @@ class DevicesComponent {
         price: {
           title: "Price",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_2__.PriceCellComponent,
+          renderComponent: _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_4__.PriceCellComponent,
           hide: true
         },
         location: {
@@ -268,65 +254,66 @@ class DevicesComponent {
           title: "Customer",
           type: "string",
           hide: true
+        },
+        actions: {
+          title: "Actions",
+          type: "custom",
+          width: "1%",
+          renderComponent: _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__.ActionsCellComponent,
+          sort: false,
+          filter: false
         }
       }
     };
+    this.localStorageSettingsKey = _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_0__.LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
     this.hiddenColumns = ["aslGroup", "location", "price", "customer"];
-    this.selectedColumns = [];
-    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__.LocalDataSource();
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_8__.LocalDataSource();
     const data = this.service.getData().devices;
     this.source.load(data);
-    this.loadTableSettingsFromLocalStorage();
-  }
-  handleSelectedColumns(columns) {
-    this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
-    (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.setItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.devices, columns);
-  }
-  loadTableSettingsFromLocalStorage() {
-    const columns = (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.getItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.devices);
-    if (columns) {
-      this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
-      this.selectedColumns = columns;
-    }
   }
   static #_ = this.ɵfac = function DevicesComponent_Factory(t) {
-    return new (t || DevicesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__.SmartTableData));
+    return new (t || DevicesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_6__.SmartTableData), _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdirectiveInject"](_nebular_theme__WEBPACK_IMPORTED_MODULE_10__.NbDialogService));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵdefineComponent"]({
     type: DevicesComponent,
     selectors: [["ngx-devices"]],
-    decls: 11,
-    vars: 5,
-    consts: [[1, "row", "align-items-center"], [1, "col-8"], [1, "col-4"], ["fullWidth", "", "multiple", "", "placeholder", "Columns", 3, "selected", "selectedChange"], [3, "value", 4, "ngFor", "ngForOf"], [3, "settings", "source"], [3, "value"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵInheritDefinitionFeature"]],
+    decls: 13,
+    vars: 4,
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function DevicesComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header")(2, "div", 0)(3, "div", 1)(4, "span");
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](6, "div", 2)(7, "nb-select", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵlistener"]("selectedChange", function DevicesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.selectedColumns = $event;
-        })("selectedChange", function DevicesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.handleSelectedColumns($event);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtext"](2, "Actions");
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](3, "nb-card-body")(4, "ngx-custom-actions", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵlistener"]("handleRemoveAction", function DevicesComponent_Template_ngx_custom_actions_handleRemoveAction_4_listener() {
+          return ctx.removeItem();
+        })("handleReloadAction", function DevicesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
+          return ctx.reload();
+        })("handleSettingsAction", function DevicesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
+          return ctx.settingsDialog();
         });
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtemplate"](8, DevicesComponent_nb_option_8_Template, 2, 2, "nb-option", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]()()()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](9, "nb-card-body");
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelement"](10, "ng2-smart-table", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtext"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]()()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](11, "nb-card-body")(12, "ng2-smart-table", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵlistener"]("rowSelect", function DevicesComponent_Template_ng2_smart_table_rowSelect_12_listener($event) {
+          return ctx.handleSelectedRow($event);
+        });
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]()()();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Devices");
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("selected", ctx.selectedColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("ngForOf", ctx.hiddenColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("selectedRows", ctx.selectedRows);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Devices");
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.NgForOf, ng2_smart_table__WEBPACK_IMPORTED_MODULE_7__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbCardHeaderComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbSelectComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_9__.NbOptionComponent],
+    dependencies: [ng2_smart_table__WEBPACK_IMPORTED_MODULE_8__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_10__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_10__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_10__.NbCardHeaderComponent, _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_7__.CustomActionsComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -455,106 +442,128 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ServicesComponent": () => (/* binding */ ServicesComponent)
 /* harmony export */ });
-/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-smart-table */ 46819);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/actions-cell.component */ 78711);
+/* harmony import */ var _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/price-cell.component */ 6515);
+/* harmony import */ var _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/directives/base-table.directive */ 43194);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 94666);
+/* harmony import */ var _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/components/custom-actions/custom-actions.component */ 64522);
 
 
 
 
 
-class ServicesComponent {
-  constructor(service) {
+
+
+
+
+
+function ServicesComponent_span_9_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
+  }
+  if (rf & 2) {
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r0.selectedRows.length, " selected services ");
+  }
+}
+function ServicesComponent_ng_template_10_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](0);
+  }
+  if (rf & 2) {
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"]("", ctx_r2.source.count(), " services");
+  }
+}
+class ServicesComponent extends _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_2__.BaseTable {
+  constructor(service, dialogService) {
+    super(dialogService);
     this.service = service;
+    this.dialogService = dialogService;
     this.settings = {
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>'
-      },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-        confirmDelete: true
-      },
+      selectMode: "multi",
+      actions: false,
       columns: {
         id: {
           title: "ID",
-          type: "number"
+          type: "number",
+          width: "1%"
         },
         name: {
-          title: "Last Name",
+          title: "Name",
           type: "string"
         },
         price: {
-          // optional
-          title: "Age",
-          type: "number"
+          title: "Price",
+          type: "custom",
+          renderComponent: _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_1__.PriceCellComponent
         },
-        brand: {
-          title: "Username",
-          type: "string"
-        },
-        quantity: {
-          title: "Username",
-          type: "string"
-        },
-        type: {
-          title: "E-mail",
-          type: "string"
-        },
-        location: {
-          title: "E-mail",
-          type: "string"
-        },
-        customer: {
-          title: "E-mail",
-          type: "string"
+        actions: {
+          title: "Actions",
+          type: "custom",
+          width: "1%",
+          renderComponent: _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_0__.ActionsCellComponent,
+          sort: false,
+          filter: false
         }
       }
     };
-    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.LocalDataSource();
-    const data = this.service.getData();
+    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__.LocalDataSource();
+    const data = this.service.getData().services;
     this.source.load(data);
   }
-  onDeleteConfirm(event) {
-    if (window.confirm("Are you sure you want to delete?")) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
   static #_ = this.ɵfac = function ServicesComponent_Factory(t) {
-    return new (t || ServicesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_0__.SmartTableData));
+    return new (t || ServicesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__.SmartTableData), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbDialogService));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({
     type: ServicesComponent,
     selectors: [["ngx-services"]],
-    decls: 5,
-    vars: 2,
-    consts: [[3, "settings", "source", "deleteConfirm"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵInheritDefinitionFeature"]],
+    decls: 15,
+    vars: 5,
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleReloadAction"], [1, "row", "align-items-center"], [1, "col-8"], [4, "ngIf", "ngIfElse"], ["allRows", ""], [1, "col-4"], [3, "settings", "source", "rowSelect"]],
     template: function ServicesComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2, " Smart Table ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](3, "nb-card-body")(4, "ng2-smart-table", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("deleteConfirm", function ServicesComponent_Template_ng2_smart_table_deleteConfirm_4_listener($event) {
-          return ctx.onDeleteConfirm($event);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](2, "Actions");
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](3, "nb-card-body")(4, "ngx-custom-actions", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("handleRemoveAction", function ServicesComponent_Template_ngx_custom_actions_handleRemoveAction_4_listener() {
+          return ctx.removeItem();
+        })("handleReloadAction", function ServicesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
+          return ctx.reload();
         });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](9, ServicesComponent_span_9_Template, 2, 1, "span", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](10, ServicesComponent_ng_template_10_Template, 1, 1, "ng-template", null, 4, _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplateRefExtractor"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](12, "div", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](13, "nb-card-body")(14, "ng2-smart-table", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("rowSelect", function ServicesComponent_Template_ng2_smart_table_rowSelect_14_listener($event) {
+          return ctx.handleSelectedRow($event);
+        });
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
+        const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵreference"](11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("selectedRows", ctx.selectedRows);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.selectedRows.length)("ngIfElse", _r1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
-    dependencies: [ng2_smart_table__WEBPACK_IMPORTED_MODULE_1__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardHeaderComponent],
+    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_8__.NgIf, ng2_smart_table__WEBPACK_IMPORTED_MODULE_6__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardHeaderComponent, _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_4__.CustomActionsComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
@@ -571,14 +580,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UtilitiesComponent": () => (/* binding */ UtilitiesComponent)
 /* harmony export */ });
-/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ng2-smart-table */ 46819);
 /* harmony import */ var _core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/utils/map-hide-or-show-columns */ 95430);
 /* harmony import */ var _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../@core/utils/save-local-storage */ 80392);
-/* harmony import */ var _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/custom-table-cell-render/price-cell.component */ 41681);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/actions-cell.component */ 78711);
+/* harmony import */ var _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/components/custom-table-cell-render/price-cell.component */ 6515);
+/* harmony import */ var _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/directives/base-table.directive */ 43194);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 22560);
+/* harmony import */ var _core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../@core/data/smart-table */ 98152);
+/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nebular/theme */ 96953);
+/* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ng2-smart-table */ 46819);
+/* harmony import */ var _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/components/custom-actions/custom-actions.component */ 64522);
 
 
 
@@ -588,23 +599,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function UtilitiesComponent_nb_option_8_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "nb-option", 6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-  }
-  if (rf & 2) {
-    const item_r1 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("value", item_r1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", item_r1, " ");
-  }
-}
-class UtilitiesComponent {
-  constructor(service) {
+
+class UtilitiesComponent extends _shared_directives_base_table_directive__WEBPACK_IMPORTED_MODULE_4__.BaseTable {
+  constructor(service, dialogService) {
+    super(dialogService);
     this.service = service;
+    this.dialogService = dialogService;
     this.settings = {
+      selectMode: "multi",
       actions: false,
       columns: {
         id: {
@@ -630,434 +632,79 @@ class UtilitiesComponent {
         price: {
           title: "Price",
           type: "custom",
-          renderComponent: _shared_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_2__.PriceCellComponent,
+          renderComponent: _shared_components_custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_3__.PriceCellComponent,
           hide: true
         },
         location: {
           title: "Location",
           type: "string"
+        },
+        actions: {
+          title: "Actions",
+          type: "custom",
+          width: "1%",
+          renderComponent: _shared_components_custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__.ActionsCellComponent,
+          sort: false,
+          filter: false
         }
       }
     };
+    this.localStorageSettingsKey = _core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.utilities;
     this.hiddenColumns = ["price"];
     this.selectedColumns = [];
-    this.source = new ng2_smart_table__WEBPACK_IMPORTED_MODULE_5__.LocalDataSource();
     const data = this.service.getData().utilities;
     this.source.load(data);
-    this.loadTableSettingsFromLocalStorage();
   }
   handleSelectedColumns(columns) {
     this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
     (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.setItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.utilities, columns);
   }
-  loadTableSettingsFromLocalStorage() {
-    const columns = (0,_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.getItem)(_core_utils_save_local_storage__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_KEYS_FOR_TABLE.utilities);
-    if (columns) {
-      this.settings = (0,_core_utils_map_hide_or_show_columns__WEBPACK_IMPORTED_MODULE_0__.mapHideOrShowColumns)(columns, this.settings, this.hiddenColumns);
-      this.selectedColumns = columns;
-    }
-  }
   static #_ = this.ɵfac = function UtilitiesComponent_Factory(t) {
-    return new (t || UtilitiesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_3__.SmartTableData));
+    return new (t || UtilitiesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_core_data_smart_table__WEBPACK_IMPORTED_MODULE_5__.SmartTableData), _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdirectiveInject"](_nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbDialogService));
   };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
+  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineComponent"]({
     type: UtilitiesComponent,
     selectors: [["ngx-utilities"]],
-    decls: 11,
-    vars: 5,
-    consts: [[1, "row", "align-items-center"], [1, "col-8"], [1, "col-4"], ["fullWidth", "", "multiple", "", "placeholder", "Columns", 3, "selected", "selectedChange"], [3, "value", 4, "ngFor", "ngForOf"], [3, "settings", "source"], [3, "value"]],
+    features: [_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵInheritDefinitionFeature"]],
+    decls: 13,
+    vars: 4,
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function UtilitiesComponent_Template(rf, ctx) {
       if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header")(2, "div", 0)(3, "div", 1)(4, "span");
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](6, "div", 2)(7, "nb-select", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("selectedChange", function UtilitiesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.selectedColumns = $event;
-        })("selectedChange", function UtilitiesComponent_Template_nb_select_selectedChange_7_listener($event) {
-          return ctx.handleSelectedColumns($event);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](2, "Actions");
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](3, "nb-card-body")(4, "ngx-custom-actions", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("handleRemoveAction", function UtilitiesComponent_Template_ngx_custom_actions_handleRemoveAction_4_listener() {
+          return ctx.removeItem();
+        })("handleReloadAction", function UtilitiesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
+          return ctx.reload();
+        })("handleSettingsAction", function UtilitiesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
+          return ctx.settingsDialog();
         });
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](8, UtilitiesComponent_nb_option_8_Template, 2, 2, "nb-option", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](9, "nb-card-body");
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](10, "ng2-smart-table", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](11, "nb-card-body")(12, "ng2-smart-table", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("rowSelect", function UtilitiesComponent_Template_ng2_smart_table_rowSelect_12_listener($event) {
+          return ctx.handleSelectedRow($event);
+        });
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
       }
       if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Utilities");
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("selected", ctx.selectedColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngForOf", ctx.hiddenColumns);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("selectedRows", ctx.selectedRows);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"]("", ctx.source.count(), " Utilities");
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("settings", ctx.settings)("source", ctx.source);
       }
     },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.NgForOf, ng2_smart_table__WEBPACK_IMPORTED_MODULE_5__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbCardHeaderComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbSelectComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_7__.NbOptionComponent],
+    dependencies: [ng2_smart_table__WEBPACK_IMPORTED_MODULE_9__.Ng2SmartTableComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_8__.NbCardHeaderComponent, _shared_components_custom_actions_custom_actions_component__WEBPACK_IMPORTED_MODULE_6__.CustomActionsComponent],
     styles: ["\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */"]
   });
 }
-
-/***/ }),
-
-/***/ 1949:
-/*!******************************************************************************************!*\
-  !*** ./src/app/pages/shared/custom-table-cell-render/accessory-status-cell.component.ts ***!
-  \******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AccessoryStatusCellComponent": () => (/* binding */ AccessoryStatusCellComponent)
-/* harmony export */ });
-/* harmony import */ var _core_data_accessory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../@core/data/accessory */ 15104);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nebular/theme */ 96953);
-
-
-
-
-const _c0 = function (a0) {
-  return {
-    value: a0
-  };
-};
-function AccessoryStatusCellComponent_nb_tag_1_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "nb-tag", 11);
-  }
-  if (rf & 2) {
-    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
-    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("nbPopover", _r5)("nbPopoverContext", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction1"](4, _c0, ctx_r0.value))("text", ctx_r0.value)("size", "tiny");
-  }
-}
-function AccessoryStatusCellComponent_nb_tag_2_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "nb-tag", 12);
-  }
-  if (rf & 2) {
-    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
-    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("nbPopover", _r7)("nbPopoverContext", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction1"](4, _c0, ctx_r1.value))("text", ctx_r1.value)("size", "tiny");
-  }
-}
-function AccessoryStatusCellComponent_nb_tag_3_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "nb-tag", 13);
-  }
-  if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
-    const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("nbPopover", _r9)("nbPopoverContext", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction1"](4, _c0, ctx_r2.value))("text", ctx_r2.value)("size", "tiny");
-  }
-}
-function AccessoryStatusCellComponent_nb_tag_4_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "nb-tag", 14);
-  }
-  if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
-    const _r11 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("nbPopover", _r11)("nbPopoverContext", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction1"](4, _c0, ctx_r3.value))("text", ctx_r3.value)("size", "tiny");
-  }
-}
-function AccessoryStatusCellComponent_nb_tag_5_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "nb-tag", 15);
-  }
-  if (rf & 2) {
-    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
-    const _r11 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵreference"](13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("nbPopover", _r11)("nbPopoverContext", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpureFunction1"](4, _c0, ctx_r4.value))("text", ctx_r4.value)("size", "tiny");
-  }
-}
-function AccessoryStatusCellComponent_ng_template_6_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-card", 16)(1, "nb-card-header", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "nb-card-body");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4, " Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
-  }
-  if (rf & 2) {
-    const passdata_r15 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" Hello! ", passdata_r15.value, " ");
-  }
-}
-function AccessoryStatusCellComponent_ng_template_8_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-card", 18)(1, "nb-card-header", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "nb-card-body");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4, " Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
-  }
-  if (rf & 2) {
-    const passdata_r16 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" Hello! ", passdata_r16.value, " ");
-  }
-}
-function AccessoryStatusCellComponent_ng_template_10_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-card", 19)(1, "nb-card-header", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "nb-card-body");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4, " Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
-  }
-  if (rf & 2) {
-    const passdata_r17 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" Hello! ", passdata_r17.value, " ");
-  }
-}
-function AccessoryStatusCellComponent_ng_template_12_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-card", 20)(1, "nb-card-header", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "nb-card-body");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4, " Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
-  }
-  if (rf & 2) {
-    const passdata_r18 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" Hello! ", passdata_r18.value, " ");
-  }
-}
-function AccessoryStatusCellComponent_ng_template_14_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-card", 16)(1, "nb-card-header", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "nb-card-body");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4, " Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()();
-  }
-  if (rf & 2) {
-    const passdata_r19 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"](" Hello! ", passdata_r19.value, " ");
-  }
-}
-class AccessoryStatusCellComponent {
-  constructor() {
-    this.accessoryStatusTpl = _core_data_accessory__WEBPACK_IMPORTED_MODULE_0__.AccessoryStatus;
-  }
-  static #_ = this.ɵfac = function AccessoryStatusCellComponent_Factory(t) {
-    return new (t || AccessoryStatusCellComponent)();
-  };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
-    type: AccessoryStatusCellComponent,
-    selectors: [["ng-component"]],
-    inputs: {
-      value: "value"
-    },
-    decls: 16,
-    vars: 6,
-    consts: [[3, "ngSwitch"], ["status", "warning", "class", "text-uppercase", "appearance", "outline", "nbPopoverTrigger", "hint", 3, "nbPopover", "nbPopoverContext", "text", "size", 4, "ngSwitchCase"], ["status", "basic", "class", "text-uppercase", "appearance", "outline", "nbPopoverTrigger", "hint", 3, "nbPopover", "nbPopoverContext", "text", "size", 4, "ngSwitchCase"], ["status", "danger", "class", "text-uppercase", "appearance", "outline", "nbPopoverTrigger", "hint", 3, "nbPopover", "nbPopoverContext", "text", "size", 4, "ngSwitchCase"], ["status", "primary", "class", "text-uppercase", "appearance", "outline", "nbPopoverTrigger", "hint", 3, "nbPopover", "nbPopoverContext", "text", "size", 4, "ngSwitchCase"], ["status", "success", "class", "text-uppercase", "appearance", "outline", "nbPopoverTrigger", "hint", 3, "nbPopover", "nbPopoverContext", "text", "size", 4, "ngSwitchCase"], ["ccRef", ""], ["clRef", ""], ["noRef", ""], ["pcRef", ""], ["defaultRef", ""], ["status", "warning", "appearance", "outline", "nbPopoverTrigger", "hint", 1, "text-uppercase", 3, "nbPopover", "nbPopoverContext", "text", "size"], ["status", "basic", "appearance", "outline", "nbPopoverTrigger", "hint", 1, "text-uppercase", 3, "nbPopover", "nbPopoverContext", "text", "size"], ["status", "danger", "appearance", "outline", "nbPopoverTrigger", "hint", 1, "text-uppercase", 3, "nbPopover", "nbPopoverContext", "text", "size"], ["status", "primary", "appearance", "outline", "nbPopoverTrigger", "hint", 1, "text-uppercase", 3, "nbPopover", "nbPopoverContext", "text", "size"], ["status", "success", "appearance", "outline", "nbPopoverTrigger", "hint", 1, "text-uppercase", 3, "nbPopover", "nbPopoverContext", "text", "size"], ["accent", "basic", 1, "popover-card"], ["status", "warning"], ["accent", "primary", 1, "popover-card"], ["accent", "success", 1, "popover-card"], ["accent", "warning", 1, "popover-card"]],
-    template: function AccessoryStatusCellComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nb-tag-list", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](1, AccessoryStatusCellComponent_nb_tag_1_Template, 1, 6, "nb-tag", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, AccessoryStatusCellComponent_nb_tag_2_Template, 1, 6, "nb-tag", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](3, AccessoryStatusCellComponent_nb_tag_3_Template, 1, 6, "nb-tag", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](4, AccessoryStatusCellComponent_nb_tag_4_Template, 1, 6, "nb-tag", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](5, AccessoryStatusCellComponent_nb_tag_5_Template, 1, 6, "nb-tag", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](6, AccessoryStatusCellComponent_ng_template_6_Template, 5, 1, "ng-template", null, 6, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](8, AccessoryStatusCellComponent_ng_template_8_Template, 5, 1, "ng-template", null, 7, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](10, AccessoryStatusCellComponent_ng_template_10_Template, 5, 1, "ng-template", null, 8, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](12, AccessoryStatusCellComponent_ng_template_12_Template, 5, 1, "ng-template", null, 9, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplateRefExtractor"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](14, AccessoryStatusCellComponent_ng_template_14_Template, 5, 1, "ng-template", null, 10, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplateRefExtractor"]);
-      }
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitch", ctx.value);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitchCase", ctx.accessoryStatusTpl.free);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitchCase", ctx.accessoryStatusTpl.sending);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitchCase", ctx.accessoryStatusTpl.reserved);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitchCase", ctx.accessoryStatusTpl.trial);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngSwitchCase", ctx.accessoryStatusTpl.sold);
-      }
-    },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_2__.NgSwitch, _angular_common__WEBPACK_IMPORTED_MODULE_2__.NgSwitchCase, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbTagComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbTagListComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbPopoverDirective, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardBodyComponent, _nebular_theme__WEBPACK_IMPORTED_MODULE_3__.NbCardHeaderComponent],
-    styles: ["nb-card[_ngcontent-%COMP%] {\n        margin: 0;\n        max-width: 20rem;\n      }\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL3NyYy9hcHAvcGFnZXMvc2hhcmVkL2N1c3RvbS10YWJsZS1jZWxsLXJlbmRlci9hY2Nlc3Nvcnktc3RhdHVzLWNlbGwuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7TUFDTTtRQUNFLFNBQVM7UUFDVCxnQkFBZ0I7TUFDbEIiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgIG5iLWNhcmQge1xuICAgICAgICBtYXJnaW46IDA7XG4gICAgICAgIG1heC13aWR0aDogMjByZW07XG4gICAgICB9XG4gICAgIl0sInNvdXJjZVJvb3QiOiIifQ== */"]
-  });
-}
-
-/***/ }),
-
-/***/ 21559:
-/*!*******************************************************************************!*\
-  !*** ./src/app/pages/shared/custom-table-cell-render/color-cell.component.ts ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ColorCellComponent": () => (/* binding */ ColorCellComponent)
-/* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nebular/theme */ 96953);
-
-
-
-const _c0 = function (a0) {
-  return {
-    color: a0
-  };
-};
-class ColorCellComponent {
-  static #_ = this.ɵfac = function ColorCellComponent_Factory(t) {
-    return new (t || ColorCellComponent)();
-  };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
-    type: ColorCellComponent,
-    selectors: [["ng-component"]],
-    inputs: {
-      value: "value"
-    },
-    decls: 1,
-    vars: 3,
-    consts: [["icon", "color-palette", 3, "ngStyle"]],
-    template: function ColorCellComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "nb-icon", 0);
-      }
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngStyle", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](1, _c0, ctx.value));
-      }
-    },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_1__.NgStyle, _nebular_theme__WEBPACK_IMPORTED_MODULE_2__.NbIconComponent],
-    encapsulation: 2
-  });
-}
-
-/***/ }),
-
-/***/ 41681:
-/*!*******************************************************************************!*\
-  !*** ./src/app/pages/shared/custom-table-cell-render/price-cell.component.ts ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PriceCellComponent": () => (/* binding */ PriceCellComponent)
-/* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ 94666);
-
-
-class PriceCellComponent {
-  static #_ = this.ɵfac = function PriceCellComponent_Factory(t) {
-    return new (t || PriceCellComponent)();
-  };
-  static #_2 = this.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
-    type: PriceCellComponent,
-    selectors: [["ng-component"]],
-    inputs: {
-      value: "value"
-    },
-    decls: 2,
-    vars: 4,
-    template: function PriceCellComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](1, "currency");
-      }
-      if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind2"](1, 1, ctx.value, "EUR"));
-      }
-    },
-    dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_1__.CurrencyPipe],
-    encapsulation: 2
-  });
-}
-
-/***/ }),
-
-/***/ 40950:
-/*!***********************************************!*\
-  !*** ./src/app/pages/shared/shared.module.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SharedModule": () => (/* binding */ SharedModule)
-/* harmony export */ });
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _nebular_eva_icons__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @nebular/eva-icons */ 39557);
-/* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @nebular/theme */ 96953);
-/* harmony import */ var _theme_theme_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../@theme/theme.module */ 80268);
-/* harmony import */ var _custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./custom-table-cell-render/accessory-status-cell.component */ 1949);
-/* harmony import */ var _custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./custom-table-cell-render/actions-cell.component */ 28204);
-/* harmony import */ var _custom_table_cell_render_age_cell_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./custom-table-cell-render/age-cell.component */ 44759);
-/* harmony import */ var _custom_table_cell_render_bold_text_cell_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./custom-table-cell-render/bold-text-cell.component */ 43691);
-/* harmony import */ var _custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./custom-table-cell-render/color-cell.component */ 21559);
-/* harmony import */ var _custom_table_cell_render_customer_status_cell_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./custom-table-cell-render/customer-status-cell.component */ 22122);
-/* harmony import */ var _custom_table_cell_render_date_cell_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./custom-table-cell-render/date-cell.component */ 11808);
-/* harmony import */ var _custom_table_cell_render_email_cell_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./custom-table-cell-render/email-cell.component */ 24502);
-/* harmony import */ var _custom_table_cell_render_gender_cell_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./custom-table-cell-render/gender-cell.component */ 53161);
-/* harmony import */ var _custom_table_cell_render_phone_cell_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./custom-table-cell-render/phone-cell.component */ 59209);
-/* harmony import */ var _custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./custom-table-cell-render/price-cell.component */ 41681);
-/* harmony import */ var _custom_table_cell_render_process_status_cell_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./custom-table-cell-render/process-status-cell.component */ 79555);
-/* harmony import */ var _custom_table_cell_render_role_cell_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./custom-table-cell-render/role-cell.component */ 19190);
-/* harmony import */ var _remove_dialog_remove_dialog_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./remove-dialog/remove-dialog.component */ 60302);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/core */ 22560);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class SharedModule {
-  static #_ = this.ɵfac = function SharedModule_Factory(t) {
-    return new (t || SharedModule)();
-  };
-  static #_2 = this.ɵmod = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵdefineNgModule"]({
-    type: SharedModule
-  });
-  static #_3 = this.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵdefineInjector"]({
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_16__.CommonModule, _theme_theme_module__WEBPACK_IMPORTED_MODULE_0__.ThemeModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbTagModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbPopoverModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbTabsetModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbIconModule, _nebular_eva_icons__WEBPACK_IMPORTED_MODULE_18__.NbEvaIconsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbContextMenuModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbSpinnerModule]
-  });
-}
-(function () {
-  (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵsetNgModuleScope"](SharedModule, {
-    declarations: [_custom_table_cell_render_age_cell_component__WEBPACK_IMPORTED_MODULE_3__.AgeCellComponent, _custom_table_cell_render_phone_cell_component__WEBPACK_IMPORTED_MODULE_10__.PhoneCellComponent, _custom_table_cell_render_customer_status_cell_component__WEBPACK_IMPORTED_MODULE_6__.CustomerStatusCellComponent, _custom_table_cell_render_date_cell_component__WEBPACK_IMPORTED_MODULE_7__.DateCellComponent, _custom_table_cell_render_email_cell_component__WEBPACK_IMPORTED_MODULE_8__.EmailCellComponent, _custom_table_cell_render_process_status_cell_component__WEBPACK_IMPORTED_MODULE_12__.ProcessStatusCellComponent, _custom_table_cell_render_bold_text_cell_component__WEBPACK_IMPORTED_MODULE_4__.BoldTextCellComponent, _custom_table_cell_render_gender_cell_component__WEBPACK_IMPORTED_MODULE_9__.GenderCellComponent, _custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_11__.PriceCellComponent, _custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__.AccessoryStatusCellComponent, _custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_5__.ColorCellComponent, _custom_table_cell_render_role_cell_component__WEBPACK_IMPORTED_MODULE_13__.RoleCellComponent, _custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__.ActionsCellComponent, _remove_dialog_remove_dialog_component__WEBPACK_IMPORTED_MODULE_14__.RemoveDialogComponent],
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_16__.CommonModule, _theme_theme_module__WEBPACK_IMPORTED_MODULE_0__.ThemeModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbTagModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbPopoverModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbTabsetModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbIconModule, _nebular_eva_icons__WEBPACK_IMPORTED_MODULE_18__.NbEvaIconsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbContextMenuModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_17__.NbSpinnerModule],
-    exports: [_custom_table_cell_render_age_cell_component__WEBPACK_IMPORTED_MODULE_3__.AgeCellComponent, _custom_table_cell_render_phone_cell_component__WEBPACK_IMPORTED_MODULE_10__.PhoneCellComponent, _custom_table_cell_render_customer_status_cell_component__WEBPACK_IMPORTED_MODULE_6__.CustomerStatusCellComponent, _custom_table_cell_render_date_cell_component__WEBPACK_IMPORTED_MODULE_7__.DateCellComponent, _custom_table_cell_render_email_cell_component__WEBPACK_IMPORTED_MODULE_8__.EmailCellComponent, _custom_table_cell_render_process_status_cell_component__WEBPACK_IMPORTED_MODULE_12__.ProcessStatusCellComponent, _custom_table_cell_render_bold_text_cell_component__WEBPACK_IMPORTED_MODULE_4__.BoldTextCellComponent, _custom_table_cell_render_gender_cell_component__WEBPACK_IMPORTED_MODULE_9__.GenderCellComponent, _custom_table_cell_render_price_cell_component__WEBPACK_IMPORTED_MODULE_11__.PriceCellComponent, _custom_table_cell_render_accessory_status_cell_component__WEBPACK_IMPORTED_MODULE_1__.AccessoryStatusCellComponent, _custom_table_cell_render_color_cell_component__WEBPACK_IMPORTED_MODULE_5__.ColorCellComponent, _custom_table_cell_render_role_cell_component__WEBPACK_IMPORTED_MODULE_13__.RoleCellComponent, _custom_table_cell_render_actions_cell_component__WEBPACK_IMPORTED_MODULE_2__.ActionsCellComponent, _remove_dialog_remove_dialog_component__WEBPACK_IMPORTED_MODULE_14__.RemoveDialogComponent]
-  });
-})();
 
 /***/ })
 
