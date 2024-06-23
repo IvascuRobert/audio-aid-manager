@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 
 import { NbCardModule } from "@nebular/theme";
 import { Ng2SmartTableModule } from "ng2-smart-table";
+import { SharedModule } from "../shared/shared.module";
 import { ClinicsComponent } from "./clinics/clinics.component";
 import { DoctorsComponent } from "./doctors/doctors.component";
 import { EmployeeComponent } from "./employee/employee.component";
@@ -23,6 +24,7 @@ import { SetupComponent } from "./setup.component";
   ],
   imports: [
     CommonModule,
+    SharedModule,
     SetupRoutingModule,
     NbCardModule,
     Ng2SmartTableModule,

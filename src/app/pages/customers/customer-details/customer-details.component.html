@@ -1,1 +1,40 @@
-<p>customer-details works!</p>
+<nb-card>
+  <nb-card-header>Actions</nb-card-header>
+  <nb-card-body>
+    <ngx-custom-actions
+      [selectedRows]="selectedRows"
+      (handleRemoveAction)="removeItem()"
+      (handleReloadAction)="reload()"
+      [actions]="[
+        {
+          icon: 'arrow-back-outline',
+          nbTooltipPlacement: 'top',
+          nbTooltip: 'Go back',
+        }
+      ]"
+    >
+    </ngx-custom-actions>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-8">
+        <span *ngIf="selectedRows.length; else allRows">
+          {{ selectedRows.length }} selected processes
+        </span>
+        <ng-template #allRows>{{ source.count() }} processes</ng-template>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (rowSelect)="handleSelectedRow($event)"
+    >
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

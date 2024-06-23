@@ -17,12 +17,12 @@ import {
   NbTooltipModule,
 } from "@nebular/theme";
 import { Ng2SmartTableModule } from "ng2-smart-table";
+import { SharedModule } from "../shared/shared.module";
 import { CustomerAddDialogComponent } from "./customer-add-dialog/customer-add-dialog.component";
 import { CustomerApportunityComponent } from "./customer-apportunity/customer-apportunity.component";
 import { CustomerDetailsComponent } from "./customer-details/customer-details.component";
 import { CustomersRoutingModule } from "./customers-routing.module";
 import { CustomersComponent } from "./customers.component";
-import { CustomerSettingsDialogComponent } from './customer-settings-dialog/customer-settings-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,12 +30,12 @@ import { CustomerSettingsDialogComponent } from './customer-settings-dialog/cust
     CustomerDetailsComponent,
     CustomerApportunityComponent,
     CustomerAddDialogComponent,
-    CustomerSettingsDialogComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    SharedModule,
     ReactiveFormsModule,
+    FormsModule,
     CustomersRoutingModule,
     Ng2SmartTableModule,
     NbCardModule,

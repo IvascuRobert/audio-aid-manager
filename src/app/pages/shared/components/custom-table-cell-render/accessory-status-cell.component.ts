@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { AccessoryStatus } from "../../../@core/data/accessory";
+import { AccessoryStatus } from "../../../../@core/data/accessory";
 
 @Component({
   template: `

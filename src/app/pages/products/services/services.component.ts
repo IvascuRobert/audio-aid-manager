@@ -1,77 +1,55 @@
 import { Component } from "@angular/core";
+import { NbDialogService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
+import { Service } from "../../../@core/data/service";
 import { SmartTableData } from "../../../@core/data/smart-table";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
+import { BaseTable } from "../../shared/directives/base-table.directive";
 
 @Component({
   selector: "ngx-services",
   templateUrl: "./services.component.html",
   styleUrls: ["./services.component.scss"],
 })
-export class ServicesComponent {
+export class ServicesComponent extends BaseTable<Service> {
   settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
+    selectMode: "multi",
+    actions: false,
     columns: {
       id: {
         title: "ID",
         type: "number",
+        width: "1%",
       },
       name: {
-        title: "Last Name",
+        title: "Name",
         type: "string",
       },
       price: {
-        // optional
-        title: "Age",
-        type: "number",
+        title: "Price",
+        type: "custom",
+        renderComponent: PriceCellComponent,
       },
-      brand: {
-        title: "Username",
-        type: "string",
-      },
-      quantity: {
-        title: "Username",
-        type: "string",
-      },
-      type: {
-        title: "E-mail",
-        type: "string",
-      },
-      location: {
-        title: "E-mail",
-        type: "string",
-      },
-      customer: {
-        title: "E-mail",
-        type: "string",
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        sort: false,
+        filter: false,
       },
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
-    const data = this.service.getData();
+  constructor(
+    private service: SmartTableData,
+    protected readonly dialogService: NbDialogService
+  ) {
+    super(dialogService);
+    const data = this.service.getData().services;
     this.source.load(data);
-  }
-
-  onDeleteConfirm(event): void {
-    if (window.confirm("Are you sure you want to delete?")) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
   }
 }

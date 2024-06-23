@@ -1,5 +1,28 @@
 <nb-card>
+  <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source"> </ng2-smart-table>
+    <ngx-custom-actions [selectedRows]="selectedRows"> </ngx-custom-actions>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-8">
+        <span *ngIf="selectedRows.length; else allRows">
+          {{ selectedRows.length }} selected doctors
+        </span>
+        <ng-template #allRows>{{ source.count() }} doctors</ng-template>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (rowSelect)="handleSelectedRow($event)"
+    >
+    </ng2-smart-table>
   </nb-card-body>
 </nb-card>

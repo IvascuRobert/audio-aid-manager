@@ -17,8 +17,10 @@ import {
 } from "../data/device";
 import { Doctor } from "../data/doctor";
 import { Location } from "../data/location";
+import { Process, ProcessEndReason, UserHasDeviceType } from "../data/process";
 import { Role } from "../data/role";
 import { Room } from "../data/room";
+import { Service } from "../data/service";
 import { SmartTableData } from "../data/smart-table";
 import { User } from "../data/user";
 import { Utility, UtilityType } from "../data/utility";
@@ -418,6 +420,129 @@ export class SmartTableService extends SmartTableData {
       { id: 3, name: "Clinic 3" },
       { id: 4, name: "Clinic 4" },
     ] as Clinic[],
+    processes: [
+      {
+        id: 1,
+        status: ProcessStatusType.end,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 1",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 2,
+        status: ProcessStatusType.lost,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 2",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 3,
+        status: ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 3",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 4,
+        status: ProcessStatusType.trial,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 4",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 5,
+        status: ProcessStatusType.win,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 5",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 6,
+        status: ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 6",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+      {
+        id: 7,
+        status: ProcessStatusType.open,
+        leftEarValue: 20,
+        leftEarDevice: UserHasDeviceType.moreThanThreeYears,
+        rightEarValue: 15,
+        rightEarDevice: UserHasDeviceType.none,
+        comment: "Comment test 7",
+        lastStatusUpdate: new Date(),
+        questionnaire: 40,
+        reason: ProcessEndReason.money,
+      },
+    ] as Process[],
+    services: [
+      {
+        id: 1,
+        name: "Service 1",
+        price: 12,
+      },
+      {
+        id: 2,
+        name: "Service 2",
+        price: 299,
+      },
+      {
+        id: 3,
+        name: "Service 3",
+        price: 14,
+      },
+      {
+        id: 4,
+        name: "Service 4",
+        price: 22,
+      },
+      {
+        id: 5,
+        name: "Service 5",
+        price: 77,
+      },
+      {
+        id: 6,
+        name: "Service 6",
+        price: 88,
+      },
+      {
+        id: 7,
+        name: "Service 7",
+        price: 54,
+      },
+    ] as Service[],
   };
 
   getData() {

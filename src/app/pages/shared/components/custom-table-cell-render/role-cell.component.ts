@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import { Role } from "../../../@core/data/role";
+import { Role } from "../../../../@core/data/role";
 
 @Component({
   template: ` <nb-tag-list [ngSwitch]="value">
@@ -55,14 +55,14 @@ import { Role } from "../../../@core/data/role";
         </nb-card-body>
       </nb-card>
     </ng-template>`,
-    styles: [
-      `
-        nb-card {
-          margin: 0;
-          max-width: 20rem;
-        }
-      `,
-    ],
+  styles: [
+    `
+      nb-card {
+        margin: 0;
+        max-width: 20rem;
+      }
+    `,
+  ],
 })
 export class RoleCellComponent {
   @Input() value;

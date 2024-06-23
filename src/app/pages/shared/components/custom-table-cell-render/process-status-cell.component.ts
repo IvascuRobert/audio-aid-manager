@@ -1,14 +1,13 @@
 import { Component, Input } from "@angular/core";
-import { CustomerStatus } from "../../../@core/data/customer";
+import { ProcessStatusType } from "../../../../@core/data/customer";
 
 @Component({
   template: `
     <nb-tag-list [ngSwitch]="value">
       <nb-tag
-        *ngSwitchCase="customerStatusTpl.cc"
-        status="danger"
+        *ngSwitchCase="processStatusTypeTpl.open"
+        status="warning"
         class="text-uppercase"
-        appearance="outline"
         [size]="'tiny'"
         [nbPopover]="ccRef"
         nbPopoverTrigger="hint"
@@ -16,10 +15,9 @@ import { CustomerStatus } from "../../../@core/data/customer";
         [text]="value"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="customerStatusTpl.cl"
-        status="success"
+        *ngSwitchCase="processStatusTypeTpl.end"
+        status="basic"
         class="text-uppercase"
-        appearance="outline"
         [size]="'tiny'"
         [nbPopover]="clRef"
         nbPopoverTrigger="hint"
@@ -27,10 +25,9 @@ import { CustomerStatus } from "../../../@core/data/customer";
         [text]="value"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="customerStatusTpl.no"
-        status="basic"
+        *ngSwitchCase="processStatusTypeTpl.lost"
+        status="danger"
         class="text-uppercase"
-        appearance="outline"
         [size]="'tiny'"
         [nbPopover]="noRef"
         nbPopoverTrigger="hint"
@@ -38,10 +35,9 @@ import { CustomerStatus } from "../../../@core/data/customer";
         [text]="value"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="customerStatusTpl.pc"
-        status="warning"
+        *ngSwitchCase="processStatusTypeTpl.trial"
+        status="primary"
         class="text-uppercase"
-        appearance="outline"
         [size]="'tiny'"
         [nbPopover]="pcRef"
         nbPopoverTrigger="hint"
@@ -49,12 +45,11 @@ import { CustomerStatus } from "../../../@core/data/customer";
         [text]="value"
       ></nb-tag>
       <nb-tag
-        *ngSwitchDefault
-        status="basic"
+        *ngSwitchCase="processStatusTypeTpl.win"
+        status="success"
         class="text-uppercase"
-        appearance="outline"
         [size]="'tiny'"
-        [nbPopover]="defaultRef"
+        [nbPopover]="pcRef"
         nbPopoverTrigger="hint"
         [nbPopoverContext]="{value}"
         [text]="value"
@@ -140,8 +135,8 @@ import { CustomerStatus } from "../../../@core/data/customer";
     `,
   ],
 })
-export class CustomerStatusCellComponent {
-  @Input() value: CustomerStatus;
+export class ProcessStatusCellComponent {
+  @Input() value: ProcessStatusType;
 
-  readonly customerStatusTpl = CustomerStatus;
+  readonly processStatusTypeTpl = ProcessStatusType;
 }

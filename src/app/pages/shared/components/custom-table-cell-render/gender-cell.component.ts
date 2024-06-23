@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Gender } from "../../../@core/data/customer";
+import { Gender } from "../../../../@core/data/customer";
 
 @Component({
   template: `<div class="d-flex justify-content-center">

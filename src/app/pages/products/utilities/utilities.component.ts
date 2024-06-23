@@ -1,21 +1,24 @@
 import { Component } from "@angular/core";
-import { LocalDataSource } from "ng2-smart-table";
+import { NbDialogService } from "@nebular/theme";
 import { SmartTableData } from "../../../@core/data/smart-table";
+import { Utility } from "../../../@core/data/utility";
 import { mapHideOrShowColumns } from "../../../@core/utils/map-hide-or-show-columns";
 import {
   LOCAL_STORAGE_KEYS_FOR_TABLE,
-  getItem,
   setItem,
 } from "../../../@core/utils/save-local-storage";
-import { PriceCellComponent } from "../../shared/custom-table-cell-render/price-cell.component";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
+import { BaseTable } from "../../shared/directives/base-table.directive";
 
 @Component({
   selector: "ngx-utilities",
   templateUrl: "./utilities.component.html",
   styleUrls: ["./utilities.component.scss"],
 })
-export class UtilitiesComponent {
+export class UtilitiesComponent extends BaseTable<Utility> {
   settings: Record<string, any> = {
+    selectMode: "multi",
     actions: false,
     columns: {
       id: {
@@ -48,19 +51,30 @@ export class UtilitiesComponent {
         title: "Location",
         type: "string",
       },
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        sort: false,
+        filter: false,
+      },
     },
   };
+
+  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.utilities;
 
   hiddenColumns = ["price"];
 
   selectedColumns = [];
 
-  source: LocalDataSource = new LocalDataSource();
-
-  constructor(private service: SmartTableData) {
+  constructor(
+    private service: SmartTableData,
+    protected readonly dialogService: NbDialogService
+  ) {
+    super(dialogService);
     const data = this.service.getData().utilities;
     this.source.load(data);
-    this.loadTableSettingsFromLocalStorage();
   }
 
   handleSelectedColumns(columns: string[]): void {
@@ -70,18 +84,5 @@ export class UtilitiesComponent {
       this.hiddenColumns
     );
     setItem(LOCAL_STORAGE_KEYS_FOR_TABLE.utilities, columns);
-  }
-
-  private loadTableSettingsFromLocalStorage() {
-    const columns = getItem(LOCAL_STORAGE_KEYS_FOR_TABLE.utilities);
-
-    if (columns) {
-      this.settings = mapHideOrShowColumns(
-        columns,
-        this.settings,
-        this.hiddenColumns
-      );
-      this.selectedColumns = columns;
-    }
   }
 }

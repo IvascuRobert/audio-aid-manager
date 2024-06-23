@@ -1,48 +1,14 @@
 <nb-card class="actions-card">
   <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <nb-actions size="medium">
-      <nb-action
-        [nbTooltip]="
-          selectedRows.length === 1 ? 'Edit a customer' : 'Add a customer'
-        "
-        nbTooltipPlacement="top"
-        [icon]="
-          selectedRows.length === 1 ? 'edit-2-outline' : 'plus-circle-outline'
-        "
-        (click)="addDialog()"
-      ></nb-action>
-      <nb-action
-        [nbTooltip]="
-          selectedRows.length === 0
-            ? 'Please select a customer'
-            : 'Remove customers'
-        "
-        nbTooltipPlacement="top"
-        icon="trash-2-outline"
-        [badgeText]="selectedRows.length"
-        badgeStatus="warning"
-        [disabled]="selectedRows.length === 0"
-        (click)="removeDialog()"
-      >
-      </nb-action>
-      <nb-action
-        [disabled]="selectedRows.length === 0"
-        [nbTooltip]="
-          selectedRows.length === 0
-            ? 'Please select a customer'
-            : 'View customer'
-        "
-        nbTooltipPlacement="top"
-        icon="eye-outline"
-        (click)="view()"
-      ></nb-action>
-      <nb-action icon="refresh-outline" (click)="reload()"></nb-action>
-      <nb-action
-        icon="settings-2-outline"
-        (click)="settingsDialog()"
-      ></nb-action>
-    </nb-actions>
+    <ngx-custom-actions
+      [selectedRows]="selectedRows"
+      (handleAddAction)="addDialog()"
+      (handleRemoveAction)="removeItem()"
+      (handleViewAction)="view()"
+      (handleReloadAction)="reload()"
+      (handleSettingsAction)="settingsDialog()"
+    ></ngx-custom-actions>
   </nb-card-body>
 </nb-card>
 <nb-card>
