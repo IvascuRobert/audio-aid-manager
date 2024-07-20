@@ -5219,12 +5219,7 @@ class AppModule {
     }],
     imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__.BrowserModule, _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_9__.BrowserAnimationsModule, _angular_common_http__WEBPACK_IMPORTED_MODULE_10__.HttpClientModule, _app_routing_module__WEBPACK_IMPORTED_MODULE_2__.AppRoutingModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbSidebarModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbMenuModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbDatepickerModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbDialogModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbWindowModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbToastrModule.forRoot(), _nebular_theme__WEBPACK_IMPORTED_MODULE_11__.NbChatModule.forRoot({}), _core_core_module__WEBPACK_IMPORTED_MODULE_0__.CoreModule.forRoot(), _theme_theme_module__WEBPACK_IMPORTED_MODULE_1__.ThemeModule.forRoot(), angular_calendar__WEBPACK_IMPORTED_MODULE_7__.CalendarModule.forRoot({
       provide: angular_calendar__WEBPACK_IMPORTED_MODULE_7__.DateAdapter,
-      useFactory: momentAdapterFactory
-    }, {
-      dateFormatter: {
-        provide: angular_calendar__WEBPACK_IMPORTED_MODULE_7__.CalendarDateFormatter,
-        useClass: angular_calendar__WEBPACK_IMPORTED_MODULE_7__.CalendarMomentDateFormatter
-      }
+      useFactory: angular_calendar_date_adapters_moment__WEBPACK_IMPORTED_MODULE_5__.adapterFactory
     })]
   });
 }
