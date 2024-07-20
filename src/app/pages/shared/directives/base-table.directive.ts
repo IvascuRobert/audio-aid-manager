@@ -56,6 +56,10 @@ export abstract class BaseTable<T extends { id: number }> {
     }
   }
 
+  removeItemByRow(row){
+    this.source.remove(row);
+  }
+
   reload() {
     this.source.refresh();
   }

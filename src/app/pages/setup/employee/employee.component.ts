@@ -7,6 +7,9 @@ import { EmailCellComponent } from "../../shared/components/custom-table-cell-re
 import { GenderCellComponent } from "../../shared/components/custom-table-cell-render/gender-cell.component";
 import { RoleCellComponent } from "../../shared/components/custom-table-cell-render/role-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { EmployeeAddDialogComponent } from "../employee-add-dialog/employee-add-dialog.component";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-employee",
@@ -46,6 +49,23 @@ export class EmployeeComponent extends BaseTable<User> {
         type: "custom",
         renderComponent: RoleCellComponent,
       },
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
+        sort: false,
+        filter: false,
+      },
     },
   };
 
@@ -58,5 +78,9 @@ export class EmployeeComponent extends BaseTable<User> {
     super(dialogService);
     const data = this.service.getData().users;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(EmployeeAddDialogComponent);
   }
 }

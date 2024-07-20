@@ -15,7 +15,7 @@ import { AppointmentsComponent } from "./appointments.component";
     CommonModule,
     FormsModule,
     AppointmentsRoutingModule,
-    CalendarModule,
+    CalendarModule
   ],
   providers: [
     { provide: CalendarDateFormatter, useClass: CalendarMomentDateFormatter },

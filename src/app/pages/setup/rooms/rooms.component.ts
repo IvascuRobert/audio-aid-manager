@@ -4,6 +4,9 @@ import { LocalDataSource } from "ng2-smart-table";
 import { Room } from "../../../@core/data/room";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { RoomsAddDialogComponent } from "../rooms-add-dialog/rooms-add-dialog.component";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-rooms",
@@ -24,6 +27,23 @@ export class RoomsComponent extends BaseTable<Room> {
         title: "Name",
         type: "string",
       },
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
+        sort: false,
+        filter: false,
+      },
     },
   };
 
@@ -36,5 +56,9 @@ export class RoomsComponent extends BaseTable<Room> {
     super(dialogService);
     const data = this.service.getData().rooms;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(RoomsAddDialogComponent);
   }
 }

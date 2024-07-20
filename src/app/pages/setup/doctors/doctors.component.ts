@@ -4,6 +4,9 @@ import { LocalDataSource } from "ng2-smart-table";
 import { Doctor } from "../../../@core/data/doctor";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { DoctorsAddDialogComponent } from "../doctors-add-dialog/doctors-add-dialog.component";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-doctors",
@@ -24,6 +27,23 @@ export class DoctorsComponent extends BaseTable<Doctor> {
         title: "Name",
         type: "string",
       },
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
+        sort: false,
+        filter: false,
+      },
     },
   };
 
@@ -36,5 +56,9 @@ export class DoctorsComponent extends BaseTable<Doctor> {
     super(dialogService);
     const data = this.service.getData().doctors;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(DoctorsAddDialogComponent);
   }
 }

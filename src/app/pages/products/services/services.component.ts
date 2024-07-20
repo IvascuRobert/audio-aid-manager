@@ -6,6 +6,8 @@ import { SmartTableData } from "../../../@core/data/smart-table";
 import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
 import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { ServicesAddDialogComponent } from "../services-add-dialog/services-add-dialog.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-services",
@@ -36,6 +38,15 @@ export class ServicesComponent extends BaseTable<Service> {
         type: "custom",
         width: "1%",
         renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
         sort: false,
         filter: false,
       },
@@ -51,5 +62,9 @@ export class ServicesComponent extends BaseTable<Service> {
     super(dialogService);
     const data = this.service.getData().services;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(ServicesAddDialogComponent);
   }
 }

@@ -8,6 +8,7 @@ import { CommentCellComponent } from "../../shared/components/custom-table-cell-
 import { DateCellComponent } from "../../shared/components/custom-table-cell-render/date-cell.component";
 import { ProcessStatusCellComponent } from "../../shared/components/custom-table-cell-render/process-status-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-customer-details",
@@ -68,6 +69,15 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         type: "custom",
         width: "1%",
         renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
         sort: false,
         filter: false,
       },

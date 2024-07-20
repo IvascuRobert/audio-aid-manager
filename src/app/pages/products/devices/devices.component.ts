@@ -9,6 +9,8 @@ import { ActionsCellComponent } from "../../shared/components/custom-table-cell-
 import { ColorCellComponent } from "../../shared/components/custom-table-cell-render/color-cell.component";
 import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { DevicesAddDialogComponent } from "../devices-add-dialog/devices-add-dialog.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-devices",
@@ -88,6 +90,15 @@ export class DevicesComponent extends BaseTable<Device> {
         type: "custom",
         width: "1%",
         renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
         sort: false,
         filter: false,
       },
@@ -107,5 +118,9 @@ export class DevicesComponent extends BaseTable<Device> {
     super(dialogService);
     const data = this.service.getData().devices;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(DevicesAddDialogComponent);
   }
 }

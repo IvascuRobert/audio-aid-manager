@@ -4,6 +4,9 @@ import { LocalDataSource } from "ng2-smart-table";
 import { Location } from "../../../@core/data/location";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { LocationsAddDialogComponent } from "../locations-add-dialog/locations-add-dialog.component";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-locations",
@@ -28,6 +31,26 @@ export class LocationsComponent extends BaseTable<Location> {
         title: "Address",
         type: "string",
       },
+      actions: {
+        title: "Actions",
+        type: "custom",
+        width: "1%",
+        renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+              if(action === Action.Edit){
+                this.addDialog(row)
+              }
+            });
+        },
+        sort: false,
+        filter: false,
+      },
     },
   };
 
@@ -40,5 +63,11 @@ export class LocationsComponent extends BaseTable<Location> {
     super(dialogService);
     const data = this.service.getData().locations;
     this.source.load(data);
+  }
+
+  addDialog(row) {
+    this.dialogService.open(LocationsAddDialogComponent, {
+      context: { selectedLocation: row}
+    });
   }
 }

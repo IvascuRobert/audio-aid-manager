@@ -10,6 +10,8 @@ import {
 import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
 import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { UtilitiesAddDialogComponent } from "../utilities-add-dialog/utilities-add-dialog.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-utilities",
@@ -56,6 +58,15 @@ export class UtilitiesComponent extends BaseTable<Utility> {
         type: "custom",
         width: "1%",
         renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
         sort: false,
         filter: false,
       },
@@ -84,5 +95,9 @@ export class UtilitiesComponent extends BaseTable<Utility> {
       this.hiddenColumns
     );
     setItem(LOCAL_STORAGE_KEYS_FOR_TABLE.utilities, columns);
+  }
+
+  addDialog() {
+    this.dialogService.open(UtilitiesAddDialogComponent);
   }
 }

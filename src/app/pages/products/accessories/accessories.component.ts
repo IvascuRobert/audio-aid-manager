@@ -8,6 +8,8 @@ import { AccessoryStatusCellComponent } from "../../shared/components/custom-tab
 import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
 import { PriceCellComponent } from "../../shared/components/custom-table-cell-render/price-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
+import { AccessoriesAddDialogComponent } from "../accessories-add-dialog/accessories-add-dialog.component";
+import { Action } from "../../../@core/data/actions";
 
 @Component({
   selector: "ngx-accessories",
@@ -67,6 +69,15 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         type: "custom",
         width: "1%",
         renderComponent: ActionsCellComponent,
+        valuePrepareFunction: (value, row, cell) => row,
+        onComponentInitFunction: (instance) => {
+          instance.actionChange
+            .subscribe( ({action, row}) => {
+              if(action === Action.Delete){
+                this.removeItemByRow(row)
+              }
+            });
+        },
         sort: false,
         filter: false,
       },
@@ -88,5 +99,9 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
     super(dialogService);
     const data = this.service.getData().accessories;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(AccessoriesAddDialogComponent);
   }
 }

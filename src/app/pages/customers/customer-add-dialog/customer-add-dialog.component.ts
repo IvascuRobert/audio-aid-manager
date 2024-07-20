@@ -32,7 +32,7 @@ export class CustomerAddDialogComponent {
   constructor(
     @Optional() private ref: NbDialogRef<CustomerAddDialogComponent>,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   cancel() {
     this.ref.close();
@@ -47,7 +47,10 @@ export class CustomerAddDialogComponent {
   toggleLoadingLargeGroupAnimation() {
     this.loadingLargeGroup = true;
 
-    setTimeout(() => (this.loadingLargeGroup = false), 3000);
+    setTimeout(() => {
+      this.loadingLargeGroup = false;
+      this.ref.close();
+    }, 3000);
   }
 
   isValid(controlName: string): boolean {
