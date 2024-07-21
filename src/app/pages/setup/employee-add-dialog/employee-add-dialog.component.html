@@ -1,112 +1,110 @@
 <form [formGroup]="employeeAddForm"
       (ngSubmit)="submit()">
-    <nb-card>
-        <nb-card-header>
-            <div class="d-flex align-items-center">
-                <nb-icon class="skip mr-2"
-                         icon="plus-circle-outline"
-                         pack="eva"
-                         status="primary"
-                         [options]="{ animation: { type: 'pulse' } }"></nb-icon>
-                Add new employee
-            </div>
-        </nb-card-header>
-        <nb-card-body>
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="email"
-                               class="label">Email</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="email"
-                               placeholder="Email"
-                               formControlemail="email"
-                               [status]="isValid('email') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="name"
-                               class="label">Name</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="name"
-                               placeholder="Name"
-                               formControlName="name"
-                               [status]="isValid('name') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="password"
-                               class="label">Password</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="password"
-                               placeholder="Password"
-                               formControlName="password"
-                               [status]="isValid('password') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="role" class="label">Role</label>
-                    <nb-select
-                      id="role"
-                      fullWidth
-                      placeholder="Role"
-                      formControlName="role"
-                      [status]="isValid('role') ? 'danger' : 'basic'"
-                    >
-                      <nb-option value="1">role 1</nb-option>
-                      <nb-option value="2">role 2</nb-option>
-                      <nb-option value="3">role 3</nb-option>
-                      <nb-option value="4">role 4</nb-option>
-                    </nb-select>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="gender" class="label">Gender</label>
-                    <nb-radio-group
-                      id="gender"
-                      fullWidth
-                      formControlName="gender"
-                      [status]="isValid('gender') ? 'danger' : 'basic'"
-                    >
-                      <nb-radio value="male">male 1</nb-radio>
-                      <nb-radio value="female">female 2</nb-radio>
-                      <nb-radio value="transgender">transgender 3</nb-radio>
-                    </nb-radio-group>
-                  </div>
-                </div>
-            </div>
-        </nb-card-body>
-        <nb-card-footer>
-            <div class="d-flex justify-content-end">
-                <button class="mr-2"
-                        type="button"
-                        nbButton
-                        status="basic"
-                        (click)="cancel()">
-                    Cancel
-                </button>
+  <nb-card>
+    <nb-card-header>
+      <div class="d-flex align-items-center">
+        <nb-icon class="skip mr-2"
+                 icon="plus-circle-outline"
+                 pack="eva"
+                 status="primary"
+                 [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+        Add new employee
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="email"
+                   class="label">Email</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="email"
+                   placeholder="Email"
+                   formControlemail="email"
+                   [status]="isValid('email') ? 'danger' : 'basic'" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="name"
+                   class="label">Name</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="name"
+                   placeholder="Name"
+                   formControlName="name"
+                   [status]="isValid('name') ? 'danger' : 'basic'" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="password"
+                   class="label">Password</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="password"
+                   placeholder="Password"
+                   formControlName="password"
+                   [status]="isValid('password') ? 'danger' : 'basic'" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="role"
+                   class="label">Role</label>
+            <nb-select id="role"
+                       fullWidth
+                       placeholder="Role"
+                       formControlName="role"
+                       [status]="isValid('role') ? 'danger' : 'basic'">
+              <nb-option value="1">role 1</nb-option>
+              <nb-option value="2">role 2</nb-option>
+              <nb-option value="3">role 3</nb-option>
+              <nb-option value="4">role 4</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="gender"
+                   class="label">Gender</label>
+            <nb-radio-group id="gender"
+                            fullWidth
+                            formControlName="gender"
+                            [status]="isValid('gender') ? 'danger' : 'basic'">
+              <nb-radio value="male">male</nb-radio>
+              <nb-radio value="female">female</nb-radio>
+              <nb-radio value="unknown">Unknown</nb-radio>
+            </nb-radio-group>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="d-flex justify-content-end">
+        <button class="mr-2"
+                type="button"
+                nbButton
+                status="basic"
+                (click)="cancel()">
+          Cancel
+        </button>
 
-                <button type="submit"
-                        nbButton
-                        hero
-                        status="primary"
-                        (click)="toggleLoadingLargeGroupAnimation()"
-                        [nbSpinner]="loadingLargeGroup"
-                        nbSpinnerStatus="success"
-                        nbSpinnerMessage="">
-                    Save
-                </button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
+        <button type="submit"
+                nbButton
+                hero
+                status="primary"
+                (click)="toggleLoadingLargeGroupAnimation()"
+                [nbSpinner]="loadingLargeGroup"
+                nbSpinnerStatus="success"
+                nbSpinnerMessage="">
+          Save
+        </button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
 </form>

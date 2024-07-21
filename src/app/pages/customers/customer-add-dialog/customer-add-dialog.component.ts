@@ -1,4 +1,4 @@
-import { Component, Optional } from "@angular/core";
+import { Component, OnInit, Optional } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { NbDialogRef } from "@nebular/theme";
 import { Gender } from "../../../@core/data/customer";
@@ -8,7 +8,7 @@ import { Gender } from "../../../@core/data/customer";
   templateUrl: "./customer-add-dialog.component.html",
   styleUrls: ["./customer-add-dialog.component.scss"],
 })
-export class CustomerAddDialogComponent {
+export class CustomerAddDialogComponent implements OnInit {
   customerAddForm = this.fb.group({
     id: [null],
     firstName: ["", [Validators.required]],
@@ -29,10 +29,16 @@ export class CustomerAddDialogComponent {
 
   loadingLargeGroup = false;
 
+  selectedCustomer = null
+
   constructor(
     @Optional() private ref: NbDialogRef<CustomerAddDialogComponent>,
     private fb: FormBuilder
   ) { }
+
+  ngOnInit(): void {
+    this.customerAddForm.patchValue(this.selectedCustomer)
+  }
 
   cancel() {
     this.ref.close();

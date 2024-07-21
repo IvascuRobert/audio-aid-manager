@@ -59,7 +59,7 @@ export class EmployeeComponent extends BaseTable<User> {
           instance.actionChange
             .subscribe( ({action, row}) => {
               if(action === Action.Delete){
-                this.removeItemByRow(row)
+                this.removeItem(row)
               }
             });
         },

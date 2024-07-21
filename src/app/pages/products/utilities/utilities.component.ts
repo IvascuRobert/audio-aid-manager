@@ -63,7 +63,7 @@ export class UtilitiesComponent extends BaseTable<Utility> {
           instance.actionChange
             .subscribe( ({action, row}) => {
               if(action === Action.Delete){
-                this.removeItemByRow(row)
+                this.removeItem(row)
               }
             });
         },

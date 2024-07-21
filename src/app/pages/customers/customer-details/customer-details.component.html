@@ -3,15 +3,8 @@
   <nb-card-body>
     <ngx-custom-actions
       [selectedRows]="selectedRows"
-      (handleRemoveAction)="removeItem()"
-      (handleReloadAction)="reload()"
-      [actions]="[
-        {
-          icon: 'arrow-back-outline',
-          nbTooltipPlacement: 'top',
-          nbTooltip: 'Go back',
-        }
-      ]"
+      (handleRemoveAction)="removeItem(selectedRows[0])"
+      (handleAddAction)="addDialog()"
     >
     </ngx-custom-actions>
   </nb-card-body>

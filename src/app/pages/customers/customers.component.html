@@ -1,19 +1,24 @@
 <nb-card class="actions-card">
   <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <ngx-custom-actions
-      [selectedRows]="selectedRows"
-      (handleAddAction)="addDialog()"
-      (handleRemoveAction)="removeItem()"
-      (handleViewAction)="view()"
-      (handleReloadAction)="reload()"
-      (handleSettingsAction)="settingsDialog()"
-    ></ngx-custom-actions>
+    <ngx-custom-actions [selectedRows]="selectedRows"
+                        (handleAddAction)="addDialog(selectedRows[0])"
+                        (handleRemoveAction)="removeItem(selectedRows[0])"
+                        (handleViewAction)="view()"
+                        (handleReloadAction)="reload()"
+                        (handleSettingsAction)="settingsDialog()"
+                        [actions]="[{
+                                  icon: 'arrow-back-outline',
+                                  nbTooltipPlacement: 'top',
+                                  nbTooltip: 'Go back',
+                                }]"></ngx-custom-actions>
   </nb-card-body>
 </nb-card>
 <nb-card>
   <nb-card-header>
-    <div class="row align-items-center">
+    <div class="
+                        row
+                        align-items-center">
       <div class="col-8">
         <span *ngIf="selectedRows.length; else allRows">
           {{ selectedRows.length }} selected customers
@@ -25,11 +30,9 @@
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table
-      [settings]="settings"
-      [source]="source"
-      (rowSelect)="handleSelectedRow($event)"
-    >
+    <ng2-smart-table [settings]="settings"
+                     [source]="source"
+                     (rowSelect)="handleSelectedRow($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

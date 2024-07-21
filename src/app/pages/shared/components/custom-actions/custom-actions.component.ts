@@ -13,11 +13,10 @@ export class CustomActionsComponent {
 
   @Output() handleAddAction = new EventEmitter<boolean>();
   @Output() handleRemoveAction = new EventEmitter<boolean>();
-  @Output() handleViewAction = new EventEmitter<boolean>();
   @Output() handleReloadAction = new EventEmitter<boolean>();
   @Output() handleSettingsAction = new EventEmitter<boolean>();
 
-  constructor(private dialogService: NbDialogService) {}
+  constructor(private dialogService: NbDialogService) { }
 
   removeDialog() {
     if (this.selectedRows.length > 0) {

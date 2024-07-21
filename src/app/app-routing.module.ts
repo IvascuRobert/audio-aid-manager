@@ -1,5 +1,5 @@
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import {
   NbAuthComponent,
   NbLoginComponent,
@@ -8,12 +8,15 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { authGuard } from './@core/guards/auth.guard';
+import { NotFoundComponent } from './pages/miscellaneous/not-found/not-found.component';
 
 export const routes: Routes = [
   {
     path: 'pages',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
+    canActivate: [authGuard]
   },
   {
     path: 'auth',
@@ -46,7 +49,10 @@ export const routes: Routes = [
     ],
   },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  {
+    path: "**",
+    component: NotFoundComponent,
+  },
 ];
 
 const config: ExtraOptions = {

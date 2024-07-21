@@ -37,7 +37,7 @@ export class ClinicsComponent extends BaseTable<Clinic> {
           instance.actionChange
             .subscribe( ({action, row}) => {
               if(action === Action.Delete){
-                this.removeItemByRow(row)
+                this.removeItem(row)
               }
               if(action === Action.Edit){
                 this.addDialog(row)

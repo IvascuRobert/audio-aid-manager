@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { LocalDataSource } from "ng2-smart-table";
+import { Action } from "../../../@core/data/actions";
 import { Process } from "../../../@core/data/process";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
@@ -8,8 +10,9 @@ import { CommentCellComponent } from "../../shared/components/custom-table-cell-
 import { DateCellComponent } from "../../shared/components/custom-table-cell-render/date-cell.component";
 import { ProcessStatusCellComponent } from "../../shared/components/custom-table-cell-render/process-status-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
-import { Action } from "../../../@core/data/actions";
+import { CustomerDetailsAddDialogComponent } from "../customer-details-add-dialog/customer-details-add-dialog.component";
 
+@UntilDestroy()
 @Component({
   selector: "ngx-customer-details",
   templateUrl: "./customer-details.component.html",
@@ -72,9 +75,9 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
           instance.actionChange
-            .subscribe( ({action, row}) => {
-              if(action === Action.Delete){
-                this.removeItemByRow(row)
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.removeItem(row)
               }
             });
         },
@@ -93,5 +96,9 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
     super(dialogService);
     const data = this.service.getData().processes;
     this.source.load(data);
+  }
+
+  addDialog() {
+    this.dialogService.open(CustomerDetailsAddDialogComponent);
   }
 }

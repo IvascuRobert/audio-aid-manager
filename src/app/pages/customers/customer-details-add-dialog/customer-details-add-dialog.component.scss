@@ -1,0 +1,9 @@
+@import "../../../@theme/styles/themes";
+
+@include nb-install-component() {
+  nb-card {
+    margin: auto;
+    max-width: 90vh;
+    max-height: 90vh;
+  }
+}

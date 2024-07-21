@@ -6,11 +6,13 @@ import { Gender } from "../../../../@core/data/customer";
     <nb-icon
       nbPopoverTrigger="hint"
       [nbPopover]="value"
-      [icon]="value"
+      [icon]="value === genderTpl.unknown ? 'transgender' : value"
       pack="ion"
     ></nb-icon>
   </div>`,
 })
 export class GenderCellComponent {
   @Input() value: Gender;
+
+  readonly genderTpl = Gender;
 }

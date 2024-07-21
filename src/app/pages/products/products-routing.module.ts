@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LayoutComponent } from "../layout/layout.component";
 import { AccessoriesComponent } from "./accessories/accessories.component";
 import { DevicesComponent } from "./devices/devices.component";
 import { ServicesComponent } from "./services/services.component";
@@ -9,7 +8,6 @@ import { UtilitiesComponent } from "./utilities/utilities.component";
 const routes: Routes = [
   {
     path: "",
-    component: LayoutComponent,
     children: [
       {
         path: "devices",
@@ -34,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductsRoutingModule {}
+export class ProductsRoutingModule { }

@@ -1,14 +1,13 @@
-<form [formGroup]="customerAddForm" (ngSubmit)="submit()">
+<form [formGroup]="customerAddForm"
+      (ngSubmit)="submit()">
   <nb-card>
     <nb-card-header>
       <div class="d-flex align-items-center">
-        <nb-icon
-          class="skip mr-2"
-          icon="plus-circle-outline"
-          pack="eva"
-          status="primary"
-          [options]="{ animation: { type: 'pulse' } }"
-        ></nb-icon>
+        <nb-icon class="skip mr-2"
+                 icon="plus-circle-outline"
+                 pack="eva"
+                 status="primary"
+                 [options]="{ animation: { type: 'pulse' } }"></nb-icon>
         Add new customer
       </div>
     </nb-card-header>
@@ -16,189 +15,175 @@
       <div class="row">
         <div class="col-6">
           <div class="form-group">
-            <label for="firstName" class="label">First name</label>
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="firstName"
-              placeholder="First name"
-              formControlName="firstName"
-              [status]="isValid('firstName') ? 'danger' : 'basic'"
-            />
+            <label for="firstName"
+                   class="label">First name</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="firstName"
+                   placeholder="First name"
+                   formControlName="firstName"
+                   [status]="isValid('firstName') ? 'danger' : 'basic'" />
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="lastName" class="label">Last name</label>
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="lastName"
-              placeholder="Last name"
-              formControlName="lastName"
-              [status]="isValid('lastName') ? 'danger' : 'basic'"
-            />
+            <label for="lastName"
+                   class="label">Last name</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="lastName"
+                   placeholder="Last name"
+                   formControlName="lastName"
+                   [status]="isValid('lastName') ? 'danger' : 'basic'" />
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="email" class="label">Email</label>
-            <input
-              type="email"
-              nbInput
-              fullWidth
-              id="email"
-              placeholder="Email"
-              formControlName="email"
-              [status]="isValid('email') ? 'danger' : 'basic'"
-            />
+            <label for="email"
+                   class="label">Email</label>
+            <input type="email"
+                   nbInput
+                   fullWidth
+                   id="email"
+                   placeholder="Email"
+                   formControlName="email"
+                   [status]="isValid('email') ? 'danger' : 'basic'" />
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="age" class="label">Age</label>
-            <input
-              id="age"
-              fullWidth
-              nbInput
-              placeholder="Age"
-              [nbDatepicker]="ageRef"
-              formControlName="age"
-              [status]="isValid('age') ? 'danger' : 'basic'"
-            />
+            <label for="age"
+                   class="label">Age</label>
+            <input id="age"
+                   fullWidth
+                   nbInput
+                   placeholder="Age"
+                   [nbDatepicker]="ageRef"
+                   formControlName="age"
+                   [status]="isValid('age') ? 'danger' : 'basic'" />
             <nb-datepicker #ageRef></nb-datepicker>
           </div>
         </div>
         <div class="col-6">
-          <label for="telephone" class="label">Telephone</label>
+          <label for="telephone"
+                 class="label">Telephone</label>
           <nb-form-field>
-            <nb-icon
-              nbPrefix
-              icon="phone-outline"
-              [options]="{ animation: { type: 'pulse' } }"
-            ></nb-icon>
-            <input
-              type="tel"
-              nbInput
-              fullWidth
-              id="telephone"
-              placeholder="Telephone"
-              formControlName="telephone"
-              [status]="isValid('telephone') ? 'danger' : 'basic'"
-            />
+            <nb-icon nbPrefix
+                     icon="phone-outline"
+                     [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+            <input type="tel"
+                   nbInput
+                   fullWidth
+                   id="telephone"
+                   placeholder="Telephone"
+                   formControlName="telephone"
+                   [status]="isValid('telephone') ? 'danger' : 'basic'" />
           </nb-form-field>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="doctor" class="label">Doctor</label>
-            <nb-select
-              id="doctor"
-              fullWidth
-              placeholder="Doctor"
-              formControlName="doctor"
-              [status]="isValid('doctor') ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">Doctor 1</nb-option>
-              <nb-option value="2">Doctor 2</nb-option>
-              <nb-option value="3">Doctor 3</nb-option>
-              <nb-option value="4">Doctor 4</nb-option>
+            <label for="doctor"
+                   class="label">Doctor</label>
+            <nb-select id="doctor"
+                       fullWidth
+                       placeholder="Doctor"
+                       formControlName="doctor"
+                       [status]="isValid('doctor') ? 'danger' : 'basic'">
+              <nb-option value="doctor1">Doctor 1</nb-option>
+              <nb-option value="doctor2">Doctor 2</nb-option>
+              <nb-option value="doctor3">Doctor 3</nb-option>
+              <nb-option value="doctor4">Doctor 4</nb-option>
             </nb-select>
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="address" class="label">Address</label>
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="address"
-              placeholder="Address"
-              formControlName="address"
-              [status]="isValid('address') ? 'danger' : 'basic'"
-            />
+            <label for="address"
+                   class="label">Address</label>
+            <input type="text"
+                   nbInput
+                   fullWidth
+                   id="address"
+                   placeholder="Address"
+                   formControlName="address"
+                   [status]="isValid('address') ? 'danger' : 'basic'" />
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="clinic" class="label">Clinic</label>
-            <nb-select
-              id="clinic"
-              fullWidth
-              placeholder="Clinic"
-              formControlName="clinic"
-              [status]="isValid('clinic') ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">Clinic 1</nb-option>
-              <nb-option value="2">Clinic 2</nb-option>
-              <nb-option value="3">Clinic 3</nb-option>
-              <nb-option value="4">Clinic 4</nb-option>
+            <label for="clinic"
+                   class="label">Clinic</label>
+            <nb-select id="clinic"
+                       fullWidth
+                       placeholder="Clinic"
+                       formControlName="clinic"
+                       [status]="isValid('clinic') ? 'danger' : 'basic'">
+              <nb-option value="clinic1">Clinic 1</nb-option>
+              <nb-option value="clinic2">Clinic 2</nb-option>
+              <nb-option value="clinic3">Clinic 3</nb-option>
+              <nb-option value="clinic4">Clinic 4</nb-option>
             </nb-select>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="location" class="label">Location</label>
-            <nb-select
-              id="location"
-              fullWidth
-              placeholder="Location"
-              formControlName="location"
-              [status]="isValid('location') ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">Location 1</nb-option>
-              <nb-option value="2">Location 2</nb-option>
-              <nb-option value="3">Location 3</nb-option>
-              <nb-option value="4">Location 4</nb-option>
+            <label for="location"
+                   class="label">Location</label>
+            <nb-select id="location"
+                       fullWidth
+                       placeholder="Location"
+                       formControlName="location"
+                       [status]="isValid('location') ? 'danger' : 'basic'">
+              <nb-option value="location1">Location 1</nb-option>
+              <nb-option value="location2">Location 2</nb-option>
+              <nb-option value="location3">Location 3</nb-option>
+              <nb-option value="location4">Location 4</nb-option>
             </nb-select>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="contactNote" class="label">Where you find it?</label>
-            <nb-select
-              id="contactNote"
-              fullWidth
-              placeholder="Where you find it?"
-              formControlName="contactNote"
-              [status]="isValid('contactNote') ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">Social Media 1</nb-option>
-              <nb-option value="2">Social Media 2</nb-option>
-              <nb-option value="3">Social Media 3</nb-option>
-              <nb-option value="4">Social Media 4</nb-option>
+            <label for="contactNote"
+                   class="label">Where you find it?</label>
+            <nb-select id="contactNote"
+                       fullWidth
+                       placeholder="Where you find it?"
+                       formControlName="contactNote"
+                       [status]="isValid('contactNote') ? 'danger' : 'basic'">
+              <nb-option value="member_get_member">Member get member</nb-option>
+              <nb-option value="social">Social Media</nb-option>
+              <nb-option value="doctor">Doctor</nb-option>
+              <nb-option value="commercial">Commercial</nb-option>
             </nb-select>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="appointment" class="label">Appointment</label>
-            <input
-              id="appointment"
-              fullWidth
-              nbInput
-              placeholder="Appointment"
-              [nbDatepicker]="appointmentRef"
-              formControlName="appointment"
-              [status]="isValid('appointment') ? 'danger' : 'basic'"
-            />
+            <label for="appointment"
+                   class="label">Appointment</label>
+            <input id="appointment"
+                   fullWidth
+                   nbInput
+                   placeholder="Appointment"
+                   [nbDatepicker]="appointmentRef"
+                   formControlName="appointment"
+                   [status]="isValid('appointment') ? 'danger' : 'basic'" />
             <nb-datepicker #appointmentRef></nb-datepicker>
           </div>
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="gender" class="label">Gender</label>
-            <nb-radio-group
-              id="gender"
-              fullWidth
-              formControlName="gender"
-              [status]="isValid('gender') ? 'danger' : 'basic'"
-            >
-              <nb-radio value="male">male 1</nb-radio>
-              <nb-radio value="female">female 2</nb-radio>
-              <nb-radio value="transgender">transgender 3</nb-radio>
+            <label for="gender"
+                   class="label">Gender</label>
+            <nb-radio-group id="gender"
+                            fullWidth
+                            formControlName="gender"
+                            [status]="isValid('gender') ? 'danger' : 'basic'">
+              <nb-radio value="male">Male</nb-radio>
+              <nb-radio value="female">Female</nb-radio>
+              <nb-radio value="unknown">Unknown</nb-radio>
             </nb-radio-group>
           </div>
         </div>
@@ -206,26 +191,22 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="d-flex justify-content-end">
-        <button
-          class="mr-2"
-          type="button"
-          nbButton
-          status="basic"
-          (click)="cancel()"
-        >
+        <button class="mr-2"
+                type="button"
+                nbButton
+                status="basic"
+                (click)="cancel()">
           Cancel
         </button>
 
-        <button
-          type="submit"
-          nbButton
-          hero
-          status="primary"
-          (click)="toggleLoadingLargeGroupAnimation()"
-          [nbSpinner]="loadingLargeGroup"
-          nbSpinnerStatus="success"
-          nbSpinnerMessage=""
-        >
+        <button type="submit"
+                nbButton
+                hero
+                status="primary"
+                (click)="toggleLoadingLargeGroupAnimation()"
+                [nbSpinner]="loadingLargeGroup"
+                nbSpinnerStatus="success"
+                nbSpinnerMessage="">
           Save
         </button>
       </div>

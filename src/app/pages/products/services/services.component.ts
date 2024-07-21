@@ -43,7 +43,7 @@ export class ServicesComponent extends BaseTable<Service> {
           instance.actionChange
             .subscribe( ({action, row}) => {
               if(action === Action.Delete){
-                this.removeItemByRow(row)
+                this.removeItem(row)
               }
             });
         },

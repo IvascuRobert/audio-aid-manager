@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { NbDialogService, NbMenuService } from "@nebular/theme";
-import * as moment from "moment";
 
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ViewCell } from "ng2-smart-table";
-import { RemoveDialogComponent } from "../remove-dialog/remove-dialog.component";
-import { distinctUntilChanged, filter, first, map } from "rxjs/operators";
+import { filter } from "rxjs/operators";
 import { Action } from "../../../../@core/data/actions";
+import { RemoveDialogComponent } from "../remove-dialog/remove-dialog.component";
 
 
+@UntilDestroy()
 @Component({
   template: `<div class="d-flex justify-content-center">
     <button nbButton ghost status="basic" [nbContextMenu]="items" [nbContextMenuTag]="contextTag+rowData.id">
@@ -26,13 +27,11 @@ export class ActionsCellComponent implements ViewCell, OnInit {
   @Output() actionChange: EventEmitter<{ action: Action, row: any }> = new EventEmitter();
 
   items = [
-    { title: Action.View, icon: "eye-outline" },
     { title: Action.Edit, icon: "edit-2-outline" },
     { title: Action.Delete, icon: "trash-2-outline" },
   ];
 
   contextTag = 'actions-context-menu-'
-
 
   constructor(private dialogService: NbDialogService, private nbMenuService: NbMenuService) { }
 
@@ -40,6 +39,7 @@ export class ActionsCellComponent implements ViewCell, OnInit {
     this.nbMenuService.onItemClick()
       .pipe(
         filter(({ tag }) => tag === this.contextTag + this.value.id),
+        untilDestroyed(this)
       )
       .subscribe((res) => {
         if (res.item.title as Action === Action.Delete) {
@@ -53,7 +53,9 @@ export class ActionsCellComponent implements ViewCell, OnInit {
   removeDialog() {
     this.dialogService
       .open(RemoveDialogComponent)
-      .onClose.subscribe((remove) => {
+      .onClose.pipe(
+        untilDestroyed(this)
+      ).subscribe((remove) => {
         if (remove) {
           this.actionChange.emit({ action: Action.Delete, row: this.value })
         }

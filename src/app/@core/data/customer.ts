@@ -20,7 +20,7 @@ export enum ProcessStatusType {
 export enum Gender {
   male = "male",
   female = "female",
-  unknown = "transgender",
+  unknown = "unknown",
 }
 export interface Customer {
   id: number;

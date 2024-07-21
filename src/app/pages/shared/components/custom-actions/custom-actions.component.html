@@ -1,45 +1,28 @@
 <nb-actions size="medium">
-  <nb-action
-    [nbTooltip]="selectedRows.length === 1 ? 'Edit' : 'Add'"
-    nbTooltipPlacement="top"
-    [icon]="
+  <nb-action [nbTooltip]="selectedRows.length === 1 ? 'Edit' : 'Add'"
+             nbTooltipPlacement="top"
+             [icon]="
       selectedRows.length === 1 ? 'edit-2-outline' : 'plus-circle-outline'
     "
-    (click)="handleAddAction.emit(true)"
-  ></nb-action>
-  <nb-action
-    [nbTooltip]="selectedRows.length === 0 ? 'Please select an item' : 'Remove'"
-    nbTooltipPlacement="top"
-    icon="trash-2-outline"
-    [badgeText]="selectedRows.length"
-    badgeStatus="warning"
-    [disabled]="selectedRows.length === 0"
-    (click)="removeDialog()"
-  >
+             (click)="handleAddAction.emit(true)"></nb-action>
+  <nb-action [nbTooltip]="selectedRows.length === 0 ? 'Please select an item' : 'Remove'"
+             nbTooltipPlacement="top"
+             icon="trash-2-outline"
+             [badgeText]="selectedRows.length"
+             badgeStatus="warning"
+             [disabled]="selectedRows.length === 0"
+             (click)="removeDialog()">
   </nb-action>
-  <nb-action
-    [disabled]="selectedRows.length !== 1"
-    [nbTooltip]="selectedRows.length !== 1 ? 'Please select an item' : 'View'"
-    nbTooltipPlacement="top"
-    icon="eye-outline"
-    (click)="handleViewAction.emit(true)"
-  ></nb-action>
-  <nb-action
-    [nbTooltip]="'Reload data'"
-    icon="refresh-outline"
-    nbTooltipPlacement="top"
-    (click)="handleReloadAction.emit(true)"
-  ></nb-action>
-  <nb-action
-    [nbTooltip]="'Settings'"
-    nbTooltipPlacement="top"
-    icon="settings-2-outline"
-    (click)="handleSettingsAction.emit(true)"
-  ></nb-action>
-  <nb-action
-    *ngFor="let action of actions"
-    [nbTooltip]="action.nbTooltip"
-    [nbTooltipPlacement]="action.nbTooltipPlacement"
-    [icon]="action.icon"
-  ></nb-action>
+  <nb-action [nbTooltip]="'Reload data'"
+             icon="refresh-outline"
+             nbTooltipPlacement="top"
+             (click)="handleReloadAction.emit(true)"></nb-action>
+  <nb-action [nbTooltip]="'Settings'"
+             nbTooltipPlacement="top"
+             icon="settings-2-outline"
+             (click)="handleSettingsAction.emit(true)"></nb-action>
+  <nb-action *ngFor="let action of actions"
+             [nbTooltip]="action.nbTooltip"
+             [nbTooltipPlacement]="action.nbTooltipPlacement"
+             [icon]="action.icon"></nb-action>
 </nb-actions>

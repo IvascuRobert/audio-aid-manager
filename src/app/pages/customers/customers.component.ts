@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { NbDialogService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
+import { Action } from "../../@core/data/actions";
 import { Customer } from "../../@core/data/customer";
 import { SmartTableData } from "../../@core/data/smart-table";
 import { LOCAL_STORAGE_KEYS_FOR_TABLE } from "../../@core/utils/save-local-storage";
@@ -16,7 +17,6 @@ import { PhoneCellComponent } from "../shared/components/custom-table-cell-rende
 import { ProcessStatusCellComponent } from "../shared/components/custom-table-cell-render/process-status-cell.component";
 import { BaseTable } from "../shared/directives/base-table.directive";
 import { CustomerAddDialogComponent } from "./customer-add-dialog/customer-add-dialog.component";
-import { Action } from "../../@core/data/actions";
 
 @Component({
   selector: "ngx-customers",
@@ -114,9 +114,12 @@ export class CustomersComponent extends BaseTable<Customer> {
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
           instance.actionChange
-            .subscribe( ({action, row}) => {
-              if(action === Action.Delete){
-                this.removeItemByRow(row)
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.removeItem(row)
+              }
+              if (action === Action.Edit) {
+                this.addDialog(row)
               }
             });
         },
@@ -150,8 +153,10 @@ export class CustomersComponent extends BaseTable<Customer> {
     this.source.load(data);
   }
 
-  addDialog() {
-    this.dialogService.open(CustomerAddDialogComponent);
+  addDialog(row) {
+    this.dialogService.open(CustomerAddDialogComponent, {
+      context: { selectedCustomer: row }
+    });
   }
 
   view() {

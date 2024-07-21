@@ -50,14 +50,10 @@ export abstract class BaseTable<T extends { id: number }> {
     }
   }
 
-  removeItem() {
-    if (this.selectedRows.length > 0) {
-      this.source.remove(this.selectedRows[0]);
-    }
-  }
-
-  removeItemByRow(row){
+  removeItem(row: T) {
     this.source.remove(row);
+    this.selectedRows = [];
+    this.isAllSelected = false;
   }
 
   reload() {
