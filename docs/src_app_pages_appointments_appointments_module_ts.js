@@ -1,7 +1,7 @@
 "use strict";
 (self["webpackChunkaudio_aid_manager_demo"] = self["webpackChunkaudio_aid_manager_demo"] || []).push([["src_app_pages_appointments_appointments_module_ts"],{
 
-/***/ 69517:
+/***/ 81254:
 /*!*******************************************************************!*\
   !*** ./src/app/pages/appointments/appointments-routing.module.ts ***!
   \*******************************************************************/
@@ -143,7 +143,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 94666);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var angular_calendar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-calendar */ 62038);
-/* harmony import */ var _appointments_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appointments-routing.module */ 69517);
+/* harmony import */ var _appointments_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appointments-routing.module */ 81254);
 /* harmony import */ var _appointments_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appointments.component */ 72279);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
 

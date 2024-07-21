@@ -197,7 +197,7 @@ class ClinicsComponent extends _shared_directives_base_table_directive__WEBPACK_
               row
             }) => {
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Delete) {
-                this.removeItemByRow(row);
+                this.removeItem(row);
               }
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Edit) {
                 this.addDialog(row);
@@ -461,7 +461,7 @@ class DoctorsComponent extends _shared_directives_base_table_directive__WEBPACK_
               row
             }) => {
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Delete) {
-                this.removeItemByRow(row);
+                this.removeItem(row);
               }
             });
           },
@@ -594,7 +594,7 @@ class EmployeeAddDialogComponent {
     selectors: [["ngx-employee-add-dialog"]],
     decls: 53,
     vars: 11,
-    consts: [[3, "formGroup", "ngSubmit"], [1, "d-flex", "align-items-center"], ["icon", "plus-circle-outline", "pack", "eva", "status", "primary", 1, "skip", "mr-2", 3, "options"], [1, "row"], [1, "col-12"], [1, "form-group"], ["for", "email", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "email", "placeholder", "Email", "formControlemail", "email", 3, "status"], ["for", "name", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "name", "placeholder", "Name", "formControlName", "name", 3, "status"], ["for", "password", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "password", "placeholder", "Password", "formControlName", "password", 3, "status"], ["for", "role", 1, "label"], ["id", "role", "fullWidth", "", "placeholder", "Role", "formControlName", "role", 3, "status"], ["value", "1"], ["value", "2"], ["value", "3"], ["value", "4"], [1, "col-6"], ["for", "gender", 1, "label"], ["id", "gender", "fullWidth", "", "formControlName", "gender", 3, "status"], ["value", "male"], ["value", "female"], ["value", "transgender"], [1, "d-flex", "justify-content-end"], ["type", "button", "nbButton", "", "status", "basic", 1, "mr-2", 3, "click"], ["type", "submit", "nbButton", "", "hero", "", "status", "primary", "nbSpinnerStatus", "success", "nbSpinnerMessage", "", 3, "nbSpinner", "click"]],
+    consts: [[3, "formGroup", "ngSubmit"], [1, "d-flex", "align-items-center"], ["icon", "plus-circle-outline", "pack", "eva", "status", "primary", 1, "skip", "mr-2", 3, "options"], [1, "row"], [1, "col-12"], [1, "form-group"], ["for", "email", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "email", "placeholder", "Email", "formControlemail", "email", 3, "status"], ["for", "name", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "name", "placeholder", "Name", "formControlName", "name", 3, "status"], ["for", "password", 1, "label"], ["type", "text", "nbInput", "", "fullWidth", "", "id", "password", "placeholder", "Password", "formControlName", "password", 3, "status"], ["for", "role", 1, "label"], ["id", "role", "fullWidth", "", "placeholder", "Role", "formControlName", "role", 3, "status"], ["value", "1"], ["value", "2"], ["value", "3"], ["value", "4"], [1, "col-6"], ["for", "gender", 1, "label"], ["id", "gender", "fullWidth", "", "formControlName", "gender", 3, "status"], ["value", "male"], ["value", "female"], ["value", "unknown"], [1, "d-flex", "justify-content-end"], ["type", "button", "nbButton", "", "status", "basic", 1, "mr-2", 3, "click"], ["type", "submit", "nbButton", "", "hero", "", "status", "primary", "nbSpinnerStatus", "success", "nbSpinnerMessage", "", 3, "nbSpinner", "click"]],
     template: function EmployeeAddDialogComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "form", 0);
@@ -639,13 +639,13 @@ class EmployeeAddDialogComponent {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](39, "Gender");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](40, "nb-radio-group", 20)(41, "nb-radio", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](42, "male 1");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](42, "male");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](43, "nb-radio", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](44, "female 2");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](44, "female");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](45, "nb-radio", 23);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](46, "transgender 3");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](46, "Unknown");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]()()()()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](47, "nb-card-footer")(48, "div", 24)(49, "button", 25);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("click", function EmployeeAddDialogComponent_Template_button_click_49_listener() {
@@ -792,7 +792,7 @@ class EmployeeComponent extends _shared_directives_base_table_directive__WEBPACK
               row
             }) => {
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_6__.Action.Delete) {
-                this.removeItemByRow(row);
+                this.removeItem(row);
               }
             });
           },
@@ -1065,7 +1065,7 @@ class LocationsComponent extends _shared_directives_base_table_directive__WEBPAC
               row
             }) => {
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Delete) {
-                this.removeItemByRow(row);
+                this.removeItem(row);
               }
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Edit) {
                 this.addDialog(row);
@@ -1329,7 +1329,7 @@ class RoomsComponent extends _shared_directives_base_table_directive__WEBPACK_IM
               row
             }) => {
               if (action === _core_data_actions__WEBPACK_IMPORTED_MODULE_3__.Action.Delete) {
-                this.removeItemByRow(row);
+                this.removeItem(row);
               }
             });
           },
