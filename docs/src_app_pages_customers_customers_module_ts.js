@@ -952,7 +952,7 @@ class CustomersComponent extends _shared_directives_base_table_directive__WEBPAC
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵInheritDefinitionFeature"]],
     decls: 15,
     vars: 9,
-    consts: [[1, "actions-card"], [3, "selectedRows", "actions", "handleAddAction", "handleRemoveAction", "handleViewAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [4, "ngIf", "ngIfElse"], ["allRows", ""], [1, "col-4"], [3, "settings", "source", "rowSelect"]],
+    consts: [[1, "actions-card"], [3, "selectedRows", "actions", "handleAddAction", "handleRemoveAction", "handleViewAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [4, "ngIf", "ngIfElse"], ["allRows", ""], [1, "col-4"], [3, "settings", "source", "rowSelect"]],
     template: function CustomersComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementStart"](0, "nb-card", 0)(1, "nb-card-header");
@@ -965,10 +965,8 @@ class CustomersComponent extends _shared_directives_base_table_directive__WEBPAC
           return ctx.removeItem(ctx.selectedRows[0]);
         })("handleViewAction", function CustomersComponent_Template_ngx_custom_actions_handleViewAction_4_listener() {
           return ctx.view();
-        })("handleReloadAction", function CustomersComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
-          return ctx.reload();
         })("handleSettingsAction", function CustomersComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
-          return ctx.settingsDialog();
+          return ctx.openSettingsDialog();
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 2)(8, "div", 3);

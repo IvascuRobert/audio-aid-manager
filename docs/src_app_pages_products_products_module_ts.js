@@ -344,7 +344,7 @@ class AccessoriesComponent extends _shared_directives_base_table_directive__WEBP
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵInheritDefinitionFeature"]],
     decls: 13,
     vars: 4,
-    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function AccessoriesComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
@@ -355,10 +355,8 @@ class AccessoriesComponent extends _shared_directives_base_table_directive__WEBP
           return ctx.removeItem(ctx.selectedRows[0]);
         })("handleAddAction", function AccessoriesComponent_Template_ngx_custom_actions_handleAddAction_4_listener() {
           return ctx.addDialog();
-        })("handleReloadAction", function AccessoriesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
-          return ctx.reload();
         })("handleSettingsAction", function AccessoriesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
-          return ctx.settingsDialog();
+          return ctx.openSettingsDialog();
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");
@@ -822,7 +820,7 @@ class DevicesComponent extends _shared_directives_base_table_directive__WEBPACK_
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵInheritDefinitionFeature"]],
     decls: 13,
     vars: 4,
-    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function DevicesComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
@@ -833,10 +831,8 @@ class DevicesComponent extends _shared_directives_base_table_directive__WEBPACK_
           return ctx.removeItem(ctx.selectedRows[0]);
         })("handleAddAction", function DevicesComponent_Template_ngx_custom_actions_handleAddAction_4_listener() {
           return ctx.addDialog();
-        })("handleReloadAction", function DevicesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
-          return ctx.reload();
         })("handleSettingsAction", function DevicesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
-          return ctx.settingsDialog();
+          return ctx.openSettingsDialog();
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_11__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");
@@ -934,19 +930,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ProductsModule": () => (/* binding */ ProductsModule)
 /* harmony export */ });
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ 94666);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _nebular_theme__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @nebular/theme */ 96953);
 /* harmony import */ var ng2_smart_table__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ng2-smart-table */ 46819);
-/* harmony import */ var _accessories_accessories_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accessories/accessories.component */ 6785);
-/* harmony import */ var _devices_devices_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./devices/devices.component */ 10788);
-/* harmony import */ var _products_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./products-routing.module */ 29679);
-/* harmony import */ var _services_services_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/services.component */ 40445);
-/* harmony import */ var _utilities_utilities_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utilities/utilities.component */ 11412);
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/shared.module */ 40950);
-/* harmony import */ var _accessories_add_dialog_accessories_add_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./accessories-add-dialog/accessories-add-dialog.component */ 64733);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ 2508);
-/* harmony import */ var _utilities_add_dialog_utilities_add_dialog_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utilities-add-dialog/utilities-add-dialog.component */ 5616);
-/* harmony import */ var _devices_add_dialog_devices_add_dialog_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./devices-add-dialog/devices-add-dialog.component */ 87487);
-/* harmony import */ var _services_add_dialog_services_add_dialog_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services-add-dialog/services-add-dialog.component */ 83695);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shared/shared.module */ 40950);
+/* harmony import */ var _accessories_add_dialog_accessories_add_dialog_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./accessories-add-dialog/accessories-add-dialog.component */ 64733);
+/* harmony import */ var _accessories_accessories_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./accessories/accessories.component */ 6785);
+/* harmony import */ var _devices_add_dialog_devices_add_dialog_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./devices-add-dialog/devices-add-dialog.component */ 87487);
+/* harmony import */ var _devices_devices_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./devices/devices.component */ 10788);
+/* harmony import */ var _products_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./products-routing.module */ 29679);
+/* harmony import */ var _services_add_dialog_services_add_dialog_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services-add-dialog/services-add-dialog.component */ 83695);
+/* harmony import */ var _services_services_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/services.component */ 40445);
+/* harmony import */ var _utilities_add_dialog_utilities_add_dialog_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utilities-add-dialog/utilities-add-dialog.component */ 5616);
+/* harmony import */ var _utilities_utilities_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utilities/utilities.component */ 11412);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
@@ -972,13 +968,13 @@ class ProductsModule {
     type: ProductsModule
   });
   static #_3 = this.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵdefineInjector"]({
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.CommonModule, _products_routing_module__WEBPACK_IMPORTED_MODULE_2__.ProductsRoutingModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_12__.Ng2SmartTableModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__.SharedModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDialogModule.forChild(), _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbIconModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.FormsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbInputModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDatepickerModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbFormFieldModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbRadioModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSpinnerModule]
+    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.CommonModule, _products_routing_module__WEBPACK_IMPORTED_MODULE_5__.ProductsRoutingModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_12__.Ng2SmartTableModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_0__.SharedModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDialogModule.forChild(), _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbIconModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.FormsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbInputModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDatepickerModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbFormFieldModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbRadioModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSpinnerModule]
   });
 }
 (function () {
   (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵsetNgModuleScope"](ProductsModule, {
-    declarations: [_devices_devices_component__WEBPACK_IMPORTED_MODULE_1__.DevicesComponent, _services_services_component__WEBPACK_IMPORTED_MODULE_3__.ServicesComponent, _services_add_dialog_services_add_dialog_component__WEBPACK_IMPORTED_MODULE_9__.ServicesAddDialogComponent, _accessories_accessories_component__WEBPACK_IMPORTED_MODULE_0__.AccessoriesComponent, _accessories_add_dialog_accessories_add_dialog_component__WEBPACK_IMPORTED_MODULE_6__.AccessoriesAddDialogComponent, _utilities_utilities_component__WEBPACK_IMPORTED_MODULE_4__.UtilitiesComponent, _utilities_add_dialog_utilities_add_dialog_component__WEBPACK_IMPORTED_MODULE_7__.UtilitiesAddDialogComponent, _devices_add_dialog_devices_add_dialog_component__WEBPACK_IMPORTED_MODULE_8__.DevicesAddDialogComponent],
-    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.CommonModule, _products_routing_module__WEBPACK_IMPORTED_MODULE_2__.ProductsRoutingModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_12__.Ng2SmartTableModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__.SharedModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDialogModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbIconModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.FormsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbInputModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDatepickerModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbFormFieldModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbRadioModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSpinnerModule]
+    declarations: [_devices_devices_component__WEBPACK_IMPORTED_MODULE_4__.DevicesComponent, _services_services_component__WEBPACK_IMPORTED_MODULE_7__.ServicesComponent, _services_add_dialog_services_add_dialog_component__WEBPACK_IMPORTED_MODULE_6__.ServicesAddDialogComponent, _accessories_accessories_component__WEBPACK_IMPORTED_MODULE_2__.AccessoriesComponent, _accessories_add_dialog_accessories_add_dialog_component__WEBPACK_IMPORTED_MODULE_1__.AccessoriesAddDialogComponent, _utilities_utilities_component__WEBPACK_IMPORTED_MODULE_9__.UtilitiesComponent, _utilities_add_dialog_utilities_add_dialog_component__WEBPACK_IMPORTED_MODULE_8__.UtilitiesAddDialogComponent, _devices_add_dialog_devices_add_dialog_component__WEBPACK_IMPORTED_MODULE_3__.DevicesAddDialogComponent],
+    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.CommonModule, _products_routing_module__WEBPACK_IMPORTED_MODULE_5__.ProductsRoutingModule, ng2_smart_table__WEBPACK_IMPORTED_MODULE_12__.Ng2SmartTableModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbCardModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _shared_shared_module__WEBPACK_IMPORTED_MODULE_0__.SharedModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDialogModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbIconModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.FormsModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbInputModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbDatepickerModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbFormFieldModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSelectModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbRadioModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbButtonModule, _nebular_theme__WEBPACK_IMPORTED_MODULE_13__.NbSpinnerModule]
   });
 })();
 
@@ -1216,7 +1212,7 @@ class ServicesComponent extends _shared_directives_base_table_directive__WEBPACK
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵInheritDefinitionFeature"]],
     decls: 15,
     vars: 5,
-    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleReloadAction"], [1, "row", "align-items-center"], [1, "col-8"], [4, "ngIf", "ngIfElse"], ["allRows", ""], [1, "col-4"], [3, "settings", "source", "rowSelect"]],
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction"], [1, "row", "align-items-center"], [1, "col-8"], [4, "ngIf", "ngIfElse"], ["allRows", ""], [1, "col-4"], [3, "settings", "source", "rowSelect"]],
     template: function ServicesComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
@@ -1227,8 +1223,6 @@ class ServicesComponent extends _shared_directives_base_table_directive__WEBPACK
           return ctx.removeItem(ctx.selectedRows[0]);
         })("handleAddAction", function ServicesComponent_Template_ngx_custom_actions_handleAddAction_4_listener() {
           return ctx.addDialog();
-        })("handleReloadAction", function ServicesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
-          return ctx.reload();
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2);
@@ -1556,7 +1550,7 @@ class UtilitiesComponent extends _shared_directives_base_table_directive__WEBPAC
     features: [_angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵInheritDefinitionFeature"]],
     decls: 13,
     vars: 4,
-    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleReloadAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
+    consts: [[3, "selectedRows", "handleRemoveAction", "handleAddAction", "handleSettingsAction"], [1, "row", "align-items-center"], [1, "col-8"], [3, "settings", "source", "rowSelect"]],
     template: function UtilitiesComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](0, "nb-card")(1, "nb-card-header");
@@ -1567,10 +1561,8 @@ class UtilitiesComponent extends _shared_directives_base_table_directive__WEBPAC
           return ctx.removeItem(ctx.selectedRows[0]);
         })("handleAddAction", function UtilitiesComponent_Template_ngx_custom_actions_handleAddAction_4_listener() {
           return ctx.addDialog();
-        })("handleReloadAction", function UtilitiesComponent_Template_ngx_custom_actions_handleReloadAction_4_listener() {
-          return ctx.reload();
         })("handleSettingsAction", function UtilitiesComponent_Template_ngx_custom_actions_handleSettingsAction_4_listener() {
-          return ctx.settingsDialog();
+          return ctx.openSettingsDialog();
         });
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](5, "nb-card")(6, "nb-card-header")(7, "div", 1)(8, "div", 2)(9, "span");

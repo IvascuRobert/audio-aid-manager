@@ -785,40 +785,6 @@ class VisitorsAnalyticsData {}
 
 /***/ }),
 
-/***/ 24530:
-/*!********************************************!*\
-  !*** ./src/app/@core/guards/auth.guard.ts ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "authGuard": () => (/* binding */ authGuard)
-/* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _nebular_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nebular/auth */ 48142);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 88759);
-
-
-
-
-const authGuard = () => {
-  const authService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbAuthService);
-  const router = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_router__WEBPACK_IMPORTED_MODULE_2__.Router);
-  const route = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_router__WEBPACK_IMPORTED_MODULE_2__.ActivatedRoute);
-  return authService.isAuthenticated().pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(isAuthenticated => {
-    if (!isAuthenticated) {
-      router.navigate(['auth/login'], {
-        relativeTo: route
-      });
-    }
-  }));
-};
-
-/***/ }),
-
 /***/ 9329:
 /*!*****************************************************!*\
   !*** ./src/app/@core/mock/country-order.service.ts ***!
@@ -5134,12 +5100,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AppRoutingModule": () => (/* binding */ AppRoutingModule),
 /* harmony export */   "routes": () => (/* binding */ routes)
 /* harmony export */ });
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _nebular_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nebular/auth */ 48142);
-/* harmony import */ var _core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./@core/guards/auth.guard */ 24530);
-/* harmony import */ var _pages_miscellaneous_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/miscellaneous/not-found/not-found.component */ 55477);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 22560);
-
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 60124);
+/* harmony import */ var _nebular_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nebular/auth */ 48142);
+/* harmony import */ var _pages_miscellaneous_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pages/miscellaneous/not-found/not-found.component */ 55477);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
 
@@ -5147,29 +5111,29 @@ __webpack_require__.r(__webpack_exports__);
 
 const routes = [{
   path: 'pages',
-  loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_pages_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/pages.module */ 18950)).then(m => m.PagesModule),
-  canActivate: [_core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__.authGuard]
+  loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_pages_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/pages.module */ 18950)).then(m => m.PagesModule)
+  // canActivate: [authGuard] // TBD Activate this when login is done
 }, {
   path: 'auth',
-  component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbAuthComponent,
+  component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbAuthComponent,
   children: [{
     path: '',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbLoginComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbLoginComponent
   }, {
     path: 'login',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbLoginComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbLoginComponent
   }, {
     path: 'register',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbRegisterComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbRegisterComponent
   }, {
     path: 'logout',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbLogoutComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbLogoutComponent
   }, {
     path: 'request-password',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbRequestPasswordComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbRequestPasswordComponent
   }, {
     path: 'reset-password',
-    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_2__.NbResetPasswordComponent
+    component: _nebular_auth__WEBPACK_IMPORTED_MODULE_1__.NbResetPasswordComponent
   }]
 }, {
   path: '',
@@ -5177,7 +5141,7 @@ const routes = [{
   pathMatch: 'full'
 }, {
   path: "**",
-  component: _pages_miscellaneous_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_1__.NotFoundComponent
+  component: _pages_miscellaneous_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_0__.NotFoundComponent
 }];
 const config = {
   useHash: false
@@ -5186,17 +5150,17 @@ class AppRoutingModule {
   static #_ = this.ɵfac = function AppRoutingModule_Factory(t) {
     return new (t || AppRoutingModule)();
   };
-  static #_2 = this.ɵmod = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineNgModule"]({
+  static #_2 = this.ɵmod = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineNgModule"]({
     type: AppRoutingModule
   });
-  static #_3 = this.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjector"]({
-    imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule.forRoot(routes, config), _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule]
+  static #_3 = this.ɵinj = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjector"]({
+    imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forRoot(routes, config), _angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule]
   });
 }
 (function () {
-  (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵsetNgModuleScope"](AppRoutingModule, {
-    imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule],
-    exports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule]
+  (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsetNgModuleScope"](AppRoutingModule, {
+    imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule],
+    exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule]
   });
 })();
 
