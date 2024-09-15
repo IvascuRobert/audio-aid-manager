@@ -1,5 +1,5 @@
 {
-    "/api/*": {
+    "/api": {
         "target": "https://auditive.azurewebsites.net",
         "secure": true,
         "logLevel": "debug",
