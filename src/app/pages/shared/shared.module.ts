@@ -32,6 +32,7 @@ import { PhoneCellComponent } from "./components/custom-table-cell-render/phone-
 import { PriceCellComponent } from "./components/custom-table-cell-render/price-cell.component";
 import { ProcessStatusCellComponent } from "./components/custom-table-cell-render/process-status-cell.component";
 import { RoleCellComponent } from "./components/custom-table-cell-render/role-cell.component";
+import { FormErrorsComponent } from "./components/form-errors/form-errors.component";
 import { RemoveDialogComponent } from "./components/remove-dialog/remove-dialog.component";
 import { SettingsDialogComponent } from "./components/settings-dialog/settings-dialog.component";
 
@@ -73,6 +74,7 @@ import { SettingsDialogComponent } from "./components/settings-dialog/settings-d
     CustomActionsComponent,
     CommentCellComponent,
     SettingsDialogComponent,
+    FormErrorsComponent
   ],
   exports: [
     AgeCellComponent,
@@ -92,6 +94,7 @@ import { SettingsDialogComponent } from "./components/settings-dialog/settings-d
     CustomActionsComponent,
     CommentCellComponent,
     SettingsDialogComponent,
+    FormErrorsComponent
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

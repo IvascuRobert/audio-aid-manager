@@ -1,7 +1,9 @@
 import { Directive } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { isNull, remove } from "lodash";
 import { LocalDataSource } from "ng2-smart-table";
+import { Entity } from "../../../@core/data/entity";
 import {
   mapHideOrShowColumns,
   mapShowColumns,
@@ -11,8 +13,10 @@ import {
   getItem,
   setItem,
 } from "../../../@core/utils/save-local-storage";
+import { RemoveDialogComponent } from "../components/remove-dialog/remove-dialog.component";
 import { SettingsDialogComponent } from "../components/settings-dialog/settings-dialog.component";
 
+@UntilDestroy()
 @Directive()
 export abstract class BaseTable<T extends { id: number }> {
   settings: Record<string, any> = {};
@@ -26,6 +30,8 @@ export abstract class BaseTable<T extends { id: number }> {
   localStorageSettingsKey: LOCAL_STORAGE_KEYS_FOR_TABLE;
 
   hiddenColumns: string[];
+
+  entity: Entity | null = null;
 
   constructor(protected readonly dialogService: NbDialogService) {
     this.loadTableSettingsFromLocalStorage();
@@ -56,11 +62,12 @@ export abstract class BaseTable<T extends { id: number }> {
     this.isAllSelected = false;
   }
 
-  reload() {
-    this.source.refresh();
+  resetSelectedRows(): void {
+    this.selectedRows = [];
+    this.isAllSelected = false;
   }
 
-  settingsDialog() {
+  openSettingsDialog() {
     this.dialogService
       .open(SettingsDialogComponent, {
         context: {
@@ -68,7 +75,9 @@ export abstract class BaseTable<T extends { id: number }> {
           localStorageSettingsKey: this.localStorageSettingsKey,
         },
       })
-      .onClose.subscribe((settings) => {
+      .onClose.pipe(
+        untilDestroyed(this)
+      ).subscribe((settings) => {
         if (settings) {
           const { columns, hiddenColumns } = settings;
           this.settings = mapHideOrShowColumns(
@@ -79,6 +88,23 @@ export abstract class BaseTable<T extends { id: number }> {
           setItem(this.localStorageSettingsKey, columns);
         }
       });
+  }
+
+  openRemoveDialog() {
+    if (this.selectedRows.length > 0) {
+      this.dialogService
+        .open(RemoveDialogComponent,
+          {
+            context: {
+              entity: this.entity,
+              id: this.selectedRows[0].id
+            }
+          }
+        )
+        .onClose.pipe(
+          untilDestroyed(this)
+        ).subscribe();
+    }
   }
 
   private loadTableSettingsFromLocalStorage() {

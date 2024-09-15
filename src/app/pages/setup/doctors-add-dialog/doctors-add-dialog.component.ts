@@ -1,45 +1,57 @@
-import { Component, Optional } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { Doctor } from '../../../@core/data/doctor';
+import { CoreService } from '../../../@core/services/core.service';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-doctors-add-dialog',
   templateUrl: './doctors-add-dialog.component.html',
   styleUrls: ['./doctors-add-dialog.component.scss']
 })
-export class DoctorsAddDialogComponent {
-
+export class DoctorsAddDialogComponent implements OnInit {
   doctorsAddForm = this.fb.group({
-    id: [null],
+    id: [0],
     name: ["", [Validators.required]],
   });
 
-  loadingLargeGroup = false;
+  doctor: Doctor | null = null
+
+  loading$ = new BehaviorSubject(false);
+
+  get nameControl() {
+    return this.doctorsAddForm.controls.name;
+  }
 
   constructor(
     @Optional() private ref: NbDialogRef<DoctorsAddDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private coreService: CoreService
   ) { }
 
-  cancel() {
-    this.ref.close();
+  ngOnInit(): void {
+    if (this.doctor)
+      this.doctorsAddForm.patchValue(this.doctor)
+  }
+
+  close(fetchData = false) {
+    this.ref.close(fetchData);
   }
 
   submit() {
-    console.log("here");
-    this.doctorsAddForm.markAsDirty();
-    // this.ref.close(value);
+    this.doctorsAddForm.markAllAsTouched();
+    if (this.doctorsAddForm.valid && this.loading$.value === false) {
+      if (this.doctor) {
+        this.updateDoctor()
+      } else {
+        this.addDoctor()
+      }
+    }
   }
-
-  toggleLoadingLargeGroupAnimation() {
-    this.loadingLargeGroup = true;
-
-    setTimeout(() => {
-      this.loadingLargeGroup = false;
-      this.ref.close();
-    }, 3000);
-  }
-
 
   isValid(controlName: string): boolean {
     return (
@@ -49,4 +61,27 @@ export class DoctorsAddDialogComponent {
     );
   }
 
+  private updateDoctor(): void {
+    const doctor: Doctor = this.doctorsAddForm.getRawValue();
+    this.loading$.next(true);
+    this.coreService.putDoctors(doctor).pipe(
+      untilDestroyed(this),
+      finalize(() => {
+        this.loading$.next(false);
+        this.close(true)
+      })
+    ).subscribe()
+  }
+
+  private addDoctor(): void {
+    const doctor: Doctor = this.doctorsAddForm.getRawValue();
+    this.loading$.next(true);
+    this.coreService.postDoctors(doctor).pipe(
+      untilDestroyed(this),
+      finalize(() => {
+        this.loading$.next(false);
+        this.close(true)
+      })
+    ).subscribe()
+  }
 }

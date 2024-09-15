@@ -1,13 +1,11 @@
 <nb-card>
   <nb-card-header>
     <div class="d-flex align-items-center">
-      <nb-icon
-        class="skip mr-2"
-        icon="trash-2-outline"
-        pack="eva"
-        status="danger"
-        [options]="{ animation: { type: 'pulse' } }"
-      ></nb-icon>
+      <nb-icon class="skip mr-2"
+               icon="trash-2-outline"
+               pack="eva"
+               status="danger"
+               [options]="{ animation: { type: 'pulse' } }"></nb-icon>
       Remove items
     </div>
   </nb-card-header>
@@ -16,25 +14,21 @@
   </nb-card-body>
   <nb-card-footer>
     <div class="d-flex justify-content-end">
-      <button
-        class="mr-2"
-        type="button"
-        nbButton
-        status="basic"
-        (click)="cancel()"
-      >
+      <button class="mr-2"
+              type="button"
+              nbButton
+              status="basic"
+              (click)="close()">
         Cancel
       </button>
 
-      <button
-        nbButton
-        hero
-        status="danger"
-        (click)="toggleLoadingLargeGroupAnimation()"
-        [nbSpinner]="loadingLargeGroup"
-        nbSpinnerStatus="success"
-        nbSpinnerMessage=""
-      >
+      <button nbButton
+              hero
+              status="danger"
+              (click)="remove()"
+              [nbSpinner]="loading$ | async"
+              nbSpinnerStatus="success"
+              nbSpinnerMessage="">
         Remove
       </button>
     </div>

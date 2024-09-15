@@ -1,19 +1,22 @@
-import { Component } from "@angular/core";
-import { NbDialogService } from "@nebular/theme";
-import { LocalDataSource } from "ng2-smart-table";
+import { Component, OnInit } from "@angular/core";
+import { NbDialogRef, NbDialogService } from "@nebular/theme";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { tap } from "rxjs/operators";
+import { Action } from "../../../@core/data/actions";
 import { Doctor } from "../../../@core/data/doctor";
-import { SmartTableData } from "../../../@core/data/smart-table";
+import { Entity } from "../../../@core/data/entity";
+import { CoreService } from "../../../@core/services/core.service";
+import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
 import { BaseTable } from "../../shared/directives/base-table.directive";
 import { DoctorsAddDialogComponent } from "../doctors-add-dialog/doctors-add-dialog.component";
-import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
-import { Action } from "../../../@core/data/actions";
 
+@UntilDestroy()
 @Component({
   selector: "ngx-doctors",
   templateUrl: "./doctors.component.html",
   styleUrls: ["./doctors.component.scss"],
 })
-export class DoctorsComponent extends BaseTable<Doctor> {
+export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
   settings: Record<string, any> = {
     selectMode: "multi",
     actions: false,
@@ -35,8 +38,8 @@ export class DoctorsComponent extends BaseTable<Doctor> {
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
           instance.actionChange
-            .subscribe( ({action, row}) => {
-              if(action === Action.Delete){
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
                 this.removeItem(row)
               }
             });
@@ -47,18 +50,51 @@ export class DoctorsComponent extends BaseTable<Doctor> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  doctors$ = this.coreService.doctors$.pipe(
+    tap((doctors) => this.source.load(doctors))
+  )
+
+  entity = Entity.Doctor
 
   constructor(
-    private service: SmartTableData,
+    private coreService: CoreService,
     protected readonly dialogService: NbDialogService
   ) {
     super(dialogService);
-    const data = this.service.getData().doctors;
-    this.source.load(data);
+  }
+
+  ngOnInit(): void {
+    this.getDoctors()
   }
 
   addDialog() {
-    this.dialogService.open(DoctorsAddDialogComponent);
+    this.dialogRef().onClose.pipe(untilDestroyed(this)).subscribe((fetchData: boolean) => {
+      if (fetchData)
+        this.reloadDoctors()
+    });
+  }
+
+  editDialog() {
+    this.dialogRef(this.selectedRows[0]).onClose.pipe(untilDestroyed(this)).subscribe((fetchData: boolean) => {
+      if (fetchData)
+        this.reloadDoctors()
+    });
+  }
+
+  getDoctors(): void {
+    this.coreService.getDoctors().pipe(untilDestroyed(this)).subscribe();
+  }
+
+  private dialogRef(doctor: Doctor | null = null): NbDialogRef<DoctorsAddDialogComponent> {
+    return this.dialogService.open(DoctorsAddDialogComponent, {
+      context: {
+        doctor
+      }
+    })
+  }
+
+  reloadDoctors(): void {
+    this.resetSelectedRows();
+    this.getDoctors();
   }
 }

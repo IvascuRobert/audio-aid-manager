@@ -1,17 +1,16 @@
 <nb-actions size="medium">
-  <nb-action [nbTooltip]="selectedRows.length === 1 ? 'Edit' : 'Add'"
+  <nb-action *ngIf="selectedRows.length === 1; else editTpl"
+             [nbTooltip]="'Edit'"
              nbTooltipPlacement="top"
-             [icon]="
-      selectedRows.length === 1 ? 'edit-2-outline' : 'plus-circle-outline'
-    "
-             (click)="handleAddAction.emit(true)"></nb-action>
+             [icon]="'edit-2-outline'"
+             (click)="handleEditAction.emit(true)"></nb-action>
   <nb-action [nbTooltip]="selectedRows.length === 0 ? 'Please select an item' : 'Remove'"
              nbTooltipPlacement="top"
              icon="trash-2-outline"
              [badgeText]="selectedRows.length"
              badgeStatus="warning"
              [disabled]="selectedRows.length === 0"
-             (click)="removeDialog()">
+             (click)="handleRemoveAction.emit(true)">
   </nb-action>
   <nb-action [nbTooltip]="'Reload data'"
              icon="refresh-outline"
@@ -26,3 +25,10 @@
              [nbTooltipPlacement]="action.nbTooltipPlacement"
              [icon]="action.icon"></nb-action>
 </nb-actions>
+
+<ng-template #editTpl>
+  <nb-action [nbTooltip]="'Add'"
+             nbTooltipPlacement="top"
+             [icon]="'plus-circle-outline'"
+             (click)="handleAddAction.emit(true)"></nb-action>
+</ng-template>
