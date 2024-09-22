@@ -11,7 +11,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --output-path docs --base-href /audio-aid-manager/"
+    "deploy": "ng build --configuration=development --output-path docs --base-href /audio-aid-manager/",
+    "deploy-prod": "ng build --configuration=production --output-path docs --base-href /audio-aid-manager/"
   },
   "dependencies": {
     "@angular/animations": "^15.2.10",

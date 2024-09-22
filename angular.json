@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "audio-aid-manager-demo": {
+    "audio-aid-manager": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -62,6 +62,27 @@
             "namedChunks": true
           },
           "configurations": {
+            "development": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
@@ -89,19 +110,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "audio-aid-manager-demo:build",
-            "proxyConfig": "proxy.conf.json"
+            "browserTarget": "audio-aid-manager:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "audio-aid-manager:build:development"
+            },
             "production": {
-              "browserTarget": "audio-aid-manager-demo:build:production"
+              "browserTarget": "audio-aid-manager:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "audio-aid-manager-demo:build"
+            "browserTarget": "audio-aid-manager:build"
           }
         },
         "test": {
@@ -145,15 +168,12 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     },
-    "audio-aid-manager-demo-e2e": {
+    "audio-aid-manager-e2e": {
       "root": "e2e",
       "sourceRoot": "",
       "projectType": "application",
@@ -162,7 +182,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "audio-aid-manager-demo:serve"
+            "devServerTarget": "audio-aid-manager:serve"
           }
         }
       }
