@@ -1,16 +1,15 @@
-import { Component, Optional } from "@angular/core";
-import { NbDialogRef } from "@nebular/theme";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { BehaviorSubject } from "rxjs";
-import { finalize } from "rxjs/operators";
-import { Entity } from "../../../../@core/data/entity";
-import { CoreService } from "../../../../@core/services/core.service";
+import { Component, Optional } from '@angular/core';
+import { NbDialogRef } from '@nebular/theme';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
+import { Entity } from '../../../../@core/data/entity';
+import { CoreService } from '../../../../@core/services/core.service';
 
 @UntilDestroy()
 @Component({
-  selector: "ngx-remove-dialog",
-  templateUrl: "./remove-dialog.component.html",
-  styleUrls: ["./remove-dialog.component.scss"],
+  selector: 'ngx-remove-dialog',
+  templateUrl: './remove-dialog.component.html',
+  styleUrls: ['./remove-dialog.component.scss'],
 })
 export class RemoveDialogComponent {
   loading$ = new BehaviorSubject(false);
@@ -22,7 +21,7 @@ export class RemoveDialogComponent {
   constructor(
     @Optional() private ref: NbDialogRef<RemoveDialogComponent>,
     private coreService: CoreService
-  ) { }
+  ) {}
 
   close() {
     this.ref.close();
@@ -30,12 +29,15 @@ export class RemoveDialogComponent {
 
   remove() {
     this.loading$.next(true);
-    this.coreService.delete(this.entity, this.id).pipe(
-      untilDestroyed(this),
-      finalize(() => {
-        this.loading$.next(false);
-        this.close()
-      })
-    ).subscribe()
+    // this.coreService
+    //   .delete(this.entity, this.id)
+    //   .pipe(
+    //     untilDestroyed(this),
+    //     finalize(() => {
+    //       this.loading$.next(false);
+    //       this.close();
+    //     })
+    //   )
+    //   .subscribe();
   }
 }

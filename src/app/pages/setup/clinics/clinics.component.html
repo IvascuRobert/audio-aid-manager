@@ -1,8 +1,11 @@
-<nb-card>
+<nb-card *ngIf="entities$ | async as clinicState">
   <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <ngx-custom-actions [selectedRows]="selectedRows"
-    (handleAddAction)="addDialog(selectedRows[0])"> </ngx-custom-actions>
+    <ngx-custom-actions
+      [selectedRows]="selectedRows"
+      (handleAddAction)="addDialog(selectedRows[0])"
+    >
+    </ngx-custom-actions>
   </nb-card-body>
 </nb-card>
 <nb-card>

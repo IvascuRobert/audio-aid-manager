@@ -1,45 +1,45 @@
-import { Component } from "@angular/core";
-import { NbDialogService } from "@nebular/theme";
-import { LocalDataSource } from "ng2-smart-table";
-import { Room } from "../../../@core/data/room";
-import { SmartTableData } from "../../../@core/data/smart-table";
-import { BaseTable } from "../../shared/directives/base-table.directive";
-import { RoomsAddDialogComponent } from "../rooms-add-dialog/rooms-add-dialog.component";
-import { ActionsCellComponent } from "../../shared/components/custom-table-cell-render/actions-cell.component";
-import { Action } from "../../../@core/data/actions";
+import { Component } from '@angular/core';
+import { NbDialogService } from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Action } from '../../../@core/data/actions';
+import { Room } from '../../../@core/data/room';
+import { SmartTableData } from '../../../@core/data/smart-table';
+import { CoreService } from '../../../@core/services/core.service';
+import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
+import { BaseTable } from '../../shared/directives/base-table.directive';
+import { RoomsAddDialogComponent } from '../rooms-add-dialog/rooms-add-dialog.component';
 
 @Component({
-  selector: "ngx-rooms",
-  templateUrl: "./rooms.component.html",
-  styleUrls: ["./rooms.component.scss"],
+  selector: 'ngx-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.scss'],
 })
 export class RoomsComponent extends BaseTable<Room> {
   settings: Record<string, any> = {
-    selectMode: "multi",
+    selectMode: 'multi',
     actions: false,
     columns: {
       id: {
-        title: "ID",
-        type: "number",
-        width: "10%",
+        title: 'ID',
+        type: 'number',
+        width: '10%',
       },
       name: {
-        title: "Name",
-        type: "string",
+        title: 'Name',
+        type: 'string',
       },
       actions: {
-        title: "Actions",
-        type: "custom",
-        width: "1%",
+        title: 'Actions',
+        type: 'custom',
+        width: '1%',
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange
-            .subscribe( ({action, row}) => {
-              if(action === Action.Delete){
-                this.removeItem(row)
-              }
-            });
+          instance.actionChange.subscribe(({ action, row }) => {
+            if (action === Action.Delete) {
+              this.removeItem(row);
+            }
+          });
         },
         sort: false,
         filter: false,
@@ -51,9 +51,10 @@ export class RoomsComponent extends BaseTable<Room> {
 
   constructor(
     private service: SmartTableData,
-    protected readonly dialogService: NbDialogService
+    readonly dialogService: NbDialogService,
+    coreService: CoreService
   ) {
-    super(dialogService);
+    super(coreService, dialogService);
     const data = this.service.getData().rooms;
     this.source.load(data);
   }
