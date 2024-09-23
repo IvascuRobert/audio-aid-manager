@@ -27,7 +27,7 @@ import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-d
   styleUrls: ['./customers.component.scss'],
 })
 export class CustomersComponent extends BaseTable<Customer> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -114,8 +114,8 @@ export class CustomersComponent extends BaseTable<Customer> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Customer, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -133,11 +133,11 @@ export class CustomersComponent extends BaseTable<Customer> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.customers;
+  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.customers;
 
-  hiddenColumns = [
+  override hiddenColumns = [
     'email',
     'address',
     'doctor',
@@ -150,7 +150,7 @@ export class CustomersComponent extends BaseTable<Customer> {
   constructor(
     private service: SmartTableData,
     private router: Router,
-    dialogService: NbDialogService,
+    override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
@@ -158,7 +158,7 @@ export class CustomersComponent extends BaseTable<Customer> {
     this.source.load(data);
   }
 
-  addDialog(row) {
+  addDialog(row: Customer) {
     this.dialogService.open(CustomerAddDialogComponent, {
       context: { selectedCustomer: row },
     });

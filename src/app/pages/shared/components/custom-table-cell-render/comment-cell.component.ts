@@ -32,5 +32,5 @@ import { Component, Input } from "@angular/core";
   ],
 })
 export class CommentCellComponent {
-  @Input() value;
+  @Input() value!: string;
 }

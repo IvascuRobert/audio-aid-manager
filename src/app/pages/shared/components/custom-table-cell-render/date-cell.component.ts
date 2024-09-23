@@ -8,9 +8,10 @@ import * as moment from "moment";
 })
 export class DateCellComponent implements OnInit {
   renderValue: any;
+  
   isInPresent = false;
 
-  @Input() value: Date;
+  @Input() value!: Date;
 
   ngOnInit() {
     this.renderValue = moment(this.value).format("L");

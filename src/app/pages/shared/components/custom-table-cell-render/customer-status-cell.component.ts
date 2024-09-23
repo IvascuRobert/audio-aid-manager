@@ -141,7 +141,7 @@ import { CustomerStatus } from "../../../../@core/data/customer";
   ],
 })
 export class CustomerStatusCellComponent {
-  @Input() value: CustomerStatus;
+  @Input() value!: CustomerStatus;
 
   readonly customerStatusTpl = CustomerStatus;
 }

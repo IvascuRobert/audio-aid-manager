@@ -18,7 +18,7 @@ import { ServicesAddDialogComponent } from '../services-add-dialog/services-add-
   styleUrls: ['./services.component.scss'],
 })
 export class ServicesComponent extends BaseTable<Service> {
-  settings = {
+  override settings = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -41,8 +41,8 @@ export class ServicesComponent extends BaseTable<Service> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Service, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -57,12 +57,12 @@ export class ServicesComponent extends BaseTable<Service> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
     coreService: CoreService,
-    dialogService: NbDialogService
+    override readonly dialogService: NbDialogService
   ) {
     super(coreService, dialogService);
     const data = this.service.getData().services;

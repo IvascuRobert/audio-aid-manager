@@ -1,6 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators' ;
+import { takeWhile } from 'rxjs/operators';
 import { SolarData } from '../../@core/data/solar';
 
 interface CardSettings {
@@ -15,10 +15,9 @@ interface CardSettings {
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnDestroy {
-
   private alive = true;
 
-  solarValue: number;
+  solarValue!: number;
   lightCard: CardSettings = {
     title: 'Light',
     iconClass: 'nb-lightbulb',
@@ -40,7 +39,7 @@ export class DashboardComponent implements OnDestroy {
     type: 'warning',
   };
 
-  statusCards: string;
+  statusCards!: any;
 
   commonStatusCardsSet: CardSettings[] = [
     this.lightCard,
@@ -49,12 +48,7 @@ export class DashboardComponent implements OnDestroy {
     this.coffeeMakerCard,
   ];
 
-  statusCardsByThemes: {
-    default: CardSettings[];
-    cosmic: CardSettings[];
-    corporate: CardSettings[];
-    dark: CardSettings[];
-  } = {
+  statusCardsByThemes: any = {
     default: this.commonStatusCardsSet,
     cosmic: this.commonStatusCardsSet,
     corporate: [
@@ -78,15 +72,19 @@ export class DashboardComponent implements OnDestroy {
     dark: this.commonStatusCardsSet,
   };
 
-  constructor(private themeService: NbThemeService,
-              private solarService: SolarData) {
-    this.themeService.getJsTheme()
+  constructor(
+    private themeService: NbThemeService,
+    private solarService: SolarData
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme: any) => {
         this.statusCards = this.statusCardsByThemes[theme.name];
-    });
+      });
 
-    this.solarService.getSolarData()
+    this.solarService
+      .getSolarData()
       .pipe(takeWhile(() => this.alive))
       .subscribe((data) => {
         this.solarValue = data;

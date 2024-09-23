@@ -1,32 +1,43 @@
 import { Component, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
   selector: 'ngx-services-add-dialog',
   templateUrl: './services-add-dialog.component.html',
-  styleUrls: ['./services-add-dialog.component.scss']
+  styleUrls: ['./services-add-dialog.component.scss'],
 })
-export class ServicesAddDialogComponent {
+export class ServicesAddDialogComponent extends BaseForm {
   servicesAddForm = this.fb.group({
     id: [null],
-    price: ["", [Validators.required]],
-    name: ["", [Validators.required]],
+    price: ['', [Validators.required]],
+    name: ['', [Validators.required]],
   });
 
   loadingLargeGroup = false;
 
+  get nameControl() {
+    return this.servicesAddForm.controls.name;
+  }
+
+  get priceControl() {
+    return this.servicesAddForm.controls.price;
+  }
+
   constructor(
     @Optional() private ref: NbDialogRef<ServicesAddDialogComponent>,
     private fb: FormBuilder
-  ) { }
+  ) {
+    super();
+  }
 
   cancel() {
     this.ref.close();
   }
 
   submit() {
-    console.log("here");
+    console.log('here');
     this.servicesAddForm.markAsDirty();
     // this.ref.close(value);
   }
@@ -38,14 +49,5 @@ export class ServicesAddDialogComponent {
       this.loadingLargeGroup = false;
       this.ref.close();
     }, 3000);
-  }
-
-
-  isValid(controlName: string): boolean {
-    return (
-      this.servicesAddForm.controls[controlName].invalid &&
-      (this.servicesAddForm.controls[controlName].dirty ||
-        this.servicesAddForm.controls[controlName].touched)
-    );
   }
 }

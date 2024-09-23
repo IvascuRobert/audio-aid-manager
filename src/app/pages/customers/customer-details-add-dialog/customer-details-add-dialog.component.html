@@ -1,142 +1,185 @@
-<form [formGroup]="customerAddForm"
-      (ngSubmit)="submit()">
-    <nb-card>
-        <nb-card-header>
-            <div class="d-flex align-items-center">
-                <nb-icon class="skip mr-2"
-                         icon="plus-circle-outline"
-                         pack="eva"
-                         status="primary"
-                         [options]="{ animation: { type: 'pulse' } }"></nb-icon>
-                Add new process
-            </div>
-        </nb-card-header>
-        <nb-card-body>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="leftEarValue"
-                               class="label">Left ear value</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="leftEarValue"
-                               placeholder="Left ear value"
-                               formControlName="leftEarValue"
-                               [status]="isValid('leftEarValue') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="leftEarDevice"
-                               class="label">Left ear device</label>
-                        <nb-select id="leftEarDevice"
-                                   fullWidth
-                                   placeholder="Left ear device"
-                                   formControlName="leftEarDevice"
-                                   [status]="isValid('leftEarDevice') ? 'danger' : 'basic'">
-                            <nb-option value="1">Left ear device 1</nb-option>
-                            <nb-option value="2">Left ear device 2</nb-option>
-                            <nb-option value="3">Left ear device 3</nb-option>
-                            <nb-option value="4">Left ear device 4</nb-option>
-                        </nb-select>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="rightEarValue"
-                               class="label">Right ear value</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="rightEarValue"
-                               placeholder="Right ear value"
-                               formControlName="rightEarValue"
-                               [status]="isValid('rightEarValue') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="rightEarDevice"
-                               class="label">Right ear device</label>
-                        <nb-select id="rightEarDevice"
-                                   fullWidth
-                                   placeholder="Right ear device"
-                                   formControlName="rightEarDevice"
-                                   [status]="isValid('rightEarDevice') ? 'danger' : 'basic'">
-                            <nb-option value="1">Right ear device 1</nb-option>
-                            <nb-option value="2">Right ear device 2</nb-option>
-                            <nb-option value="3">Right ear device 3</nb-option>
-                            <nb-option value="4">Right ear device 4</nb-option>
-                        </nb-select>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="questionnaire"
-                               class="label">Questionnaire</label>
-                        <input type="text"
-                               nbInput
-                               fullWidth
-                               id="questionnaire"
-                               placeholder="Questionnaire"
-                               formControlName="questionnaire"
-                               [status]="isValid('questionnaire') ? 'danger' : 'basic'" />
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="reason"
-                               class="label">Reason</label>
-                        <nb-select id="reason"
-                                   fullWidth
-                                   placeholder="Reason"
-                                   formControlName="reason"
-                                   [status]="isValid('reason') ? 'danger' : 'basic'">
-                            <nb-option value="1">Reason 1</nb-option>
-                            <nb-option value="2">Reason 2</nb-option>
-                            <nb-option value="3">Reason 3</nb-option>
-                            <nb-option value="4">Reason 4</nb-option>
-                        </nb-select>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="comment"
-                               class="label">Comment</label>
-                        <textarea fullWidth
-                                  type="text"
-                                  nbInput
-                                  fullWidth
-                                  id="comment"
-                                  placeholder="Comment"
-                                  formControlName="comment"
-                                  [status]="isValid('comment') ? 'danger' : 'basic'"></textarea>
-                    </div>
-                </div>
-            </div>
-        </nb-card-body>
-        <nb-card-footer>
-            <div class="d-flex justify-content-end">
-                <button class="mr-2"
-                        type="button"
-                        nbButton
-                        status="basic"
-                        (click)="cancel()">
-                    Cancel
-                </button>
+<form
+  [formGroup]="customerAddForm"
+  (ngSubmit)="submit()"
+>
+  <nb-card>
+    <nb-card-header>
+      <div class="d-flex align-items-center">
+        <nb-icon
+          class="skip mr-2"
+          icon="plus-circle-outline"
+          pack="eva"
+          status="primary"
+          [options]="{ animation: { type: 'pulse' } }"
+        ></nb-icon>
+        Add new process
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label
+              for="leftEarValue"
+              class="label"
+              >Left ear value</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="leftEarValue"
+              placeholder="Left ear value"
+              formControlName="leftEarValue"
+              [status]="isValid(leftEarValueControl) ? 'danger' : 'basic'"
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label
+              for="leftEarDevice"
+              class="label"
+              >Left ear device</label
+            >
+            <nb-select
+              id="leftEarDevice"
+              fullWidth
+              placeholder="Left ear device"
+              formControlName="leftEarDevice"
+              [status]="isValid(leftEarDeviceControl) ? 'danger' : 'basic'"
+            >
+              <nb-option value="1">Left ear device 1</nb-option>
+              <nb-option value="2">Left ear device 2</nb-option>
+              <nb-option value="3">Left ear device 3</nb-option>
+              <nb-option value="4">Left ear device 4</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label
+              for="rightEarValue"
+              class="label"
+              >Right ear value</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="rightEarValue"
+              placeholder="Right ear value"
+              formControlName="rightEarValue"
+              [status]="isValid(rightEarValueControl) ? 'danger' : 'basic'"
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label
+              for="rightEarDevice"
+              class="label"
+              >Right ear device</label
+            >
+            <nb-select
+              id="rightEarDevice"
+              fullWidth
+              placeholder="Right ear device"
+              formControlName="rightEarDevice"
+              [status]="isValid(rightEarDeviceControl) ? 'danger' : 'basic'"
+            >
+              <nb-option value="1">Right ear device 1</nb-option>
+              <nb-option value="2">Right ear device 2</nb-option>
+              <nb-option value="3">Right ear device 3</nb-option>
+              <nb-option value="4">Right ear device 4</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label
+              for="questionnaire"
+              class="label"
+              >Questionnaire</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="questionnaire"
+              placeholder="Questionnaire"
+              formControlName="questionnaire"
+              [status]="isValid(questionnaireControl) ? 'danger' : 'basic'"
+            />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label
+              for="reason"
+              class="label"
+              >Reason</label
+            >
+            <nb-select
+              id="reason"
+              fullWidth
+              placeholder="Reason"
+              formControlName="reason"
+              [status]="isValid(reasonControl) ? 'danger' : 'basic'"
+            >
+              <nb-option value="1">Reason 1</nb-option>
+              <nb-option value="2">Reason 2</nb-option>
+              <nb-option value="3">Reason 3</nb-option>
+              <nb-option value="4">Reason 4</nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label
+              for="comment"
+              class="label"
+              >Comment</label
+            >
+            <textarea
+              fullWidth
+              type="text"
+              nbInput
+              fullWidth
+              id="comment"
+              placeholder="Comment"
+              formControlName="comment"
+              [status]="isValid(commentControl) ? 'danger' : 'basic'"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="d-flex justify-content-end">
+        <button
+          class="mr-2"
+          type="button"
+          nbButton
+          status="basic"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
 
-                <button type="submit"
-                        nbButton
-                        hero
-                        status="primary"
-                        (click)="toggleLoadingLargeGroupAnimation()"
-                        [nbSpinner]="loadingLargeGroup"
-                        nbSpinnerStatus="success"
-                        nbSpinnerMessage="">
-                    Save
-                </button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
+        <button
+          type="submit"
+          nbButton
+          hero
+          status="primary"
+          (click)="toggleLoadingLargeGroupAnimation()"
+          [nbSpinner]="loadingLargeGroup"
+          nbSpinnerStatus="success"
+          nbSpinnerMessage=""
+        >
+          Save
+        </button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
 </form>

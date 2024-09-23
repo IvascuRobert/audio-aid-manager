@@ -13,6 +13,5 @@ import { Component, Input } from '@angular/core';
   `,
 })
 export class ChartPanelSummaryComponent {
-  @Input() summary: {title: string; value: number}[];
+  @Input() summary!: { title: string; value: number }[];
 }
-

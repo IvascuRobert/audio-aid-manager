@@ -1,6 +1,16 @@
+// @ts-nocheck
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
+import {
+  NbAuthJWTToken,
+  NbAuthModule,
+  NbPasswordAuthStrategy,
+} from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -82,7 +92,10 @@ const DATA_SERVICES = [
   { provide: EarningData, useClass: EarningService },
   { provide: OrdersProfitChartData, useClass: OrdersProfitChartService },
   { provide: TrafficBarData, useClass: TrafficBarService },
-  { provide: ProfitBarAnimationChartData, useClass: ProfitBarAnimationChartService },
+  {
+    provide: ProfitBarAnimationChartData,
+    useClass: ProfitBarAnimationChartService,
+  },
   { provide: TemperatureHumidityData, useClass: TemperatureHumidityService },
   { provide: SolarData, useClass: SolarService },
   { provide: TrafficChartData, useClass: TrafficChartService },
@@ -104,7 +117,6 @@ export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
   ...NbAuthModule.forRoot({
-
     strategies: [
       NbPasswordAuthStrategy.setup({
         name: 'email',
@@ -132,14 +144,16 @@ export const NB_CORE_PROVIDERS = [
         token: {
           class: NbAuthJWTToken,
           key: 'token',
-        }
+        },
       }),
-    ], forms: {
+    ],
+    forms: {
       login: {
         redirectDelay: 0, // delay before redirect after a successful login, while success message is shown to the user
-        strategy: 'email',  // strategy id key.
-        rememberMe: true,   // whether to show or not the `rememberMe` checkbox
-        showMessages: {     // show/not show success/error messages
+        strategy: 'email', // strategy id key.
+        rememberMe: true, // whether to show or not the `rememberMe` checkbox
+        showMessages: {
+          // show/not show success/error messages
           success: true,
           error: true,
         },
@@ -210,22 +224,19 @@ export const NB_CORE_PROVIDERS = [
   }).providers,
 
   {
-    provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
+    provide: NbRoleProvider,
+    useClass: NbSimpleRoleProvider,
   },
   AnalyticsService,
   LayoutService,
   PlayerService,
   SeoService,
-  StateService
+  StateService,
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    NbAuthModule,
-  ],
+  imports: [CommonModule],
+  exports: [NbAuthModule],
   declarations: [],
 })
 export class CoreModule {
@@ -236,9 +247,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
-      providers: [
-        ...NB_CORE_PROVIDERS,
-      ],
+      providers: [...NB_CORE_PROVIDERS],
     };
   }
 }

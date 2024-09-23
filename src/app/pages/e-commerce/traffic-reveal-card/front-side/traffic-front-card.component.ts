@@ -10,22 +10,22 @@ import { TrafficList } from '../../../../@core/data/traffic-list';
   templateUrl: './traffic-front-card.component.html',
 })
 export class TrafficFrontCardComponent implements OnDestroy {
-
   private alive = true;
 
-  @Input() frontCardData: TrafficList;
+  @Input() frontCardData!: TrafficList;
 
-  currentTheme: string;
+  currentTheme!: string;
 
   constructor(private themeService: NbThemeService) {
-    this.themeService.getJsTheme()
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme: any) => {
         this.currentTheme = theme.name;
-    });
+      });
   }
 
-  trackByDate(_, item) {
+  trackByDate(_: any, item: any) {
     return item.date;
   }
 

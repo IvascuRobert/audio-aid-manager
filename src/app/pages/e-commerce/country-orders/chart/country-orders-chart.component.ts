@@ -1,8 +1,13 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../../@core/utils/layout.service';
-
 
 @Component({
   selector: 'ngx-country-orders-chart',
@@ -20,32 +25,36 @@ import { LayoutService } from '../../../../@core/utils/layout.service';
   `,
 })
 export class CountryOrdersChartComponent implements OnDestroy, OnChanges {
-
-  @Input() countryName: string;
-  @Input() data: number[];
-  @Input() maxValue: number;
-  @Input() labels: string[];
+  @Input() countryName!: string;
+  @Input() data!: number[];
+  @Input() maxValue!: number;
+  @Input() labels!: string[];
 
   private alive = true;
 
   option: any = {};
-  echartsInstance;
+  echartsInstance: any;
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
-    this.layoutService.onSafeChangeLayoutSize()
-      .pipe(
-        takeWhile(() => this.alive),
-      )
+  constructor(
+    private theme: NbThemeService,
+    private layoutService: LayoutService
+  ) {
+    this.layoutService
+      .onSafeChangeLayoutSize()
+      .pipe(takeWhile(() => this.alive))
       .subscribe(() => this.resizeChart());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.data && !changes.data.isFirstChange() && this.echartsInstance) {
+    if (
+      changes['data'] &&
+      !changes['data'].isFirstChange() &&
+      this.echartsInstance
+    ) {
       this.echartsInstance.setOption({
         series: [
           {
-            data: this.data.map(v => this.maxValue),
+            data: this.data.map((v) => this.maxValue),
           },
           {
             data: this.data,
@@ -59,112 +68,121 @@ export class CountryOrdersChartComponent implements OnDestroy, OnChanges {
   }
 
   initChartOptions() {
-    this.theme.getJsTheme()
+    this.theme
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(config => {
+      .subscribe((config: any) => {
         const countriesTheme: any = config.variables.countryOrders;
 
-        this.option = Object.assign({}, {
-          grid: {
-            left: '3%',
-            right: '3%',
-            bottom: '3%',
-            top: '3%',
-            containLabel: true,
-          },
-          xAxis: {
-            axisLabel: {
-              color: countriesTheme.chartAxisTextColor,
-              fontSize: countriesTheme.chartAxisFontSize,
+        this.option = Object.assign(
+          {},
+          {
+            grid: {
+              left: '3%',
+              right: '3%',
+              bottom: '3%',
+              top: '3%',
+              containLabel: true,
             },
-            axisLine: {
-              lineStyle: {
-                color: countriesTheme.chartAxisLineColor,
-                width: '2',
+            xAxis: {
+              axisLabel: {
+                color: countriesTheme.chartAxisTextColor,
+                fontSize: countriesTheme.chartAxisFontSize,
               },
-            },
-            axisTick: {
-              show: false,
-            },
-            splitLine: {
-              lineStyle: {
-                color: countriesTheme.chartAxisSplitLine,
-                width: '1',
-              },
-            },
-          },
-          yAxis: {
-            data: this.labels,
-            axisLabel: {
-              color: countriesTheme.chartAxisTextColor,
-              fontSize: countriesTheme.chartAxisFontSize,
-            },
-            axisLine: {
-              lineStyle: {
-                color: countriesTheme.chartAxisLineColor,
-                width: '2',
-              },
-            },
-            axisTick: {
-              show: false,
-            },
-          },
-          series: [
-            { // For shadow
-              type: 'bar',
-              data: this.data.map(v => this.maxValue),
-              cursor: 'default',
-              itemStyle: {
-                normal: {
-                  color: countriesTheme.chartInnerLineColor,
-                },
-                opacity: 1,
-              },
-              barWidth: '40%',
-              barGap: '-100%',
-              barCategoryGap: '30%',
-              animation: false,
-              z: 1,
-            },
-            { // For bottom line
-              type: 'bar',
-              data: this.data,
-              cursor: 'default',
-              itemStyle: {
-                normal: {
-                  color: countriesTheme.chartLineBottomShadowColor,
-                },
-                opacity: 1,
-              },
-              barWidth: '40%',
-              barGap: '-100%',
-              barCategoryGap: '30%',
-              z: 2,
-            },
-            {
-              type: 'bar',
-              barWidth: '35%',
-              data: this.data,
-              cursor: 'default',
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
-                    offset: 0,
-                    color: countriesTheme.chartGradientFrom,
-                  }, {
-                    offset: 1,
-                    color: countriesTheme.chartGradientTo,
-                  }]),
+              axisLine: {
+                lineStyle: {
+                  color: countriesTheme.chartAxisLineColor,
+                  width: '2',
                 },
               },
-              z: 3,
+              axisTick: {
+                show: false,
+              },
+              splitLine: {
+                lineStyle: {
+                  color: countriesTheme.chartAxisSplitLine,
+                  width: '1',
+                },
+              },
             },
-          ],
-        });
+            yAxis: {
+              data: this.labels,
+              axisLabel: {
+                color: countriesTheme.chartAxisTextColor,
+                fontSize: countriesTheme.chartAxisFontSize,
+              },
+              axisLine: {
+                lineStyle: {
+                  color: countriesTheme.chartAxisLineColor,
+                  width: '2',
+                },
+              },
+              axisTick: {
+                show: false,
+              },
+            },
+            series: [
+              {
+                // For shadow
+                type: 'bar',
+                data: this.data.map((v) => this.maxValue),
+                cursor: 'default',
+                itemStyle: {
+                  normal: {
+                    color: countriesTheme.chartInnerLineColor,
+                  },
+                  opacity: 1,
+                },
+                barWidth: '40%',
+                barGap: '-100%',
+                barCategoryGap: '30%',
+                animation: false,
+                z: 1,
+              },
+              {
+                // For bottom line
+                type: 'bar',
+                data: this.data,
+                cursor: 'default',
+                itemStyle: {
+                  normal: {
+                    color: countriesTheme.chartLineBottomShadowColor,
+                  },
+                  opacity: 1,
+                },
+                barWidth: '40%',
+                barGap: '-100%',
+                barCategoryGap: '30%',
+                z: 2,
+              },
+              {
+                type: 'bar',
+                barWidth: '35%',
+                data: this.data,
+                cursor: 'default',
+                itemStyle: {
+                  normal: {
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+                      {
+                        offset: 0,
+                        color: countriesTheme.chartGradientFrom,
+                      },
+                      {
+                        offset: 1,
+                        color: countriesTheme.chartGradientTo,
+                      },
+                    ]),
+                  },
+                },
+                z: 3,
+              },
+            ],
+          }
+        );
       });
   }
 
-  onChartInit(ec) {
+  onChartInit(ec: any) {
     this.echartsInstance = ec;
 
     this.initChartOptions();
@@ -179,5 +197,4 @@ export class CountryOrdersChartComponent implements OnDestroy, OnChanges {
   ngOnDestroy() {
     this.alive = false;
   }
-
 }

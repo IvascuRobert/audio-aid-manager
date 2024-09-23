@@ -1,32 +1,38 @@
 import { Component, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
   selector: 'ngx-rooms-add-dialog',
   templateUrl: './rooms-add-dialog.component.html',
-  styleUrls: ['./rooms-add-dialog.component.scss']
+  styleUrls: ['./rooms-add-dialog.component.scss'],
 })
-export class RoomsAddDialogComponent {
-
+export class RoomsAddDialogComponent extends BaseForm {
   roomsAddForm = this.fb.group({
     id: [null],
-    name: ["", [Validators.required]],
+    name: ['', [Validators.required]],
   });
 
   loadingLargeGroup = false;
 
+  get nameControl() {
+    return this.roomsAddForm.controls.name;
+  }
+
   constructor(
     @Optional() private ref: NbDialogRef<RoomsAddDialogComponent>,
     private fb: FormBuilder
-  ) { }
+  ) {
+    super();
+  }
 
   cancel() {
     this.ref.close();
   }
 
   submit() {
-    console.log("here");
+    console.log('here');
     this.roomsAddForm.markAsDirty();
     // this.ref.close(value);
   }
@@ -38,14 +44,5 @@ export class RoomsAddDialogComponent {
       this.loadingLargeGroup = false;
       this.ref.close();
     }, 3000);
-  }
-
-
-  isValid(controlName: string): boolean {
-    return (
-      this.roomsAddForm.controls[controlName].invalid &&
-      (this.roomsAddForm.controls[controlName].dirty ||
-        this.roomsAddForm.controls[controlName].touched)
-    );
   }
 }

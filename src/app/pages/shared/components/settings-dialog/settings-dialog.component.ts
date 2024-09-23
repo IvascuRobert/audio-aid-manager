@@ -1,31 +1,38 @@
-import { Component, Input, OnInit, Optional } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { NbDialogRef } from "@nebular/theme";
+import { Component, Input, OnInit, Optional } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { NbDialogRef } from '@nebular/theme';
 import {
   LOCAL_STORAGE_KEYS_FOR_TABLE,
   getItem,
-} from "../../../../@core/utils/save-local-storage";
+} from '../../../../@core/utils/save-local-storage';
+import { BaseForm } from '../../directives/base-form.directive';
 
 @Component({
-  selector: "ngx-settings-dialog",
-  templateUrl: "./settings-dialog.component.html",
-  styleUrls: ["./settings-dialog.component.scss"],
+  selector: 'ngx-settings-dialog',
+  templateUrl: './settings-dialog.component.html',
+  styleUrls: ['./settings-dialog.component.scss'],
 })
-export class SettingsDialogComponent implements OnInit {
+export class SettingsDialogComponent extends BaseForm implements OnInit {
   settingsForm = this.fb.group({
-    columns: [null],
+    columns: this.fb.control<string[] | null>(null, []),
   });
 
   @Input() hiddenColumns: string[] = [];
 
-  @Input() localStorageSettingsKey: LOCAL_STORAGE_KEYS_FOR_TABLE;
+  @Input() localStorageSettingsKey!: LOCAL_STORAGE_KEYS_FOR_TABLE;
 
   loadingLargeGroup = false;
+
+  get columnsControl() {
+    return this.settingsForm.controls.columns;
+  }
 
   constructor(
     @Optional() private ref: NbDialogRef<SettingsDialogComponent>,
     private fb: FormBuilder
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.loadSelectColumnsFromLocalStorage();
@@ -46,14 +53,6 @@ export class SettingsDialogComponent implements OnInit {
         ...{ hiddenColumns: this.hiddenColumns },
       });
     }, 3000);
-  }
-
-  isValid(controlName: string): boolean {
-    return (
-      this.settingsForm.controls[controlName].invalid &&
-      (this.settingsForm.controls[controlName].dirty ||
-        this.settingsForm.controls[controlName].touched)
-    );
   }
 
   private loadSelectColumnsFromLocalStorage() {

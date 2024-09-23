@@ -20,7 +20,7 @@ import { EmployeeAddDialogComponent } from '../employee-add-dialog/employee-add-
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent extends BaseTable<User> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -57,11 +57,11 @@ export class EmployeeComponent extends BaseTable<User> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: User, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
+            .subscribe(({ action }) => {
               if (action === Action.Delete) {
                 this.refresh();
               }
@@ -73,11 +73,11 @@ export class EmployeeComponent extends BaseTable<User> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
-    readonly dialogService: NbDialogService,
+    override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);

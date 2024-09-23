@@ -65,7 +65,7 @@ import { Role } from "../../../../@core/data/role";
   ],
 })
 export class RoleCellComponent {
-  @Input() value;
+  @Input() value!: Role;
 
   readonly roleStatusTpl = Role;
 }

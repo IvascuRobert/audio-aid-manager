@@ -2,48 +2,51 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { delay, takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../../@core/utils/layout.service';
-
+import { NgxLegendItemColor } from '../../legend-chart/enum.legend-item-color';
 
 @Component({
   selector: 'ngx-visitors-statistics',
   styleUrls: ['./visitors-statistics.component.scss'],
   templateUrl: './visitors-statistics.component.html',
 })
-export class ECommerceVisitorsStatisticsComponent implements AfterViewInit, OnDestroy {
-
+export class ECommerceVisitorsStatisticsComponent
+  implements AfterViewInit, OnDestroy
+{
   private alive = true;
 
-  @Input() value: number;
+  @Input() value!: number;
 
   option: any = {};
-  chartLegend: { iconColor: string; title: string }[];
+  chartLegend!: { iconColor: NgxLegendItemColor; title: string }[];
   echartsIntance: any;
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
-    this.layoutService.onSafeChangeLayoutSize()
-      .pipe(
-        takeWhile(() => this.alive),
-      )
+  constructor(
+    private theme: NbThemeService,
+    private layoutService: LayoutService
+  ) {
+    this.layoutService
+      .onSafeChangeLayoutSize()
+      .pipe(takeWhile(() => this.alive))
       .subscribe(() => this.resizeChart());
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
+    this.theme
+      .getJsTheme()
       .pipe(
         takeWhile(() => this.alive),
-        delay(1),
+        delay(1)
       )
-      .subscribe(config => {
+      .subscribe((config: any) => {
         const variables: any = config.variables;
         const visitorsPieLegend: any = config.variables.visitorsPieLegend;
 
         this.setOptions(variables);
         this.setLegendItems(visitorsPieLegend);
-    });
+      });
   }
 
-  setLegendItems(visitorsPieLegend) {
+  setLegendItems(visitorsPieLegend: any) {
     this.chartLegend = [
       {
         iconColor: visitorsPieLegend.firstSection,
@@ -56,7 +59,7 @@ export class ECommerceVisitorsStatisticsComponent implements AfterViewInit, OnDe
     ];
   }
 
-  setOptions(variables) {
+  setOptions(variables: any) {
     const visitorsPie: any = variables.visitorsPie;
 
     this.option = {
@@ -199,7 +202,7 @@ export class ECommerceVisitorsStatisticsComponent implements AfterViewInit, OnDe
     };
   }
 
-  onChartInit(echarts) {
+  onChartInit(echarts: any) {
     this.echartsIntance = echarts;
   }
 

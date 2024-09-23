@@ -1,6 +1,6 @@
-import { delay } from 'rxjs/operators';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
+import { delay } from 'rxjs/operators';
 
 declare const echarts: any;
 
@@ -22,7 +22,6 @@ declare const echarts: any;
   `,
 })
 export class SolarComponent implements AfterViewInit, OnDestroy {
-
   private value = 0;
 
   @Input()
@@ -39,145 +38,149 @@ export class SolarComponent implements AfterViewInit, OnDestroy {
   option: any = {};
   themeSubscription: any;
 
-  constructor(private theme: NbThemeService) {
-  }
+  constructor(private theme: NbThemeService) {}
 
   ngAfterViewInit() {
-    this.themeSubscription = this.theme.getJsTheme().pipe(delay(1)).subscribe(config => {
+    this.themeSubscription = this.theme
+      .getJsTheme()
+      .pipe(delay(1))
+      .subscribe((config: any) => {
+        const solarTheme: any = config.variables.solar;
 
-      const solarTheme: any = config.variables.solar;
-
-      this.option = Object.assign({}, {
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
-        },
-        series: [
+        this.option = Object.assign(
+          {},
           {
-            name: ' ',
-            clockWise: true,
-            hoverAnimation: false,
-            type: 'pie',
-            center: ['45%', '50%'],
-            radius: solarTheme.radius,
-            data: [
+            tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b} : {c} ({d}%)',
+            },
+            series: [
               {
-                value: this.value,
                 name: ' ',
-                label: {
-                  normal: {
-                    position: 'center',
-                    formatter: '{d}%',
-                    textStyle: {
-                      fontSize: '22',
-                      fontFamily: config.variables.fontSecondary,
-                      fontWeight: '600',
-                      color: config.variables.fgHeading,
+                clockWise: true,
+                hoverAnimation: false,
+                type: 'pie',
+                center: ['45%', '50%'],
+                radius: solarTheme.radius,
+                data: [
+                  {
+                    value: this.value,
+                    name: ' ',
+                    label: {
+                      normal: {
+                        position: 'center',
+                        formatter: '{d}%',
+                        textStyle: {
+                          fontSize: '22',
+                          fontFamily: config.variables.fontSecondary,
+                          fontWeight: '600',
+                          color: config.variables.fgHeading,
+                        },
+                      },
+                    },
+                    tooltip: {
+                      show: false,
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          {
+                            offset: 0,
+                            color: solarTheme.gradientLeft,
+                          },
+                          {
+                            offset: 1,
+                            color: solarTheme.gradientRight,
+                          },
+                        ]),
+                        shadowColor: solarTheme.shadowColor,
+                        shadowBlur: 0,
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 3,
+                      },
+                    },
+                    hoverAnimation: false,
+                  },
+                  {
+                    value: 100 - this.value,
+                    name: ' ',
+                    tooltip: {
+                      show: false,
+                    },
+                    label: {
+                      normal: {
+                        position: 'inner',
+                      },
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: solarTheme.secondSeriesFill,
+                      },
                     },
                   },
-                },
-                tooltip: {
-                  show: false,
-                },
-                itemStyle: {
-                  normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                      {
-                        offset: 0,
-                        color: solarTheme.gradientLeft,
-                      },
-                      {
-                        offset: 1,
-                        color: solarTheme.gradientRight,
-                      },
-                    ]),
-                    shadowColor: solarTheme.shadowColor,
-                    shadowBlur: 0,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 3,
-                  },
-                },
-                hoverAnimation: false,
+                ],
               },
               {
-                value: 100 - this.value,
                 name: ' ',
-                tooltip: {
-                  show: false,
-                },
-                label: {
-                  normal: {
-                    position: 'inner',
+                clockWise: true,
+                hoverAnimation: false,
+                type: 'pie',
+                center: ['45%', '50%'],
+                radius: solarTheme.radius,
+                data: [
+                  {
+                    value: this.value,
+                    name: ' ',
+                    label: {
+                      normal: {
+                        position: 'inner',
+                        show: false,
+                      },
+                    },
+                    tooltip: {
+                      show: false,
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          {
+                            offset: 0,
+                            color: solarTheme.gradientLeft,
+                          },
+                          {
+                            offset: 1,
+                            color: solarTheme.gradientRight,
+                          },
+                        ]),
+                        shadowColor: solarTheme.shadowColor,
+                        shadowBlur: 7,
+                      },
+                    },
+                    hoverAnimation: false,
                   },
-                },
-                itemStyle: {
-                  normal: {
-                    color: solarTheme.secondSeriesFill,
+                  {
+                    value: 28,
+                    name: ' ',
+                    tooltip: {
+                      show: false,
+                    },
+                    label: {
+                      normal: {
+                        position: 'inner',
+                      },
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: 'none',
+                      },
+                    },
                   },
-                },
+                ],
               },
             ],
-          },
-          {
-            name: ' ',
-            clockWise: true,
-            hoverAnimation: false,
-            type: 'pie',
-            center: ['45%', '50%'],
-            radius: solarTheme.radius,
-            data: [
-              {
-                value: this.value,
-                name: ' ',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false,
-                  },
-                },
-                tooltip: {
-                  show: false,
-                },
-                itemStyle: {
-                  normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                      {
-                        offset: 0,
-                        color: solarTheme.gradientLeft,
-                      },
-                      {
-                        offset: 1,
-                        color: solarTheme.gradientRight,
-                      },
-                    ]),
-                    shadowColor: solarTheme.shadowColor,
-                    shadowBlur: 7,
-                  },
-                },
-                hoverAnimation: false,
-              },
-              {
-                value: 28,
-                name: ' ',
-                tooltip: {
-                  show: false,
-                },
-                label: {
-                  normal: {
-                    position: 'inner',
-                  },
-                },
-                itemStyle: {
-                  normal: {
-                    color: 'none',
-                  },
-                },
-              },
-            ],
-          },
-        ],
+          }
+        );
       });
-    });
   }
 
   ngOnDestroy() {

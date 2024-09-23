@@ -20,9 +20,9 @@ import { Action } from '../../../../@core/data/actions';
   </div>`,
 })
 export class ActionsCellComponent implements ViewCell, OnInit {
-  @Input() value;
+  @Input() value: any;
 
-  @Input() rowData;
+  @Input() rowData: any;
 
   @Output() actionChange: EventEmitter<{ action: Action; row: any }> =
     new EventEmitter();

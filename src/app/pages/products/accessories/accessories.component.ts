@@ -20,7 +20,7 @@ import { AccessoriesAddDialogComponent } from '../accessories-add-dialog/accesso
   styleUrls: ['./accessories.component.scss'],
 })
 export class AccessoriesComponent extends BaseTable<Accessory> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -72,8 +72,8 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Accessory, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -88,18 +88,18 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
     },
   };
 
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.accessories;
+  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.accessories;
 
-  hiddenColumns = ['price'];
+  override hiddenColumns = ['price'];
 
   selectedColumns = [];
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
     coreService: CoreService,
-    dialogService: NbDialogService
+    override readonly dialogService: NbDialogService
   ) {
     super(coreService, dialogService);
     const data = this.service.getData().accessories;

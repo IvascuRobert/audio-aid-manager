@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { interval , Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
-import { LiveUpdateChart, EarningData } from '../../../../@core/data/earning';
+import { EarningData, LiveUpdateChart } from '../../../../@core/data/earning';
 
 @Component({
   selector: 'ngx-earning-card-front',
@@ -14,17 +14,20 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
 
   @Input() selectedCurrency: string = 'Bitcoin';
 
-  intervalSubscription: Subscription;
+  intervalSubscription!: Subscription;
   currencies: string[] = ['Bitcoin', 'Tether', 'Ethereum'];
-  currentTheme: string;
-  earningLiveUpdateCardData: LiveUpdateChart;
-  liveUpdateChartData: { value: [string, number] }[];
+  currentTheme!: string;
+  earningLiveUpdateCardData!: LiveUpdateChart;
+  liveUpdateChartData!: { value: [string, number] }[];
 
-  constructor(private themeService: NbThemeService,
-              private earningService: EarningData) {
-    this.themeService.getJsTheme()
+  constructor(
+    private themeService: NbThemeService,
+    private earningService: EarningData
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme: any) => {
         this.currentTheme = theme.name;
       });
   }
@@ -33,7 +36,7 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
     this.getEarningCardData(this.selectedCurrency);
   }
 
-  changeCurrency(currency) {
+  changeCurrency(currency: any) {
     if (this.selectedCurrency !== currency) {
       this.selectedCurrency = currency;
 
@@ -41,8 +44,9 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
     }
   }
 
-  private getEarningCardData(currency) {
-    this.earningService.getEarningCardData(currency)
+  private getEarningCardData(currency: any) {
+    this.earningService
+      .getEarningCardData(currency)
       .pipe(takeWhile(() => this.alive))
       .subscribe((earningLiveUpdateCardData: LiveUpdateChart) => {
         this.earningLiveUpdateCardData = earningLiveUpdateCardData;
@@ -52,7 +56,7 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
       });
   }
 
-  startReceivingLiveData(currency) {
+  startReceivingLiveData(currency: any) {
     if (this.intervalSubscription) {
       this.intervalSubscription.unsubscribe();
     }
@@ -60,7 +64,9 @@ export class EarningCardFrontComponent implements OnDestroy, OnInit {
     this.intervalSubscription = interval(200)
       .pipe(
         takeWhile(() => this.alive),
-        switchMap(() => this.earningService.getEarningLiveUpdateCardData(currency)),
+        switchMap(() =>
+          this.earningService.getEarningLiveUpdateCardData(currency)
+        )
       )
       .subscribe((liveUpdateChartData: any[]) => {
         this.liveUpdateChartData = [...liveUpdateChartData];

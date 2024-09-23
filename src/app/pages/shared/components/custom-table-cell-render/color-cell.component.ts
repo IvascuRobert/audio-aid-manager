@@ -7,5 +7,5 @@ import { Component, Input } from "@angular/core";
   ></nb-icon>`,
 })
 export class ColorCellComponent {
-  @Input() value;
+  @Input() value!:string;
 }

@@ -23,7 +23,7 @@
               placeholder="Columns"
               formControlName="columns"
               multiple
-              [status]="isValid('columns') ? 'danger' : 'basic'"
+              [status]="isValid(columnsControl) ? 'danger' : 'basic'"
             >
               <nb-option *ngFor="let item of hiddenColumns" [value]="item">
                 {{ item }}

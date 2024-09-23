@@ -12,7 +12,7 @@ import { Gender } from "../../../../@core/data/customer";
   </div>`,
 })
 export class GenderCellComponent {
-  @Input() value: Gender;
+  @Input() value!: Gender;
 
   readonly genderTpl = Gender;
 }

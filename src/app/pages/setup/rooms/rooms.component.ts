@@ -9,6 +9,7 @@ import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { RoomsAddDialogComponent } from '../rooms-add-dialog/rooms-add-dialog.component';
+import { tap } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -17,7 +18,7 @@ import { RoomsAddDialogComponent } from '../rooms-add-dialog/rooms-add-dialog.co
   styleUrls: ['./rooms.component.scss'],
 })
 export class RoomsComponent extends BaseTable<Room> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -35,15 +36,16 @@ export class RoomsComponent extends BaseTable<Room> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value:any, row:Room, cell:any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(untilDestroyed(this),
+          tap(({ action }) => {
+            if (action === Action.Delete) {
+              this.refresh();
+            }
+          }))
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -51,11 +53,12 @@ export class RoomsComponent extends BaseTable<Room> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
+
 
   constructor(
     private service: SmartTableData,
-    readonly dialogService: NbDialogService,
+    override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);

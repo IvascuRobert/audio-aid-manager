@@ -21,7 +21,7 @@ import { DevicesAddDialogComponent } from '../devices-add-dialog/devices-add-dia
   styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent extends BaseTable<Device> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -93,8 +93,8 @@ export class DevicesComponent extends BaseTable<Device> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Device, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -109,16 +109,16 @@ export class DevicesComponent extends BaseTable<Device> {
     },
   };
 
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
+  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
 
-  hiddenColumns = ['aslGroup', 'location', 'price', 'customer'];
+  override hiddenColumns = ['aslGroup', 'location', 'price', 'customer'];
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
     coreService: CoreService,
-    dialogService: NbDialogService
+    override readonly dialogService: NbDialogService
   ) {
     super(coreService, dialogService);
     const data = this.service.getData().devices;

@@ -1,4 +1,7 @@
-<form [formGroup]="accessoriesAddForm" (ngSubmit)="submit()">
+<form
+  [formGroup]="accessoriesAddForm"
+  (ngSubmit)="submit()"
+>
   <nb-card>
     <nb-card-header>
       <div class="d-flex align-items-center">
@@ -15,24 +18,33 @@
     <nb-card-body>
       <div class="row">
         <div class="col-12">
-            <div class="form-group">
-                <label for="group"
-                       class="label">Group</label>
-                <nb-select id="group"
-                           fullWidth
-                           placeholder="Group"
-                           formControlName="group"
-                           [status]="isValid('group') ? 'danger' : 'basic'">
-                    <nb-option value="1">group 1</nb-option>
-                    <nb-option value="2">group 2</nb-option>
-                    <nb-option value="3">group 3</nb-option>
-                    <nb-option value="4">group 4</nb-option>
-                </nb-select>
-            </div>
+          <div class="form-group">
+            <label
+              for="group"
+              class="label"
+              >Group</label
+            >
+            <nb-select
+              id="group"
+              fullWidth
+              placeholder="Group"
+              formControlName="group"
+              [status]="isValid(groupControl) ? 'danger' : 'basic'"
+            >
+              <nb-option value="1">group 1</nb-option>
+              <nb-option value="2">group 2</nb-option>
+              <nb-option value="3">group 3</nb-option>
+              <nb-option value="4">group 4</nb-option>
+            </nb-select>
+          </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="serialNumber" class="label">Serial number</label>
+            <label
+              for="serialNumber"
+              class="label"
+              >Serial number</label
+            >
             <input
               type="text"
               nbInput
@@ -40,13 +52,17 @@
               id="serialNumber"
               placeholder="Serial number"
               formControlName="serialNumber"
-              [status]="isValid('serialNumber') ? 'danger' : 'basic'"
+              [status]="isValid(serialNumberControl) ? 'danger' : 'basic'"
             />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="name" class="label">Name</label>
+            <label
+              for="name"
+              class="label"
+              >Name</label
+            >
             <input
               type="text"
               nbInput
@@ -54,19 +70,23 @@
               id="name"
               placeholder="Name"
               formControlName="name"
-              [status]="isValid('name') ? 'danger' : 'basic'"
+              [status]="isValid(nameControl) ? 'danger' : 'basic'"
             />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="brand" class="label">Brand</label>
+            <label
+              for="brand"
+              class="label"
+              >Brand</label
+            >
             <nb-select
               id="brand"
               fullWidth
               placeholder="Brand"
               formControlName="brand"
-              [status]="isValid('brand') ? 'danger' : 'basic'"
+              [status]="isValid(brandControl) ? 'danger' : 'basic'"
             >
               <nb-option value="1">brand 1</nb-option>
               <nb-option value="2">brand 2</nb-option>
@@ -77,13 +97,17 @@
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="type" class="label">Type</label>
+            <label
+              for="type"
+              class="label"
+              >Type</label
+            >
             <nb-select
               id="type"
               fullWidth
               placeholder="Type"
               formControlName="type"
-              [status]="isValid('type') ? 'danger' : 'basic'"
+              [status]="isValid(typeControl) ? 'danger' : 'basic'"
             >
               <nb-option value="1">type 1</nb-option>
               <nb-option value="2">type 2</nb-option>
@@ -94,7 +118,11 @@
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="price" class="label">Price</label>
+            <label
+              for="price"
+              class="label"
+              >Price</label
+            >
             <input
               type="text"
               nbInput
@@ -102,19 +130,23 @@
               id="price"
               placeholder="Price"
               formControlName="price"
-              [status]="isValid('price') ? 'danger' : 'basic'"
+              [status]="isValid(priceControl) ? 'danger' : 'basic'"
             />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="location" class="label">Location</label>
+            <label
+              for="location"
+              class="label"
+              >Location</label
+            >
             <nb-select
               id="location"
               fullWidth
               placeholder="Location"
               formControlName="location"
-              [status]="isValid('location') ? 'danger' : 'basic'"
+              [status]="isValid(locationControl) ? 'danger' : 'basic'"
             >
               <nb-option value="1">Location 1</nb-option>
               <nb-option value="2">Location 2</nb-option>
@@ -123,16 +155,20 @@
             </nb-select>
           </div>
         </div>
-        
+
         <div class="col-12">
           <div class="form-group">
-            <label for="customer" class="label">Customer</label>
+            <label
+              for="customer"
+              class="label"
+              >Customer</label
+            >
             <nb-select
               id="customer"
               fullWidth
               placeholder="Customer"
               formControlName="customer"
-              [status]="isValid('customer') ? 'danger' : 'basic'"
+              [status]="isValid(customerControl) ? 'danger' : 'basic'"
             >
               <nb-option value="1">customer 1</nb-option>
               <nb-option value="2">customer 2</nb-option>

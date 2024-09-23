@@ -4,5 +4,5 @@ import { Component, Input } from "@angular/core";
   template: `{{ value | currency: 'EUR' }}`,
 })
 export class PriceCellComponent {
-  @Input() value;
+  @Input() value!:number;
 }

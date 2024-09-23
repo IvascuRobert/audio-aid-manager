@@ -8,5 +8,5 @@ import { Component, Input } from "@angular/core";
   `,
 })
 export class EmailCellComponent {
-  @Input() value;
+  @Input() value!:string;
 }

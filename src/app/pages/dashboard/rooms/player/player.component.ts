@@ -9,11 +9,11 @@ import { PlayerService, Track } from '../../../../@core/utils/player.service';
 export class PlayerComponent implements OnDestroy {
   @Input()
   @HostBinding('class.collapsed')
-  collapsed: boolean;
+  collapsed!: boolean;
 
   track: Track;
-  player: HTMLAudioElement;
-  shuffle: boolean;
+  player!: HTMLAudioElement;
+  shuffle!: boolean;
 
   constructor(private playerService: PlayerService) {
     this.track = this.playerService.random();
@@ -66,20 +66,21 @@ export class PlayerComponent implements OnDestroy {
     this.player.loop = !this.player.loop;
   }
 
-  setVolume(volume: number) {
-    this.player.volume = volume / 100;
+  setVolume(volume: string) {
+    this.player.volume = parseFloat(volume) / 100;
   }
 
   getVolume(): number {
     return this.player.volume * 100;
   }
 
-  setProgress(duration: number) {
-    this.player.currentTime = this.player.duration * duration / 100;
+  setProgress(duration: string) {
+    this.player.currentTime =
+      (this.player.duration * parseFloat(duration)) / 100;
   }
 
   getProgress(): number {
-    return this.player.currentTime / this.player.duration * 100 || 0;
+    return (this.player.currentTime / this.player.duration) * 100 || 0;
   }
 
   private createPlayer() {

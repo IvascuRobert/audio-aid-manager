@@ -1,12 +1,17 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 
 import * as L from 'leaflet';
 
-import { CountryOrdersMapService } from './country-orders-map.service';
 import { NbThemeService } from '@nebular/theme';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-
+import { CountryOrdersMapService } from './country-orders-map.service';
 
 @Component({
   selector: 'ngx-country-orders-map',
@@ -16,36 +21,33 @@ import { takeWhile } from 'rxjs/operators';
   `,
 })
 export class CountryOrdersMapComponent implements OnDestroy {
-
-  @Input() countryId: string;
+  @Input() countryId!: string;
 
   @Output() selectEvent: EventEmitter<any> = new EventEmitter();
 
-  layers = [];
+  layers: any = [];
   currentTheme: any;
   alive = true;
-  selectedCountry;
+  selectedCountry: any;
 
   options = {
     zoom: 2,
     minZoom: 2,
     maxZoom: 6,
     zoomControl: false,
-    center: L.latLng({lat: 38.991709, lng: -76.886109}),
+    center: L.latLng({ lat: 38.991709, lng: -76.886109 }),
     maxBounds: new L.LatLngBounds(
       new L.LatLng(-89.98155760646617, -180),
-      new L.LatLng(89.99346179538875, 180),
+      new L.LatLng(89.99346179538875, 180)
     ),
     maxBoundsViscosity: 1.0,
   };
 
-  constructor(private ecMapService: CountryOrdersMapService,
-              private theme: NbThemeService) {
-
-    combineLatest([
-      this.ecMapService.getCords(),
-      this.theme.getJsTheme(),
-    ])
+  constructor(
+    private ecMapService: CountryOrdersMapService,
+    private theme: NbThemeService
+  ) {
+    combineLatest([this.ecMapService.getCords(), this.theme.getJsTheme()])
       .pipe(takeWhile(() => this.alive))
       .subscribe(([cords, config]: [any, any]) => {
         this.currentTheme = config.variables.countryOrders;
@@ -55,7 +57,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
   }
 
   mapReady(map: L.Map) {
-    map.addControl(L.control.zoom({position: 'bottomright'}));
+    map.addControl(L.control.zoom({ position: 'bottomright' }));
 
     // fix the map fully displaying, existing leaflet bag
     setTimeout(() => {
@@ -63,32 +65,30 @@ export class CountryOrdersMapComponent implements OnDestroy {
     }, 0);
   }
 
-  private createGeoJsonLayer(cords) {
-    return L.geoJSON(
-      cords as any,
-      {
-        style: () => ({
-          weight: this.currentTheme.countryBorderWidth,
-          fillColor: this.currentTheme.countryFillColor,
-          fillOpacity: 1,
-          color: this.currentTheme.countryBorderColor,
-          opacity: 1,
-        }),
-        onEachFeature: (f, l) => {
-          this.onEachFeature(f, l);
-        },
-      });
-  }
-
-  private onEachFeature(feature, layer) {
-    layer.on({
-      mouseover: (e) => this.highlightFeature(e.target),
-      mouseout: (e) => this.moveout(e.target),
-      click: (e) => this.selectFeature(e.target),
+  private createGeoJsonLayer(cords: any) {
+    return L.geoJSON(cords as any, {
+      style: () => ({
+        weight: this.currentTheme.countryBorderWidth,
+        fillColor: this.currentTheme.countryFillColor,
+        fillOpacity: 1,
+        color: this.currentTheme.countryBorderColor,
+        opacity: 1,
+      }),
+      onEachFeature: (f, l) => {
+        this.onEachFeature(f, l);
+      },
     });
   }
 
-  private highlightFeature(featureLayer) {
+  private onEachFeature(feature: any, layer: any) {
+    layer.on({
+      mouseover: (e: any) => this.highlightFeature(e.target),
+      mouseout: (e: any) => this.moveout(e.target),
+      click: (e: any) => this.selectFeature(e.target),
+    });
+  }
+
+  private highlightFeature(featureLayer: any) {
     if (featureLayer) {
       featureLayer.setStyle({
         weight: this.currentTheme.hoveredCountryBorderWidth,
@@ -102,7 +102,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
     }
   }
 
-  private moveout(featureLayer) {
+  private moveout(featureLayer: any) {
     if (featureLayer !== this.selectedCountry) {
       this.resetHighlight(featureLayer);
 
@@ -111,7 +111,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
     }
   }
 
-  private resetHighlight(featureLayer) {
+  private resetHighlight(featureLayer: any) {
     if (featureLayer) {
       const geoJsonLayer = this.layers[0];
 
@@ -119,7 +119,7 @@ export class CountryOrdersMapComponent implements OnDestroy {
     }
   }
 
-  private selectFeature(featureLayer) {
+  private selectFeature(featureLayer: any) {
     if (featureLayer !== this.selectedCountry) {
       this.resetHighlight(this.selectedCountry);
       this.highlightFeature(featureLayer);
@@ -128,9 +128,9 @@ export class CountryOrdersMapComponent implements OnDestroy {
     }
   }
 
-  private findFeatureLayerByCountryId(id) {
+  private findFeatureLayerByCountryId(id: any) {
     const layers = this.layers[0].getLayers();
-    const featureLayer = layers.find(item => {
+    const featureLayer = layers.find((item: any) => {
       return item.feature.id === id;
     });
 
@@ -140,5 +140,4 @@ export class CountryOrdersMapComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.alive = false;
   }
-
 }

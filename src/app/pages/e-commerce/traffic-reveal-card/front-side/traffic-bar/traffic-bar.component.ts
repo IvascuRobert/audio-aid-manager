@@ -6,7 +6,11 @@ import { Component, Input } from '@angular/core';
   templateUrl: './traffic-bar.component.html',
 })
 export class TrafficBarComponent {
-
-  @Input() barData: { prevDate: string; prevValue: number; nextDate: string; nextValue: number };
-  @Input() successDelta: boolean;
+  @Input() barData!: {
+    prevDate: string;
+    prevValue: number;
+    nextDate: string;
+    nextValue: number;
+  };
+  @Input() successDelta!: boolean;
 }

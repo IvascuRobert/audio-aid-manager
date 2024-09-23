@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { of as observableOf,  Observable } from 'rxjs';
-import { PeriodsService } from './periods.service';
+import { Observable, of as observableOf } from 'rxjs';
 import { TrafficList, TrafficListData } from '../data/traffic-list';
+import { PeriodsService } from './periods.service';
 
 @Injectable()
 export class TrafficListService extends TrafficListData {
-
   private getRandom = (roundTo: number) => Math.round(Math.random() * roundTo);
-  private data = {};
+  private data: any = {};
 
   constructor(private period: PeriodsService) {
     super();
@@ -48,15 +47,18 @@ export class TrafficListService extends TrafficListData {
     return this.reduceData(this.period.getYears(), getFirstDateInPeriod);
   }
 
-  private reduceData(timePeriods: string[], getFirstDateInPeriod: () => string): TrafficList[] {
-    return timePeriods.reduce((result, timePeriod, index) => {
+  private reduceData(
+    timePeriods: string[],
+    getFirstDateInPeriod: () => string
+  ): TrafficList[] {
+    return timePeriods.reduce((result: any, timePeriod, index) => {
       const hasResult = result[index - 1];
-      const prevDate = hasResult ?
-        result[index - 1].comparison.nextDate :
-        getFirstDateInPeriod();
-      const prevValue = hasResult ?
-        result[index - 1].comparison.nextValue :
-        this.getRandom(100);
+      const prevDate = hasResult
+        ? result[index - 1].comparison.nextDate
+        : getFirstDateInPeriod();
+      const prevValue = hasResult
+        ? result[index - 1].comparison.nextValue
+        : this.getRandom(100);
       const nextValue = this.getRandom(100);
       const deltaValue = prevValue - nextValue;
 

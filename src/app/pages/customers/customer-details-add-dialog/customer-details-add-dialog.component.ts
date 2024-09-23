@@ -1,16 +1,14 @@
 import { Component, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { Customer } from '../../../@core/data/customer';
-import { CoreService } from '../../../@core/services/core.service';
-import { BaseTable } from '../../shared/directives/base-table.directive';
+import { NbDialogRef } from '@nebular/theme';
+import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
   selector: 'ngx-customer-details-add-dialog',
   templateUrl: './customer-details-add-dialog.component.html',
   styleUrls: ['./customer-details-add-dialog.component.scss'],
 })
-export class CustomerDetailsAddDialogComponent extends BaseTable<Customer> {
+export class CustomerDetailsAddDialogComponent extends BaseForm {
   customerAddForm = this.fb.group({
     id: [null],
     leftEarValue: ['', [Validators.required]],
@@ -24,13 +22,39 @@ export class CustomerDetailsAddDialogComponent extends BaseTable<Customer> {
 
   loadingLargeGroup = false;
 
+  get leftEarValueControl() {
+    return this.customerAddForm.controls.leftEarValue;
+  }
+
+  get leftEarDeviceControl() {
+    return this.customerAddForm.controls.leftEarDevice;
+  }
+
+  get rightEarValueControl() {
+    return this.customerAddForm.controls.rightEarValue;
+  }
+
+  get rightEarDeviceControl() {
+    return this.customerAddForm.controls.rightEarDevice;
+  }
+
+  get questionnaireControl() {
+    return this.customerAddForm.controls.questionnaire;
+  }
+
+  get reasonControl() {
+    return this.customerAddForm.controls.reason;
+  }
+
+  get commentControl() {
+    return this.customerAddForm.controls.comment;
+  }
+
   constructor(
     @Optional() private ref: NbDialogRef<CustomerDetailsAddDialogComponent>,
-    private fb: FormBuilder,
-    dialogService: NbDialogService,
-    coreService: CoreService
+    private fb: FormBuilder
   ) {
-    super(coreService, dialogService);
+    super();
   }
 
   cancel() {
@@ -50,13 +74,5 @@ export class CustomerDetailsAddDialogComponent extends BaseTable<Customer> {
       this.loadingLargeGroup = false;
       this.ref.close();
     }, 3000);
-  }
-
-  isValid(controlName: string): boolean {
-    return (
-      this.customerAddForm.controls[controlName].invalid &&
-      (this.customerAddForm.controls[controlName].dirty ||
-        this.customerAddForm.controls[controlName].touched)
-    );
   }
 }

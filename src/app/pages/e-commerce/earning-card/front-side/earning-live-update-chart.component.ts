@@ -1,6 +1,12 @@
-import { delay, takeWhile } from 'rxjs/operators';
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
+import { delay, takeWhile } from 'rxjs/operators';
 import { LayoutService } from '../../../../@core/utils/layout.service';
 
 @Component({
@@ -13,20 +19,23 @@ import { LayoutService } from '../../../../@core/utils/layout.service';
          (chartInit)="onChartInit($event)"></div>
   `,
 })
-export class EarningLiveUpdateChartComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class EarningLiveUpdateChartComponent
+  implements AfterViewInit, OnDestroy, OnChanges
+{
   private alive = true;
 
-  @Input() liveUpdateChartData: { value: [string, number] }[];
+  @Input() liveUpdateChartData!: { value: [string, number] }[];
 
   option: any;
-  echartsInstance;
+  echartsInstance: any;
 
-  constructor(private theme: NbThemeService,
-              private layoutService: LayoutService) {
-    this.layoutService.onSafeChangeLayoutSize()
-      .pipe(
-        takeWhile(() => this.alive),
-      )
+  constructor(
+    private theme: NbThemeService,
+    private layoutService: LayoutService
+  ) {
+    this.layoutService
+      .onSafeChangeLayoutSize()
+      .pipe(takeWhile(() => this.alive))
       .subscribe(() => this.resizeChart());
   }
 
@@ -37,19 +46,20 @@ export class EarningLiveUpdateChartComponent implements AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
+    this.theme
+      .getJsTheme()
       .pipe(
         delay(1),
-        takeWhile(() => this.alive),
+        takeWhile(() => this.alive)
       )
-      .subscribe(config => {
+      .subscribe((config: any) => {
         const earningLineTheme: any = config.variables.earningLine;
 
         this.setChartOption(earningLineTheme);
       });
   }
 
-  setChartOption(earningLineTheme) {
+  setChartOption(earningLineTheme: any) {
     this.option = {
       grid: {
         left: 0,
@@ -100,7 +110,8 @@ export class EarningLiveUpdateChartComponent implements AfterViewInit, OnDestroy
         backgroundColor: earningLineTheme.tooltipBg,
         borderColor: earningLineTheme.tooltipBorderColor,
         borderWidth: earningLineTheme.tooltipBorderWidth,
-        formatter: params => `$ ${Math.round(parseInt(params.value[1], 10))}`,
+        formatter: (params: any) =>
+          `$ ${Math.round(parseInt(params.value[1], 10))}`,
         extraCssText: earningLineTheme.tooltipExtraCss,
       },
       series: [
@@ -123,13 +134,16 @@ export class EarningLiveUpdateChartComponent implements AfterViewInit, OnDestroy
           },
           areaStyle: {
             normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: earningLineTheme.gradFrom,
-              }, {
-                offset: 1,
-                color: earningLineTheme.gradTo,
-              }]),
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: earningLineTheme.gradFrom,
+                },
+                {
+                  offset: 1,
+                  color: earningLineTheme.gradTo,
+                },
+              ]),
               opacity: 1,
             },
           },
@@ -142,13 +156,15 @@ export class EarningLiveUpdateChartComponent implements AfterViewInit, OnDestroy
 
   updateChartOptions(chartData: { value: [string, number] }[]) {
     this.echartsInstance.setOption({
-      series: [{
-        data: chartData,
-      }],
+      series: [
+        {
+          data: chartData,
+        },
+      ],
     });
   }
 
-  onChartInit(ec) {
+  onChartInit(ec: any) {
     this.echartsInstance = ec;
   }
 

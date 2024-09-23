@@ -1,30 +1,37 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { Clinic } from '../../../@core/data/clinic';
+import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
   selector: 'ngx-clinics-add-dialog',
   templateUrl: './clinics-add-dialog.component.html',
-  styleUrls: ['./clinics-add-dialog.component.scss']
+  styleUrls: ['./clinics-add-dialog.component.scss'],
 })
-export class ClinicsAddDialogComponent implements OnInit {
-
+export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   clinicsAddForm = this.fb.group({
     id: [null],
-    name: ["", [Validators.required]],
+    name: ['', [Validators.required]],
   });
 
-  selectedLocation = null
+  selectedClinic: Clinic | null = null;
 
   loadingLargeGroup = false;
+
+  get nameControl() {
+    return this.clinicsAddForm.controls.name;
+  }
 
   constructor(
     @Optional() private ref: NbDialogRef<ClinicsAddDialogComponent>,
     private fb: FormBuilder
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.clinicsAddForm.patchValue(this.selectedLocation)
+    this.clinicsAddForm.patchValue(this.selectedClinic as any);
   }
 
   cancel() {
@@ -32,7 +39,7 @@ export class ClinicsAddDialogComponent implements OnInit {
   }
 
   submit() {
-    console.log("here");
+    console.log('here');
     this.clinicsAddForm.markAsDirty();
     // this.ref.close(value);
   }
@@ -44,14 +51,5 @@ export class ClinicsAddDialogComponent implements OnInit {
       this.loadingLargeGroup = false;
       this.ref.close();
     }, 3000);
-  }
-
-
-  isValid(controlName: string): boolean {
-    return (
-      this.clinicsAddForm.controls[controlName].invalid &&
-      (this.clinicsAddForm.controls[controlName].dirty ||
-        this.clinicsAddForm.controls[controlName].touched)
-    );
   }
 }

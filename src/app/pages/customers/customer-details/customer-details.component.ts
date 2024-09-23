@@ -20,7 +20,7 @@ import { CustomerDetailsAddDialogComponent } from '../customer-details-add-dialo
   styleUrls: ['./customer-details.component.scss'],
 })
 export class CustomerDetailsComponent extends BaseTable<Process> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -73,8 +73,8 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Process, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -89,12 +89,12 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
     coreService: CoreService,
-    dialogService: NbDialogService
+    override readonly dialogService: NbDialogService
   ) {
     super(coreService, dialogService);
     const data = this.service.getData().processes;

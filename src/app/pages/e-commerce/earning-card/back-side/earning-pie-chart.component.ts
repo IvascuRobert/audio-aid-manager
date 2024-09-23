@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { delay, takeWhile } from 'rxjs/operators';
 
@@ -15,24 +22,26 @@ import { delay, takeWhile } from 'rxjs/operators';
   `,
 })
 export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
-
-  @Output() selectPie = new EventEmitter<{value: number; name: string; color: string}>();
-  @Input() values: {value: number; name: string; }[];
-  @Input() defaultSelectedCurrency: string;
+  @Output() selectPie = new EventEmitter<{
+    value: number;
+    name: string;
+    color: string;
+  }>();
+  @Input() values!: { value: number; name: string }[];
+  @Input() defaultSelectedCurrency!: string;
 
   private alive = true;
 
   options: any = {};
-  echartsInstance;
+  echartsInstance: any;
 
-  constructor(private theme: NbThemeService) {
-  }
+  constructor(private theme: NbThemeService) {}
 
-  onChartInit(ec) {
+  onChartInit(ec: any) {
     this.echartsInstance = ec;
   }
 
-  onChartClick(event) {
+  onChartClick(event: any) {
     const pieData = {
       value: event.value,
       name: event.name,
@@ -42,23 +51,26 @@ export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
     this.emitSelectPie(pieData);
   }
 
-  emitSelectPie(pieData: {value: number; name: string; color: any}) {
+  emitSelectPie(pieData: { value: number; name: string; color: any }) {
     this.selectPie.emit(pieData);
   }
 
   ngAfterViewInit() {
-    this.theme.getJsTheme()
+    this.theme
+      .getJsTheme()
       .pipe(
         takeWhile(() => this.alive),
-        delay(1),
+        delay(1)
       )
-      .subscribe(config => {
+      .subscribe((config) => {
         const variables = config.variables;
 
         this.options = this.getOptions(variables);
-        const defaultSelectedData =
-          this.options.series[0].data.find((item) => item.name === this.defaultSelectedCurrency);
-        const color = defaultSelectedData.itemStyle.normal.color.colorStops[0].color;
+        const defaultSelectedData = this.options.series[0].data.find(
+          (item: any) => item.name === this.defaultSelectedCurrency
+        );
+        const color =
+          defaultSelectedData.itemStyle.normal.color.colorStops[0].color;
         const pieData = {
           value: defaultSelectedData.value,
           name: defaultSelectedData.name,
@@ -69,7 +81,7 @@ export class EarningPieChartComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  getOptions(variables) {
+  getOptions(variables: any) {
     const earningPie: any = variables.earningPie;
 
     return {

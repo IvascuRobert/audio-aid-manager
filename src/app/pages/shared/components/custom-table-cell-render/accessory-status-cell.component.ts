@@ -141,7 +141,7 @@ import { AccessoryStatus } from "../../../../@core/data/accessory";
   ],
 })
 export class AccessoryStatusCellComponent {
-  @Input() value: AccessoryStatus;
+  @Input() value!: AccessoryStatus;
 
   readonly accessoryStatusTpl = AccessoryStatus;
 }

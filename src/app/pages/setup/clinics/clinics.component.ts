@@ -16,9 +16,9 @@ import { ClinicsAddDialogComponent } from '../clinics-add-dialog/clinics-add-dia
   styleUrls: ['./clinics.component.scss'],
 })
 export class ClinicsComponent extends BaseTable<Clinic> {
-  entity = Entity.Clinic;
+  override entity = Entity.Clinic;
 
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -36,8 +36,8 @@ export class ClinicsComponent extends BaseTable<Clinic> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Clinic, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -55,13 +55,16 @@ export class ClinicsComponent extends BaseTable<Clinic> {
     },
   };
 
-  constructor(dialogService: NbDialogService, coreService: CoreService) {
+  constructor(
+    override readonly dialogService: NbDialogService,
+    coreService: CoreService
+  ) {
     super(coreService, dialogService);
   }
 
-  addDialog(row) {
+  addDialog(row: Clinic) {
     this.dialogService.open(ClinicsAddDialogComponent, {
-      context: { selectedLocation: row },
+      context: { selectedClinic: row },
     });
   }
 }

@@ -22,7 +22,7 @@ import { UtilitiesAddDialogComponent } from '../utilities-add-dialog/utilities-a
   styleUrls: ['./utilities.component.scss'],
 })
 export class UtilitiesComponent extends BaseTable<Utility> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -61,8 +61,8 @@ export class UtilitiesComponent extends BaseTable<Utility> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Utility, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -77,15 +77,15 @@ export class UtilitiesComponent extends BaseTable<Utility> {
     },
   };
 
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.utilities;
+  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.utilities;
 
-  hiddenColumns = ['price'];
+  override hiddenColumns = ['price'];
 
   selectedColumns = [];
 
   constructor(
     private service: SmartTableData,
-    dialogService: NbDialogService,
+    override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);

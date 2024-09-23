@@ -1,13 +1,13 @@
 import { NbJSThemeOptions, COSMIC_THEME as baseTheme } from '@nebular/theme';
 
-const baseThemeVariables = baseTheme.variables;
+const baseThemeVariables: any = baseTheme.variables;
 
 export const COSMIC_THEME = {
   name: 'cosmic',
   base: 'cosmic',
   variables: {
     temperature: {
-      arcFill: [ '#2ec7fe', '#31ffad', '#7bff24', '#fff024', '#f7bd59' ],
+      arcFill: ['#2ec7fe', '#31ffad', '#7bff24', '#fff024', '#f7bd59'],
       arcEmpty: baseThemeVariables.bg2,
       thumbBg: '#ffffff',
       thumbBorder: '#ffffff',
@@ -24,7 +24,8 @@ export const COSMIC_THEME = {
     traffic: {
       tooltipBg: baseThemeVariables.bg,
       tooltipBorderColor: baseThemeVariables.border2,
-      tooltipExtraCss: 'box-shadow: 0px 2px 46px 0 rgba(50, 50, 89); border-radius: 10px; padding: 4px 16px;',
+      tooltipExtraCss:
+        'box-shadow: 0px 2px 46px 0 rgba(50, 50, 89); border-radius: 10px; padding: 4px 16px;',
       tooltipTextColor: baseThemeVariables.fgText,
       tooltipFontWeight: 'normal',
 
@@ -46,7 +47,8 @@ export const COSMIC_THEME = {
       tooltipLineColor: baseThemeVariables.fgText,
       tooltipLineWidth: '0',
       tooltipBorderColor: baseThemeVariables.border2,
-      tooltipExtraCss: 'box-shadow: 0px 2px 46px 0 rgba(0, 255, 170, 0.35); border-radius: 10px; padding: 8px 24px;',
+      tooltipExtraCss:
+        'box-shadow: 0px 2px 46px 0 rgba(0, 255, 170, 0.35); border-radius: 10px; padding: 8px 24px;',
       tooltipTextColor: baseThemeVariables.fgText,
       tooltipFontWeight: 'normal',
 

@@ -136,7 +136,7 @@ import { ProcessStatusType } from "../../../../@core/data/customer";
   ],
 })
 export class ProcessStatusCellComponent {
-  @Input() value: ProcessStatusType;
+  @Input() value!: ProcessStatusType;
 
   readonly processStatusTypeTpl = ProcessStatusType;
 }

@@ -7,6 +7,7 @@ import { finalize } from 'rxjs/operators';
 import { Doctor } from '../../../@core/data/doctor';
 import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
+import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @UntilDestroy()
 @Component({
@@ -14,7 +15,7 @@ import { CoreService } from '../../../@core/services/core.service';
   templateUrl: './doctors-add-dialog.component.html',
   styleUrls: ['./doctors-add-dialog.component.scss'],
 })
-export class DoctorsAddDialogComponent implements OnInit {
+export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   doctorsAddForm = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
@@ -24,7 +25,7 @@ export class DoctorsAddDialogComponent implements OnInit {
 
   loading$ = new BehaviorSubject(false);
 
-  entity: Entity | null = null;
+  entity!: Entity;
 
   get nameControl() {
     return this.doctorsAddForm.controls.name;
@@ -34,7 +35,9 @@ export class DoctorsAddDialogComponent implements OnInit {
     @Optional() private ref: NbDialogRef<DoctorsAddDialogComponent>,
     private fb: FormBuilder,
     private coreService: CoreService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     if (this.doctor) this.doctorsAddForm.patchValue(this.doctor);
@@ -55,16 +58,8 @@ export class DoctorsAddDialogComponent implements OnInit {
     }
   }
 
-  isValid(controlName: string): boolean {
-    return (
-      this.doctorsAddForm.controls[controlName].invalid &&
-      (this.doctorsAddForm.controls[controlName].dirty ||
-        this.doctorsAddForm.controls[controlName].touched)
-    );
-  }
-
   private updateDoctor(): void {
-    const doctor: Doctor = this.doctorsAddForm.getRawValue();
+    const doctor: Doctor = this.doctorsAddForm.getRawValue() as Doctor;
     this.loading$.next(true);
     this.coreService
       .put(doctor, this.entity)
@@ -79,7 +74,7 @@ export class DoctorsAddDialogComponent implements OnInit {
   }
 
   private addDoctor(): void {
-    const doctor: Doctor = this.doctorsAddForm.getRawValue();
+    const doctor: Doctor = this.doctorsAddForm.getRawValue() as Doctor;
     this.loading$.next(true);
     this.coreService
       .post(doctor, this.entity)

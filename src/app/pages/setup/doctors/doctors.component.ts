@@ -16,9 +16,9 @@ import { DoctorsAddDialogComponent } from '../doctors-add-dialog/doctors-add-dia
   styleUrls: ['./doctors.component.scss'],
 })
 export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
-  entity = Entity.Doctor;
+  override entity = Entity.Doctor;
 
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -36,14 +36,25 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (
+          value: any,
+          row: ActionsCellComponent,
+          cell: any
+        ) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
-              console.log({ action });
-              if (action === Action.Delete) {
-                this.openRemoveDialog(row.id);
+              switch (action) {
+                case Action.Delete:
+                  this.openRemoveDialog(row.id);
+                  break;
+
+                case Action.Edit:
+                  this.editDialog(row);
+                  break;
+                default:
+                  break;
               }
             });
         },
@@ -53,7 +64,10 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
     },
   };
 
-  constructor(coreService: CoreService, dialogService: NbDialogService) {
+  constructor(
+    coreService: CoreService,
+    override readonly dialogService: NbDialogService
+  ) {
     super(coreService, dialogService);
   }
 
@@ -65,12 +79,13 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
       });
   }
 
-  editDialog() {
-    this.dialogRef(this.selectedRows[0])
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
+  editDialog(doctor?: Doctor) {
+    if (doctor)
+      this.dialogRef(doctor)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
   }
 
   private dialogRef(

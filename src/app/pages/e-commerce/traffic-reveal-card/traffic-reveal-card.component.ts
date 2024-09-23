@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { TrafficList, TrafficListData } from '../../../@core/data/traffic-list';
-import { TrafficBarData, TrafficBar } from '../../../@core/data/traffic-bar';
 import { takeWhile } from 'rxjs/operators';
+import { TrafficBar, TrafficBarData } from '../../../@core/data/traffic-bar';
+import { TrafficList, TrafficListData } from '../../../@core/data/traffic-list';
 
 @Component({
   selector: 'ngx-traffic-reveal-card',
@@ -9,16 +9,17 @@ import { takeWhile } from 'rxjs/operators';
   templateUrl: './traffic-reveal-card.component.html',
 })
 export class TrafficRevealCardComponent implements OnDestroy {
-
   private alive = true;
 
-  trafficBarData: TrafficBar;
-  trafficListData: TrafficList;
+  trafficBarData!: TrafficBar;
+  trafficListData!: TrafficList;
   revealed = false;
   period: string = 'week';
 
-  constructor(private trafficListService: TrafficListData,
-              private trafficBarService: TrafficBarData) {
+  constructor(
+    private trafficListService: TrafficListData,
+    private trafficBarService: TrafficBarData
+  ) {
     this.getTrafficFrontCardData(this.period);
     this.getTrafficBackCardData(this.period);
   }
@@ -35,17 +36,19 @@ export class TrafficRevealCardComponent implements OnDestroy {
   }
 
   getTrafficBackCardData(period: string) {
-    this.trafficBarService.getTrafficBarData(period)
-      .pipe(takeWhile(() => this.alive ))
-      .subscribe(trafficBarData => {
+    this.trafficBarService
+      .getTrafficBarData(period)
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((trafficBarData) => {
         this.trafficBarData = trafficBarData;
       });
   }
 
   getTrafficFrontCardData(period: string) {
-    this.trafficListService.getTrafficListData(period)
+    this.trafficListService
+      .getTrafficListData(period)
       .pipe(takeWhile(() => this.alive))
-      .subscribe(trafficListData => {
+      .subscribe((trafficListData) => {
         this.trafficListData = trafficListData;
       });
   }

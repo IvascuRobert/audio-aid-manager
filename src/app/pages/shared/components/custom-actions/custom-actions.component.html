@@ -7,7 +7,7 @@
   <nb-action [nbTooltip]="selectedRows.length === 0 ? 'Please select an item' : 'Remove'"
              nbTooltipPlacement="top"
              icon="trash-2-outline"
-             [badgeText]="selectedRows.length"
+             [badgeText]="selectedRows.length.toString()"
              badgeStatus="warning"
              [disabled]="selectedRows.length === 0"
              (click)="handleRemoveAction.emit(true)">

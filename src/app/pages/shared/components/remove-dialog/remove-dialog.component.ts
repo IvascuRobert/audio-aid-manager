@@ -15,9 +15,9 @@ import { CoreService } from '../../../../@core/services/core.service';
 export class RemoveDialogComponent {
   loading$ = new BehaviorSubject(false);
 
-  entity: Entity | null = null;
+  entity!: Entity;
 
-  id: number | null = null;
+  id!: number;
 
   constructor(
     @Optional() private ref: NbDialogRef<RemoveDialogComponent>,

@@ -1,6 +1,6 @@
 <ng-container *ngIf="control.invalid && control.touched">
   <p class="caption status-danger"
-     *ngIf="control.errors?.required">
+     *ngIf="control.errors?.['required']">
     This field is required.
   </p>
 </ng-container>

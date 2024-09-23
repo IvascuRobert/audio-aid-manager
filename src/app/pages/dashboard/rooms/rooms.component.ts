@@ -1,5 +1,9 @@
 import { Component, HostBinding, OnDestroy } from '@angular/core';
-import { NbThemeService, NbMediaBreakpoint, NbMediaBreakpointsService } from '@nebular/theme';
+import {
+  NbMediaBreakpoint,
+  NbMediaBreakpointsService,
+  NbThemeService,
+} from '@nebular/theme';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -18,33 +22,35 @@ import { map } from 'rxjs/operators';
   `,
 })
 export class RoomsComponent implements OnDestroy {
-
   @HostBinding('class.expanded')
-  private expanded: boolean;
-  private selected: number;
+  private expanded!: boolean;
+  private selected!: number;
 
-  isDarkTheme: boolean;
+  isDarkTheme!: boolean;
 
-  breakpoint: NbMediaBreakpoint;
+  breakpoint!: NbMediaBreakpoint;
   breakpoints: any;
   themeSubscription: any;
   themeChangeSubscription: any;
 
-  constructor(private themeService: NbThemeService,
-              private breakpointService: NbMediaBreakpointsService) {
-
+  constructor(
+    private themeService: NbThemeService,
+    private breakpointService: NbMediaBreakpointsService
+  ) {
     this.breakpoints = this.breakpointService.getBreakpointsMap();
-    this.themeSubscription = this.themeService.onMediaQueryChange()
+    this.themeSubscription = this.themeService
+      .onMediaQueryChange()
       .subscribe(([, newValue]) => {
         this.breakpoint = newValue;
       });
 
-    this.themeChangeSubscription = this.themeService.onThemeChange()
+    this.themeChangeSubscription = this.themeService
+      .onThemeChange()
       .pipe(map(({ name }) => name === 'cosmic' || name === 'dark'))
-      .subscribe((isDark: boolean) => this.isDarkTheme = isDark);
+      .subscribe((isDark: boolean) => (this.isDarkTheme = isDark));
   }
 
-  select(roomNumber) {
+  select(roomNumber: any) {
     if (this.isSelected(roomNumber)) {
       this.expand();
     } else {
@@ -66,7 +72,7 @@ export class RoomsComponent implements OnDestroy {
     return !this.expanded;
   }
 
-  private isSelected(roomNumber): boolean {
+  private isSelected(roomNumber: any): boolean {
     return this.selected === roomNumber;
   }
 

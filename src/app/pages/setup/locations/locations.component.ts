@@ -17,7 +17,7 @@ import { LocationsAddDialogComponent } from '../locations-add-dialog/locations-a
   styleUrls: ['./locations.component.scss'],
 })
 export class LocationsComponent extends BaseTable<Location> {
-  settings: Record<string, any> = {
+  override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
     columns: {
@@ -39,8 +39,8 @@ export class LocationsComponent extends BaseTable<Location> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value, row, cell) => row,
-        onComponentInitFunction: (instance) => {
+        valuePrepareFunction: (value: any, row: Location, cell: any) => row,
+        onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
             .subscribe(({ action, row }) => {
@@ -58,11 +58,11 @@ export class LocationsComponent extends BaseTable<Location> {
     },
   };
 
-  source: LocalDataSource = new LocalDataSource();
+  override source: LocalDataSource = new LocalDataSource();
 
   constructor(
     private service: SmartTableData,
-    readonly dialogService: NbDialogService,
+    override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
@@ -70,7 +70,7 @@ export class LocationsComponent extends BaseTable<Location> {
     this.source.load(data);
   }
 
-  addDialog(row) {
+  addDialog(row: Location) {
     this.dialogService.open(LocationsAddDialogComponent, {
       context: { selectedLocation: row },
     });

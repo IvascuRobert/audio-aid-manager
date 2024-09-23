@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
   "tslint.enable": false,
-  "angular.enable-strict-mode-prompt": false
+  "angular.enable-strict-mode-prompt": false,
+  "cSpell.words": ["echarts"]
 }

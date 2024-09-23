@@ -1,13 +1,17 @@
-<form [formGroup]="employeeAddForm"
-      (ngSubmit)="submit()">
+<form
+  [formGroup]="employeeAddForm"
+  (ngSubmit)="submit()"
+>
   <nb-card>
     <nb-card-header>
       <div class="d-flex align-items-center">
-        <nb-icon class="skip mr-2"
-                 icon="plus-circle-outline"
-                 pack="eva"
-                 status="primary"
-                 [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+        <nb-icon
+          class="skip mr-2"
+          icon="plus-circle-outline"
+          pack="eva"
+          status="primary"
+          [options]="{ animation: { type: 'pulse' } }"
+        ></nb-icon>
         Add new employee
       </div>
     </nb-card-header>
@@ -15,52 +19,72 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="email"
-                   class="label">Email</label>
-            <input type="text"
-                   nbInput
-                   fullWidth
-                   id="email"
-                   placeholder="Email"
-                   formControlemail="email"
-                   [status]="isValid('email') ? 'danger' : 'basic'" />
+            <label
+              for="email"
+              class="label"
+              >Email</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="email"
+              placeholder="Email"
+              formControlemail="email"
+              [status]="isValid(emailControl) ? 'danger' : 'basic'"
+            />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="name"
-                   class="label">Name</label>
-            <input type="text"
-                   nbInput
-                   fullWidth
-                   id="name"
-                   placeholder="Name"
-                   formControlName="name"
-                   [status]="isValid('name') ? 'danger' : 'basic'" />
+            <label
+              for="name"
+              class="label"
+              >Name</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="name"
+              placeholder="Name"
+              formControlName="name"
+              [status]="isValid(nameControl) ? 'danger' : 'basic'"
+            />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="password"
-                   class="label">Password</label>
-            <input type="text"
-                   nbInput
-                   fullWidth
-                   id="password"
-                   placeholder="Password"
-                   formControlName="password"
-                   [status]="isValid('password') ? 'danger' : 'basic'" />
+            <label
+              for="password"
+              class="label"
+              >Password</label
+            >
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              id="password"
+              placeholder="Password"
+              formControlName="password"
+              [status]="isValid(passwordControl) ? 'danger' : 'basic'"
+            />
           </div>
         </div>
         <div class="col-12">
           <div class="form-group">
-            <label for="role"
-                   class="label">Role</label>
-            <nb-select id="role"
-                       fullWidth
-                       placeholder="Role"
-                       formControlName="role"
-                       [status]="isValid('role') ? 'danger' : 'basic'">
+            <label
+              for="role"
+              class="label"
+              >Role</label
+            >
+            <nb-select
+              id="role"
+              fullWidth
+              placeholder="Role"
+              formControlName="role"
+              [status]="isValid(roleControl) ? 'danger' : 'basic'"
+            >
               <nb-option value="1">role 1</nb-option>
               <nb-option value="2">role 2</nb-option>
               <nb-option value="3">role 3</nb-option>
@@ -70,12 +94,17 @@
         </div>
         <div class="col-6">
           <div class="form-group">
-            <label for="gender"
-                   class="label">Gender</label>
-            <nb-radio-group id="gender"
-                            fullWidth
-                            formControlName="gender"
-                            [status]="isValid('gender') ? 'danger' : 'basic'">
+            <label
+              for="gender"
+              class="label"
+              >Gender</label
+            >
+            <nb-radio-group
+              id="gender"
+              fullWidth
+              formControlName="gender"
+              [status]="isValid(genderControl) ? 'danger' : 'basic'"
+            >
               <nb-radio value="male">male</nb-radio>
               <nb-radio value="female">female</nb-radio>
               <nb-radio value="unknown">Unknown</nb-radio>
@@ -86,22 +115,26 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="d-flex justify-content-end">
-        <button class="mr-2"
-                type="button"
-                nbButton
-                status="basic"
-                (click)="cancel()">
+        <button
+          class="mr-2"
+          type="button"
+          nbButton
+          status="basic"
+          (click)="cancel()"
+        >
           Cancel
         </button>
 
-        <button type="submit"
-                nbButton
-                hero
-                status="primary"
-                (click)="toggleLoadingLargeGroupAnimation()"
-                [nbSpinner]="loadingLargeGroup"
-                nbSpinnerStatus="success"
-                nbSpinnerMessage="">
+        <button
+          type="submit"
+          nbButton
+          hero
+          status="primary"
+          (click)="toggleLoadingLargeGroupAnimation()"
+          [nbSpinner]="loadingLargeGroup"
+          nbSpinnerStatus="success"
+          nbSpinnerMessage=""
+        >
           Save
         </button>
       </div>

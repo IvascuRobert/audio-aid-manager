@@ -7,5 +7,5 @@ import { FormControl } from '@angular/forms';
     styleUrls: ['./form-errors.component.scss'],
 })
 export class FormErrorsComponent {
-    @Input() control: FormControl
+    @Input() control!: FormControl
 }

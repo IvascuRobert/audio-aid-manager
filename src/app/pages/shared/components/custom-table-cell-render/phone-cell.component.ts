@@ -8,5 +8,5 @@ import { Component, Input } from "@angular/core";
   `,
 })
 export class PhoneCellComponent {
-  @Input() value;
+  @Input() value!:string;
 }

@@ -1,66 +1,81 @@
 <ng-container *ngIf="{ loading: loading$ | async, doctor: doctor } as data">
-    <form [formGroup]="doctorsAddForm"
-          (ngSubmit)="submit()">
-        <nb-card>
-            <nb-card-header>
-                <div class="d-flex align-items-center">
-                    <ng-container *ngIf="doctor; else addDoctorTpl">
-                        <nb-icon class="skip mr-2"
-                                 icon="edit-2-outline"
-                                 pack="eva"
-                                 status="primary"
-                                 [options]="{ animation: { type: 'pulse' } }"></nb-icon>
-                        Edit doctor
-                    </ng-container>
-                    <ng-template #addDoctorTpl>
-                        <nb-icon class="skip mr-2"
-                                 icon="plus-circle-outline"
-                                 pack="eva"
-                                 status="primary"
-                                 [options]="{ animation: { type: 'pulse' } }"></nb-icon>
-                        Add new doctor
-                    </ng-template>
-                </div>
-            </nb-card-header>
-            <nb-card-body>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="name"
-                                   class="label">Name</label>
-                            <input type="text"
-                                   nbInput
-                                   fullWidth
-                                   id="name"
-                                   placeholder="Name"
-                                   formControlName="name"
-                                   [status]="isValid('name') ? 'danger' : 'basic'" />
-                            <ngx-form-errors [control]="nameControl"></ngx-form-errors>
-                        </div>
-                    </div>
-                </div>
-            </nb-card-body>
-            <nb-card-footer>
-                <div class="d-flex justify-content-end">
-                    <button class="mr-2"
-                            type="button"
-                            nbButton
-                            status="basic"
-                            (click)="close(false)">
-                        Cancel
-                    </button>
+  <form
+    [formGroup]="doctorsAddForm"
+    (ngSubmit)="submit()"
+  >
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex align-items-center">
+          <ng-container *ngIf="doctor; else addDoctorTpl">
+            <nb-icon
+              class="skip mr-2"
+              icon="edit-2-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Edit doctor
+          </ng-container>
+          <ng-template #addDoctorTpl>
+            <nb-icon
+              class="skip mr-2"
+              icon="plus-circle-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Add new doctor
+          </ng-template>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="name"
+                class="label"
+                >Name</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="name"
+                placeholder="Name"
+                formControlName="name"
+                [status]="isValid(nameControl) ? 'danger' : 'basic'"
+              />
+              <ngx-form-errors [control]="nameControl"></ngx-form-errors>
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-flex justify-content-end">
+          <button
+            class="mr-2"
+            type="button"
+            nbButton
+            status="basic"
+            (click)="close(false)"
+          >
+            Cancel
+          </button>
 
-                    <button type="submit"
-                            nbButton
-                            hero
-                            status="primary"
-                            [nbSpinner]="data.loading"
-                            nbSpinnerStatus="success"
-                            nbSpinnerMessage="">
-                        Save
-                    </button>
-                </div>
-            </nb-card-footer>
-        </nb-card>
-    </form>
+          <button
+            type="submit"
+            nbButton
+            hero
+            status="primary"
+            [nbSpinner]="data.loading!"
+            nbSpinnerStatus="success"
+            nbSpinnerMessage=""
+          >
+            Save
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </form>
 </ng-container>

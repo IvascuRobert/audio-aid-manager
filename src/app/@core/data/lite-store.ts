@@ -16,7 +16,7 @@ import {
 export abstract class Store<T> {
   private _freeze: boolean = true;
   private _entityId: string = 'id';
-  private _state: BehaviorSubject<T>;
+  private _state: BehaviorSubject<any>;
 
   private setFrozen(state: T): T {
     if (this._freeze) {
@@ -32,7 +32,7 @@ export abstract class Store<T> {
     return state;
   }
 
-  get state(): T {
+  get state() {
     return this._state.getValue();
   }
 
@@ -77,7 +77,7 @@ export abstract class Store<T> {
     entity: string
   ): T {
     let newState;
-    const reducedState = fn(this.state) as E & StoreEntity<K>;
+    const reducedState: any = fn(this.state) as E & StoreEntity<K>;
 
     if (reducedState.entities) {
       newState = {

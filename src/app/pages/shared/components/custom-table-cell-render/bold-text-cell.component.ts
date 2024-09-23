@@ -4,5 +4,5 @@ import { Component, Input } from "@angular/core";
   template: `<strong>{{ value }}</strong>`,
 })
 export class BoldTextCellComponent {
-  @Input() value;
+  @Input() value!:string;
 }
