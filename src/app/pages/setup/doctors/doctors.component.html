@@ -4,7 +4,7 @@
     <ngx-custom-actions
       [selectedRows]="selectedRows"
       (handleAddAction)="addDialog()"
-      (handleEditAction)="editDialog()"
+      (handleEditAction)="editDialog(selectedRows[0])"
       (handleReloadAction)="refresh()"
       (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
     >
