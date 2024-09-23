@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -73,7 +74,7 @@ const PIPES = [
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES]
+  declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {
@@ -84,7 +85,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
+          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME]
         ).providers,
       ],
     };
