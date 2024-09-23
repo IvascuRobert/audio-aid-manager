@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Action } from '../../../@core/data/actions';
 import { SmartTableData } from '../../../@core/data/smart-table';
@@ -12,6 +13,7 @@ import { RoleCellComponent } from '../../shared/components/custom-table-cell-ren
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { EmployeeAddDialogComponent } from '../employee-add-dialog/employee-add-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-employee',
   templateUrl: './employee.component.html',
@@ -57,11 +59,13 @@ export class EmployeeComponent extends BaseTable<User> {
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange.subscribe(({ action, row }) => {
-            if (action === Action.Delete) {
-              this.removeItem(row);
-            }
-          });
+          instance.actionChange
+            .pipe(untilDestroyed(this))
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.refresh();
+              }
+            });
         },
         sort: false,
         filter: false,

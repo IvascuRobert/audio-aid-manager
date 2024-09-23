@@ -5,8 +5,8 @@
       [selectedRows]="selectedRows"
       (handleAddAction)="addDialog()"
       (handleEditAction)="editDialog()"
-      (handleReloadAction)="reloadDoctors()"
-      (handleRemoveAction)="openRemoveDialog()"
+      (handleReloadAction)="refresh()"
+      (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
     >
     </ngx-custom-actions>
   </nb-card-body>

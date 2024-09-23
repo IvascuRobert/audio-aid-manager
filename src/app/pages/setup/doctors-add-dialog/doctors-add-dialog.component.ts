@@ -1,9 +1,11 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { Doctor } from '../../../@core/data/doctor';
+import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
 
 @UntilDestroy()
@@ -21,6 +23,8 @@ export class DoctorsAddDialogComponent implements OnInit {
   doctor: Doctor | null = null;
 
   loading$ = new BehaviorSubject(false);
+
+  entity: Entity | null = null;
 
   get nameControl() {
     return this.doctorsAddForm.controls.name;
@@ -62,24 +66,30 @@ export class DoctorsAddDialogComponent implements OnInit {
   private updateDoctor(): void {
     const doctor: Doctor = this.doctorsAddForm.getRawValue();
     this.loading$.next(true);
-    // this.coreService.putDoctors(doctor).pipe(
-    //   untilDestroyed(this),
-    //   finalize(() => {
-    //     this.loading$.next(false);
-    //     this.close(true)
-    //   })
-    // ).subscribe()
+    this.coreService
+      .put(doctor, this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
   }
 
   private addDoctor(): void {
     const doctor: Doctor = this.doctorsAddForm.getRawValue();
     this.loading$.next(true);
-    // this.coreService.postDoctors(doctor).pipe(
-    //   untilDestroyed(this),
-    //   finalize(() => {
-    //     this.loading$.next(false);
-    //     this.close(true)
-    //   })
-    // ).subscribe()
+    this.coreService
+      .post(doctor, this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
   }
 }

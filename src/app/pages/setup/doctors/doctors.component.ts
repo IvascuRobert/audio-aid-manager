@@ -38,11 +38,14 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange.subscribe(({ action, row }) => {
-            if (action === Action.Delete) {
-              this.removeItem(row);
-            }
-          });
+          instance.actionChange
+            .pipe(untilDestroyed(this))
+            .subscribe(({ action, row }) => {
+              console.log({ action });
+              if (action === Action.Delete) {
+                this.openRemoveDialog(row.id);
+              }
+            });
         },
         sort: false,
         filter: false,
@@ -58,7 +61,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
     this.dialogRef()
       .onClose.pipe(untilDestroyed(this))
       .subscribe((fetchData: boolean) => {
-        if (fetchData) this.reloadDoctors();
+        if (fetchData) this.refresh();
       });
   }
 
@@ -66,7 +69,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
     this.dialogRef(this.selectedRows[0])
       .onClose.pipe(untilDestroyed(this))
       .subscribe((fetchData: boolean) => {
-        if (fetchData) this.reloadDoctors();
+        if (fetchData) this.refresh();
       });
   }
 
@@ -76,6 +79,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
     return this.dialogService.open(DoctorsAddDialogComponent, {
       context: {
         doctor,
+        entity: this.entity,
       },
     });
   }

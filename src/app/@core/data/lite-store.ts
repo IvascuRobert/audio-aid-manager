@@ -8,7 +8,7 @@ import {
   Selector,
   StoreEntity,
   StoreOptions,
-} from '../data/lite-store.model';
+} from './lite-store.model';
 
 @Injectable({
   providedIn: 'root',

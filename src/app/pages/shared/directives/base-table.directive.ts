@@ -16,6 +16,7 @@ import {
   getItem,
   setItem,
 } from '../../../@core/utils/save-local-storage';
+import { RemoveDialogComponent } from '../components/remove-dialog/remove-dialog.component';
 import { SettingsDialogComponent } from '../components/settings-dialog/settings-dialog.component';
 
 @UntilDestroy()
@@ -71,12 +72,6 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
     }
   }
 
-  removeItem(row: T) {
-    this.source.remove(row);
-    this.selectedRows = [];
-    this.isAllSelected = false;
-  }
-
   resetSelectedRows(): void {
     this.selectedRows = [];
     this.isAllSelected = false;
@@ -90,35 +85,42 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           localStorageSettingsKey: this.localStorageSettingsKey,
         },
       })
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((settings) => {
-        if (settings) {
-          const { columns, hiddenColumns } = settings;
-          this.settings = mapHideOrShowColumns(
-            columns,
-            this.settings,
-            hiddenColumns
-          );
-          setItem(this.localStorageSettingsKey, columns);
-        }
-      });
+      .onClose.pipe(
+        untilDestroyed(this),
+        tap((settings) => {
+          if (settings) {
+            const { columns, hiddenColumns } = settings;
+
+            this.settings = mapHideOrShowColumns(
+              columns,
+              this.settings,
+              hiddenColumns
+            );
+            setItem(this.localStorageSettingsKey, columns);
+          }
+        })
+      )
+      .subscribe();
   }
 
-  openRemoveDialog() {
-    if (this.selectedRows.length > 0) {
-      // this.dialogService
-      //   .open(RemoveDialogComponent, {
-      //     context: {
-      //       entity: this.entity,
-      //       id: this.selectedRows[0].id,
-      //     },
-      //   })
-      //   .onClose.pipe(untilDestroyed(this))
-      //   .subscribe();
+  openRemoveDialog(id?: number) {
+    if (id) {
+      this.dialogService
+        .open(RemoveDialogComponent, {
+          context: {
+            entity: this.entity,
+            id,
+          },
+        })
+        .onClose.pipe(
+          untilDestroyed(this),
+          tap(() => this.refresh())
+        )
+        .subscribe();
     }
   }
 
-  reloadDoctors(): void {
+  refresh(): void {
     this.resetSelectedRows();
     this.getServerData();
   }

@@ -1,7 +1,8 @@
 import { Component, Optional } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { Entity } from '../../../../@core/data/entity';
 import { CoreService } from '../../../../@core/services/core.service';
 
@@ -29,15 +30,15 @@ export class RemoveDialogComponent {
 
   remove() {
     this.loading$.next(true);
-    // this.coreService
-    //   .delete(this.entity, this.id)
-    //   .pipe(
-    //     untilDestroyed(this),
-    //     finalize(() => {
-    //       this.loading$.next(false);
-    //       this.close();
-    //     })
-    //   )
-    //   .subscribe();
+    this.coreService
+      .delete(this.id, this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close();
+        })
+      )
+      .subscribe();
   }
 }

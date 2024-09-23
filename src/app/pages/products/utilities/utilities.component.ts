@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action } from '../../../@core/data/actions';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { Utility } from '../../../@core/data/utility';
@@ -14,6 +15,7 @@ import { PriceCellComponent } from '../../shared/components/custom-table-cell-re
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { UtilitiesAddDialogComponent } from '../utilities-add-dialog/utilities-add-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-utilities',
   templateUrl: './utilities.component.html',
@@ -61,11 +63,13 @@ export class UtilitiesComponent extends BaseTable<Utility> {
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange.subscribe(({ action, row }) => {
-            if (action === Action.Delete) {
-              this.removeItem(row);
-            }
-          });
+          instance.actionChange
+            .pipe(untilDestroyed(this))
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.refresh();
+              }
+            });
         },
         sort: false,
         filter: false,

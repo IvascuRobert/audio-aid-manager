@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Accessory } from '../../../@core/data/accessory';
 import { Action } from '../../../@core/data/actions';
@@ -12,6 +13,7 @@ import { PriceCellComponent } from '../../shared/components/custom-table-cell-re
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { AccessoriesAddDialogComponent } from '../accessories-add-dialog/accessories-add-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-accessories',
   templateUrl: './accessories.component.html',
@@ -72,11 +74,13 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange.subscribe(({ action, row }) => {
-            if (action === Action.Delete) {
-              this.removeItem(row);
-            }
-          });
+          instance.actionChange
+            .pipe(untilDestroyed(this))
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.refresh();
+              }
+            });
         },
         sort: false,
         filter: false,

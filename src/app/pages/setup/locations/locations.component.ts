@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Action } from '../../../@core/data/actions';
 import { Location } from '../../../@core/data/location';
@@ -9,6 +10,7 @@ import { ActionsCellComponent } from '../../shared/components/custom-table-cell-
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { LocationsAddDialogComponent } from '../locations-add-dialog/locations-add-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-locations',
   templateUrl: './locations.component.html',
@@ -39,14 +41,16 @@ export class LocationsComponent extends BaseTable<Location> {
         renderComponent: ActionsCellComponent,
         valuePrepareFunction: (value, row, cell) => row,
         onComponentInitFunction: (instance) => {
-          instance.actionChange.subscribe(({ action, row }) => {
-            if (action === Action.Delete) {
-              this.removeItem(row);
-            }
-            if (action === Action.Edit) {
-              this.addDialog(row);
-            }
-          });
+          instance.actionChange
+            .pipe(untilDestroyed(this))
+            .subscribe(({ action, row }) => {
+              if (action === Action.Delete) {
+                this.refresh();
+              }
+              if (action === Action.Edit) {
+                this.addDialog(row);
+              }
+            });
         },
         sort: false,
         filter: false,

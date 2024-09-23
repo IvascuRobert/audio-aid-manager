@@ -4,6 +4,8 @@
     <ngx-custom-actions
       [selectedRows]="selectedRows"
       (handleAddAction)="addDialog(selectedRows[0])"
+      (handleReloadAction)="refresh()"
+      (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
     >
     </ngx-custom-actions>
   </nb-card-body>
