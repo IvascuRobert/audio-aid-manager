@@ -1,8 +1,14 @@
 <nb-card>
   <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <ngx-custom-actions [selectedRows]="selectedRows" 
-    (handleAddAction)="addDialog()"> </ngx-custom-actions>
+    <ngx-custom-actions
+      [selectedRows]="selectedRows"
+      (handleAddAction)="addDialog()"
+      (handleEditAction)="editDialog(selectedRows[0])"
+      (handleReloadAction)="refresh()"
+      (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
+    >
+    </ngx-custom-actions>
   </nb-card-body>
 </nb-card>
 <nb-card>

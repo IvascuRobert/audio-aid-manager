@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Action } from '../../../@core/data/actions';
+import { Entity } from '../../../@core/data/entity';
 import { Location } from '../../../@core/data/location';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { CoreService } from '../../../@core/services/core.service';
@@ -17,6 +18,8 @@ import { LocationsAddDialogComponent } from '../locations-add-dialog/locations-a
   styleUrls: ['./locations.component.scss'],
 })
 export class LocationsComponent extends BaseTable<Location> {
+  override entity = Entity.Location;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -48,7 +51,7 @@ export class LocationsComponent extends BaseTable<Location> {
                 this.refresh();
               }
               if (action === Action.Edit) {
-                this.addDialog(row);
+                this.editDialog(row);
               }
             });
         },
@@ -66,13 +69,33 @@ export class LocationsComponent extends BaseTable<Location> {
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().locations;
-    this.source.load(data);
   }
 
-  addDialog(row: Location) {
-    this.dialogService.open(LocationsAddDialogComponent, {
-      context: { selectedLocation: row },
+  addDialog() {
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(location?: Location) {
+    if (location)
+      this.dialogRef(location)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    location: Location | null = null
+  ): NbDialogRef<LocationsAddDialogComponent> {
+    return this.dialogService.open(LocationsAddDialogComponent, {
+      context: {
+        selectedLocation: location,
+        entity: this.entity,
+      },
     });
   }
 }

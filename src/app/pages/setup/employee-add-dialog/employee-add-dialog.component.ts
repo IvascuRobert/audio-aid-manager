@@ -1,8 +1,10 @@
 import { Component, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-employee-add-dialog',
   templateUrl: './employee-add-dialog.component.html',

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
 import { Clinic } from '../../../@core/data/clinic';
 import { Entity } from '../../../@core/data/entity';
@@ -43,15 +44,18 @@ export class ClinicsComponent extends BaseTable<Clinic> {
         valuePrepareFunction: (value: any, row: Clinic, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-              if (action === Action.Edit) {
-                this.editDialog(row);
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                if (action === Action.Delete) {
+                  this.refresh();
+                }
+                if (action === Action.Edit) {
+                  this.editDialog(row);
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,

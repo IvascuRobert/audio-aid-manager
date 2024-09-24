@@ -1,67 +1,80 @@
-<form
-  [formGroup]="roomsAddForm"
-  (ngSubmit)="submit()"
->
-  <nb-card>
-    <nb-card-header>
-      <div class="d-flex align-items-center">
-        <nb-icon
-          class="skip mr-2"
-          icon="plus-circle-outline"
-          pack="eva"
-          status="primary"
-          [options]="{ animation: { type: 'pulse' } }"
-        ></nb-icon>
-        Add new room
-      </div>
-    </nb-card-header>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="name"
-              class="label"
-              >Name</label
-            >
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="name"
-              placeholder="Name"
-              formControlName="name"
-              [status]="isValid(nameControl) ? 'danger' : 'basic'"
-            />
+<ng-container *ngIf="{ loading: loading$ | async, room: selectedRoom } as data"
+  ><form
+    [formGroup]="roomsAddForm"
+    (ngSubmit)="submit()"
+  >
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex align-items-center">
+          <ng-container *ngIf="data.room; else titleAddRoomTpl">
+            <nb-icon
+              class="skip mr-2"
+              icon="edit-2-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Edit room
+          </ng-container>
+          <ng-template #titleAddRoomTpl>
+            <nb-icon
+              class="skip mr-2"
+              icon="plus-circle-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Add new room
+          </ng-template>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="name"
+                class="label"
+                >Name</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="name"
+                placeholder="Name"
+                formControlName="name"
+                [status]="isValid(nameControl) ? 'danger' : 'basic'"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="d-flex justify-content-end">
-        <button
-          class="mr-2"
-          type="button"
-          nbButton
-          status="basic"
-          (click)="cancel()"
-        >
-          Cancel
-        </button>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-flex justify-content-end">
+          <button
+            class="mr-2"
+            type="button"
+            nbButton
+            status="basic"
+            (click)="close()"
+          >
+            Cancel
+          </button>
 
-        <button
-          type="submit"
-          nbButton
-          hero
-          status="primary"
-          (click)="toggleLoadingLargeGroupAnimation()"
-          [nbSpinner]="loadingLargeGroup"
-          nbSpinnerStatus="success"
-          nbSpinnerMessage=""
-        >
-          Save
-        </button>
-      </div>
-    </nb-card-footer>
-  </nb-card>
-</form>
+          <button
+            type="submit"
+            nbButton
+            hero
+            status="primary"
+            [nbSpinner]="data.loading!"
+            nbSpinnerStatus="success"
+            nbSpinnerMessage=""
+          >
+            Save
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </form>
+</ng-container>

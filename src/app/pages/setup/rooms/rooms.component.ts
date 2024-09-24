@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
+import { Entity } from '../../../@core/data/entity';
 import { Room } from '../../../@core/data/room';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { RoomsAddDialogComponent } from '../rooms-add-dialog/rooms-add-dialog.component';
-import { tap } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -18,6 +17,8 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./rooms.component.scss'],
 })
 export class RoomsComponent extends BaseTable<Room> {
+  override entity = Entity.Room;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -36,15 +37,20 @@ export class RoomsComponent extends BaseTable<Room> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value:any, row:Room, cell:any) => row,
+        valuePrepareFunction: (value: any, row: Room, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this),
-          tap(({ action }) => {
-            if (action === Action.Delete) {
-              this.refresh();
-            }
-          }))
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                if (action === Action.Delete) {
+                  this.refresh();
+                }
+                if (action === Action.Edit) {
+                  this.editDialog(row);
+                }
+              })
+            )
             .subscribe();
         },
         sort: false,
@@ -53,20 +59,38 @@ export class RoomsComponent extends BaseTable<Room> {
     },
   };
 
-  override source: LocalDataSource = new LocalDataSource();
-
-
   constructor(
-    private service: SmartTableData,
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().rooms;
-    this.source.load(data);
   }
 
   addDialog() {
-    this.dialogService.open(RoomsAddDialogComponent);
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(room?: Room) {
+    if (room)
+      this.dialogRef(room)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    room: Room | null = null
+  ): NbDialogRef<RoomsAddDialogComponent> {
+    return this.dialogService.open(RoomsAddDialogComponent, {
+      context: {
+        selectedRoom: room,
+        entity: this.entity,
+      },
+    });
   }
 }

@@ -1,8 +1,14 @@
-<nb-card>
+<nb-card *ngIf="entities$ | async as clinicState">
   <nb-card-header>Actions</nb-card-header>
   <nb-card-body>
-    <ngx-custom-actions [selectedRows]="selectedRows"
-                        (handleAddAction)="addDialog(selectedRows[0])"> </ngx-custom-actions>
+    <ngx-custom-actions
+      [selectedRows]="selectedRows"
+      (handleAddAction)="addDialog()"
+      (handleEditAction)="editDialog(selectedRows[0])"
+      (handleReloadAction)="refresh()"
+      (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
+    >
+    </ngx-custom-actions>
   </nb-card-body>
 </nb-card>
 <nb-card>
@@ -19,9 +25,11 @@
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="settings"
-                     [source]="source"
-                     (rowSelect)="handleSelectedRow($event)">
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (rowSelect)="handleSelectedRow($event)"
+    >
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
