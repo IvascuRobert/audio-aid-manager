@@ -1,36 +1,36 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DoctorsComponent } from "./doctors/doctors.component";
-import { EmployeeComponent } from "./employee/employee.component";
-import { LocationsComponent } from "./locations/locations.component";
-import { RoomsComponent } from "./rooms/rooms.component";
-import { SetupComponent } from "./setup.component";
 import { ClinicsComponent } from './clinics/clinics.component';
+import { DoctorsComponent } from './doctors/doctors.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { SetupComponent } from './setup.component';
+import { ShopsComponent } from './shops/shops.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: SetupComponent,
     children: [
       {
-        path: "employee",
+        path: 'employee',
         component: EmployeeComponent,
       },
       {
-        path: "rooms",
+        path: 'rooms',
         component: RoomsComponent,
       },
       {
-        path: "locations",
-        component: LocationsComponent,
+        path: 'shops',
+        component: ShopsComponent,
       },
       {
-        path: "clinics",
+        path: 'clinics',
         component: ClinicsComponent,
       },
       {
-        path: "doctors",
+        path: 'doctors',
         component: DoctorsComponent,
       },
     ],

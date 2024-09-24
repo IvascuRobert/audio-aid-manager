@@ -1,76 +1,76 @@
-import { NbMenuItem } from "@nebular/theme";
+import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: "E-commerce",
-    icon: "shopping-cart-outline",
-    link: "/pages/dashboard",
+    title: 'E-commerce',
+    icon: 'shopping-cart-outline',
+    link: '/pages/dashboard',
     home: true,
   },
   {
-    title: "IoT Dashboard",
-    icon: "home-outline",
-    link: "/pages/iot-dashboard",
+    title: 'IoT Dashboard',
+    icon: 'home-outline',
+    link: '/pages/iot-dashboard',
   },
   {
-    title: "Customers",
-    icon: "people-outline",
-    link: "/pages/customers",
+    title: 'Customers',
+    icon: 'people-outline',
+    link: '/pages/customers',
   },
   {
-    title: "Appointments",
-    icon: "calendar-outline",
-    link: "/pages/appointments",
+    title: 'Appointments',
+    icon: 'calendar-outline',
+    link: '/pages/appointments',
   },
   {
-    title: "Products",
-    icon: "pie-chart-outline",
+    title: 'Products',
+    icon: 'pie-chart-outline',
     children: [
       {
-        title: "Devices",
-        link: "/pages/products/devices",
+        title: 'Devices',
+        link: '/pages/products/devices',
       },
       {
-        title: "Accessories",
-        link: "/pages/products/accessories",
+        title: 'Accessories',
+        link: '/pages/products/accessories',
       },
       {
-        title: "Utilities",
-        link: "/pages/products/utilities",
+        title: 'Utilities',
+        link: '/pages/products/utilities',
       },
       {
-        title: "Services",
-        link: "/pages/products/services",
+        title: 'Services',
+        link: '/pages/products/services',
       },
     ],
   },
   {
-    title: "SETTINGS",
+    title: 'SETTINGS',
     group: true,
   },
   {
-    title: "Setup",
-    icon: "settings-2-outline",
+    title: 'Setup',
+    icon: 'settings-2-outline',
     children: [
       {
-        title: "Employee",
-        link: "/pages/setup/employee",
+        title: 'Employee',
+        link: '/pages/setup/employee',
       },
       {
-        title: "Rooms",
-        link: "/pages/setup/rooms",
+        title: 'Rooms',
+        link: '/pages/setup/rooms',
       },
       {
-        title: "Locations",
-        link: "/pages/setup/locations",
+        title: 'Shops',
+        link: '/pages/setup/shops',
       },
       {
-        title: "Clinics",
-        link: "/pages/setup/clinics",
+        title: 'Clinics',
+        link: '/pages/setup/clinics',
       },
       {
-        title: "Doctors",
-        link: "/pages/setup/doctors",
+        title: 'Doctors',
+        link: '/pages/setup/doctors',
       },
     ],
   },

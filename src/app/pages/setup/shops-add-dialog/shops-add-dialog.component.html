@@ -1,14 +1,12 @@
-<ng-container
-  *ngIf="{ loading: loading$ | async, location: selectedLocation } as data"
->
+<ng-container *ngIf="{ loading: loading$ | async, shop: selectedShop } as data">
   <form
-    [formGroup]="locationsAddForm"
+    [formGroup]="shopsAddForm"
     (ngSubmit)="submit()"
   >
     <nb-card>
       <nb-card-header>
         <div class="d-flex align-items-center">
-          <ng-container *ngIf="data.location; else titleAddLocationTpl">
+          <ng-container *ngIf="data.shop; else titleAddShopTpl">
             <nb-icon
               class="skip mr-2"
               icon="edit-2-outline"
@@ -16,9 +14,9 @@
               status="primary"
               [options]="{ animation: { type: 'pulse' } }"
             ></nb-icon>
-            Edit location
+            Edit shop
           </ng-container>
-          <ng-template #titleAddLocationTpl>
+          <ng-template #titleAddShopTpl>
             <nb-icon
               class="skip mr-2"
               icon="plus-circle-outline"
@@ -26,7 +24,7 @@
               status="primary"
               [options]="{ animation: { type: 'pulse' } }"
             ></nb-icon>
-            Add new location
+            Add new shop
           </ng-template>
         </div>
       </nb-card-header>

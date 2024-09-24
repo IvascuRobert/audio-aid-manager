@@ -1,24 +1,22 @@
 import { Component } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
 import { Action } from '../../../@core/data/actions';
 import { Entity } from '../../../@core/data/entity';
-import { Location } from '../../../@core/data/location';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Shop } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
-import { LocationsAddDialogComponent } from '../locations-add-dialog/locations-add-dialog.component';
+import { ShopsAddDialogComponent } from '../shops-add-dialog/shops-add-dialog.component';
 
 @UntilDestroy()
 @Component({
-  selector: 'ngx-locations',
-  templateUrl: './locations.component.html',
-  styleUrls: ['./locations.component.scss'],
+  selector: 'ngx-shops',
+  templateUrl: './shops.component.html',
+  styleUrls: ['./shops.component.scss'],
 })
-export class LocationsComponent extends BaseTable<Location> {
-  override entity = Entity.Location;
+export class ShopsComponent extends BaseTable<Shop> {
+  override entity = Entity.Shop;
 
   override settings: Record<string, any> = {
     selectMode: 'multi',
@@ -42,7 +40,7 @@ export class LocationsComponent extends BaseTable<Location> {
         type: 'custom',
         width: '1%',
         renderComponent: ActionsCellComponent,
-        valuePrepareFunction: (value: any, row: Location, cell: any) => row,
+        valuePrepareFunction: (value: any, row: Shop, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
             .pipe(untilDestroyed(this))
@@ -61,10 +59,7 @@ export class LocationsComponent extends BaseTable<Location> {
     },
   };
 
-  override source: LocalDataSource = new LocalDataSource();
-
   constructor(
-    private service: SmartTableData,
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
@@ -79,9 +74,9 @@ export class LocationsComponent extends BaseTable<Location> {
       });
   }
 
-  editDialog(location?: Location) {
-    if (location)
-      this.dialogRef(location)
+  editDialog(shop?: Shop) {
+    if (shop)
+      this.dialogRef(shop)
         .onClose.pipe(untilDestroyed(this))
         .subscribe((fetchData: boolean) => {
           if (fetchData) this.refresh();
@@ -89,11 +84,11 @@ export class LocationsComponent extends BaseTable<Location> {
   }
 
   private dialogRef(
-    location: Location | null = null
-  ): NbDialogRef<LocationsAddDialogComponent> {
-    return this.dialogService.open(LocationsAddDialogComponent, {
+    shop: Shop | null = null
+  ): NbDialogRef<ShopsAddDialogComponent> {
+    return this.dialogService.open(ShopsAddDialogComponent, {
       context: {
-        selectedLocation: location,
+        selectedShop: shop,
         entity: this.entity,
       },
     });

@@ -1,28 +1,38 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { NbButtonModule, NbCardModule, NbDatepickerModule, NbDialogModule, NbFormFieldModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbSpinnerModule } from "@nebular/theme";
-import { Ng2SmartTableModule } from "ng2-smart-table";
-import { SharedModule } from "../shared/shared.module";
-import { ClinicsComponent } from "./clinics/clinics.component";
-import { DoctorsComponent } from "./doctors/doctors.component";
-import { EmployeeComponent } from "./employee/employee.component";
-import { LocationsComponent } from "./locations/locations.component";
-import { RoomsComponent } from "./rooms/rooms.component";
-import { SetupRoutingModule } from "./setup-routing.module";
-import { SetupComponent } from "./setup.component";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDatepickerModule,
+  NbDialogModule,
+  NbFormFieldModule,
+  NbIconModule,
+  NbInputModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbSpinnerModule,
+} from '@nebular/theme';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { SharedModule } from '../shared/shared.module';
 import { ClinicsAddDialogComponent } from './clinics-add-dialog/clinics-add-dialog.component';
+import { ClinicsComponent } from './clinics/clinics.component';
 import { DoctorsAddDialogComponent } from './doctors-add-dialog/doctors-add-dialog.component';
+import { DoctorsComponent } from './doctors/doctors.component';
 import { EmployeeAddDialogComponent } from './employee-add-dialog/employee-add-dialog.component';
-import { LocationsAddDialogComponent } from './locations-add-dialog/locations-add-dialog.component';
+import { EmployeeComponent } from './employee/employee.component';
 import { RoomsAddDialogComponent } from './rooms-add-dialog/rooms-add-dialog.component';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RoomsComponent } from './rooms/rooms.component';
+import { SetupRoutingModule } from './setup-routing.module';
+import { SetupComponent } from './setup.component';
+import { ShopsAddDialogComponent } from './shops-add-dialog/shops-add-dialog.component';
+import { ShopsComponent } from './shops/shops.component';
 
 @NgModule({
   declarations: [
     EmployeeComponent,
     RoomsComponent,
-    LocationsComponent,
     ClinicsComponent,
     RoomsComponent,
     DoctorsComponent,
@@ -30,8 +40,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ClinicsAddDialogComponent,
     DoctorsAddDialogComponent,
     EmployeeAddDialogComponent,
-    LocationsAddDialogComponent,
     RoomsAddDialogComponent,
+    ShopsComponent,
+    ShopsAddDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +61,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     NbSelectModule,
     NbRadioModule,
     NbButtonModule,
-    NbSpinnerModule
+    NbSpinnerModule,
   ],
 })
 export class SetupModule {}

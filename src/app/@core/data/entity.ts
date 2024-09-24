@@ -2,6 +2,6 @@ export enum Entity {
   Customer = 'Customer',
   Doctor = 'Doctor',
   Clinic = 'Clinic',
-  Location = 'Location',
+  Shop = 'Shop',
   Room = 'Room',
 }

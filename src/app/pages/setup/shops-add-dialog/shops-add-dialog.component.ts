@@ -5,18 +5,18 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
-import { Location } from '../../../@core/data/location';
+import { Shop } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @UntilDestroy()
 @Component({
-  selector: 'ngx-locations-add-dialog',
-  templateUrl: './locations-add-dialog.component.html',
-  styleUrls: ['./locations-add-dialog.component.scss'],
+  selector: 'ngx-shops-add-dialog',
+  templateUrl: './shops-add-dialog.component.html',
+  styleUrls: ['./shops-add-dialog.component.scss'],
 })
-export class LocationsAddDialogComponent extends BaseForm implements OnInit {
-  locationsAddForm = this.fb.group({
+export class ShopsAddDialogComponent extends BaseForm implements OnInit {
+  shopsAddForm = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
     // address: ['', [Validators.required]], // TBD Add this controller when is added in BE
@@ -24,23 +24,23 @@ export class LocationsAddDialogComponent extends BaseForm implements OnInit {
 
   loadingLargeGroup = false;
 
-  selectedLocation: Location | null = null;
+  selectedShop: Shop | null = null;
 
   loading$ = new BehaviorSubject(false);
 
   entity!: Entity;
 
   get nameControl() {
-    return this.locationsAddForm.controls.name;
+    return this.shopsAddForm.controls.name;
   }
 
   // TBD Add this controller when is added in BE
   // get addressControl() {
-  //   return this.locationsAddForm.controls.address;
+  //   return this.shopsAddForm.controls.address;
   // }
 
   constructor(
-    @Optional() private ref: NbDialogRef<LocationsAddDialogComponent>,
+    @Optional() private ref: NbDialogRef<ShopsAddDialogComponent>,
     private fb: FormBuilder,
     private coreService: CoreService
   ) {
@@ -48,8 +48,8 @@ export class LocationsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedLocation)
-      this.locationsAddForm.patchValue(this.selectedLocation as any);
+    if (this.selectedShop)
+      this.shopsAddForm.patchValue(this.selectedShop as any);
   }
 
   close(fetchData = false) {
@@ -57,21 +57,21 @@ export class LocationsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.locationsAddForm.markAllAsTouched();
-    if (this.locationsAddForm.valid && this.loading$.value === false) {
-      if (this.selectedLocation) {
-        this.updateLocation();
+    this.shopsAddForm.markAllAsTouched();
+    if (this.shopsAddForm.valid && this.loading$.value === false) {
+      if (this.selectedShop) {
+        this.updateShop();
       } else {
-        this.addLocation();
+        this.addShop();
       }
     }
   }
 
-  private updateLocation(): void {
-    const location: Location = this.locationsAddForm.getRawValue() as Location;
+  private updateShop(): void {
+    const shop: Shop = this.shopsAddForm.getRawValue() as Shop;
     this.loading$.next(true);
     this.coreService
-      .put(location, this.entity)
+      .put(shop, this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -82,11 +82,11 @@ export class LocationsAddDialogComponent extends BaseForm implements OnInit {
       .subscribe();
   }
 
-  private addLocation(): void {
-    const location: Location = this.locationsAddForm.getRawValue() as Location;
+  private addShop(): void {
+    const shop: Shop = this.shopsAddForm.getRawValue() as Shop;
     this.loading$.next(true);
     this.coreService
-      .post(location, this.entity)
+      .post(shop, this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {

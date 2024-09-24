@@ -16,9 +16,9 @@
     <div class="row align-items-center">
       <div class="col-8">
         <span *ngIf="selectedRows.length; else allRows">
-          {{ selectedRows.length }} selected locations
+          {{ selectedRows.length }} selected shops
         </span>
-        <ng-template #allRows>{{ source.count() }} locations</ng-template>
+        <ng-template #allRows>{{ source.count() }} shops</ng-template>
       </div>
       <div class="col-4"></div>
     </div>
