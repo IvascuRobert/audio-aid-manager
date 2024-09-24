@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -27,14 +26,10 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "typeRoots": [
-    "node_modules/@types"
-  ],
+  "typeRoots": ["node_modules/@types"],
   "outDir": "./dist/out-tsc",
-  "importHelpers": true, "lib": [
-    "es2017",
-    "dom"
-  ],
+  "importHelpers": true,
+  "lib": ["es2017", "dom"],
   "plugins": [
     {
       "name": "tslint-language-service"

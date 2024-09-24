@@ -21,7 +21,7 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
     name: ['', [Validators.required]],
   });
 
-  doctor: Doctor | null = null;
+  selectedDoctor: Doctor | null = null;
 
   loading$ = new BehaviorSubject(false);
 
@@ -40,7 +40,8 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.doctor) this.doctorsAddForm.patchValue(this.doctor);
+    if (this.selectedDoctor)
+      this.doctorsAddForm.patchValue(this.selectedDoctor);
   }
 
   close(fetchData = false) {
@@ -50,7 +51,7 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   submit() {
     this.doctorsAddForm.markAllAsTouched();
     if (this.doctorsAddForm.valid && this.loading$.value === false) {
-      if (this.doctor) {
+      if (this.selectedDoctor) {
         this.updateDoctor();
       } else {
         this.addDoctor();

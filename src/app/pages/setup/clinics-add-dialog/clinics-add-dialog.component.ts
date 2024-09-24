@@ -1,7 +1,12 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { Clinic } from '../../../@core/data/clinic';
+import { Entity } from '../../../@core/data/entity';
+import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
@@ -11,45 +16,80 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
 })
 export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   clinicsAddForm = this.fb.group({
-    id: [null],
+    id: [0],
     name: ['', [Validators.required]],
+    address: ['', [Validators.required]],
   });
 
   selectedClinic: Clinic | null = null;
 
-  loadingLargeGroup = false;
+  loading$ = new BehaviorSubject(false);
+
+  entity!: Entity;
 
   get nameControl() {
     return this.clinicsAddForm.controls.name;
   }
 
+  get addressControl() {
+    return this.clinicsAddForm.controls.address;
+  }
+
   constructor(
     @Optional() private ref: NbDialogRef<ClinicsAddDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private coreService: CoreService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.clinicsAddForm.patchValue(this.selectedClinic as any);
+    if (this.selectedClinic)
+      this.clinicsAddForm.patchValue(this.selectedClinic as any);
   }
 
-  cancel() {
-    this.ref.close();
+  close(fetchData = false) {
+    this.ref.close(fetchData);
   }
 
   submit() {
-    console.log('here');
-    this.clinicsAddForm.markAsDirty();
-    // this.ref.close(value);
+    this.clinicsAddForm.markAllAsTouched();
+    if (this.clinicsAddForm.valid && this.loading$.value === false) {
+      if (this.selectedClinic) {
+        this.updateClinic();
+      } else {
+        this.addClinic();
+      }
+    }
   }
 
-  toggleLoadingLargeGroupAnimation() {
-    this.loadingLargeGroup = true;
+  private updateClinic(): void {
+    const clinic: Clinic = this.clinicsAddForm.getRawValue() as Clinic;
+    this.loading$.next(true);
+    this.coreService
+      .put(clinic, this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
+  }
 
-    setTimeout(() => {
-      this.loadingLargeGroup = false;
-      this.ref.close();
-    }, 3000);
+  private addClinic(): void {
+    const clinic: Clinic = this.clinicsAddForm.getRawValue() as Clinic;
+    this.loading$.next(true);
+    this.coreService
+      .post(clinic, this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
   }
 }

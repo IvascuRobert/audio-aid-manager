@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
 import { Doctor } from '../../../@core/data/doctor';
 import { Entity } from '../../../@core/data/entity';
@@ -73,19 +74,25 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
 
   addDialog() {
     this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
+      .onClose.pipe(
+        untilDestroyed(this),
+        tap((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        })
+      )
+      .subscribe();
   }
 
   editDialog(doctor?: Doctor) {
     if (doctor)
       this.dialogRef(doctor)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
+        .onClose.pipe(
+          untilDestroyed(this),
+          tap((fetchData: boolean) => {
+            if (fetchData) this.refresh();
+          })
+        )
+        .subscribe();
   }
 
   private dialogRef(
@@ -93,7 +100,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
   ): NbDialogRef<DoctorsAddDialogComponent> {
     return this.dialogService.open(DoctorsAddDialogComponent, {
       context: {
-        doctor,
+        selectedDoctor: doctor,
         entity: this.entity,
       },
     });

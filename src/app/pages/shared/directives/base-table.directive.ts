@@ -1,6 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { isNull, remove } from 'lodash';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -17,7 +18,6 @@ import {
 } from '../../../@core/utils/save-local-storage';
 import { RemoveDialogComponent } from '../components/remove-dialog/remove-dialog.component';
 import { SettingsDialogComponent } from '../components/settings-dialog/settings-dialog.component';
-import { isNull, remove } from 'lodash';
 
 @UntilDestroy()
 @Directive()
@@ -40,7 +40,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
 
   constructor(
     private coreService: CoreService,
-    readonly dialogService: NbDialogService,
+    readonly dialogService: NbDialogService
   ) {
     this.loadTableSettingsFromLocalStorage();
   }
@@ -114,7 +114,9 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
         })
         .onClose.pipe(
           untilDestroyed(this),
-          tap(() => this.refresh())
+          tap((fetchData: boolean) => {
+            if (fetchData) this.refresh();
+          })
         )
         .subscribe();
     }

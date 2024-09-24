@@ -24,8 +24,8 @@ export class RemoveDialogComponent {
     private coreService: CoreService
   ) {}
 
-  close() {
-    this.ref.close();
+  close(fetchData = false) {
+    this.ref.close(fetchData);
   }
 
   remove() {
@@ -36,7 +36,7 @@ export class RemoveDialogComponent {
         untilDestroyed(this),
         finalize(() => {
           this.loading$.next(false);
-          this.close();
+          this.close(true);
         })
       )
       .subscribe();

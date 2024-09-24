@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action } from '../../../@core/data/actions';
 import { Clinic } from '../../../@core/data/clinic';
@@ -31,6 +31,10 @@ export class ClinicsComponent extends BaseTable<Clinic> {
         title: 'Name',
         type: 'string',
       },
+      address: {
+        title: 'Address',
+        type: 'string',
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
@@ -45,7 +49,7 @@ export class ClinicsComponent extends BaseTable<Clinic> {
                 this.refresh();
               }
               if (action === Action.Edit) {
-                this.addDialog(row);
+                this.editDialog(row);
               }
             });
         },
@@ -62,9 +66,31 @@ export class ClinicsComponent extends BaseTable<Clinic> {
     super(coreService, dialogService);
   }
 
-  addDialog(row: Clinic) {
-    this.dialogService.open(ClinicsAddDialogComponent, {
-      context: { selectedClinic: row },
+  addDialog() {
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(clinic?: Clinic) {
+    if (clinic)
+      this.dialogRef(clinic)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    clinic: Clinic | null = null
+  ): NbDialogRef<ClinicsAddDialogComponent> {
+    return this.dialogService.open(ClinicsAddDialogComponent, {
+      context: {
+        selectedClinic: clinic,
+        entity: this.entity,
+      },
     });
   }
 }
