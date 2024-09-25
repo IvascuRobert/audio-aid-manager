@@ -44,20 +44,23 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
         ) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              switch (action) {
-                case Action.Delete:
-                  this.openRemoveDialog(row.id);
-                  break;
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
 
-                case Action.Edit:
-                  this.editDialog(row);
-                  break;
-                default:
-                  break;
-              }
-            });
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,

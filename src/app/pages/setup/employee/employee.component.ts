@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Entity } from '../../../@core/data/entity';
 import { User } from '../../../@core/data/user';
 import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
@@ -20,6 +20,8 @@ import { EmployeeAddDialogComponent } from '../employee-add-dialog/employee-add-
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent extends BaseTable<User> {
+  override entity = Entity.User;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -73,19 +75,44 @@ export class EmployeeComponent extends BaseTable<User> {
     },
   };
 
-  override source: LocalDataSource = new LocalDataSource();
-
   constructor(
-    private service: SmartTableData,
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().users;
-    this.source.load(data);
   }
 
   addDialog() {
-    this.dialogService.open(EmployeeAddDialogComponent);
+    this.dialogRef()
+      .onClose.pipe(
+        untilDestroyed(this),
+        tap((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        })
+      )
+      .subscribe();
+  }
+
+  editDialog(employee?: User) {
+    if (employee)
+      this.dialogRef(employee)
+        .onClose.pipe(
+          untilDestroyed(this),
+          tap((fetchData: boolean) => {
+            if (fetchData) this.refresh();
+          })
+        )
+        .subscribe();
+  }
+
+  private dialogRef(
+    employee: User | null = null
+  ): NbDialogRef<EmployeeAddDialogComponent> {
+    return this.dialogService.open(EmployeeAddDialogComponent, {
+      context: {
+        selectedEmployee: employee,
+        entity: this.entity,
+      },
+    });
   }
 }

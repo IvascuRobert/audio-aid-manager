@@ -4,4 +4,5 @@ export enum Entity {
   Clinic = 'Clinic',
   Shop = 'Shop',
   Room = 'Room',
+  User = 'User',
 }
