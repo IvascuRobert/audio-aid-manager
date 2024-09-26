@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action } from '../../../@core/data/actions';
@@ -15,7 +15,7 @@ import { ShopsAddDialogComponent } from '../shops-add-dialog/shops-add-dialog.co
   templateUrl: './shops.component.html',
   styleUrls: ['./shops.component.scss'],
 })
-export class ShopsComponent extends BaseTable<Shop> {
+export class ShopsComponent extends BaseTable<Shop> implements OnInit {
   override entity = Entity.Shop;
 
   override settings: Record<string, any> = {
@@ -67,11 +67,7 @@ export class ShopsComponent extends BaseTable<Shop> {
   }
 
   addDialog() {
-    this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
+    this.dialogRef().onClose.pipe(untilDestroyed(this)).subscribe();
   }
 
   editDialog(shop?: Shop) {

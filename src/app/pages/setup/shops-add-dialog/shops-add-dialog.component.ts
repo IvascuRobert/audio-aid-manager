@@ -19,7 +19,7 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   shopsAddForm = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
-    // address: ['', [Validators.required]], // TBD Add this controller when is added in BE
+    address: ['', [Validators.required]],
   });
 
   loadingLargeGroup = false;
@@ -34,10 +34,9 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
     return this.shopsAddForm.controls.name;
   }
 
-  // TBD Add this controller when is added in BE
-  // get addressControl() {
-  //   return this.shopsAddForm.controls.address;
-  // }
+  get addressControl() {
+    return this.shopsAddForm.controls.address;
+  }
 
   constructor(
     @Optional() private ref: NbDialogRef<ShopsAddDialogComponent>,
@@ -48,8 +47,9 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedShop)
-      this.shopsAddForm.patchValue(this.selectedShop as any);
+    if (this.selectedShop) {
+      this.shopsAddForm.patchValue(this.selectedShop);
+    }
   }
 
   close(fetchData = false) {

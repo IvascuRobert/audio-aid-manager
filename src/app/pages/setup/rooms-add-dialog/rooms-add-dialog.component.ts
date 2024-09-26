@@ -3,9 +3,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
 import { Room } from '../../../@core/data/room';
+import { ShopState } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -19,6 +20,7 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   roomsAddForm = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
+    shopId: [null, [Validators.required]],
   });
 
   selectedRoom: Room | null = null;
@@ -27,8 +29,16 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
 
   entity!: Entity;
 
+  shops$ = this.coreService
+    .getEntities$<ShopState>(Entity.Shop)
+    .pipe(map(({ entities }) => Object.values(entities)));
+
   get nameControl() {
     return this.roomsAddForm.controls.name;
+  }
+
+  get shopIdControl() {
+    return this.roomsAddForm.controls.shopId;
   }
 
   constructor(
@@ -40,8 +50,11 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedRoom)
-      this.roomsAddForm.patchValue(this.selectedRoom as any);
+    if (this.selectedRoom) {
+      this.roomsAddForm.patchValue(this.selectedRoom);
+    }
+
+    this.getShops();
   }
 
   close(fetchData = false) {
@@ -87,5 +100,9 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  private getShops() {
+    this.coreService.get(Entity.Shop).pipe(untilDestroyed(this)).subscribe();
   }
 }

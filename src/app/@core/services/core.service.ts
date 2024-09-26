@@ -9,17 +9,26 @@ import { ClinicState } from '../data/clinic';
 import { DoctorState } from '../data/doctor';
 import { Entity } from '../data/entity';
 import { Store } from '../data/lite-store';
+import { RoomState } from '../data/room';
+import { ShopState } from '../data/shop';
+import { UserState } from '../data/user';
 
 export type StateType = { [key in Entity]?: any };
 
 export interface State extends StateType {
   [Entity.Doctor]: DoctorState;
   [Entity.Clinic]: ClinicState;
+  [Entity.Room]: RoomState;
+  [Entity.User]: UserState;
+  [Entity.Shop]: ShopState;
 }
 
 const initialState: State = {
   [Entity.Doctor]: { entities: {}, ids: [], loading: false },
   [Entity.Clinic]: { entities: {}, ids: [], loading: false },
+  [Entity.Room]: { entities: {}, ids: [], loading: false },
+  [Entity.User]: { entities: {}, ids: [], loading: false },
+  [Entity.Shop]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({
@@ -31,6 +40,10 @@ export class CoreService extends Store<State> {
   private http = inject(HttpClient);
 
   private toastrService = inject(NbToastrService);
+
+  private stateTest$ = this.state$
+    .pipe(tap((res) => console.log(res, 'entities')))
+    .subscribe();
 
   constructor() {
     super(initialState);
@@ -65,36 +78,35 @@ export class CoreService extends Store<State> {
   }
   // STATE MANAGEMENT FOR ENTITIES
   loadEntities(entity: Entity, entities: any) {
-    this.setState(
-      () => ({
+    this.setState(() => {
+      return {
         [entity]: {
           entities: this.toEntities(entities),
           loading: true,
+          ids: Object.keys(this.toEntities(entities)),
         },
-      }),
-      entity
-    );
+      };
+    });
   }
 
   addEntity(entity: Entity, value: any) {
-    this.setState(
-      (state) => ({
+    this.setState((state) => {
+      return {
         [state[entity]]: {
           entities: {
             ...state[entity].entities,
             [value.id]: value,
           },
         },
-      }),
-      entity
-    );
+      };
+    });
   }
 
   removeEntity(entity: Entity, id: any['id']) {
     this.setState((state) => {
       const { [id]: removed, ...entities } = state[entity].entities;
       return { [state[entity]]: { entities } };
-    }, entity);
+    });
   }
 
   getEntities$<T>(entity: Entity): Observable<T> {

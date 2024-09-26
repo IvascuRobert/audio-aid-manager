@@ -73,30 +73,11 @@ export abstract class Store<T> {
   }
 
   setState<K extends keyof T, E extends Partial<Pick<T, K>>>(
-    fn: (state: T) => E,
-    entity: string
+    fn: (state: T) => E
   ): T {
     let newState;
     const reducedState: any = fn(this.state) as E & StoreEntity<K>;
-
-    if (reducedState.entities) {
-      newState = {
-        ...this.state,
-        ...reducedState,
-        ids: Object.keys(reducedState.entities),
-      };
-    } else if (reducedState[entity].entities) {
-      newState = {
-        [entity]: {
-          ...this.state[entity],
-          ...reducedState[entity],
-          ids: Object.keys(reducedState[entity].entities),
-        },
-      };
-    } else {
-      newState = { ...this.state, ...reducedState };
-    }
-
+    newState = { ...this.state, ...reducedState };
     this._state.next(this.setFrozen(newState));
 
     return this.state;

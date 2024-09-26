@@ -60,8 +60,9 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedEmployee)
+    if (this.selectedEmployee) {
       this.employeeAddForm.patchValue(this.selectedEmployee);
+    }
   }
 
   close(fetchData = false) {

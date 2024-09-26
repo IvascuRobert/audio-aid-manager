@@ -40,8 +40,9 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedDoctor)
+    if (this.selectedDoctor) {
       this.doctorsAddForm.patchValue(this.selectedDoctor);
+    }
   }
 
   close(fetchData = false) {

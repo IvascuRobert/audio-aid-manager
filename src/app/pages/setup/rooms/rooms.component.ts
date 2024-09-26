@@ -32,6 +32,10 @@ export class RoomsComponent extends BaseTable<Room> {
         title: 'Name',
         type: 'string',
       },
+      shopId: {
+        title: 'Shop ID',
+        type: 'string',
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
