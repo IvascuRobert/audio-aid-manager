@@ -92,7 +92,7 @@ export class ClinicsComponent extends BaseTable<Clinic> {
   ): NbDialogRef<ClinicsAddDialogComponent> {
     return this.dialogService.open(ClinicsAddDialogComponent, {
       context: {
-        selectedClinic: clinic,
+        selected: clinic,
         entity: this.entity,
       },
     });

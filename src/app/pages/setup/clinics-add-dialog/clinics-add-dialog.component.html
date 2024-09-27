@@ -1,14 +1,12 @@
-<ng-container
-  *ngIf="{ loading: loading$ | async, clinic: selectedClinic } as data"
->
+<ng-container *ngIf="{ loading: loading$ | async, selected} as data">
   <form
-    [formGroup]="clinicsAddForm"
+    [formGroup]="form"
     (ngSubmit)="submit()"
   >
     <nb-card>
       <nb-card-header>
         <div class="d-flex align-items-center">
-          <ng-container *ngIf="data.clinic; else titleAddClinicTpl">
+          <ng-container *ngIf="data.selected; else titleAddTpl">
             <nb-icon
               class="skip mr-2"
               icon="edit-2-outline"
@@ -18,7 +16,7 @@
             ></nb-icon>
             Edit clinic
           </ng-container>
-          <ng-template #titleAddClinicTpl>
+          <ng-template #titleAddTpl>
             <nb-icon
               class="skip mr-2"
               icon="plus-circle-outline"

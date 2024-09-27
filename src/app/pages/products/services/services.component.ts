@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
+import { Entity } from '../../../@core/data/entity';
 import { Service } from '../../../@core/data/service';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { PriceCellComponent } from '../../shared/components/custom-table-cell-render/price-cell.component';
@@ -18,6 +18,8 @@ import { ServicesAddDialogComponent } from '../services-add-dialog/services-add-
   styleUrls: ['./services.component.scss'],
 })
 export class ServicesComponent extends BaseTable<Service> {
+  override entity = Entity.Service;
+
   override settings = {
     selectMode: 'multi',
     actions: false,
@@ -44,12 +46,18 @@ export class ServicesComponent extends BaseTable<Service> {
         valuePrepareFunction: (value: any, row: Service, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                if (action === Action.Delete) {
+                  this.refresh();
+                }
+                if (action === Action.Edit) {
+                  this.editDialog(row);
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -57,19 +65,38 @@ export class ServicesComponent extends BaseTable<Service> {
     },
   };
 
-  override source: LocalDataSource = new LocalDataSource();
-
   constructor(
-    private service: SmartTableData,
-    coreService: CoreService,
-    override readonly dialogService: NbDialogService
+    override readonly dialogService: NbDialogService,
+    coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().services;
-    this.source.load(data);
   }
 
   addDialog() {
-    this.dialogService.open(ServicesAddDialogComponent);
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(service?: Service) {
+    if (service)
+      this.dialogRef(service)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    service: Service | null = null
+  ): NbDialogRef<ServicesAddDialogComponent> {
+    return this.dialogService.open(ServicesAddDialogComponent, {
+      context: {
+        selected: service,
+        entity: this.entity,
+      },
+    });
   }
 }

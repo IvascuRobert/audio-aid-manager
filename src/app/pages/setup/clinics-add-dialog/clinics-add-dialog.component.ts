@@ -16,24 +16,24 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./clinics-add-dialog.component.scss'],
 })
 export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
-  clinicsAddForm = this.fb.group({
+  form = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
     address: ['', [Validators.required]],
   });
 
-  selectedClinic: Clinic | null = null;
+  selected: Clinic | null = null;
 
   loading$ = new BehaviorSubject(false);
 
   entity!: Entity;
 
   get nameControl() {
-    return this.clinicsAddForm.controls.name;
+    return this.form.controls.name;
   }
 
   get addressControl() {
-    return this.clinicsAddForm.controls.address;
+    return this.form.controls.address;
   }
 
   constructor(
@@ -45,8 +45,8 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedClinic) {
-      this.clinicsAddForm.patchValue(this.selectedClinic);
+    if (this.selected) {
+      this.form.patchValue(this.selected);
     }
   }
 
@@ -55,9 +55,9 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.clinicsAddForm.markAllAsTouched();
-    if (this.clinicsAddForm.valid && this.loading$.value === false) {
-      if (this.selectedClinic) {
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
+      if (this.selected) {
         this.updateClinic();
       } else {
         this.addClinic();
@@ -66,7 +66,7 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private updateClinic(): void {
-    const clinic: Clinic = this.clinicsAddForm.getRawValue() as Clinic;
+    const clinic: Clinic = this.form.getRawValue() as Clinic;
     this.loading$.next(true);
     this.coreService
       .put(clinic, this.entity)
@@ -81,7 +81,7 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private addClinic(): void {
-    const clinic: Clinic = this.clinicsAddForm.getRawValue() as Clinic;
+    const clinic: Clinic = this.form.getRawValue() as Clinic;
     this.loading$.next(true);
     this.coreService
       .post(clinic, this.entity)
