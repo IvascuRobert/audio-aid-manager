@@ -1,26 +1,26 @@
 export enum CustomerStatus {
-  no = "no",
-  pc = "pc",
-  cc = "cc",
-  cl = "cl",
+  no = 'no',
+  pc = 'pc',
+  cc = 'cc',
+  cl = 'cl',
 }
 export enum CustomerContactNoteType {
-  member_get_member = "member_get_member",
-  social = "social",
-  doctor = "doctor",
-  commercial = "commercial",
+  member_get_member = 'member_get_member',
+  social = 'social',
+  doctor = 'doctor',
+  commercial = 'commercial',
 }
 export enum ProcessStatusType {
-  open = "open",
-  trial = "trial",
-  win = "win",
-  lost = "lost",
-  end = "end",
+  open = 'open',
+  trial = 'trial',
+  win = 'win',
+  lost = 'lost',
+  end = 'end',
 }
 export enum Gender {
-  male = "male",
-  female = "female",
-  unknown = "unknown",
+  male = 'Male',
+  female = 'Female',
+  unknown = 'Unknown',
 }
 export interface Customer {
   id: number;

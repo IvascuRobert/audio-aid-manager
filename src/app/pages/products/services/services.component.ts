@@ -49,11 +49,16 @@ export class ServicesComponent extends BaseTable<Service> {
             .pipe(
               untilDestroyed(this),
               tap(({ action, row }) => {
-                if (action === Action.Delete) {
-                  this.refresh();
-                }
-                if (action === Action.Edit) {
-                  this.editDialog(row);
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
                 }
               })
             )

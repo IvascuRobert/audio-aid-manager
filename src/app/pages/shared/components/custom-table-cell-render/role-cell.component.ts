@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
-import { Role } from "../../../../@core/data/role";
+import { Role } from '../../../../@core/data/role';
 
 @Component({
   template: ` <nb-tag-list [ngSwitch]="value">
@@ -16,11 +16,11 @@ import { Role } from "../../../../@core/data/role";
         [size]="'tiny'"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="roleStatusTpl.employee"
+        *ngSwitchCase="roleStatusTpl.user"
         status="primary"
         class="text-uppercase"
         appearance="outline"
-        [nbPopover]="employeeRef"
+        [nbPopover]="userRef"
         nbPopoverTrigger="hint"
         [nbPopoverContext]="{value}"
         [text]="value"
@@ -42,7 +42,7 @@ import { Role } from "../../../../@core/data/role";
       </nb-card>
     </ng-template>
 
-    <ng-template #employeeRef let-passdata>
+    <ng-template #userRef let-passdata>
       <nb-card class="popover-card" accent="basic">
         <nb-card-header status="warning">
           Hello! {{ passdata.value }}

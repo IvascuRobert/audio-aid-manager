@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="{ loading: loading$ | async, employee: selectedEmployee } as data"
   ><form
-    [formGroup]="employeeAddForm"
+    [formGroup]="form"
     (ngSubmit)="submit()"
   >
     <nb-card>
@@ -34,6 +34,42 @@
           <div class="col-12">
             <div class="form-group">
               <label
+                for="firstName"
+                class="label"
+                >First name</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="firstName"
+                placeholder="First name"
+                formControlName="firstName"
+                [status]="isValid(firstNameControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="lastName"
+                class="label"
+                >Last name</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="lastName"
+                placeholder="Last name"
+                formControlName="lastName"
+                [status]="isValid(lastNameControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label
                 for="email"
                 class="label"
                 >Email</label
@@ -44,44 +80,8 @@
                 fullWidth
                 id="email"
                 placeholder="Email"
-                formControlemail="email"
+                formControlName="email"
                 [status]="isValid(emailControl) ? 'danger' : 'basic'"
-              />
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <label
-                for="name"
-                class="label"
-                >Name</label
-              >
-              <input
-                type="text"
-                nbInput
-                fullWidth
-                id="name"
-                placeholder="Name"
-                formControlName="name"
-                [status]="isValid(nameControl) ? 'danger' : 'basic'"
-              />
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <label
-                for="password"
-                class="label"
-                >Password</label
-              >
-              <input
-                type="text"
-                nbInput
-                fullWidth
-                id="password"
-                placeholder="Password"
-                formControlName="password"
-                [status]="isValid(passwordControl) ? 'danger' : 'basic'"
               />
             </div>
           </div>
@@ -99,14 +99,12 @@
                 formControlName="role"
                 [status]="isValid(roleControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">role 1</nb-option>
-                <nb-option value="2">role 2</nb-option>
-                <nb-option value="3">role 3</nb-option>
-                <nb-option value="4">role 4</nb-option>
+                <nb-option [value]="roleTpl.admin">{{roleTpl.admin}}</nb-option>
+                <nb-option [value]="roleTpl.user">{{roleTpl.user}}</nb-option>
               </nb-select>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-12">
             <div class="form-group">
               <label
                 for="gender"
@@ -119,9 +117,8 @@
                 formControlName="gender"
                 [status]="isValid(genderControl) ? 'danger' : 'basic'"
               >
-                <nb-radio value="male">male</nb-radio>
-                <nb-radio value="female">female</nb-radio>
-                <nb-radio value="unknown">Unknown</nb-radio>
+                <nb-radio [value]="genderTpl.male">Male</nb-radio>
+                <nb-radio [value]="genderTpl.female">Female</nb-radio>
               </nb-radio-group>
             </div>
           </div>

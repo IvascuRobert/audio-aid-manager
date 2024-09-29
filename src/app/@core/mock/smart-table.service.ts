@@ -17,12 +17,10 @@ import {
 } from '../data/device';
 import { Doctor } from '../data/doctor';
 import { Process, ProcessEndReason, UserHasDeviceType } from '../data/process';
-import { Role } from '../data/role';
 import { Room } from '../data/room';
 import { Service } from '../data/service';
 import { Shop } from '../data/shop';
 import { SmartTableData } from '../data/smart-table';
-import { User } from '../data/user';
 import { Utility, UtilityType } from '../data/utility';
 
 @Injectable()
@@ -315,64 +313,64 @@ export class SmartTableService extends SmartTableData {
         customer: 'Macac Macacutz',
       },
     ] as Device[],
-    users: [
-      {
-        id: 1,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.male,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.admin,
-      },
-      {
-        id: 2,
-        email: 'vgj@yahoo.com',
-        gender: Gender.male,
-        name: 'Vlad Gaujaneanu',
-        password: '21ikifjaawf',
-        role: Role.employee,
-      },
-      {
-        id: 3,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.female,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.employee,
-      },
-      {
-        id: 4,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.unknown,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.employee,
-      },
-      {
-        id: 5,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.female,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.admin,
-      },
-      {
-        id: 6,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.female,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.admin,
-      },
-      {
-        id: 7,
-        email: 'robi_ivas@yahoo.com',
-        gender: Gender.male,
-        name: 'Robert Ivascu',
-        password: '21ikifjaawf',
-        role: Role.employee,
-      },
-    ] as User[],
+    // users: [
+    //   {
+    //     id: 1,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.male,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.admin,
+    //   },
+    //   {
+    //     id: 2,
+    //     email: 'vgj@yahoo.com',
+    //     gender: Gender.male,
+    //     name: 'Vlad Gaujaneanu',
+    //     password: '21ikifjaawf',
+    //     role: Role.user,
+    //   },
+    //   {
+    //     id: 3,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.female,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.user,
+    //   },
+    //   {
+    //     id: 4,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.unknown,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.user,
+    //   },
+    //   {
+    //     id: 5,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.female,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.admin,
+    //   },
+    //   {
+    //     id: 6,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.female,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.admin,
+    //   },
+    //   {
+    //     id: 7,
+    //     email: 'robi_ivas@yahoo.com',
+    //     gender: Gender.male,
+    //     name: 'Robert Ivascu',
+    //     password: '21ikifjaawf',
+    //     role: Role.user,
+    //   },
+    // ] as User[],
     doctors: [
       { id: 1, name: 'Dr. Emil Laurentiu' },
       { id: 2, name: 'Dr. Emil Laurentiu' },

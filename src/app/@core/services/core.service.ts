@@ -73,6 +73,15 @@ export class CoreService extends Store<State> {
     );
   }
 
+  patch<T>(id: number, value: T, entity: Entity): Observable<unknown> {
+    return this.http
+      .patch<unknown>(`${this.apiUrl}${entity}/${id}`, value)
+      .pipe(
+        tap(() => this.showSuccessMessage()),
+        catchError((err) => this.handleError(err))
+      );
+  }
+
   delete(id: number, entity: Entity): Observable<unknown> {
     return this.http.delete<unknown>(`${this.apiUrl}${entity}/${id}`).pipe(
       tap(() => this.showSuccessMessage()),

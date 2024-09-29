@@ -41,12 +41,12 @@ export class EmployeeComponent extends BaseTable<User> {
         type: 'custom',
         renderComponent: GenderCellComponent,
       },
-      name: {
-        title: 'Name',
+      lastName: {
+        title: 'Last name',
         type: 'string',
       },
-      password: {
-        title: 'Password',
+      firstName: {
+        title: 'First name',
         type: 'string',
       },
       role: {
@@ -62,12 +62,23 @@ export class EmployeeComponent extends BaseTable<User> {
         valuePrepareFunction: (value: any, row: User, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,

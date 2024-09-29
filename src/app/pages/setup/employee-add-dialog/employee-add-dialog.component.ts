@@ -4,7 +4,9 @@ import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { Gender } from '../../../@core/data/customer';
 import { Entity } from '../../../@core/data/entity';
+import { Role } from '../../../@core/data/role';
 import { User } from '../../../@core/data/user';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
@@ -16,12 +18,12 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./employee-add-dialog.component.scss'],
 })
 export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
-  employeeAddForm = this.fb.group({
+  form = this.fb.group({
     id: [0],
     email: ['', [Validators.required]],
     gender: ['', [Validators.required]],
-    name: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
     role: ['', [Validators.required]],
   });
 
@@ -29,26 +31,34 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
 
   loading$ = new BehaviorSubject(false);
 
-  entity!: Entity;
+  readonly entity!: Entity;
+
+  readonly genderTpl = Gender;
+
+  readonly roleTpl = Role;
+
+  get idControl() {
+    return this.form.controls.id;
+  }
 
   get emailControl() {
-    return this.employeeAddForm.controls.email;
+    return this.form.controls.email;
   }
 
-  get nameControl() {
-    return this.employeeAddForm.controls.name;
+  get firstNameControl() {
+    return this.form.controls.firstName;
   }
 
-  get passwordControl() {
-    return this.employeeAddForm.controls.password;
+  get lastNameControl() {
+    return this.form.controls.lastName;
   }
 
   get roleControl() {
-    return this.employeeAddForm.controls.role;
+    return this.form.controls.role;
   }
 
   get genderControl() {
-    return this.employeeAddForm.controls.gender;
+    return this.form.controls.gender;
   }
 
   constructor(
@@ -61,7 +71,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
 
   ngOnInit(): void {
     if (this.selectedEmployee) {
-      this.employeeAddForm.patchValue(this.selectedEmployee);
+      this.form.patchValue(this.selectedEmployee);
     }
   }
 
@@ -70,8 +80,8 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.employeeAddForm.markAllAsTouched();
-    if (this.employeeAddForm.valid && this.loading$.value === false) {
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
       if (this.selectedEmployee) {
         this.update();
       } else {
@@ -81,10 +91,9 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private update(): void {
-    const doctor: User = this.employeeAddForm.getRawValue() as User;
     this.loading$.next(true);
     this.coreService
-      .put(doctor, this.entity)
+      .patch(this.idControl.value ?? 0, this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -96,10 +105,9 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private add(): void {
-    const doctor: User = this.employeeAddForm.getRawValue() as User;
     this.loading$.next(true);
     this.coreService
-      .post(doctor, this.entity)
+      .post(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
