@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { Observable } from 'rxjs-compat';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { AccessoryState } from '../data/accessory';
 import { ClinicState } from '../data/clinic';
 import { DoctorState } from '../data/doctor';
 import { Entity } from '../data/entity';
@@ -25,6 +26,7 @@ export interface State extends StateType {
   [Entity.Shop]: ShopState;
   [Entity.Service]: ServiceState;
   [Entity.Utility]: UtilityState;
+  [Entity.Accessory]: AccessoryState;
 }
 
 const initialState: State = {
@@ -35,6 +37,7 @@ const initialState: State = {
   [Entity.Shop]: { entities: {}, ids: [], loading: false },
   [Entity.Service]: { entities: {}, ids: [], loading: false },
   [Entity.Utility]: { entities: {}, ids: [], loading: false },
+  [Entity.Accessory]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({

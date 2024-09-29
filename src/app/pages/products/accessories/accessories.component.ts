@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Accessory } from '../../../@core/data/accessory';
 import { Action } from '../../../@core/data/actions';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
 import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../../@core/utils/save-local-storage';
 import { AccessoryStatusCellComponent } from '../../shared/components/custom-table-cell-render/accessory-status-cell.component';
@@ -20,6 +20,8 @@ import { AccessoriesAddDialogComponent } from '../accessories-add-dialog/accesso
   styleUrls: ['./accessories.component.scss'],
 })
 export class AccessoriesComponent extends BaseTable<Accessory> {
+  override entity = Entity.Accessory;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -75,12 +77,23 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         valuePrepareFunction: (value: any, row: Accessory, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -94,19 +107,38 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
 
   selectedColumns = [];
 
-  override source: LocalDataSource = new LocalDataSource();
-
   constructor(
-    private service: SmartTableData,
-    coreService: CoreService,
-    override readonly dialogService: NbDialogService
+    override readonly dialogService: NbDialogService,
+    coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().accessories;
-    this.source.load(data);
   }
 
   addDialog() {
-    this.dialogService.open(AccessoriesAddDialogComponent);
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(accessory?: Accessory) {
+    if (accessory)
+      this.dialogRef(accessory)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    accessory: Accessory | null = null
+  ): NbDialogRef<AccessoriesAddDialogComponent> {
+    return this.dialogService.open(AccessoriesAddDialogComponent, {
+      context: {
+        selected: accessory,
+        entity: this.entity,
+      },
+    });
   }
 }

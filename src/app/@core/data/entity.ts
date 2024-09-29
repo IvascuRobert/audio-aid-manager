@@ -3,6 +3,7 @@ export enum Entity {
   Doctor = 'Doctor',
   Clinic = 'Clinic',
   Service = 'Service',
+  Accessory = 'Accessory',
   Utility = 'Utility',
   Shop = 'Shop',
   Room = 'Room',
