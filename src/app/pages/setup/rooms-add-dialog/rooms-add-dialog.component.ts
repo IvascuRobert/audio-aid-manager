@@ -17,13 +17,13 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./rooms-add-dialog.component.scss'],
 })
 export class RoomsAddDialogComponent extends BaseForm implements OnInit {
-  roomsAddForm = this.fb.group({
+  form = this.fb.group({
     id: [0],
     name: ['', [Validators.required]],
     shopId: [null, [Validators.required]],
   });
 
-  selectedRoom: Room | null = null;
+  selected: Room | null = null;
 
   loading$ = new BehaviorSubject(false);
 
@@ -34,11 +34,11 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
     .pipe(map(({ entities }) => Object.values(entities)));
 
   get nameControl() {
-    return this.roomsAddForm.controls.name;
+    return this.form.controls.name;
   }
 
   get shopIdControl() {
-    return this.roomsAddForm.controls.shopId;
+    return this.form.controls.shopId;
   }
 
   constructor(
@@ -50,8 +50,8 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedRoom) {
-      this.roomsAddForm.patchValue(this.selectedRoom);
+    if (this.selected) {
+      this.form.patchValue(this.selected as any);
     }
 
     this.getShops();
@@ -62,21 +62,20 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.roomsAddForm.markAllAsTouched();
-    if (this.roomsAddForm.valid && this.loading$.value === false) {
-      if (this.selectedRoom) {
-        this.updateRoom();
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
+      if (this.selected) {
+        this.update();
       } else {
-        this.addRoom();
+        this.add();
       }
     }
   }
 
-  private updateRoom(): void {
-    const room: Room = this.roomsAddForm.getRawValue() as Room;
+  private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put(room, this.entity)
+      .put(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -87,11 +86,10 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
       .subscribe();
   }
 
-  private addRoom(): void {
-    const room: Room = this.roomsAddForm.getRawValue() as Room;
+  private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(room, this.entity)
+      .post(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {

@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Entity } from '../../../@core/data/entity';
 import { Utility } from '../../../@core/data/utility';
 import { CoreService } from '../../../@core/services/core.service';
-import { mapHideOrShowColumns } from '../../../@core/utils/map-hide-or-show-columns';
-import {
-  LOCAL_STORAGE_KEYS_FOR_TABLE,
-  setItem,
-} from '../../../@core/utils/save-local-storage';
+import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../../@core/utils/save-local-storage';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { PriceCellComponent } from '../../shared/components/custom-table-cell-render/price-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
@@ -22,6 +19,8 @@ import { UtilitiesAddDialogComponent } from '../utilities-add-dialog/utilities-a
   styleUrls: ['./utilities.component.scss'],
 })
 export class UtilitiesComponent extends BaseTable<Utility> {
+  override entity = Entity.Utility;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -64,7 +63,22 @@ export class UtilitiesComponent extends BaseTable<Utility> {
         valuePrepareFunction: (value: any, row: Utility, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
+                }
+              })
+            )
             .subscribe(({ action, row }) => {
               if (action === Action.Delete) {
                 this.refresh();
@@ -84,25 +98,37 @@ export class UtilitiesComponent extends BaseTable<Utility> {
   selectedColumns = [];
 
   constructor(
-    private service: SmartTableData,
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().utilities;
-    this.source.load(data);
-  }
-
-  handleSelectedColumns(columns: string[]): void {
-    this.settings = mapHideOrShowColumns(
-      columns,
-      this.settings,
-      this.hiddenColumns
-    );
-    setItem(LOCAL_STORAGE_KEYS_FOR_TABLE.utilities, columns);
   }
 
   addDialog() {
-    this.dialogService.open(UtilitiesAddDialogComponent);
+    this.dialogRef()
+      .onClose.pipe(untilDestroyed(this))
+      .subscribe((fetchData: boolean) => {
+        if (fetchData) this.refresh();
+      });
+  }
+
+  editDialog(utility?: Utility) {
+    if (utility)
+      this.dialogRef(utility)
+        .onClose.pipe(untilDestroyed(this))
+        .subscribe((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        });
+  }
+
+  private dialogRef(
+    service: Utility | null = null
+  ): NbDialogRef<UtilitiesAddDialogComponent> {
+    return this.dialogService.open(UtilitiesAddDialogComponent, {
+      context: {
+        selected: service,
+        entity: this.entity,
+      },
+    });
   }
 }

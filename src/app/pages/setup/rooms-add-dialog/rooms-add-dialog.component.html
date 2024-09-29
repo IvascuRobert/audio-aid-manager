@@ -1,12 +1,12 @@
-<ng-container *ngIf="{ loading: loading$ | async, room: selectedRoom } as data"
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data"
   ><form
-    [formGroup]="roomsAddForm"
+    [formGroup]="form"
     (ngSubmit)="submit()"
   >
     <nb-card>
       <nb-card-header>
         <div class="d-flex align-items-center">
-          <ng-container *ngIf="data.room; else titleAddRoomTpl">
+          <ng-container *ngIf="data.selected; else titleAddRoomTpl">
             <nb-icon
               class="skip mr-2"
               icon="edit-2-outline"

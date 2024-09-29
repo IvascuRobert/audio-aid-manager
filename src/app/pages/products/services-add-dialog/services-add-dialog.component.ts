@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { Service } from '../../../@core/data/service';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-services-add-dialog',
   templateUrl: './services-add-dialog.component.html',

@@ -13,6 +13,7 @@ import { RoomState } from '../data/room';
 import { ServiceState } from '../data/service';
 import { ShopState } from '../data/shop';
 import { UserState } from '../data/user';
+import { UtilityState } from '../data/utility';
 
 export type StateType = { [key in Entity]?: any };
 
@@ -23,6 +24,7 @@ export interface State extends StateType {
   [Entity.User]: UserState;
   [Entity.Shop]: ShopState;
   [Entity.Service]: ServiceState;
+  [Entity.Utility]: UtilityState;
 }
 
 const initialState: State = {
@@ -32,6 +34,7 @@ const initialState: State = {
   [Entity.User]: { entities: {}, ids: [], loading: false },
   [Entity.Shop]: { entities: {}, ids: [], loading: false },
   [Entity.Service]: { entities: {}, ids: [], loading: false },
+  [Entity.Utility]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({
