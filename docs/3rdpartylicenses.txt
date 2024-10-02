@@ -1127,6 +1127,9 @@ SOFTWARE.
 ng2-smart-table
 MIT
 
+ngx-colors
+MIT
+
 ngx-echarts
 MIT
 
