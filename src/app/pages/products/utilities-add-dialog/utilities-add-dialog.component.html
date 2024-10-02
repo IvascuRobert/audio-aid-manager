@@ -62,10 +62,11 @@
                 formControlName="brand"
                 [status]="isValid(brandControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">brand 1</nb-option>
-                <nb-option value="2">brand 2</nb-option>
-                <nb-option value="3">brand 3</nb-option>
-                <nb-option value="4">brand 4</nb-option>
+                <nb-option
+                  *ngFor="let item of brands$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
@@ -83,10 +84,11 @@
                 formControlName="type"
                 [status]="isValid(typeControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">type 1</nb-option>
-                <nb-option value="2">type 2</nb-option>
-                <nb-option value="3">type 3</nb-option>
-                <nb-option value="4">type 4</nb-option>
+                <nb-option
+                  *ngFor="let item of utilityType$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
@@ -98,7 +100,7 @@
                 >Quantity</label
               >
               <input
-                type="text"
+                type="number"
                 nbInput
                 fullWidth
                 id="quantity"
@@ -116,7 +118,7 @@
                 >Price</label
               >
               <input
-                type="text"
+                type="number"
                 nbInput
                 fullWidth
                 id="price"

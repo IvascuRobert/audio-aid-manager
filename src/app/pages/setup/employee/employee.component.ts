@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
@@ -71,7 +71,7 @@ export class EmployeeComponent extends BaseTable<User> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog(row);
+                    this.editDialog();
                     break;
                   default:
                     break;
@@ -86,44 +86,12 @@ export class EmployeeComponent extends BaseTable<User> {
     },
   };
 
+  override dialogTemplateRef = EmployeeAddDialogComponent;
+
   constructor(
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(
-        untilDestroyed(this),
-        tap((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        })
-      )
-      .subscribe();
-  }
-
-  editDialog(employee?: User) {
-    if (employee)
-      this.dialogRef(employee)
-        .onClose.pipe(
-          untilDestroyed(this),
-          tap((fetchData: boolean) => {
-            if (fetchData) this.refresh();
-          })
-        )
-        .subscribe();
-  }
-
-  private dialogRef(
-    employee: User | null = null
-  ): NbDialogRef<EmployeeAddDialogComponent> {
-    return this.dialogService.open(EmployeeAddDialogComponent, {
-      context: {
-        selectedEmployee: employee,
-        entity: this.entity,
-      },
-    });
   }
 }

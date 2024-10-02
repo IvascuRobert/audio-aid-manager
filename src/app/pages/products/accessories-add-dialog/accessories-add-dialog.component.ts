@@ -1,14 +1,18 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { Accessory } from '../../../@core/data/accessory';
+import {
+  Accessory,
+  AccessoryForm,
+  AccessoryType,
+} from '../../../@core/data/accessory';
+import { Brand } from '../../../@core/data/brand';
 import { Entity } from '../../../@core/data/entity';
 import { ShopState } from '../../../@core/data/shop';
-import { UserState } from '../../../@core/data/user';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -18,16 +22,36 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./accessories-add-dialog.component.scss'],
 })
 export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    group: ['', [Validators.required]],
-    serialNumber: ['', [Validators.required]],
-    name: ['', [Validators.required]],
-    brand: ['', [Validators.required]],
-    type: ['', [Validators.required]],
-    price: ['', [Validators.required]],
-    shopId: ['', [Validators.required]],
-    userId: ['', [Validators.required]],
+  form = new FormGroup<AccessoryForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    groupId: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    serialNumber: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    brand: new FormControl(Brand.amplifon, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    type: new FormControl(AccessoryType.charger, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    price: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    shopId: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selected: Accessory | null = null;
@@ -40,12 +64,12 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
     .getEntities$<ShopState>(Entity.Shop)
     .pipe(map(({ entities }) => Object.values(entities)));
 
-  users$ = this.coreService
-    .getEntities$<UserState>(Entity.User)
-    .pipe(map(({ entities }) => Object.values(entities)));
+  brands$ = this.coreService.brands$;
 
-  get groupControl() {
-    return this.form.controls.group;
+  accessoryType$ = new BehaviorSubject<string[]>(Object.values(AccessoryType));
+
+  get groupIdControl() {
+    return this.form.controls.groupId;
   }
 
   get serialNumberControl() {
@@ -72,13 +96,8 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
     return this.form.controls.shopId;
   }
 
-  get userIdControl() {
-    return this.form.controls.userId;
-  }
-
   constructor(
     @Optional() private ref: NbDialogRef<AccessoriesAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();
@@ -90,7 +109,6 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
     }
 
     this.getShops();
-    this.getUsers();
   }
 
   close(fetchData = false) {
@@ -111,7 +129,7 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put(this.form.getRawValue(), this.entity)
+      .put<Omit<Accessory, 'status'>>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -125,7 +143,10 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(omit(this.form.getRawValue(), ['id']), this.entity)
+      .post<Omit<Accessory, 'status' | 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -138,9 +159,5 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
 
   private getShops() {
     this.coreService.get(Entity.Shop).pipe(untilDestroyed(this)).subscribe();
-  }
-
-  private getUsers() {
-    this.coreService.get(Entity.User).pipe(untilDestroyed(this)).subscribe();
   }
 }

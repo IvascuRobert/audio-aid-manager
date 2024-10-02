@@ -1,13 +1,19 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Gender } from '../../../@core/data/customer';
 import { Entity } from '../../../@core/data/entity';
 import { Role } from '../../../@core/data/role';
-import { User } from '../../../@core/data/user';
+import { User, UserForm } from '../../../@core/data/user';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -18,13 +24,28 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./employee-add-dialog.component.scss'],
 })
 export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    email: ['', [Validators.required]],
-    gender: ['', [Validators.required]],
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    role: ['', [Validators.required]],
+  form = new FormGroup<UserForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    gender: new FormControl(Gender.male, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    firstName: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    lastName: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    role: new FormControl(Role.admin, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selectedEmployee: User | null = null;
@@ -93,7 +114,11 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .patch(this.idControl.value ?? 0, this.form.getRawValue(), this.entity)
+      .patch<Omit<User, 'password'>>(
+        this.idControl.value ?? 0,
+        this.form.getRawValue(),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -107,7 +132,10 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(this.form.getRawValue(), this.entity)
+      .post<Omit<User, 'password' | 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

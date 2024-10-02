@@ -1,28 +1,35 @@
+import { FormControl } from '@angular/forms';
+import { Brand } from './brand';
 import { StoreEntity } from './lite-store.model';
 
 export enum AccessoryType {
-  typeA = 'typeA',
-  typeB = 'typeB',
+  remote = 'Remote',
+  tvAdapter = 'TVAdapter',
+  roger = 'Roger',
+  charger = 'Charger',
 }
 export enum AccessoryStatus {
-  free = 'free',
-  sending = 'sending',
-  reserved = 'reserved',
-  trial = 'trial',
-  sold = 'sold',
+  Free = 'Free',
+  Sending = 'Sending',
+  Reserved = 'Reserved',
+  Trial = 'Trial',
+  Sold = 'Sold',
 }
 export interface Accessory {
+  brand: Brand;
+  groupId: number;
   id: number;
-  group: string;
-  serialNumber: number;
   name: string;
-  brand: string;
+  price: number;
+  serialNumber: string;
+  shopId: number;
   status: AccessoryStatus;
   type: AccessoryType;
-  price: number;
-  location: string;
-  customer: string;
 }
+
+export type AccessoryForm = {
+  [field in keyof Omit<Accessory, 'status'>]: FormControl<Accessory[field]>;
+};
 
 export interface AccessoryState extends StoreEntity<Accessory> {
   loading: boolean;

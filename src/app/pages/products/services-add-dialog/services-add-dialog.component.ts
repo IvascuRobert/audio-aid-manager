@@ -1,12 +1,17 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
-import { Service } from '../../../@core/data/service';
+import { Service, ServiceForm } from '../../../@core/data/service';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -17,10 +22,16 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./services-add-dialog.component.scss'],
 })
 export class ServicesAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    price: [0, [Validators.required]],
-    name: ['', [Validators.required]],
+  form = new FormGroup<ServiceForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    price: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selected: Service | null = null;
@@ -69,7 +80,7 @@ export class ServicesAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put(this.form.getRawValue(), this.entity)
+      .put<Service>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -83,7 +94,10 @@ export class ServicesAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(omit(this.form.getRawValue(), ['id']), this.entity)
+      .post<Omit<Service, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

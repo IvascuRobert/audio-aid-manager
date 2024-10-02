@@ -1,6 +1,11 @@
 import { Component, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import {
+  ProcessEndReason,
+  ProcessForm,
+  UserHasDeviceType,
+} from '../../../@core/data/process';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
@@ -9,45 +14,49 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./customer-details-add-dialog.component.scss'],
 })
 export class CustomerDetailsAddDialogComponent extends BaseForm {
-  customerAddForm = this.fb.group({
-    id: [null],
-    leftEarValue: ['', [Validators.required]],
-    leftEarDevice: ['', [Validators.required]],
-    rightEarValue: ['', [Validators.required]],
-    rightEarDevice: ['', [Validators.required]],
-    questionnaire: ['', [Validators.required]],
-    reason: ['', [Validators.required]],
-    comment: ['', [Validators.required]],
+  form = new FormGroup<ProcessForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    comment: new FormControl('', { nonNullable: true }),
+    leftEarDevice: new FormControl(UserHasDeviceType.none, {
+      nonNullable: true,
+    }),
+    leftEarValue: new FormControl(0, { nonNullable: true }),
+    questionnaire: new FormControl(0, { nonNullable: true }),
+    reason: new FormControl(ProcessEndReason.style, { nonNullable: true }),
+    rightEarDevice: new FormControl(UserHasDeviceType.none, {
+      nonNullable: true,
+    }),
+    rightEarValue: new FormControl(0, { nonNullable: true }),
   });
 
   loadingLargeGroup = false;
 
   get leftEarValueControl() {
-    return this.customerAddForm.controls.leftEarValue;
+    return this.form.controls.leftEarValue;
   }
 
   get leftEarDeviceControl() {
-    return this.customerAddForm.controls.leftEarDevice;
+    return this.form.controls.leftEarDevice;
   }
 
   get rightEarValueControl() {
-    return this.customerAddForm.controls.rightEarValue;
+    return this.form.controls.rightEarValue;
   }
 
   get rightEarDeviceControl() {
-    return this.customerAddForm.controls.rightEarDevice;
+    return this.form.controls.rightEarDevice;
   }
 
   get questionnaireControl() {
-    return this.customerAddForm.controls.questionnaire;
+    return this.form.controls.questionnaire;
   }
 
   get reasonControl() {
-    return this.customerAddForm.controls.reason;
+    return this.form.controls.reason;
   }
 
   get commentControl() {
-    return this.customerAddForm.controls.comment;
+    return this.form.controls.comment;
   }
 
   constructor(
@@ -63,7 +72,7 @@ export class CustomerDetailsAddDialogComponent extends BaseForm {
 
   submit() {
     console.log('here');
-    this.customerAddForm.markAsDirty();
+    this.form.markAsDirty();
     // this.ref.close(value);
   }
 

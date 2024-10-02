@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action } from '../../../@core/data/actions';
 import { Entity } from '../../../@core/data/entity';
@@ -7,7 +7,6 @@ import { Shop } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
-import { ShopsAddDialogComponent } from '../shops-add-dialog/shops-add-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -49,7 +48,7 @@ export class ShopsComponent extends BaseTable<Shop> implements OnInit {
                 this.refresh();
               }
               if (action === Action.Edit) {
-                this.editDialog(row);
+                this.editDialog();
               }
             });
         },
@@ -64,29 +63,5 @@ export class ShopsComponent extends BaseTable<Shop> implements OnInit {
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef().onClose.pipe(untilDestroyed(this)).subscribe();
-  }
-
-  editDialog(shop?: Shop) {
-    if (shop)
-      this.dialogRef(shop)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
-  }
-
-  private dialogRef(
-    shop: Shop | null = null
-  ): NbDialogRef<ShopsAddDialogComponent> {
-    return this.dialogService.open(ShopsAddDialogComponent, {
-      context: {
-        selectedShop: shop,
-        entity: this.entity,
-      },
-    });
   }
 }

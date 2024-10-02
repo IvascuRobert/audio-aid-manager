@@ -38,6 +38,8 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
 
   entities$ = new Observable();
 
+  dialogTemplateRef: any;
+
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService
@@ -120,6 +122,38 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
         )
         .subscribe();
     }
+  }
+
+  addDialog() {
+    this.dialogRef()
+      .onClose.pipe(
+        untilDestroyed(this),
+        tap((fetchData: boolean) => {
+          if (fetchData) this.refresh();
+        })
+      )
+      .subscribe();
+  }
+
+  editDialog() {
+    if (this.selectedRows[0])
+      this.dialogRef<T>(this.selectedRows[0])
+        .onClose.pipe(
+          untilDestroyed(this),
+          tap((fetchData: boolean) => {
+            if (fetchData) this.refresh();
+          })
+        )
+        .subscribe();
+  }
+
+  private dialogRef<T>(value?: T) {
+    return this.dialogService.open(this.dialogTemplateRef, {
+      context: {
+        selected: value,
+        entity: this.entity,
+      },
+    });
   }
 
   refresh(): void {

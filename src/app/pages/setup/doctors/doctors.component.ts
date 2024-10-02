@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
@@ -53,7 +53,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
                     break;
 
                   case Action.Edit:
-                    this.editDialog(row);
+                    this.editDialog();
                     break;
                   default:
                     break;
@@ -68,44 +68,12 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
     },
   };
 
+  override dialogTemplateRef = DoctorsAddDialogComponent;
+
   constructor(
     coreService: CoreService,
     override readonly dialogService: NbDialogService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(
-        untilDestroyed(this),
-        tap((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        })
-      )
-      .subscribe();
-  }
-
-  editDialog(doctor?: Doctor) {
-    if (doctor)
-      this.dialogRef(doctor)
-        .onClose.pipe(
-          untilDestroyed(this),
-          tap((fetchData: boolean) => {
-            if (fetchData) this.refresh();
-          })
-        )
-        .subscribe();
-  }
-
-  private dialogRef(
-    doctor: Doctor | null = null
-  ): NbDialogRef<DoctorsAddDialogComponent> {
-    return this.dialogService.open(DoctorsAddDialogComponent, {
-      context: {
-        selectedDoctor: doctor,
-        entity: this.entity,
-      },
-    });
   }
 }

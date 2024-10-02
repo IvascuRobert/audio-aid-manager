@@ -1,4 +1,7 @@
-<form [formGroup]="settingsForm" (ngSubmit)="submit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
   <nb-card>
     <nb-card-header>
       <div class="d-flex align-items-center">
@@ -16,7 +19,11 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="columns" class="label">Columns</label>
+            <label
+              for="columns"
+              class="label"
+              >Columns</label
+            >
             <nb-select
               id="columns"
               fullWidth
@@ -25,7 +32,10 @@
               multiple
               [status]="isValid(columnsControl) ? 'danger' : 'basic'"
             >
-              <nb-option *ngFor="let item of hiddenColumns" [value]="item">
+              <nb-option
+                *ngFor="let item of hiddenColumns"
+                [value]="item"
+              >
                 {{ item }}
               </nb-option>
             </nb-select>

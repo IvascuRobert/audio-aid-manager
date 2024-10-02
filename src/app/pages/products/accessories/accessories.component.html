@@ -4,7 +4,7 @@
     <ngx-custom-actions
       [selectedRows]="selectedRows"
       (handleAddAction)="addDialog()"
-      (handleEditAction)="editDialog(selectedRows[0])"
+      (handleEditAction)="editDialog()"
       (handleReloadAction)="refresh()"
       (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
       (handleSettingsAction)="openSettingsDialog()"
@@ -15,7 +15,7 @@
   <nb-card-header>
     <div class="row align-items-center">
       <div class="col-8">
-        <span>{{ source.count() }} Customers</span>
+        <span>{{ source.count() }} Accessories</span>
       </div>
     </div>
   </nb-card-header>

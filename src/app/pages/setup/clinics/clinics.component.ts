@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
@@ -51,7 +51,7 @@ export class ClinicsComponent extends BaseTable<Clinic> {
                   this.refresh();
                 }
                 if (action === Action.Edit) {
-                  this.editDialog(row);
+                  this.editDialog();
                 }
               })
             )
@@ -63,38 +63,12 @@ export class ClinicsComponent extends BaseTable<Clinic> {
     },
   };
 
+  override dialogTemplateRef = ClinicsAddDialogComponent;
+
   constructor(
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
-  }
-
-  editDialog(clinic?: Clinic) {
-    if (clinic)
-      this.dialogRef(clinic)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
-  }
-
-  private dialogRef(
-    clinic: Clinic | null = null
-  ): NbDialogRef<ClinicsAddDialogComponent> {
-    return this.dialogService.open(ClinicsAddDialogComponent, {
-      context: {
-        selected: clinic,
-        entity: this.entity,
-      },
-    });
   }
 }

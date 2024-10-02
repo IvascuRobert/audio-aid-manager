@@ -1,3 +1,5 @@
+import { FormControl } from '@angular/forms';
+
 export enum CustomerStatus {
   no = 'no',
   pc = 'pc',
@@ -27,7 +29,7 @@ export interface Customer {
   firstName: string;
   lastName: string;
   email: string;
-  age: Date;
+  age: Date | null;
   telephone: string;
   status: CustomerStatus;
   address: string;
@@ -36,6 +38,12 @@ export interface Customer {
   contactNote: CustomerContactNoteType;
   processStatus: ProcessStatusType;
   location: string;
-  appointment: Date;
+  appointment: Date | null;
   gender: Gender;
 }
+
+export type CustomerForm = {
+  [field in keyof Omit<Customer, 'status' | 'processStatus'>]: FormControl<
+    Customer[field]
+  >;
+};

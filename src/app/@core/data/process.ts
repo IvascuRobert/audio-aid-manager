@@ -1,14 +1,15 @@
-import { ProcessStatusType } from "./customer";
+import { FormControl } from '@angular/forms';
+import { ProcessStatusType } from './customer';
 
 export enum UserHasDeviceType {
-  none = "none",
-  lessThanThreeYears = "lessThanThreeYears",
-  moreThanThreeYears = "moreThanThreeYears",
+  none = 'none',
+  lessThanThreeYears = 'lessThanThreeYears',
+  moreThanThreeYears = 'moreThanThreeYears',
 }
 
 export enum ProcessEndReason {
-  money = "money",
-  style = "style",
+  money = 'money',
+  style = 'style',
 }
 
 export interface Process {
@@ -21,5 +22,8 @@ export interface Process {
   questionnaire: number;
   reason: ProcessEndReason;
   comment: string;
-  lastStatusUpdate: Date;
 }
+
+export type ProcessForm = {
+  [field in keyof Omit<Process, 'status'>]: FormControl<Process[field]>;
+};

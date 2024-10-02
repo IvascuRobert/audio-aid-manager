@@ -1,14 +1,12 @@
-<ng-container
-  *ngIf="{ loading: loading$ | async, doctor: selectedDoctor } as data"
->
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data">
   <form
-    [formGroup]="doctorsAddForm"
+    [formGroup]="form"
     (ngSubmit)="submit()"
   >
     <nb-card>
       <nb-card-header>
         <div class="d-flex align-items-center">
-          <ng-container *ngIf="data.doctor; else titleAddDoctorTpl">
+          <ng-container *ngIf="data.selected; else titleAddDoctorTpl">
             <nb-icon
               class="skip mr-2"
               icon="edit-2-outline"

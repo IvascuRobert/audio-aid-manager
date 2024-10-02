@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
@@ -51,7 +51,7 @@ export class RoomsComponent extends BaseTable<Room> {
                   this.refresh();
                 }
                 if (action === Action.Edit) {
-                  this.editDialog(row);
+                  this.editDialog();
                 }
               })
             )
@@ -63,38 +63,12 @@ export class RoomsComponent extends BaseTable<Room> {
     },
   };
 
+  override dialogTemplateRef = RoomsAddDialogComponent;
+
   constructor(
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
-  }
-
-  editDialog(room?: Room) {
-    if (room)
-      this.dialogRef(room)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
-  }
-
-  private dialogRef(
-    room: Room | null = null
-  ): NbDialogRef<RoomsAddDialogComponent> {
-    return this.dialogService.open(RoomsAddDialogComponent, {
-      context: {
-        selected: room,
-        entity: this.entity,
-      },
-    });
   }
 }

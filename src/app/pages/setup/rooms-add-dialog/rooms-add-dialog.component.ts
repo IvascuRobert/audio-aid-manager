@@ -1,11 +1,12 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
-import { Room } from '../../../@core/data/room';
+import { Room, RoomForm } from '../../../@core/data/room';
 import { ShopState } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
@@ -17,10 +18,16 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./rooms-add-dialog.component.scss'],
 })
 export class RoomsAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    name: ['', [Validators.required]],
-    shopId: [null, [Validators.required]],
+  form = new FormGroup<RoomForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    shopId: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selected: Room | null = null;
@@ -43,7 +50,6 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<RoomsAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();
@@ -75,7 +81,7 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put(this.form.getRawValue(), this.entity)
+      .put<Room>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -89,7 +95,10 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(this.form.getRawValue(), this.entity)
+      .post<Omit<Room, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

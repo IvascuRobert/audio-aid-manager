@@ -1,10 +1,11 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Clinic } from '../../../@core/data/clinic';
+import { Clinic, ClinicForm } from '../../../@core/data/clinic';
 import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
@@ -16,10 +17,16 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./clinics-add-dialog.component.scss'],
 })
 export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    name: ['', [Validators.required]],
-    address: ['', [Validators.required]],
+  form = new FormGroup<ClinicForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    address: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selected: Clinic | null = null;
@@ -38,7 +45,6 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<ClinicsAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();
@@ -66,10 +72,9 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private updateClinic(): void {
-    const clinic: Clinic = this.form.getRawValue() as Clinic;
     this.loading$.next(true);
     this.coreService
-      .put(clinic, this.entity)
+      .put<Clinic>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -81,10 +86,12 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private addClinic(): void {
-    const clinic: Clinic = this.form.getRawValue() as Clinic;
     this.loading$.next(true);
     this.coreService
-      .post(clinic, this.entity)
+      .post<Omit<Clinic, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

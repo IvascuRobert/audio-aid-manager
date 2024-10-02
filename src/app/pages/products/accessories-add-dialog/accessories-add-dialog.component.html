@@ -62,32 +62,30 @@
                 formControlName="brand"
                 [status]="isValid(brandControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">brand 1</nb-option>
-                <nb-option value="2">brand 2</nb-option>
-                <nb-option value="3">brand 3</nb-option>
-                <nb-option value="4">brand 4</nb-option>
+                <nb-option
+                  *ngFor="let item of brands$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
           <div class="col-12">
             <div class="form-group">
               <label
-                for="group"
+                for="groupId"
                 class="label"
                 >Group</label
               >
-              <nb-select
-                id="group"
+              <input
+                type="number"
+                nbInput
                 fullWidth
+                id="groupId"
                 placeholder="Group"
-                formControlName="group"
-                [status]="isValid(groupControl) ? 'danger' : 'basic'"
-              >
-                <nb-option value="1">group 1</nb-option>
-                <nb-option value="2">group 2</nb-option>
-                <nb-option value="3">group 3</nb-option>
-                <nb-option value="4">group 4</nb-option>
-              </nb-select>
+                formControlName="groupId"
+                [status]="isValid(groupIdControl) ? 'danger' : 'basic'"
+              />
             </div>
           </div>
           <div class="col-12">
@@ -122,10 +120,11 @@
                 formControlName="type"
                 [status]="isValid(typeControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">type 1</nb-option>
-                <nb-option value="2">type 2</nb-option>
-                <nb-option value="3">type 3</nb-option>
-                <nb-option value="4">type 4</nb-option>
+                <nb-option
+                  *ngFor="let item of accessoryType$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
@@ -137,7 +136,7 @@
                 >Price</label
               >
               <input
-                type="text"
+                type="number"
                 nbInput
                 fullWidth
                 id="price"
@@ -165,28 +164,6 @@
                   *ngFor="let shop of (shops$ | async)"
                   [value]="shop.id"
                   >{{shop.name}}</nb-option
-                >
-              </nb-select>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <label
-                for="userId"
-                class="label"
-                >Employee</label
-              >
-              <nb-select
-                id="userId"
-                fullWidth
-                placeholder="Employee"
-                formControlName="userId"
-                [status]="isValid(userIdControl) ? 'danger' : 'basic'"
-              >
-                <nb-option
-                  *ngFor="let user of (users$ | async)"
-                  [value]="user.id"
-                  >{{user.firstName}} {{user.lastName}}</nb-option
                 >
               </nb-select>
             </div>

@@ -1,7 +1,17 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { Customer, Gender } from '../../../@core/data/customer';
+import {
+  Customer,
+  CustomerContactNoteType,
+  CustomerForm,
+  Gender,
+} from '../../../@core/data/customer';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
 @Component({
@@ -10,22 +20,56 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./customer-add-dialog.component.scss'],
 })
 export class CustomerAddDialogComponent extends BaseForm implements OnInit {
-  customerAddForm = this.fb.group({
-    id: [null],
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    age: [new Date(), [Validators.required]],
-    telephone: ['', [Validators.required]],
-    address: ['', [Validators.required]],
-
-    doctor: ['', [Validators.required]],
-    clinic: ['', [Validators.required]],
-    contactNote: ['', [Validators.required]],
-    location: ['', [Validators.required]],
-
-    appointment: [''],
-    gender: [Gender.male, [Validators.required]],
+  customerAddForm = new FormGroup<CustomerForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    firstName: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    lastName: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    address: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    age: new FormControl(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    appointment: new FormControl(null, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    clinic: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    contactNote: new FormControl(CustomerContactNoteType.commercial, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    doctor: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    gender: new FormControl(Gender.male, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    location: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    telephone: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   loadingLargeGroup = false;

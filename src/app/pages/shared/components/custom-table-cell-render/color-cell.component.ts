@@ -1,11 +1,15 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
 @Component({
-  template: `<nb-icon
-    [ngStyle]="{ color: value }"
-    icon="color-palette"
-  ></nb-icon>`,
+  template: `
+    <ngx-colors
+      [(ngModel)]="value"
+      ngx-colors-trigger
+      [hideTextInput]="true"
+      [hideColorPicker]="true"
+    ></ngx-colors>
+  `,
 })
 export class ColorCellComponent {
-  @Input() value!:string;
+  @Input() value!: string;
 }

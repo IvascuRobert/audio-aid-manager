@@ -1,13 +1,14 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { Brand } from '../../../@core/data/brand';
 import { Entity } from '../../../@core/data/entity';
 import { ShopState } from '../../../@core/data/shop';
-import { Utility, UtilityType } from '../../../@core/data/utility';
+import { Utility, UtilityForm, UtilityType } from '../../../@core/data/utility';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -18,14 +19,32 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./utilities-add-dialog.component.scss'],
 })
 export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
-  form = this.fb.group({
-    id: [0],
-    type: [UtilityType.battery, [Validators.required]],
-    name: ['', [Validators.required]],
-    brand: ['', [Validators.required]],
-    quantity: [0, [Validators.required]],
-    price: [0, [Validators.required]],
-    shopId: ['', [Validators.required]],
+  form = new FormGroup<UtilityForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    type: new FormControl(UtilityType.Domes, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    brand: new FormControl(Brand.phonak, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    quantity: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    price: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    shopId: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   selected: Utility | null = null;
@@ -37,6 +56,10 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
   shops$ = this.coreService
     .getEntities$<ShopState>(Entity.Shop)
     .pipe(map(({ entities }) => Object.values(entities)));
+
+  brands$ = this.coreService.brands$;
+
+  utilityType$ = new BehaviorSubject<string[]>(Object.values(UtilityType));
 
   get typeControl() {
     return this.form.controls.type;
@@ -64,7 +87,6 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<UtilitiesAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();
@@ -96,7 +118,7 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put(this.form.getRawValue(), this.entity)
+      .put<Utility>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -110,7 +132,10 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post(omit(this.form.getRawValue(), ['id']), this.entity)
+      .post<Omit<Utility, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

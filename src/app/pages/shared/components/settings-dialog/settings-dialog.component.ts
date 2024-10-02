@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Optional } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { SettingsForm } from '../../../../@core/data/settings';
 import {
   LOCAL_STORAGE_KEYS_FOR_TABLE,
   getItem,
@@ -13,8 +14,8 @@ import { BaseForm } from '../../directives/base-form.directive';
   styleUrls: ['./settings-dialog.component.scss'],
 })
 export class SettingsDialogComponent extends BaseForm implements OnInit {
-  settingsForm = this.fb.group({
-    columns: this.fb.control<string[] | null>(null, []),
+  form = new FormGroup<SettingsForm>({
+    columns: new FormControl([], { nonNullable: true }),
   });
 
   @Input() hiddenColumns: string[] = [];
@@ -24,7 +25,7 @@ export class SettingsDialogComponent extends BaseForm implements OnInit {
   loadingLargeGroup = false;
 
   get columnsControl() {
-    return this.settingsForm.controls.columns;
+    return this.form.controls.columns;
   }
 
   constructor(
@@ -46,7 +47,7 @@ export class SettingsDialogComponent extends BaseForm implements OnInit {
     this.loadingLargeGroup = true;
 
     setTimeout(() => {
-      const settingsFormValue = this.settingsForm.getRawValue();
+      const settingsFormValue = this.form.getRawValue();
       this.loadingLargeGroup = false;
       this.ref.close({
         ...settingsFormValue,
@@ -57,6 +58,6 @@ export class SettingsDialogComponent extends BaseForm implements OnInit {
 
   private loadSelectColumnsFromLocalStorage() {
     const columns = getItem(this.localStorageSettingsKey);
-    this.settingsForm.controls.columns.setValue(columns);
+    this.form.controls.columns.setValue(columns);
   }
 }

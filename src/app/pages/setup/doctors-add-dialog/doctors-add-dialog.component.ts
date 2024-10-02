@@ -1,10 +1,16 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Doctor } from '../../../@core/data/doctor';
+import { Doctor, DoctorForm } from '../../../@core/data/doctor';
 import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
@@ -16,19 +22,22 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./doctors-add-dialog.component.scss'],
 })
 export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
-  doctorsAddForm = this.fb.group({
-    id: [0],
-    name: ['', [Validators.required]],
+  form = new FormGroup<DoctorForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
-  selectedDoctor: Doctor | null = null;
+  selected: Doctor | null = null;
 
   loading$ = new BehaviorSubject(false);
 
   entity!: Entity;
 
   get nameControl() {
-    return this.doctorsAddForm.controls.name;
+    return this.form.controls.name;
   }
 
   constructor(
@@ -40,8 +49,8 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedDoctor) {
-      this.doctorsAddForm.patchValue(this.selectedDoctor);
+    if (this.selected) {
+      this.form.patchValue(this.selected);
     }
   }
 
@@ -50,9 +59,9 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.doctorsAddForm.markAllAsTouched();
-    if (this.doctorsAddForm.valid && this.loading$.value === false) {
-      if (this.selectedDoctor) {
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
+      if (this.selected) {
         this.updateDoctor();
       } else {
         this.addDoctor();
@@ -61,10 +70,9 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private updateDoctor(): void {
-    const doctor: Doctor = this.doctorsAddForm.getRawValue() as Doctor;
     this.loading$.next(true);
     this.coreService
-      .put(doctor, this.entity)
+      .put<Doctor>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -76,10 +84,12 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private addDoctor(): void {
-    const doctor: Doctor = this.doctorsAddForm.getRawValue() as Doctor;
     this.loading$.next(true);
     this.coreService
-      .post(doctor, this.entity)
+      .post<Omit<Doctor, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

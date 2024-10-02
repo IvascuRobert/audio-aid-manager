@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Accessory } from '../../../@core/data/accessory';
@@ -35,7 +35,7 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         type: 'custom',
         renderComponent: AccessoryStatusCellComponent,
       },
-      group: {
+      groupId: {
         title: 'Group',
         type: 'string',
       },
@@ -61,12 +61,8 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
         renderComponent: PriceCellComponent,
         hide: true,
       },
-      location: {
-        title: 'Location',
-        type: 'string',
-      },
-      customer: {
-        title: 'Customer',
+      shopId: {
+        title: 'Shop',
         type: 'string',
       },
       actions: {
@@ -86,7 +82,7 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog(row);
+                    this.editDialog();
                     break;
                   default:
                     break;
@@ -105,6 +101,8 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
 
   override hiddenColumns = ['price'];
 
+  override dialogTemplateRef = AccessoriesAddDialogComponent;
+
   selectedColumns = [];
 
   constructor(
@@ -112,33 +110,5 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
-  }
-
-  editDialog(accessory?: Accessory) {
-    if (accessory)
-      this.dialogRef(accessory)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
-  }
-
-  private dialogRef(
-    accessory: Accessory | null = null
-  ): NbDialogRef<AccessoriesAddDialogComponent> {
-    return this.dialogService.open(AccessoriesAddDialogComponent, {
-      context: {
-        selected: accessory,
-        entity: this.entity,
-      },
-    });
   }
 }

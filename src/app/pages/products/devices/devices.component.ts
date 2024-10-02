@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
 import { Device } from '../../../@core/data/device';
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
-import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../../@core/utils/save-local-storage';
 import { AccessoryStatusCellComponent } from '../../shared/components/custom-table-cell-render/accessory-status-cell.component';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { ColorCellComponent } from '../../shared/components/custom-table-cell-render/color-cell.component';
@@ -21,6 +20,8 @@ import { DevicesAddDialogComponent } from '../devices-add-dialog/devices-add-dia
   styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent extends BaseTable<Device> {
+  override entity = Entity.Device;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -96,12 +97,23 @@ export class DevicesComponent extends BaseTable<Device> {
         valuePrepareFunction: (value: any, row: Device, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog();
+                    break;
+                  default:
+                    break;
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -109,23 +121,12 @@ export class DevicesComponent extends BaseTable<Device> {
     },
   };
 
-  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
-
-  override hiddenColumns = ['aslGroup', 'location', 'price', 'customer'];
-
-  override source: LocalDataSource = new LocalDataSource();
+  override dialogTemplateRef = DevicesAddDialogComponent;
 
   constructor(
-    private service: SmartTableData,
-    coreService: CoreService,
-    override readonly dialogService: NbDialogService
+    override readonly dialogService: NbDialogService,
+    coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().devices;
-    this.source.load(data);
-  }
-
-  addDialog() {
-    this.dialogService.open(DevicesAddDialogComponent);
   }
 }

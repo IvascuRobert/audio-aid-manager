@@ -1,303 +1,286 @@
-<form
-  [formGroup]="devicesAddForm"
-  (ngSubmit)="submit()"
->
-  <nb-card>
-    <nb-card-header>
-      <div class="d-flex align-items-center">
-        <nb-icon
-          class="skip mr-2"
-          icon="plus-circle-outline"
-          pack="eva"
-          status="primary"
-          [options]="{ animation: { type: 'pulse' } }"
-        ></nb-icon>
-        Add new device
-      </div>
-    </nb-card-header>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="group"
-              class="label"
-              >Group</label
-            >
-            <nb-select
-              id="group"
-              fullWidth
-              placeholder="Group"
-              formControlName="group"
-              [status]="isValid(groupControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">group 1</nb-option>
-              <nb-option value="2">group 2</nb-option>
-              <nb-option value="3">group 3</nb-option>
-              <nb-option value="4">group 4</nb-option>
-            </nb-select>
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data"
+  ><form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex align-items-center">
+          <ng-container *ngIf="data.selected; else titleAddTpl">
+            <nb-icon
+              class="skip mr-2"
+              icon="edit-2-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Edit
+          </ng-container>
+          <ng-template #titleAddTpl>
+            <nb-icon
+              class="skip mr-2"
+              icon="plus-circle-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Add new
+          </ng-template>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="groupId"
+                class="label"
+                >Group</label
+              >
+              <input
+                type="number"
+                nbInput
+                fullWidth
+                id="groupId"
+                placeholder="Group"
+                formControlName="groupId"
+                [status]="isValid(groupIdControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="name"
+                class="label"
+                >Name</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="name"
+                placeholder="Name"
+                formControlName="name"
+                [status]="isValid(nameControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="brand"
+                class="label"
+                >Brand</label
+              >
+              <nb-select
+                id="brand"
+                fullWidth
+                placeholder="Brand"
+                formControlName="brand"
+                [status]="isValid(brandControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of brands$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="serialNumber"
+                class="label"
+                >Serial number</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="serialNumber"
+                placeholder="Serial number"
+                formControlName="serialNumber"
+                [status]="isValid(serialNumberControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="type"
+                class="label"
+                >Type</label
+              >
+              <nb-select
+                id="type"
+                fullWidth
+                placeholder="Type"
+                formControlName="type"
+                [status]="isValid(typeControl) ? 'danger' : 'basic'"
+              >
+                <nb-option value="1">type 1</nb-option>
+                <nb-option value="2">type 2</nb-option>
+                <nb-option value="3">type 3</nb-option>
+                <nb-option value="4">type 4</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="battery"
+                class="label"
+                >Battery</label
+              >
+              <nb-select
+                id="battery"
+                fullWidth
+                placeholder="Battery"
+                formControlName="battery"
+                [status]="isValid(batteryControl) ? 'danger' : 'basic'"
+              >
+                <nb-option value="1">battery 1</nb-option>
+                <nb-option value="2">battery 2</nb-option>
+                <nb-option value="3">battery 3</nb-option>
+                <nb-option value="4">battery 4</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="qualityLevel"
+                class="label"
+                >Quality level</label
+              >
+              <nb-select
+                id="qualityLevel"
+                fullWidth
+                placeholder="Quality level"
+                formControlName="qualityLevel"
+                [status]="isValid(qualityLevelControl) ? 'danger' : 'basic'"
+              >
+                <nb-option value="1">qualityLevel 1</nb-option>
+                <nb-option value="2">qualityLevel 2</nb-option>
+                <nb-option value="3">qualityLevel 3</nb-option>
+                <nb-option value="4">qualityLevel 4</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="color"
+                class="label"
+                >Color</label
+              >
+              <ngx-colors
+                ngx-colors-trigger
+                [formControl]="colorControl"
+                [hideTextInput]="true"
+              ></ngx-colors>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="aslGroup"
+                class="label"
+                >ASL Group</label
+              >
+              <nb-select
+                id="aslGroup"
+                fullWidth
+                placeholder="ASL Group"
+                formControlName="aslGroup"
+                [status]="isValid(aslGroupControl) ? 'danger' : 'basic'"
+              >
+                <nb-option value="1">aslGroup 1</nb-option>
+                <nb-option value="2">aslGroup 2</nb-option>
+                <nb-option value="3">aslGroup 3</nb-option>
+                <nb-option value="4">aslGroup 4</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="price"
+                class="label"
+                >Price</label
+              >
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="price"
+                placeholder="Price"
+                formControlName="price"
+                [status]="isValid(priceControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label
+                for="shopId"
+                class="label"
+                >Shop</label
+              >
+              <nb-select
+                id="shopId"
+                fullWidth
+                placeholder="Shop"
+                formControlName="shopId"
+                [status]="isValid(shopIdControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let shop of (shops$ | async)"
+                  [value]="shop.id"
+                  >{{shop.name}}</nb-option
+                >
+              </nb-select>
+            </div>
           </div>
         </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-flex justify-content-end">
+          <button
+            class="mr-2"
+            type="button"
+            nbButton
+            status="basic"
+            (click)="close()"
+          >
+            Cancel
+          </button>
 
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="brand"
-              class="label"
-              >brand</label
-            >
-            <nb-select
-              id="brand"
-              fullWidth
-              placeholder="brand"
-              formControlName="brand"
-              [status]="isValid(brandControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">brand 1</nb-option>
-              <nb-option value="2">brand 2</nb-option>
-              <nb-option value="3">brand 3</nb-option>
-              <nb-option value="4">brand 4</nb-option>
-            </nb-select>
-          </div>
+          <button
+            type="submit"
+            nbButton
+            hero
+            status="primary"
+            [nbSpinner]="data.loading!"
+            nbSpinnerStatus="success"
+            nbSpinnerMessage=""
+          >
+            Save
+          </button>
         </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="name"
-              class="label"
-              >Name</label
-            >
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="name"
-              placeholder="Name"
-              formControlName="name"
-              [status]="isValid(nameControl) ? 'danger' : 'basic'"
-            />
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="serialNumber"
-              class="label"
-              >Serial number</label
-            >
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="serialNumber"
-              placeholder="Serial number"
-              formControlName="serialNumber"
-              [status]="isValid(serialNumberControl) ? 'danger' : 'basic'"
-            />
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="type"
-              class="label"
-              >Type</label
-            >
-            <nb-select
-              id="type"
-              fullWidth
-              placeholder="Type"
-              formControlName="type"
-              [status]="isValid(typeControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">type 1</nb-option>
-              <nb-option value="2">type 2</nb-option>
-              <nb-option value="3">type 3</nb-option>
-              <nb-option value="4">type 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="battery"
-              class="label"
-              >Battery</label
-            >
-            <nb-select
-              id="battery"
-              fullWidth
-              placeholder="Battery"
-              formControlName="battery"
-              [status]="isValid(batteryControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">battery 1</nb-option>
-              <nb-option value="2">battery 2</nb-option>
-              <nb-option value="3">battery 3</nb-option>
-              <nb-option value="4">battery 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="qualityLevel"
-              class="label"
-              >Quality level</label
-            >
-            <nb-select
-              id="qualityLevel"
-              fullWidth
-              placeholder="Quality level"
-              formControlName="qualityLevel"
-              [status]="isValid(qualityLevelControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">qualityLevel 1</nb-option>
-              <nb-option value="2">qualityLevel 2</nb-option>
-              <nb-option value="3">qualityLevel 3</nb-option>
-              <nb-option value="4">qualityLevel 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="color"
-              class="label"
-              >Color</label
-            >
-            <nb-select
-              id="color"
-              fullWidth
-              placeholder="Color"
-              formControlName="color"
-              [status]="isValid(colorControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">color 1</nb-option>
-              <nb-option value="2">color 2</nb-option>
-              <nb-option value="3">color 3</nb-option>
-              <nb-option value="4">color 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="aslGroup"
-              class="label"
-              >ASL Group</label
-            >
-            <nb-select
-              id="aslGroup"
-              fullWidth
-              placeholder="ASL Group"
-              formControlName="aslGroup"
-              [status]="isValid(aslGroupControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">aslGroup 1</nb-option>
-              <nb-option value="2">aslGroup 2</nb-option>
-              <nb-option value="3">aslGroup 3</nb-option>
-              <nb-option value="4">aslGroup 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="price"
-              class="label"
-              >Price</label
-            >
-            <input
-              type="text"
-              nbInput
-              fullWidth
-              id="price"
-              placeholder="Price"
-              formControlName="price"
-              [status]="isValid(priceControl) ? 'danger' : 'basic'"
-            />
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="location"
-              class="label"
-              >Location</label
-            >
-            <nb-select
-              id="location"
-              fullWidth
-              placeholder="Location"
-              formControlName="location"
-              [status]="isValid(locationControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">Location 1</nb-option>
-              <nb-option value="2">Location 2</nb-option>
-              <nb-option value="3">Location 3</nb-option>
-              <nb-option value="4">Location 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="form-group">
-            <label
-              for="customer"
-              class="label"
-              >Customer</label
-            >
-            <nb-select
-              id="customer"
-              fullWidth
-              placeholder="Customer"
-              formControlName="customer"
-              [status]="isValid(customerControl) ? 'danger' : 'basic'"
-            >
-              <nb-option value="1">customer 1</nb-option>
-              <nb-option value="2">customer 2</nb-option>
-              <nb-option value="3">customer 3</nb-option>
-              <nb-option value="4">customer 4</nb-option>
-            </nb-select>
-          </div>
-        </div>
-      </div>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="d-flex justify-content-end">
-        <button
-          class="mr-2"
-          type="button"
-          nbButton
-          status="basic"
-          (click)="cancel()"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          nbButton
-          hero
-          status="primary"
-          (click)="toggleLoadingLargeGroupAnimation()"
-          [nbSpinner]="loadingLargeGroup"
-          nbSpinnerStatus="success"
-          nbSpinnerMessage=""
-        >
-          Save
-        </button>
-      </div>
-    </nb-card-footer>
-  </nb-card>
-</form>
+      </nb-card-footer>
+    </nb-card>
+  </form>
+</ng-container>

@@ -1,11 +1,17 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
-import { Shop } from '../../../@core/data/shop';
+import { Shop, ShopForm } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -16,10 +22,16 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
   styleUrls: ['./shops-add-dialog.component.scss'],
 })
 export class ShopsAddDialogComponent extends BaseForm implements OnInit {
-  shopsAddForm = this.fb.group({
-    id: [0],
-    name: ['', [Validators.required]],
-    address: ['', [Validators.required]],
+  form = new FormGroup<ShopForm>({
+    id: new FormControl(0, { nonNullable: true }),
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    address: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   loadingLargeGroup = false;
@@ -31,11 +43,11 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   entity!: Entity;
 
   get nameControl() {
-    return this.shopsAddForm.controls.name;
+    return this.form.controls.name;
   }
 
   get addressControl() {
-    return this.shopsAddForm.controls.address;
+    return this.form.controls.address;
   }
 
   constructor(
@@ -48,7 +60,7 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
 
   ngOnInit(): void {
     if (this.selectedShop) {
-      this.shopsAddForm.patchValue(this.selectedShop);
+      this.form.patchValue(this.selectedShop);
     }
   }
 
@@ -57,8 +69,8 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.shopsAddForm.markAllAsTouched();
-    if (this.shopsAddForm.valid && this.loading$.value === false) {
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
       if (this.selectedShop) {
         this.updateShop();
       } else {
@@ -68,10 +80,9 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private updateShop(): void {
-    const shop: Shop = this.shopsAddForm.getRawValue() as Shop;
     this.loading$.next(true);
     this.coreService
-      .put(shop, this.entity)
+      .put<Shop>(this.form.getRawValue(), this.entity)
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -83,10 +94,12 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   private addShop(): void {
-    const shop: Shop = this.shopsAddForm.getRawValue() as Shop;
     this.loading$.next(true);
     this.coreService
-      .post(shop, this.entity)
+      .post<Omit<Shop, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {

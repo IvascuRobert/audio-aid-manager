@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { AccessoryStatus } from "../../../../@core/data/accessory";
+import { Component, Input } from '@angular/core';
+import { AccessoryStatus } from '../../../../@core/data/accessory';
 
 @Component({
   template: `
     <nb-tag-list [ngSwitch]="value">
       <nb-tag
-        *ngSwitchCase="accessoryStatusTpl.free"
+        *ngSwitchCase="accessoryStatusTpl.Free"
         status="warning"
         class="text-uppercase"
         appearance="outline"
@@ -16,7 +16,7 @@ import { AccessoryStatus } from "../../../../@core/data/accessory";
         [size]="'tiny'"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="accessoryStatusTpl.sending"
+        *ngSwitchCase="accessoryStatusTpl.Sending"
         status="basic"
         class="text-uppercase"
         appearance="outline"
@@ -27,7 +27,7 @@ import { AccessoryStatus } from "../../../../@core/data/accessory";
         [size]="'tiny'"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="accessoryStatusTpl.reserved"
+        *ngSwitchCase="accessoryStatusTpl.Reserved"
         status="danger"
         class="text-uppercase"
         appearance="outline"
@@ -38,7 +38,7 @@ import { AccessoryStatus } from "../../../../@core/data/accessory";
         [size]="'tiny'"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="accessoryStatusTpl.trial"
+        *ngSwitchCase="accessoryStatusTpl.Trial"
         status="primary"
         class="text-uppercase"
         appearance="outline"
@@ -49,7 +49,7 @@ import { AccessoryStatus } from "../../../../@core/data/accessory";
         [size]="'tiny'"
       ></nb-tag>
       <nb-tag
-        *ngSwitchCase="accessoryStatusTpl.sold"
+        *ngSwitchCase="accessoryStatusTpl.Sold"
         status="success"
         class="text-uppercase"
         appearance="outline"

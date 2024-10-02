@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
@@ -51,8 +51,8 @@ export class UtilitiesComponent extends BaseTable<Utility> {
         renderComponent: PriceCellComponent,
         hide: true,
       },
-      location: {
-        title: 'Location',
+      shopId: {
+        title: 'Shop',
         type: 'string',
       },
       actions: {
@@ -72,7 +72,7 @@ export class UtilitiesComponent extends BaseTable<Utility> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog(row);
+                    this.editDialog();
                     break;
                   default:
                     break;
@@ -95,6 +95,8 @@ export class UtilitiesComponent extends BaseTable<Utility> {
 
   override hiddenColumns = ['price'];
 
+  override dialogTemplateRef = UtilitiesAddDialogComponent;
+
   selectedColumns = [];
 
   constructor(
@@ -102,33 +104,5 @@ export class UtilitiesComponent extends BaseTable<Utility> {
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-  }
-
-  addDialog() {
-    this.dialogRef()
-      .onClose.pipe(untilDestroyed(this))
-      .subscribe((fetchData: boolean) => {
-        if (fetchData) this.refresh();
-      });
-  }
-
-  editDialog(utility?: Utility) {
-    if (utility)
-      this.dialogRef(utility)
-        .onClose.pipe(untilDestroyed(this))
-        .subscribe((fetchData: boolean) => {
-          if (fetchData) this.refresh();
-        });
-  }
-
-  private dialogRef(
-    service: Utility | null = null
-  ): NbDialogRef<UtilitiesAddDialogComponent> {
-    return this.dialogService.open(UtilitiesAddDialogComponent, {
-      context: {
-        selected: service,
-        entity: this.entity,
-      },
-    });
   }
 }

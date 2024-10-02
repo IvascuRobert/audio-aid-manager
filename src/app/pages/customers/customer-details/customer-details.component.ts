@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../../@core/data/actions';
 import { Process } from '../../../@core/data/process';
 import { SmartTableData } from '../../../@core/data/smart-table';
@@ -11,7 +12,6 @@ import { CommentCellComponent } from '../../shared/components/custom-table-cell-
 import { DateCellComponent } from '../../shared/components/custom-table-cell-render/date-cell.component';
 import { ProcessStatusCellComponent } from '../../shared/components/custom-table-cell-render/process-status-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
-import { CustomerDetailsAddDialogComponent } from '../customer-details-add-dialog/customer-details-add-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -76,12 +76,15 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         valuePrepareFunction: (value: any, row: Process, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                if (action === Action.Delete) {
+                  this.refresh();
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -99,9 +102,5 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
     super(coreService, dialogService);
     const data = this.service.getData().processes;
     this.source.load(data);
-  }
-
-  addDialog() {
-    this.dialogService.open(CustomerDetailsAddDialogComponent);
   }
 }

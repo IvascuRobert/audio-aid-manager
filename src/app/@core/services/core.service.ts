@@ -1,12 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Observable } from 'rxjs-compat';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AccessoryState } from '../data/accessory';
+import { Brand } from '../data/brand';
 import { ClinicState } from '../data/clinic';
+import { DeviceState } from '../data/device';
 import { DoctorState } from '../data/doctor';
 import { Entity } from '../data/entity';
 import { Store } from '../data/lite-store';
@@ -27,6 +29,7 @@ export interface State extends StateType {
   [Entity.Service]: ServiceState;
   [Entity.Utility]: UtilityState;
   [Entity.Accessory]: AccessoryState;
+  [Entity.Device]: DeviceState;
 }
 
 const initialState: State = {
@@ -38,6 +41,7 @@ const initialState: State = {
   [Entity.Service]: { entities: {}, ids: [], loading: false },
   [Entity.Utility]: { entities: {}, ids: [], loading: false },
   [Entity.Accessory]: { entities: {}, ids: [], loading: false },
+  [Entity.Device]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({
@@ -53,6 +57,8 @@ export class CoreService extends Store<State> {
   private stateTest$ = this.state$
     .pipe(tap((res) => console.log(res, 'entities')))
     .subscribe();
+
+  brands$ = new BehaviorSubject<string[]>(Object.values(Brand));
 
   constructor() {
     super(initialState);
@@ -94,6 +100,7 @@ export class CoreService extends Store<State> {
       catchError((err) => this.handleError(err))
     );
   }
+
   // STATE MANAGEMENT FOR ENTITIES
   loadEntities(entity: Entity, entities: any) {
     this.setState(() => {

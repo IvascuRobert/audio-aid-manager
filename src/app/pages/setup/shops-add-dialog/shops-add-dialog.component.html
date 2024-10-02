@@ -1,6 +1,6 @@
 <ng-container *ngIf="{ loading: loading$ | async, shop: selectedShop } as data">
   <form
-    [formGroup]="shopsAddForm"
+    [formGroup]="form"
     (ngSubmit)="submit()"
   >
     <nb-card>

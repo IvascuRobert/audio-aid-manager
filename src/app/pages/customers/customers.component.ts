@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
+import { tap } from 'rxjs/operators';
 import { Action } from '../../@core/data/actions';
 import { Customer } from '../../@core/data/customer';
 import { SmartTableData } from '../../@core/data/smart-table';
@@ -18,7 +19,6 @@ import { GenderCellComponent } from '../shared/components/custom-table-cell-rend
 import { PhoneCellComponent } from '../shared/components/custom-table-cell-render/phone-cell.component';
 import { ProcessStatusCellComponent } from '../shared/components/custom-table-cell-render/process-status-cell.component';
 import { BaseTable } from '../shared/directives/base-table.directive';
-import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -117,15 +117,18 @@ export class CustomersComponent extends BaseTable<Customer> {
         valuePrepareFunction: (value: any, row: Customer, cell: any) => row,
         onComponentInitFunction: (instance: ActionsCellComponent) => {
           instance.actionChange
-            .pipe(untilDestroyed(this))
-            .subscribe(({ action, row }) => {
-              if (action === Action.Delete) {
-                this.refresh();
-              }
-              if (action === Action.Edit) {
-                this.addDialog(row);
-              }
-            });
+            .pipe(
+              untilDestroyed(this),
+              tap(({ action, row }) => {
+                if (action === Action.Delete) {
+                  this.refresh();
+                }
+                if (action === Action.Edit) {
+                  this.addDialog();
+                }
+              })
+            )
+            .subscribe();
         },
         sort: false,
         filter: false,
@@ -156,12 +159,6 @@ export class CustomersComponent extends BaseTable<Customer> {
     super(coreService, dialogService);
     const data = this.service.getData().customers;
     this.source.load(data);
-  }
-
-  addDialog(row: Customer) {
-    this.dialogService.open(CustomerAddDialogComponent, {
-      context: { selectedCustomer: row },
-    });
   }
 
   view() {
