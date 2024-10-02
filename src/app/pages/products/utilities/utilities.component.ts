@@ -72,7 +72,7 @@ export class UtilitiesComponent extends BaseTable<Utility> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog();
+                    this.editDialog(row);
                     break;
                   default:
                     break;

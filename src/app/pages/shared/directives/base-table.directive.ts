@@ -135,9 +135,11 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
       .subscribe();
   }
 
-  editDialog() {
-    if (this.selectedRows[0])
-      this.dialogRef<T>(this.selectedRows[0])
+  editDialog(row?: T) {
+    console.log(row);
+    const selected = row ? row : this.selectedRows[0];
+    if (selected)
+      this.dialogRef<T>(selected)
         .onClose.pipe(
           untilDestroyed(this),
           tap((fetchData: boolean) => {

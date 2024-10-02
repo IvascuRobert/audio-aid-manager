@@ -124,7 +124,7 @@ export class CustomersComponent extends BaseTable<Customer> {
                   this.refresh();
                 }
                 if (action === Action.Edit) {
-                  this.addDialog();
+                  this.editDialog(row);
                 }
               })
             )

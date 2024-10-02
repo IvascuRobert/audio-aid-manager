@@ -53,7 +53,7 @@ export class DoctorsComponent extends BaseTable<Doctor> implements OnInit {
                     break;
 
                   case Action.Edit:
-                    this.editDialog();
+                    this.editDialog(row);
                     break;
                   default:
                     break;

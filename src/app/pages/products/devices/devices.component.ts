@@ -106,7 +106,7 @@ export class DevicesComponent extends BaseTable<Device> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog();
+                    this.editDialog(row);
                     break;
                   default:
                     break;

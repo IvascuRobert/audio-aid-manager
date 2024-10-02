@@ -47,11 +47,16 @@ export class ClinicsComponent extends BaseTable<Clinic> {
             .pipe(
               untilDestroyed(this),
               tap(({ action, row }) => {
-                if (action === Action.Delete) {
-                  this.refresh();
-                }
-                if (action === Action.Edit) {
-                  this.editDialog();
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
                 }
               })
             )

@@ -71,7 +71,7 @@ export class EmployeeComponent extends BaseTable<User> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog();
+                    this.editDialog(row);
                     break;
                   default:
                     break;

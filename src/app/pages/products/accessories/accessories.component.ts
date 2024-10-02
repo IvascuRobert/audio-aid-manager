@@ -82,7 +82,7 @@ export class AccessoriesComponent extends BaseTable<Accessory> {
                     break;
 
                   case Action.Edit:
-                    this.editDialog();
+                    this.editDialog(row);
                     break;
                   default:
                     break;
