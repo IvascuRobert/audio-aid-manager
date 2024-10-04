@@ -22,7 +22,7 @@ export interface Accessory {
   name: string;
   price: number;
   serialNumber: string;
-  shopId: number;
+  shopId: number | null;
   status: AccessoryStatus;
   type: AccessoryType;
 }

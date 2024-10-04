@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://auditive.azurewebsites.net',
+  apiUrl: 'https://auditive-app.azurewebsites.net',
 };

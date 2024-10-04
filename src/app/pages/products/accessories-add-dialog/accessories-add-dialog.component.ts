@@ -48,7 +48,7 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    shopId: new FormControl(0, {
+    shopId: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required],
     }),
