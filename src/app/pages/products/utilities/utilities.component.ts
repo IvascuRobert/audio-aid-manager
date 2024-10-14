@@ -97,8 +97,6 @@ export class UtilitiesComponent extends BaseTable<Utility> {
 
   override dialogTemplateRef = UtilitiesAddDialogComponent;
 
-  selectedColumns = [];
-
   constructor(
     override readonly dialogService: NbDialogService,
     coreService: CoreService

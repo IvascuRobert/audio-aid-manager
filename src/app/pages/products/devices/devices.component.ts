@@ -6,6 +6,7 @@ import { Action } from '../../../@core/data/actions';
 import { Device } from '../../../@core/data/device';
 import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
+import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../../@core/utils/save-local-storage';
 import { AccessoryStatusCellComponent } from '../../shared/components/custom-table-cell-render/accessory-status-cell.component';
 import { ActionsCellComponent } from '../../shared/components/custom-table-cell-render/actions-cell.component';
 import { ColorCellComponent } from '../../shared/components/custom-table-cell-render/color-cell.component';
@@ -79,8 +80,8 @@ export class DevicesComponent extends BaseTable<Device> {
         renderComponent: PriceCellComponent,
         hide: true,
       },
-      location: {
-        title: 'Location',
+      shopId: {
+        title: 'Shop',
         type: 'string',
         hide: true,
       },
@@ -120,6 +121,10 @@ export class DevicesComponent extends BaseTable<Device> {
       },
     },
   };
+
+  override localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
+
+  override hiddenColumns = ['aslGroup', 'price', 'shopId', 'customer'];
 
   override dialogTemplateRef = DevicesAddDialogComponent;
 

@@ -22,8 +22,6 @@ export class SettingsDialogComponent extends BaseForm implements OnInit {
 
   @Input() localStorageSettingsKey!: LOCAL_STORAGE_KEYS_FOR_TABLE;
 
-  loadingLargeGroup = false;
-
   get columnsControl() {
     return this.form.controls.columns;
   }
@@ -44,16 +42,11 @@ export class SettingsDialogComponent extends BaseForm implements OnInit {
   }
 
   submit() {
-    this.loadingLargeGroup = true;
-
-    setTimeout(() => {
-      const settingsFormValue = this.form.getRawValue();
-      this.loadingLargeGroup = false;
-      this.ref.close({
-        ...settingsFormValue,
-        ...{ hiddenColumns: this.hiddenColumns },
-      });
-    }, 3000);
+    const settingsFormValue = this.form.getRawValue();
+    this.ref.close({
+      ...settingsFormValue,
+      ...{ hiddenColumns: this.hiddenColumns },
+    });
   }
 
   private loadSelectColumnsFromLocalStorage() {

@@ -43,11 +43,10 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService
-  ) {
-    this.loadTableSettingsFromLocalStorage();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.loadTableSettingsFromLocalStorage();
     this.getServerData();
     this.entities$ = this.coreService.getEntities$<any>(this.entity).pipe(
       filter((res) => !!this.entity && !!res?.entities),
@@ -166,9 +165,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   private loadTableSettingsFromLocalStorage() {
     const columns = getItem(this.localStorageSettingsKey);
 
-    if (columns) {
-      this.settings = mapShowColumns(columns, this.settings);
-    }
+    this.settings = mapShowColumns(columns, this.settings);
   }
 
   private getServerData(): void {

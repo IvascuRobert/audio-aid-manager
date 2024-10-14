@@ -7,7 +7,14 @@ import { BehaviorSubject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { Battery } from '../../../@core/data/battery';
 import { Brand } from '../../../@core/data/brand';
-import { Device, DeviceForm, DeviceType } from '../../../@core/data/device';
+import {
+  Device,
+  DeviceAslGroup,
+  DeviceForm,
+  DevicePosition,
+  DeviceQualityLevel,
+  DeviceType,
+} from '../../../@core/data/device';
 import { Entity } from '../../../@core/data/entity';
 import { ShopState } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
@@ -22,7 +29,7 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
 export class DevicesAddDialogComponent extends BaseForm implements OnInit {
   form = new FormGroup<DeviceForm>({
     id: new FormControl(0, { nonNullable: true }),
-    groupId: new FormControl(0, {
+    group: new FormControl(0, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -42,11 +49,15 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    position: new FormControl(DevicePosition.Neutral, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     battery: new FormControl(Battery.battery10, {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    qualityLevel: new FormControl(0, {
+    qualityLevel: new FormControl(DeviceQualityLevel.Level1, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -54,7 +65,7 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    aslGroup: new FormControl(0, {
+    aslGroup: new FormControl(DeviceAslGroup.AslGroup0, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -80,8 +91,18 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
 
   brands$ = this.coreService.brands$;
 
-  get groupIdControl() {
-    return this.form.controls.groupId;
+  positions$ = new BehaviorSubject<string[]>(Object.values(DevicePosition));
+
+  types$ = new BehaviorSubject<string[]>(Object.values(DeviceType));
+
+  batteries$ = new BehaviorSubject<string[]>(Object.values(Battery));
+
+  qualityLevel$ = new BehaviorSubject<any>(Object.values(DeviceQualityLevel));
+
+  aslGroup$ = new BehaviorSubject<any>(Object.values(DeviceAslGroup));
+
+  get groupControl() {
+    return this.form.controls.group;
   }
 
   get brandControl() {
@@ -90,6 +111,10 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
 
   get nameControl() {
     return this.form.controls.name;
+  }
+
+  get positionControl() {
+    return this.form.controls.position;
   }
 
   get serialNumberControl() {
@@ -157,7 +182,10 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put<Omit<Device, 'status'>>(this.form.getRawValue(), this.entity)
+      .put<Omit<Device, 'status' | 'createdAt' | 'updatedAt'>>(
+        this.form.getRawValue(),
+        this.entity
+      )
       .pipe(
         untilDestroyed(this),
         finalize(() => {
@@ -171,7 +199,7 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post<Omit<Device, 'status' | 'id'>>(
+      .post<Omit<Device, 'status' | 'createdAt' | 'updatedAt' | 'id'>>(
         omit(this.form.getRawValue(), ['id']),
         this.entity
       )

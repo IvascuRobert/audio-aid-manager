@@ -30,26 +30,7 @@
       </nb-card-header>
       <nb-card-body>
         <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label
-                for="groupId"
-                class="label"
-                >Group</label
-              >
-              <input
-                type="number"
-                nbInput
-                fullWidth
-                id="groupId"
-                placeholder="Group"
-                formControlName="groupId"
-                [status]="isValid(groupIdControl) ? 'danger' : 'basic'"
-              />
-            </div>
-          </div>
-
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="name"
@@ -68,7 +49,49 @@
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
+            <div class="form-group">
+              <label
+                for="group"
+                class="label"
+                >Group</label
+              >
+              <input
+                type="number"
+                nbInput
+                fullWidth
+                id="group"
+                placeholder="Group"
+                formControlName="group"
+                [status]="isValid(groupControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label
+                for="position"
+                class="label"
+                >Position</label
+              >
+              <nb-select
+                id="position"
+                fullWidth
+                placeholder="Position"
+                formControlName="position"
+                [status]="isValid(positionControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of positions$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="brand"
@@ -91,7 +114,7 @@
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="serialNumber"
@@ -110,7 +133,7 @@
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="type"
@@ -124,15 +147,16 @@
                 formControlName="type"
                 [status]="isValid(typeControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">type 1</nb-option>
-                <nb-option value="2">type 2</nb-option>
-                <nb-option value="3">type 3</nb-option>
-                <nb-option value="4">type 4</nb-option>
+                <nb-option
+                  *ngFor="let item of types$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="battery"
@@ -146,15 +170,16 @@
                 formControlName="battery"
                 [status]="isValid(batteryControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">battery 1</nb-option>
-                <nb-option value="2">battery 2</nb-option>
-                <nb-option value="3">battery 3</nb-option>
-                <nb-option value="4">battery 4</nb-option>
+                <nb-option
+                  *ngFor="let item of batteries$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="qualityLevel"
@@ -168,15 +193,16 @@
                 formControlName="qualityLevel"
                 [status]="isValid(qualityLevelControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">qualityLevel 1</nb-option>
-                <nb-option value="2">qualityLevel 2</nb-option>
-                <nb-option value="3">qualityLevel 3</nb-option>
-                <nb-option value="4">qualityLevel 4</nb-option>
+                <nb-option
+                  *ngFor="let item of qualityLevel$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="color"
@@ -191,7 +217,7 @@
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="aslGroup"
@@ -205,15 +231,16 @@
                 formControlName="aslGroup"
                 [status]="isValid(aslGroupControl) ? 'danger' : 'basic'"
               >
-                <nb-option value="1">aslGroup 1</nb-option>
-                <nb-option value="2">aslGroup 2</nb-option>
-                <nb-option value="3">aslGroup 3</nb-option>
-                <nb-option value="4">aslGroup 4</nb-option>
+                <nb-option
+                  *ngFor="let item of aslGroup$ | async"
+                  [value]="item"
+                  >{{item}}</nb-option
+                >
               </nb-select>
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="price"
@@ -232,7 +259,7 @@
             </div>
           </div>
 
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group">
               <label
                 for="shopId"
