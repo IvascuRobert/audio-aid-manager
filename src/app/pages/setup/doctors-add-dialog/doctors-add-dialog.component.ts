@@ -1,10 +1,5 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
@@ -42,7 +37,6 @@ export class DoctorsAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<DoctorsAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();

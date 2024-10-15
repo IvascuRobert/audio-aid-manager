@@ -7,10 +7,11 @@ export enum CustomerStatus {
   cl = 'cl',
 }
 export enum CustomerContactNoteType {
-  member_get_member = 'member_get_member',
-  social = 'social',
-  doctor = 'doctor',
-  commercial = 'commercial',
+  MemberGetMember = 'MemberGetMember',
+  Social = 'Social',
+  Doctor = 'Doctor',
+  Commercial = 'Commercial',
+  Other = 'Other',
 }
 export enum ProcessStatusType {
   open = 'open',
@@ -29,21 +30,27 @@ export interface Customer {
   firstName: string;
   lastName: string;
   email: string;
-  age: Date | null;
-  telephone: string;
+  dateOfBirth: Date | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  phoneNumber: string;
+  taxCode: string;
   status: CustomerStatus;
   address: string;
-  doctor: string;
-  clinic: string;
+  doctorId: string;
+  clinicId: string;
   contactNote: CustomerContactNoteType;
-  processStatus: ProcessStatusType;
-  location: string;
-  appointment: Date | null;
   gender: Gender;
+  comment: string;
 }
 
 export type CustomerForm = {
-  [field in keyof Omit<Customer, 'status' | 'processStatus'>]: FormControl<
-    Customer[field]
-  >;
+  [field in keyof CustomerApi]: FormControl<Customer[field]>;
+};
+
+export type CustomerApi = {
+  [field in keyof Omit<
+    Customer,
+    'status' | 'processStatus' | 'createdAt' | 'updatedAt'
+  >]: Customer[field];
 };

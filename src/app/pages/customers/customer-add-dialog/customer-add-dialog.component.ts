@@ -1,26 +1,30 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { omit } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 import {
   Customer,
+  CustomerApi,
   CustomerContactNoteType,
   CustomerForm,
   Gender,
 } from '../../../@core/data/customer';
+import { Entity } from '../../../@core/data/entity';
+import { ShopState } from '../../../@core/data/shop';
+import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-customer-add-dialog',
   templateUrl: './customer-add-dialog.component.html',
   styleUrls: ['./customer-add-dialog.component.scss'],
 })
 export class CustomerAddDialogComponent extends BaseForm implements OnInit {
-  customerAddForm = new FormGroup<CustomerForm>({
+  form = new FormGroup<CustomerForm>({
     id: new FormControl(0, { nonNullable: true }),
     firstName: new FormControl('', {
       nonNullable: true,
@@ -34,23 +38,19 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    age: new FormControl(null, {
+    dateOfBirth: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    appointment: new FormControl(null, {
+    clinicId: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    clinic: new FormControl('', {
+    contactNote: new FormControl(CustomerContactNoteType.Other, {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    contactNote: new FormControl(CustomerContactNoteType.commercial, {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    doctor: new FormControl('', {
+    doctorId: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -62,95 +62,154 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    location: new FormControl('', {
+    phoneNumber: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    telephone: new FormControl('', {
+    comment: new FormControl('', {
+      nonNullable: true,
+    }),
+    taxCode: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
   });
 
-  loadingLargeGroup = false;
+  selected: Customer | null = null;
 
-  selectedCustomer: Customer | null = null;
+  loading$ = new BehaviorSubject(false);
+
+  entity!: Entity;
+
+  gender$ = this.coreService.gender$;
+
+  customerContactNoteType$ = new BehaviorSubject<string[]>(
+    Object.values(CustomerContactNoteType)
+  );
+
+  clinics$ = this.coreService
+    .getEntities$<ShopState>(Entity.Clinic)
+    .pipe(map(({ entities }) => Object.values(entities)));
+
+  doctors$ = this.coreService
+    .getEntities$<ShopState>(Entity.Doctor)
+    .pipe(map(({ entities }) => Object.values(entities)));
 
   get firstNameControl() {
-    return this.customerAddForm.controls.firstName;
+    return this.form.controls.firstName;
   }
 
   get lastNameControl() {
-    return this.customerAddForm.controls.lastName;
+    return this.form.controls.lastName;
   }
 
   get emailControl() {
-    return this.customerAddForm.controls.email;
+    return this.form.controls.email;
   }
 
-  get ageControl() {
-    return this.customerAddForm.controls.age;
+  get dateOfBirthControl() {
+    return this.form.controls.dateOfBirth;
   }
 
-  get telephoneControl() {
-    return this.customerAddForm.controls.telephone;
+  get phoneNumberControl() {
+    return this.form.controls.phoneNumber;
   }
 
-  get doctorControl() {
-    return this.customerAddForm.controls.doctor;
+  get doctorIdControl() {
+    return this.form.controls.doctorId;
   }
 
   get addressControl() {
-    return this.customerAddForm.controls.address;
+    return this.form.controls.address;
   }
 
-  get clinicControl() {
-    return this.customerAddForm.controls.clinic;
-  }
-
-  get locationControl() {
-    return this.customerAddForm.controls.location;
+  get clinicIdControl() {
+    return this.form.controls.clinicId;
   }
 
   get contactNoteControl() {
-    return this.customerAddForm.controls.contactNote;
-  }
-
-  get appointmentControl() {
-    return this.customerAddForm.controls.appointment;
+    return this.form.controls.contactNote;
   }
 
   get genderControl() {
-    return this.customerAddForm.controls.gender;
+    return this.form.controls.gender;
+  }
+
+  get commentControl() {
+    return this.form.controls.comment;
+  }
+
+  get taxCodeControl() {
+    return this.form.controls.taxCode;
   }
 
   constructor(
     @Optional() private ref: NbDialogRef<CustomerAddDialogComponent>,
-    private fb: FormBuilder
+    private coreService: CoreService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.customerAddForm.patchValue(this.selectedCustomer as any);
+    if (this.selected) {
+      this.form.patchValue(this.selected as any);
+    }
+
+    this.getDoctors();
+    this.getClinics();
   }
 
-  cancel() {
-    this.ref.close();
+  close(fetchData = false) {
+    this.ref.close(fetchData);
   }
 
   submit() {
-    console.log('here');
-    this.customerAddForm.markAsDirty();
-    // this.ref.close(value);
+    this.form.markAllAsTouched();
+    if (this.form.valid && this.loading$.value === false) {
+      if (this.selected) {
+        this.update();
+      } else {
+        this.add();
+      }
+    }
   }
 
-  toggleLoadingLargeGroupAnimation() {
-    this.loadingLargeGroup = true;
+  private update(): void {
+    this.loading$.next(true);
+    this.coreService
+      .put<CustomerApi>(this.form.getRawValue(), this.entity)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
+  }
 
-    setTimeout(() => {
-      this.loadingLargeGroup = false;
-      this.ref.close();
-    }, 3000);
+  private add(): void {
+    this.loading$.next(true);
+    this.coreService
+      .post<Omit<CustomerApi, 'id'>>(
+        omit(this.form.getRawValue(), ['id']),
+        this.entity
+      )
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          this.loading$.next(false);
+          this.close(true);
+        })
+      )
+      .subscribe();
+  }
+
+  private getDoctors() {
+    this.coreService.get(Entity.Doctor).pipe(untilDestroyed(this)).subscribe();
+  }
+
+  private getClinics() {
+    this.coreService.get(Entity.Clinic).pipe(untilDestroyed(this)).subscribe();
   }
 }

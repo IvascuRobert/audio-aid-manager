@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { AccessoryState } from '../data/accessory';
 import { Brand } from '../data/brand';
 import { ClinicState } from '../data/clinic';
+import { Gender } from '../data/customer';
 import { DeviceState } from '../data/device';
 import { DoctorState } from '../data/doctor';
 import { Entity } from '../data/entity';
@@ -59,6 +60,8 @@ export class CoreService extends Store<State> {
     .subscribe();
 
   brands$ = new BehaviorSubject<string[]>(Object.values(Brand));
+
+  gender$ = new BehaviorSubject<string[]>(Object.values(Gender));
 
   constructor() {
     super(initialState);

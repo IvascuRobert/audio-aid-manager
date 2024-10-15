@@ -6,19 +6,18 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { tap } from 'rxjs/operators';
 import { Action } from '../../@core/data/actions';
 import { Customer } from '../../@core/data/customer';
-import { SmartTableData } from '../../@core/data/smart-table';
+import { Entity } from '../../@core/data/entity';
 import { CoreService } from '../../@core/services/core.service';
 import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../@core/utils/save-local-storage';
 import { ActionsCellComponent } from '../shared/components/custom-table-cell-render/actions-cell.component';
 import { AgeCellComponent } from '../shared/components/custom-table-cell-render/age-cell.component';
 import { BoldTextCellComponent } from '../shared/components/custom-table-cell-render/bold-text-cell.component';
 import { CustomerStatusCellComponent } from '../shared/components/custom-table-cell-render/customer-status-cell.component';
-import { DateCellComponent } from '../shared/components/custom-table-cell-render/date-cell.component';
 import { EmailCellComponent } from '../shared/components/custom-table-cell-render/email-cell.component';
 import { GenderCellComponent } from '../shared/components/custom-table-cell-render/gender-cell.component';
 import { PhoneCellComponent } from '../shared/components/custom-table-cell-render/phone-cell.component';
-import { ProcessStatusCellComponent } from '../shared/components/custom-table-cell-render/process-status-cell.component';
 import { BaseTable } from '../shared/directives/base-table.directive';
+import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -27,6 +26,8 @@ import { BaseTable } from '../shared/directives/base-table.directive';
   styleUrls: ['./customers.component.scss'],
 })
 export class CustomersComponent extends BaseTable<Customer> {
+  override entity = Entity.Customer;
+
   override settings: Record<string, any> = {
     selectMode: 'multi',
     actions: false,
@@ -56,12 +57,12 @@ export class CustomersComponent extends BaseTable<Customer> {
         type: 'custom',
         renderComponent: GenderCellComponent,
       },
-      age: {
+      dateOfBirth: {
         title: 'Age',
         type: 'custom',
         renderComponent: AgeCellComponent,
       },
-      telephone: {
+      phoneNumber: {
         title: 'Telephone',
         type: 'custom',
         renderComponent: PhoneCellComponent,
@@ -77,12 +78,12 @@ export class CustomersComponent extends BaseTable<Customer> {
         type: 'string',
         hide: true,
       },
-      doctor: {
+      doctorId: {
         title: 'Doctor',
         type: 'string',
         hide: true,
       },
-      clinic: {
+      clinicId: {
         title: 'Clinic',
         type: 'string',
         hide: true,
@@ -92,21 +93,9 @@ export class CustomersComponent extends BaseTable<Customer> {
         type: 'string',
         hide: true,
       },
-      processStatus: {
-        title: 'Process status',
-        type: 'custom',
-        renderComponent: ProcessStatusCellComponent,
-        hide: true,
-      },
-      location: {
-        title: 'Location',
+      taxCode: {
+        title: 'Tax code',
         type: 'string',
-        hide: true,
-      },
-      appointment: {
-        title: 'Appointment',
-        type: 'custom',
-        renderComponent: DateCellComponent,
         hide: true,
       },
       actions: {
@@ -120,11 +109,16 @@ export class CustomersComponent extends BaseTable<Customer> {
             .pipe(
               untilDestroyed(this),
               tap(({ action, row }) => {
-                if (action === Action.Delete) {
-                  this.refresh();
-                }
-                if (action === Action.Edit) {
-                  this.editDialog(row);
+                switch (action) {
+                  case Action.Delete:
+                    this.openRemoveDialog(row.id);
+                    break;
+
+                  case Action.Edit:
+                    this.editDialog(row);
+                    break;
+                  default:
+                    break;
                 }
               })
             )
@@ -143,22 +137,19 @@ export class CustomersComponent extends BaseTable<Customer> {
   override hiddenColumns = [
     'email',
     'address',
-    'doctor',
-    'clinic',
+    'doctorId',
+    'clinicId',
     'contactNote',
-    'processStatus',
-    'location',
-    'appointment',
   ];
+
+  override dialogTemplateRef = CustomerAddDialogComponent;
+
   constructor(
-    private service: SmartTableData,
     private router: Router,
     override readonly dialogService: NbDialogService,
     coreService: CoreService
   ) {
     super(coreService, dialogService);
-    const data = this.service.getData().customers;
-    this.source.load(data);
   }
 
   view() {

@@ -1,10 +1,5 @@
 import { Component, OnInit, Optional } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
@@ -34,8 +29,6 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
     }),
   });
 
-  loadingLargeGroup = false;
-
   selectedShop: Shop | null = null;
 
   loading$ = new BehaviorSubject(false);
@@ -52,7 +45,6 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<ShopsAddDialogComponent>,
-    private fb: FormBuilder,
     private coreService: CoreService
   ) {
     super();
