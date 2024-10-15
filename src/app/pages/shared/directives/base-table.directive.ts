@@ -135,7 +135,6 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   }
 
   editDialog(row?: T) {
-    console.log(row);
     const selected = row ? row : this.selectedRows[0];
     if (selected)
       this.dialogRef<T>(selected)

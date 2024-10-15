@@ -71,7 +71,6 @@ export class CustomerDetailsAddDialogComponent extends BaseForm {
   }
 
   submit() {
-    console.log('here');
     this.form.markAsDirty();
     // this.ref.close(value);
   }

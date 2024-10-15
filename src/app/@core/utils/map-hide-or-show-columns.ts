@@ -24,7 +24,6 @@ export function mapShowColumns(
 ): Record<string, any> {
   const cloneSettings = cloneDeep(settings);
   if (columns) {
-    console.log(cloneSettings);
     for (let column of columns) {
       cloneSettings.columns[column].hide = false;
     }
