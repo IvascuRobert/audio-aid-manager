@@ -12,6 +12,7 @@ import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../@core/utils/save-local-stora
 import { ActionsCellComponent } from '../shared/components/custom-table-cell-render/actions-cell.component';
 import { AgeCellComponent } from '../shared/components/custom-table-cell-render/age-cell.component';
 import { BoldTextCellComponent } from '../shared/components/custom-table-cell-render/bold-text-cell.component';
+import { CommentCellComponent } from '../shared/components/custom-table-cell-render/comment-cell.component';
 import { CustomerStatusCellComponent } from '../shared/components/custom-table-cell-render/customer-status-cell.component';
 import { EmailCellComponent } from '../shared/components/custom-table-cell-render/email-cell.component';
 import { GenderCellComponent } from '../shared/components/custom-table-cell-render/gender-cell.component';
@@ -98,6 +99,12 @@ export class CustomersComponent extends BaseTable<Customer> {
         type: 'string',
         hide: true,
       },
+      comment: {
+        title: 'Note',
+        type: 'custom',
+        renderComponent: CommentCellComponent,
+        hide: true,
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
@@ -140,6 +147,7 @@ export class CustomersComponent extends BaseTable<Customer> {
     'doctorId',
     'clinicId',
     'contactNote',
+    'comment',
   ];
 
   override dialogTemplateRef = CustomerAddDialogComponent;

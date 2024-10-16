@@ -29,7 +29,7 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
     }),
   });
 
-  selectedShop: Shop | null = null;
+  selected: Shop | null = null;
 
   loading$ = new BehaviorSubject(false);
 
@@ -51,8 +51,8 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.selectedShop) {
-      this.form.patchValue(this.selectedShop);
+    if (this.selected) {
+      this.form.patchValue(this.selected);
     }
   }
 
@@ -63,7 +63,7 @@ export class ShopsAddDialogComponent extends BaseForm implements OnInit {
   submit() {
     this.form.markAllAsTouched();
     if (this.form.valid && this.loading$.value === false) {
-      if (this.selectedShop) {
+      if (this.selected) {
         this.updateShop();
       } else {
         this.addShop();

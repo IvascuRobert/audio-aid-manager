@@ -1,4 +1,4 @@
-<ng-container *ngIf="{ loading: loading$ | async, shop: selectedShop } as data">
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data">
   <form
     [formGroup]="form"
     (ngSubmit)="submit()"
@@ -6,7 +6,7 @@
     <nb-card>
       <nb-card-header>
         <div class="d-flex align-items-center">
-          <ng-container *ngIf="data.shop; else titleAddShopTpl">
+          <ng-container *ngIf="data.selected; else titleAddShopTpl">
             <nb-icon
               class="skip mr-2"
               icon="edit-2-outline"

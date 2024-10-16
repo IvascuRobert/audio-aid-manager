@@ -22,7 +22,7 @@ import { Gender } from '../../../../@core/data/customer';
       *ngSwitchCase="genderTpl.unknown"
       nbPopoverTrigger="hint"
       [nbPopover]="value"
-      icon="unknown"
+      icon="transgender"
       pack="ion"
     ></nb-icon>
     </ng-container>

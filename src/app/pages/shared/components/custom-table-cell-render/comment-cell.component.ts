@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 
 @Component({
   template: `<div class="d-flex justify-content-center">
@@ -14,11 +14,11 @@ import { Component, Input } from "@angular/core";
       ></nb-icon>
     </div>
 
-    <ng-template #commentRef let-passdata>
+    <ng-template #commentRef let-data>
       <nb-card class="popover-card" accent="basic">
-        <nb-card-header status="warning"> Hello! </nb-card-header>
+        <nb-card-header status="warning"> Note </nb-card-header>
         <nb-card-body>
-          {{ passdata.value }}
+          {{ data.value }}
         </nb-card-body>
       </nb-card>
     </ng-template>`,
