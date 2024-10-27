@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -15,21 +15,19 @@ import {
   NbSelectModule,
   NbSpinnerModule,
   NbTooltipModule,
-} from "@nebular/theme";
-import { Ng2SmartTableModule } from "ng2-smart-table";
-import { SharedModule } from "../shared/shared.module";
-import { CustomerAddDialogComponent } from "./customer-add-dialog/customer-add-dialog.component";
-import { CustomerApportunityComponent } from "./customer-apportunity/customer-apportunity.component";
-import { CustomerDetailsComponent } from "./customer-details/customer-details.component";
-import { CustomersRoutingModule } from "./customers-routing.module";
-import { CustomersComponent } from "./customers.component";
+} from '@nebular/theme';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { SharedModule } from '../shared/shared.module';
+import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-dialog.component';
 import { CustomerDetailsAddDialogComponent } from './customer-details-add-dialog/customer-details-add-dialog.component';
+import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+import { CustomersRoutingModule } from './customers-routing.module';
+import { CustomersComponent } from './customers.component';
 
 @NgModule({
   declarations: [
     CustomersComponent,
     CustomerDetailsComponent,
-    CustomerApportunityComponent,
     CustomerAddDialogComponent,
     CustomerDetailsAddDialogComponent,
   ],

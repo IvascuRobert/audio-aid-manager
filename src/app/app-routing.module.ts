@@ -13,18 +13,14 @@ import { NotFoundComponent } from './pages/miscellaneous/not-found/not-found.com
 export const routes: Routes = [
   {
     path: 'pages',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
-    // canActivate: [authGuard] // TBD Activate this when login is done
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
+    // canActivate: [authGuard],
   },
   {
     path: 'auth',
     component: NbAuthComponent,
     children: [
-      {
-        path: '',
-        component: NbLoginComponent,
-      },
       {
         path: 'login',
         component: NbLoginComponent,
@@ -45,11 +41,12 @@ export const routes: Routes = [
         path: 'reset-password',
         component: NbResetPasswordComponent,
       },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   {
-    path: "**",
+    path: '**',
     component: NotFoundComponent,
   },
 ];
@@ -62,5 +59,4 @@ const config: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

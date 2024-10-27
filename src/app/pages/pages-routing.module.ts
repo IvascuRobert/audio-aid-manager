@@ -1,53 +1,53 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { ECommerceComponent } from "./e-commerce/e-commerce.component";
-import { NotFoundComponent } from "./miscellaneous/not-found/not-found.component";
-import { PagesComponent } from "./pages.component";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ECommerceComponent } from './e-commerce/e-commerce.component';
+import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { PagesComponent } from './pages.component';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: PagesComponent,
     children: [
       {
-        path: "appointments",
+        path: 'appointments',
         loadChildren: () =>
-          import("./appointments/appointments.module").then(
+          import('./appointments/appointments.module').then(
             (m) => m.AppointmentsModule
           ),
       },
       {
-        path: "products",
+        path: 'products',
         loadChildren: () =>
-          import("./products/products.module").then((m) => m.ProductsModule),
+          import('./products/products.module').then((m) => m.ProductsModule),
       },
       {
-        path: "customers",
+        path: 'customers',
         loadChildren: () =>
-          import("./customers/customers.module").then((m) => m.CustomersModule),
+          import('./customers/customers.module').then((m) => m.CustomersModule),
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: ECommerceComponent,
       },
       {
-        path: "iot-dashboard",
+        path: 'iot-dashboard',
         component: DashboardComponent,
       },
       {
-        path: "setup",
+        path: 'setup',
         loadChildren: () =>
-          import("./setup/setup.module").then((m) => m.SetupModule),
+          import('./setup/setup.module').then((m) => m.SetupModule),
       },
       {
-        path: "",
-        redirectTo: "dashboard",
-        pathMatch: "full",
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
       {
-        path: "**",
+        path: '**',
         component: NotFoundComponent,
       },
     ],
@@ -58,4 +58,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

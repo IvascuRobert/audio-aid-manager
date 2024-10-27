@@ -1,5 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { ProcessStatusType } from './customer';
+import { StoreEntity } from './lite-store.model';
 
 export enum UserHasDeviceType {
   none = 'none',
@@ -22,6 +23,10 @@ export interface Process {
   questionnaire: number;
   reason: ProcessEndReason;
   comment: string;
+}
+
+export interface ProcessState extends StoreEntity<Process> {
+  loading: boolean;
 }
 
 export type ProcessForm = {

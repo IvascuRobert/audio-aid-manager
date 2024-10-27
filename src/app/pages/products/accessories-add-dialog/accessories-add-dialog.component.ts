@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { ShopState } from '../../../@core/data/shop';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
+@UntilDestroy()
 @Component({
   selector: 'ngx-accessories-add-dialog',
   templateUrl: './accessories-add-dialog.component.html',
@@ -105,7 +106,7 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
 
   ngOnInit(): void {
     if (this.selected) {
-      this.form.patchValue(this.selected as any);
+      this.form.patchValue(this.selected);
     }
 
     this.getShops();

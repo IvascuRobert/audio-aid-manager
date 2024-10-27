@@ -1,13 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Entity } from '../../../../@core/data/entity';
-import { NbPositionValues } from '@nebular/theme';
-
-interface ActionList {
-  icon: string,
-  nbTooltipPlacement: NbPositionValues,
-  nbTooltip: string,
-}
 
 @UntilDestroy()
 @Component({
@@ -18,9 +11,9 @@ interface ActionList {
 export class CustomActionsComponent {
   @Input() selectedRows: any = [];
 
-  @Input() actions: ActionList[] = [];
-
   @Input() entity!: Entity;
+
+  @Input() showProcess = false;
 
   @Output() handleAddAction = new EventEmitter<boolean>();
 
@@ -31,4 +24,6 @@ export class CustomActionsComponent {
   @Output() handleReloadAction = new EventEmitter<boolean>();
 
   @Output() handleSettingsAction = new EventEmitter<boolean>();
+
+  @Output() handlePulseAction = new EventEmitter<boolean>();
 }

@@ -42,6 +42,7 @@ import {
   StateService,
 } from './utils';
 
+import { environment } from '../../environments/environment';
 import { CountryOrderService } from './mock/country-order.service';
 import { EarningService } from './mock/earning.service';
 import { ElectricityService } from './mock/electricity.service';
@@ -120,26 +121,26 @@ export const NB_CORE_PROVIDERS = [
     strategies: [
       NbPasswordAuthStrategy.setup({
         name: 'email',
-        baseEndpoint: '',
+        baseEndpoint: environment.apiUrl,
         login: {
-          endpoint: '/assets/data/sign-in.json',
-          method: 'get',
+          endpoint: '/User/login',
+          method: 'post',
         },
         register: {
-          endpoint: '/assets/data/sign-up.json',
-          method: 'get',
+          endpoint: '/User/register',
+          method: 'post',
         },
         logout: {
           endpoint: '/assets/data/sign-out.json',
-          method: 'get',
+          method: 'post',
         },
         requestPass: {
-          endpoint: '/assets/data/request-pass.json',
-          method: 'get',
+          endpoint: '/User/forgot-password',
+          method: 'post',
         },
         resetPass: {
-          endpoint: '/assets/data/reset-pass.json',
-          method: 'get',
+          endpoint: '/User/reset-password',
+          method: 'post',
         },
         token: {
           class: NbAuthJWTToken,
@@ -201,7 +202,7 @@ export const NB_CORE_PROVIDERS = [
           required: true,
         },
         fullName: {
-          required: false,
+          required: true,
           minLength: 4,
           maxLength: 50,
         },

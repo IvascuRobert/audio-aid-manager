@@ -1,5 +1,6 @@
 export enum Entity {
   Customer = 'Customer',
+  Process = 'Process',
   Doctor = 'Doctor',
   Clinic = 'Clinic',
   Service = 'Service',
