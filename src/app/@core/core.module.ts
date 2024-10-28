@@ -216,7 +216,7 @@ export const NB_CORE_PROVIDERS = [
       validation: {
         password: {
           required: true,
-          minLength: 4,
+          minLength: 6,
           maxLength: 50,
         },
         email: {
@@ -224,7 +224,7 @@ export const NB_CORE_PROVIDERS = [
         },
         fullName: {
           required: true,
-          minLength: 4,
+          minLength: 6,
           maxLength: 50,
         },
       },
