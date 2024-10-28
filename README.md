@@ -1,6 +1,6 @@
 ## Deployment
 
-[Dev env](https://ivascurobert.github.io/audio-aid-manager/pages/dashboard)
+Click here for [demo!](https://ivascurobert.github.io/audio-aid-manager/pages/dashboard)
 
 ## Serv
 
