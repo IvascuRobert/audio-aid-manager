@@ -125,14 +125,35 @@ export const NB_CORE_PROVIDERS = [
         login: {
           endpoint: '/User/login',
           method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: '/',
+            failure: null,
+          },
+          defaultErrors: [
+            'Login/Email combination is not correct, please try again.',
+          ],
+          defaultMessages: ['You have been successfully logged in.'],
         },
         register: {
           endpoint: '/User/register',
           method: 'post',
+          redirect: {
+            success: '/auth/login',
+            failure: null,
+          },
+          requireValidToken: false,
+          defaultErrors: ['Something went wrong, please try again.'],
+          defaultMessages: ['You have been successfully registered.'],
         },
         logout: {
-          endpoint: '/assets/data/sign-out.json',
-          method: 'post',
+          endpoint: '',
+          redirect: {
+            success: '/auth/login',
+            failure: null,
+          },
+          defaultErrors: ['Something went wrong, please try again.'],
+          defaultMessages: ['You have been successfully registered.'],
         },
         requestPass: {
           endpoint: '/User/forgot-password',
