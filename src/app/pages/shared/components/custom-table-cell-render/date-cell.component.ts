@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import * as moment from "moment";
+import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   template: `<span [ngClass]="{ 'text-warning': !isInPresent }">
@@ -8,13 +8,14 @@ import * as moment from "moment";
 })
 export class DateCellComponent implements OnInit {
   renderValue: any;
-  
+
   isInPresent = false;
 
   @Input() value!: Date;
 
   ngOnInit() {
-    this.renderValue = moment(this.value).format("L");
-    this.isInPresent = moment().isSame(moment(this.value), "day");
+    console.log(this.value);
+    this.renderValue = moment(this.value).format('L');
+    this.isInPresent = moment().isSame(moment(this.value), 'day');
   }
 }

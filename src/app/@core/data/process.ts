@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { ProcessStatusType } from './customer';
 import { StoreEntity } from './lite-store.model';
 
-export enum UserHasDeviceType {
+export enum Duration {
   none = 'none',
   lessThanThreeYears = 'lessThanThreeYears',
   moreThanThreeYears = 'moreThanThreeYears',
@@ -17,12 +17,15 @@ export interface Process {
   id: number;
   status: ProcessStatusType;
   leftEarValue: number;
-  leftEarDevice: UserHasDeviceType;
+  currentLeftEarDeviceName: string;
+  leftEarDeviceDuration: Duration;
   rightEarValue: number;
-  rightEarDevice: UserHasDeviceType;
+  currentRightEarDeviceName: string;
+  rightEarDeviceDuration: Duration;
   questionnaire: number;
-  reason: ProcessEndReason;
+  reason: string;
   comment: string;
+  customerId: number | null;
 }
 
 export interface ProcessState extends StoreEntity<Process> {

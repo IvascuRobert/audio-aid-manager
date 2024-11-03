@@ -31,81 +31,136 @@
       <nb-card-body>
         <div class="row">
           <div class="col-6">
-            <div class="form-group">
-              <label
-                for="leftEarValue"
-                class="label"
-                >Left ear value</label
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label
+                    for="leftEarValue"
+                    class="label"
+                    >Left ear value</label
+                  >
+                  <input
+                    type="number"
+                    nbInput
+                    fullWidth
+                    id="leftEarValue"
+                    placeholder="Left ear value"
+                    formControlName="leftEarValue"
+                    [status]="isValid(leftEarValueControl) ? 'danger' : 'basic'"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-group">
+                  <label
+                    for="leftEarDeviceDuration"
+                    class="label"
+                    >Left ear device duration</label
+                  >
+                  <nb-radio-group
+                    id="leftEarDeviceDuration"
+                    fullWidth
+                    formControlName="leftEarDeviceDuration"
+                    name="leftEarDeviceDuration"
+                    [status]="isValid(leftEarDeviceDurationControl) ? 'danger' : 'basic'"
+                  >
+                    <nb-radio
+                      *ngFor="let item of duration$ | async"
+                      [value]="item"
+                      >{{item}}</nb-radio
+                    >
+                  </nb-radio-group>
+                </div>
+              </div>
+
+              <div
+                *ngIf="leftEarDeviceDurationControl.value !== durationTpl.none"
+                class="col-12"
               >
-              <input
-                type="text"
-                nbInput
-                fullWidth
-                id="leftEarValue"
-                placeholder="Left ear value"
-                formControlName="leftEarValue"
-                [status]="isValid(leftEarValueControl) ? 'danger' : 'basic'"
-              />
+                <div class="form-group">
+                  <label
+                    for="currentLeftEarDeviceName"
+                    class="label"
+                    >Current left ear device name</label
+                  >
+                  <input
+                    type="text"
+                    nbInput
+                    fullWidth
+                    id="currentLeftEarDeviceName"
+                    placeholder="Device name"
+                    formControlName="currentLeftEarDeviceName"
+                    [status]="isValid(currentLeftEarDeviceNameControl) ? 'danger' : 'basic'"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-6">
-            <div class="form-group">
-              <label
-                for="leftEarDevice"
-                class="label"
-                >Left ear device</label
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label
+                    for="rightEarValue"
+                    class="label"
+                    >Right ear value</label
+                  >
+                  <input
+                    type="number"
+                    nbInput
+                    fullWidth
+                    id="rightEarValue"
+                    placeholder="Right ear value"
+                    formControlName="rightEarValue"
+                    [status]="isValid(rightEarValueControl) ? 'danger' : 'basic'"
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label
+                    for="rightEarDeviceDuration"
+                    class="label"
+                    >Right ear device duration</label
+                  >
+                  <nb-radio-group
+                    id="rightEarDeviceDuration"
+                    fullWidth
+                    name="rightEarDeviceDuration`"
+                    formControlName="rightEarDeviceDuration"
+                    [status]="isValid(rightEarDeviceDurationControl) ? 'danger' : 'basic'"
+                  >
+                    <nb-radio
+                      *ngFor="let item of duration$ | async"
+                      [value]="item"
+                      >{{item}}</nb-radio
+                    >
+                  </nb-radio-group>
+                </div>
+              </div>
+
+              <div
+                *ngIf="rightEarDeviceDurationControl.value !== durationTpl.none"
+                class="col-12"
               >
-              <nb-select
-                id="leftEarDevice"
-                fullWidth
-                placeholder="Left ear device"
-                formControlName="leftEarDevice"
-                [status]="isValid(leftEarDeviceControl) ? 'danger' : 'basic'"
-              >
-                <nb-option value="1">Left ear device 1</nb-option>
-                <nb-option value="2">Left ear device 2</nb-option>
-                <nb-option value="3">Left ear device 3</nb-option>
-                <nb-option value="4">Left ear device 4</nb-option>
-              </nb-select>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label
-                for="rightEarValue"
-                class="label"
-                >Right ear value</label
-              >
-              <input
-                type="text"
-                nbInput
-                fullWidth
-                id="rightEarValue"
-                placeholder="Right ear value"
-                formControlName="rightEarValue"
-                [status]="isValid(rightEarValueControl) ? 'danger' : 'basic'"
-              />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label
-                for="rightEarDevice"
-                class="label"
-                >Right ear device</label
-              >
-              <nb-select
-                id="rightEarDevice"
-                fullWidth
-                placeholder="Right ear device"
-                formControlName="rightEarDevice"
-                [status]="isValid(rightEarDeviceControl) ? 'danger' : 'basic'"
-              >
-                <nb-option value="1">Right ear device 1</nb-option>
-                <nb-option value="2">Right ear device 2</nb-option>
-                <nb-option value="3">Right ear device 3</nb-option>
-                <nb-option value="4">Right ear device 4</nb-option>
-              </nb-select>
+                <div class="form-group">
+                  <label
+                    for="currentRightEarDeviceName"
+                    class="label"
+                    >Current right ear device name</label
+                  >
+                  <input
+                    type="text"
+                    nbInput
+                    fullWidth
+                    id="currentRightEarDeviceName"
+                    placeholder="Device name"
+                    formControlName="currentRightEarDeviceName"
+                    [status]="isValid(currentRightEarDeviceNameControl) ? 'danger' : 'basic'"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-12">
@@ -116,7 +171,7 @@
                 >Questionnaire</label
               >
               <input
-                type="text"
+                type="number"
                 nbInput
                 fullWidth
                 id="questionnaire"
@@ -124,27 +179,6 @@
                 formControlName="questionnaire"
                 [status]="isValid(questionnaireControl) ? 'danger' : 'basic'"
               />
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <label
-                for="reason"
-                class="label"
-                >Reason</label
-              >
-              <nb-select
-                id="reason"
-                fullWidth
-                placeholder="Reason"
-                formControlName="reason"
-                [status]="isValid(reasonControl) ? 'danger' : 'basic'"
-              >
-                <nb-option value="1">Reason 1</nb-option>
-                <nb-option value="2">Reason 2</nb-option>
-                <nb-option value="3">Reason 3</nb-option>
-                <nb-option value="4">Reason 4</nb-option>
-              </nb-select>
             </div>
           </div>
           <div class="col-12">

@@ -85,6 +85,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           hiddenColumns: this.hiddenColumns,
           localStorageSettingsKey: this.localStorageSettingsKey,
         },
+        closeOnBackdropClick: false,
       })
       .onClose.pipe(
         untilDestroyed(this),
@@ -112,6 +113,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
             entity: this.entity,
             id,
           },
+          closeOnBackdropClick: false,
         })
         .onClose.pipe(
           untilDestroyed(this),
@@ -153,6 +155,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
         selected: value,
         entity: this.entity,
       },
+      closeOnBackdropClick: false,
     });
   }
 

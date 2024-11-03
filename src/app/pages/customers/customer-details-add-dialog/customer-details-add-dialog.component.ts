@@ -1,17 +1,13 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
-import {
-  Process,
-  ProcessEndReason,
-  ProcessForm,
-  UserHasDeviceType,
-} from '../../../@core/data/process';
+import { Duration, Process, ProcessForm } from '../../../@core/data/process';
 import { CoreService } from '../../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
 
@@ -27,17 +23,21 @@ export class CustomerDetailsAddDialogComponent
 {
   form = new FormGroup<ProcessForm>({
     id: new FormControl(0, { nonNullable: true }),
-    comment: new FormControl('', { nonNullable: true }),
-    leftEarDevice: new FormControl(UserHasDeviceType.none, {
-      nonNullable: true,
-    }),
     leftEarValue: new FormControl(0, { nonNullable: true }),
-    questionnaire: new FormControl(0, { nonNullable: true }),
-    reason: new FormControl(ProcessEndReason.style, { nonNullable: true }),
-    rightEarDevice: new FormControl(UserHasDeviceType.none, {
+    leftEarDeviceDuration: new FormControl(Duration.none, {
       nonNullable: true,
     }),
+    currentLeftEarDeviceName: new FormControl('', { nonNullable: true }),
     rightEarValue: new FormControl(0, { nonNullable: true }),
+    rightEarDeviceDuration: new FormControl(Duration.none, {
+      nonNullable: true,
+    }),
+
+    reason: new FormControl('', { nonNullable: true }),
+    currentRightEarDeviceName: new FormControl('', { nonNullable: true }),
+    questionnaire: new FormControl(0, { nonNullable: true }),
+    comment: new FormControl('', { nonNullable: true }),
+    customerId: new FormControl(null, { nonNullable: true }),
   });
 
   selected: Process | null = null;
@@ -46,28 +46,36 @@ export class CustomerDetailsAddDialogComponent
 
   entity!: Entity;
 
+  duration$ = new BehaviorSubject<string[]>(Object.values(Duration));
+
+  durationTpl = Duration;
+
   get leftEarValueControl() {
     return this.form.controls.leftEarValue;
   }
 
-  get leftEarDeviceControl() {
-    return this.form.controls.leftEarDevice;
+  get leftEarDeviceDurationControl() {
+    return this.form.controls.leftEarDeviceDuration;
+  }
+
+  get currentLeftEarDeviceNameControl() {
+    return this.form.controls.currentLeftEarDeviceName;
   }
 
   get rightEarValueControl() {
     return this.form.controls.rightEarValue;
   }
 
-  get rightEarDeviceControl() {
-    return this.form.controls.rightEarDevice;
+  get rightEarDeviceDurationControl() {
+    return this.form.controls.rightEarDeviceDuration;
+  }
+
+  get currentRightEarDeviceNameControl() {
+    return this.form.controls.currentRightEarDeviceName;
   }
 
   get questionnaireControl() {
     return this.form.controls.questionnaire;
-  }
-
-  get reasonControl() {
-    return this.form.controls.reason;
   }
 
   get commentControl() {
@@ -76,7 +84,8 @@ export class CustomerDetailsAddDialogComponent
 
   constructor(
     @Optional() private ref: NbDialogRef<CustomerDetailsAddDialogComponent>,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private route: ActivatedRoute
   ) {
     super();
   }
@@ -85,6 +94,33 @@ export class CustomerDetailsAddDialogComponent
     if (this.selected) {
       this.form.patchValue(this.selected);
     }
+
+    this.leftEarDeviceDurationControl.valueChanges
+      .pipe(
+        tap((leftEarDeviceDurationValue) => {
+          console.log({ leftEarDeviceDurationValue });
+          if (leftEarDeviceDurationValue === Duration.none) {
+            this.currentLeftEarDeviceNameControl.reset();
+          }
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe();
+
+    this.rightEarDeviceDurationControl.valueChanges
+      .pipe(
+        tap((rightEarDeviceDurationValue) => {
+          if (rightEarDeviceDurationValue === Duration.none) {
+            this.currentRightEarDeviceNameControl.reset();
+          }
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe();
+
+    this.route.params.subscribe((params) => {
+      console.log(params, 'params');
+    });
   }
 
   close(fetchData = false) {

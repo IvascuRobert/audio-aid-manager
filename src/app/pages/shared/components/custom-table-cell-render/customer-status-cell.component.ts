@@ -1,9 +1,20 @@
-import { Component, Input } from "@angular/core";
-import { CustomerStatus } from "../../../../@core/data/customer";
+import { Component, Input } from '@angular/core';
+import { CustomerStatus } from '../../../../@core/data/customer';
 
 @Component({
   template: `
     <nb-tag-list [ngSwitch]="value">
+      <nb-tag
+        *ngSwitchCase="customerStatusTpl.new"
+        status="danger"
+        class="text-uppercase"
+        appearance="outline"
+        [size]="'tiny'"
+        [nbPopover]="newRef"
+        nbPopoverTrigger="hint"
+        [nbPopoverContext]="{value}"
+        [text]="value"
+      ></nb-tag>
       <nb-tag
         *ngSwitchCase="customerStatusTpl.cc"
         status="danger"
@@ -118,6 +129,20 @@ import { CustomerStatus } from "../../../../@core/data/customer";
     </ng-template>
 
     <ng-template #defaultRef let-passdata>
+      <nb-card class="popover-card" accent="basic">
+        <nb-card-header status="warning">
+          Hello! {{ passdata.value }}
+        </nb-card-header>
+        <nb-card-body>
+          Far far away, behind the word mountains, far from the countries
+          Vokalia and Consonantia, there live the blind texts. Separated they
+          live in Bookmarksgrove right at the coast of the Semantics, a large
+          language ocean.
+        </nb-card-body>
+      </nb-card>
+    </ng-template>
+
+    <ng-template #newRef let-passdata>
       <nb-card class="popover-card" accent="basic">
         <nb-card-header status="warning">
           Hello! {{ passdata.value }}

@@ -41,16 +41,24 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         title: 'Left ear value',
         type: 'number',
       },
-      leftEarDevice: {
-        title: 'Left ear device',
+      currentLeftEarDeviceName: {
+        title: 'Current left ear device name',
+        type: 'string',
+      },
+      leftEarDeviceDuration: {
+        title: 'Left ear device duration',
         type: 'string',
       },
       rightEarValue: {
         title: 'Right ear value',
         type: 'number',
       },
-      rightEarDevice: {
-        title: 'Right ear device',
+      currentRightEarDeviceName: {
+        title: 'Current right ear device name',
+        type: 'string',
+      },
+      rightEarDeviceDuration: {
+        title: 'Right ear device duration',
         type: 'string',
       },
       questionnaire: {
@@ -66,7 +74,7 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
         type: 'custom',
         renderComponent: CommentCellComponent,
       },
-      lastStatusUpdate: {
+      createdAt: {
         title: 'Last status update',
         type: 'custom',
         renderComponent: DateCellComponent,

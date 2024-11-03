@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 export enum CustomerStatus {
+  new = 'new',
   no = 'no',
   pc = 'pc',
   cc = 'cc',
@@ -14,11 +15,11 @@ export enum CustomerContactNoteType {
   Other = 'Other',
 }
 export enum ProcessStatusType {
-  open = 'open',
-  trial = 'trial',
-  win = 'win',
-  lost = 'lost',
-  end = 'end',
+  open = 'Open',
+  trial = 'Trial',
+  win = 'Win',
+  lost = 'Lost',
+  end = 'End',
 }
 export enum Gender {
   male = 'Male',
