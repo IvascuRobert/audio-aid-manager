@@ -2,10 +2,10 @@ import { FormControl } from '@angular/forms';
 
 export enum CustomerStatus {
   new = 'new',
-  no = 'no',
-  pc = 'pc',
-  cc = 'cc',
-  cl = 'cl',
+  no = 'no', // normal
+  pc = 'pc', // potential client
+  cc = 'cc', // concurent client
+  cl = 'cl', //
 }
 export enum CustomerContactNoteType {
   MemberGetMember = 'MemberGetMember',
@@ -16,6 +16,7 @@ export enum CustomerContactNoteType {
 }
 export enum ProcessStatusType {
   open = 'Open',
+
   trial = 'Trial',
   win = 'Win',
   lost = 'Lost',

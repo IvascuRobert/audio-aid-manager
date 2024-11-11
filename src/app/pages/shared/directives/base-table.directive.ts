@@ -1,10 +1,11 @@
 import { Directive, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { isNull, remove } from 'lodash';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { Entity } from '../../../@core/data/entity';
 import { CoreService } from '../../../@core/services/core.service';
 import {
@@ -36,13 +37,16 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
 
   entity!: Entity;
 
+  params: Record<string, string> = {};
+
   entities$ = new Observable();
 
   dialogTemplateRef: any;
 
   constructor(
     private coreService: CoreService,
-    readonly dialogService: NbDialogService
+    readonly dialogService: NbDialogService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -149,19 +153,41 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
         .subscribe();
   }
 
-  private dialogRef<T>(value?: T) {
-    return this.dialogService.open(this.dialogTemplateRef, {
-      context: {
-        selected: value,
-        entity: this.entity,
-      },
-      closeOnBackdropClick: false,
-    });
+  openCustomDialog<T>(template: any, row: T) {
+    const selected = row ? row : this.selectedRows[0];
+    if (selected)
+      this.dialogService
+        .open(template, {
+          context: {
+            selected,
+            entity: this.entity,
+            params: this.params,
+          },
+          closeOnBackdropClick: false,
+        })
+        .onClose.pipe(
+          untilDestroyed(this),
+          tap((fetchData: boolean) => {
+            if (fetchData) this.refresh();
+          })
+        )
+        .subscribe();
   }
 
   refresh(): void {
     this.resetSelectedRows();
     this.getServerData();
+  }
+
+  dialogRef<T>(value?: T) {
+    return this.dialogService.open(this.dialogTemplateRef, {
+      context: {
+        selected: value,
+        entity: this.entity,
+        params: this.params,
+      },
+      closeOnBackdropClick: false,
+    });
   }
 
   private loadTableSettingsFromLocalStorage() {
@@ -171,9 +197,14 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   }
 
   private getServerData(): void {
-    this.coreService
-      .get<T[]>(this.entity)
-      .pipe(untilDestroyed(this))
+    this.activatedRoute.params
+      .pipe(
+        tap((params) => {
+          this.params = params;
+        }),
+        switchMap((params) => this.coreService.get<T[]>(this.entity, params)),
+        untilDestroyed(this)
+      )
       .subscribe();
   }
 }

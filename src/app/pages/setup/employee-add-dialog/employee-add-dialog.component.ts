@@ -109,7 +109,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
     this.loading$.next(true);
     this.coreService
       .patch<Omit<User, 'password'>>(
-        this.idControl.value ?? 0,
+        `${this.idControl.value ?? 0}`,
         this.form.getRawValue(),
         this.entity
       )

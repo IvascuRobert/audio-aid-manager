@@ -23,6 +23,7 @@ import { CustomerDetailsAddDialogComponent } from './customer-details-add-dialog
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersComponent } from './customers.component';
+import { EndProcessDialogComponent } from './end-process-dialog/end-process-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CustomersComponent } from './customers.component';
     CustomerDetailsComponent,
     CustomerAddDialogComponent,
     CustomerDetailsAddDialogComponent,
+    EndProcessDialogComponent,
   ],
   imports: [
     CommonModule,

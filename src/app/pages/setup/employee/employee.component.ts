@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs/operators';
@@ -90,8 +91,9 @@ export class EmployeeComponent extends BaseTable<User> {
 
   constructor(
     override readonly dialogService: NbDialogService,
-    coreService: CoreService
+    coreService: CoreService,
+    activatedRoute: ActivatedRoute
   ) {
-    super(coreService, dialogService);
+    super(coreService, dialogService, activatedRoute);
   }
 }

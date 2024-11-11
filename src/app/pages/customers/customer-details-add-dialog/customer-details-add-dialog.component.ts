@@ -1,6 +1,5 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { NbDialogRef } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { omit } from 'lodash';
@@ -46,6 +45,8 @@ export class CustomerDetailsAddDialogComponent
 
   entity!: Entity;
 
+  params: Record<string, string> | null = null;
+
   duration$ = new BehaviorSubject<string[]>(Object.values(Duration));
 
   durationTpl = Duration;
@@ -82,10 +83,13 @@ export class CustomerDetailsAddDialogComponent
     return this.form.controls.comment;
   }
 
+  get customerIdControl() {
+    return this.form.controls.customerId;
+  }
+
   constructor(
     @Optional() private ref: NbDialogRef<CustomerDetailsAddDialogComponent>,
-    private coreService: CoreService,
-    private route: ActivatedRoute
+    private coreService: CoreService
   ) {
     super();
   }
@@ -95,10 +99,13 @@ export class CustomerDetailsAddDialogComponent
       this.form.patchValue(this.selected);
     }
 
+    if (this.params) {
+      this.customerIdControl.setValue(parseFloat(this.params['customerId']));
+    }
+
     this.leftEarDeviceDurationControl.valueChanges
       .pipe(
         tap((leftEarDeviceDurationValue) => {
-          console.log({ leftEarDeviceDurationValue });
           if (leftEarDeviceDurationValue === Duration.none) {
             this.currentLeftEarDeviceNameControl.reset();
           }
@@ -117,10 +124,6 @@ export class CustomerDetailsAddDialogComponent
         untilDestroyed(this)
       )
       .subscribe();
-
-    this.route.params.subscribe((params) => {
-      console.log(params, 'params');
-    });
   }
 
   close(fetchData = false) {

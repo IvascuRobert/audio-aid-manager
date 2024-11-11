@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -13,6 +14,7 @@ import { DateCellComponent } from '../../shared/components/custom-table-cell-ren
 import { ProcessStatusCellComponent } from '../../shared/components/custom-table-cell-render/process-status-cell.component';
 import { BaseTable } from '../../shared/directives/base-table.directive';
 import { CustomerDetailsAddDialogComponent } from '../customer-details-add-dialog/customer-details-add-dialog.component';
+import { EndProcessDialogComponent } from '../end-process-dialog/end-process-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -20,7 +22,10 @@ import { CustomerDetailsAddDialogComponent } from '../customer-details-add-dialo
   templateUrl: './customer-details.component.html',
   styleUrls: ['./customer-details.component.scss'],
 })
-export class CustomerDetailsComponent extends BaseTable<Process> {
+export class CustomerDetailsComponent
+  extends BaseTable<Process>
+  implements OnInit
+{
   override entity = Entity.Process;
 
   override settings: Record<string, any> = {
@@ -98,6 +103,13 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
                   case Action.Edit:
                     this.editDialog(row);
                     break;
+
+                  case Action.EndProcess:
+                    this.openCustomDialog<Process>(
+                      EndProcessDialogComponent,
+                      row
+                    );
+                    break;
                   default:
                     break;
                 }
@@ -117,8 +129,9 @@ export class CustomerDetailsComponent extends BaseTable<Process> {
 
   constructor(
     override readonly dialogService: NbDialogService,
-    coreService: CoreService
+    coreService: CoreService,
+    activatedRoute: ActivatedRoute
   ) {
-    super(coreService, dialogService);
+    super(coreService, dialogService, activatedRoute);
   }
 }

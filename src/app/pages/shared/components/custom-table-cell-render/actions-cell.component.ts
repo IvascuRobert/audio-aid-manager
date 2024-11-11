@@ -24,13 +24,14 @@ export class ActionsCellComponent implements ViewCell, OnInit {
 
   @Input() rowData: any;
 
-  @Output() actionChange: EventEmitter<{ action: Action; row: any }> =
-    new EventEmitter();
-
-  readonly items = [
+  @Input() items = [
     { title: Action.Edit, icon: 'edit-2-outline' },
     { title: Action.Delete, icon: 'trash-2-outline' },
+    { title: Action.EndProcess, icon: 'stop-circle-outline' },
   ];
+
+  @Output() actionChange: EventEmitter<{ action: Action; row: any }> =
+    new EventEmitter();
 
   readonly contextTag = 'actions-context-menu-';
 

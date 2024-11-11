@@ -3,9 +3,9 @@ import { ProcessStatusType } from './customer';
 import { StoreEntity } from './lite-store.model';
 
 export enum Duration {
-  none = 'none',
-  lessThanThreeYears = 'lessThanThreeYears',
-  moreThanThreeYears = 'moreThanThreeYears',
+  none = 'None',
+  lessThanThreeYears = 'LessThanThreeYears',
+  moreThanThreeYears = 'MoreThanThreeYears',
 }
 
 export enum ProcessEndReason {
@@ -34,4 +34,34 @@ export interface ProcessState extends StoreEntity<Process> {
 
 export type ProcessForm = {
   [field in keyof Omit<Process, 'status'>]: FormControl<Process[field]>;
+};
+
+export type EndProcessApi = {
+  [field in keyof Omit<
+    Process,
+    | 'status'
+    | 'leftEarValue'
+    | 'currentLeftEarDeviceName'
+    | 'leftEarDeviceDuration'
+    | 'rightEarValue'
+    | 'rightEarDeviceDuration'
+    | 'currentRightEarDeviceName'
+    | 'questionnaire'
+    | 'comment'
+  >]: Process[field];
+};
+
+export type EndProcessForm = {
+  [field in keyof Omit<
+    Process,
+    | 'status'
+    | 'leftEarValue'
+    | 'currentLeftEarDeviceName'
+    | 'leftEarDeviceDuration'
+    | 'rightEarValue'
+    | 'rightEarDeviceDuration'
+    | 'currentRightEarDeviceName'
+    | 'questionnaire'
+    | 'comment'
+  >]: FormControl<Process[field]>;
 };

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -155,9 +155,10 @@ export class CustomersComponent extends BaseTable<Customer> {
   constructor(
     private router: Router,
     override readonly dialogService: NbDialogService,
-    coreService: CoreService
+    coreService: CoreService,
+    activatedRoute: ActivatedRoute
   ) {
-    super(coreService, dialogService);
+    super(coreService, dialogService, activatedRoute);
   }
 
   view() {

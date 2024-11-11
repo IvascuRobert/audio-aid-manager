@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { BehaviorSubject, of } from 'rxjs';
@@ -70,11 +74,15 @@ export class CoreService extends Store<State> {
     super(initialState);
   }
 
-  get<T>(entity: Entity) {
-    return this.http.get<T>(`${this.apiUrl}${entity}`).pipe(
-      catchError((err) => this.handleError(err)),
-      tap((entities) => this.loadEntities(entity, entities))
-    );
+  get<T>(entity: Entity, params?: any) {
+    return this.http
+      .get<T>(`${this.apiUrl}${entity}`, {
+        params: new HttpParams({ fromObject: params || {} }),
+      })
+      .pipe(
+        catchError((err) => this.handleError(err)),
+        tap((entities) => this.loadEntities(entity, entities))
+      );
   }
 
   post<T>(value: T, entity: Entity): Observable<unknown> {
@@ -91,9 +99,9 @@ export class CoreService extends Store<State> {
     );
   }
 
-  patch<T>(id: number, value: T, entity: Entity): Observable<unknown> {
+  patch<T>(path: string, value: T, entity: Entity): Observable<unknown> {
     return this.http
-      .patch<unknown>(`${this.apiUrl}${entity}/${id}`, value)
+      .patch<unknown>(`${this.apiUrl}${entity}/${path}`, value)
       .pipe(
         tap(() => this.showSuccessMessage()),
         catchError((err) => this.handleError(err))
