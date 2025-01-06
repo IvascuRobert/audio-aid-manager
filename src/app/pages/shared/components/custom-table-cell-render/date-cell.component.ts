@@ -14,7 +14,6 @@ export class DateCellComponent implements OnInit {
   @Input() value!: Date;
 
   ngOnInit() {
-    console.log(this.value);
     this.renderValue = moment(this.value).format('L');
     this.isInPresent = moment().isSame(moment(this.value), 'day');
   }

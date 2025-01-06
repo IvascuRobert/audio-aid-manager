@@ -10,4 +10,5 @@ export enum Entity {
   Shop = 'Shop',
   Room = 'Room',
   User = 'User',
+  Order = 'Order',
 }

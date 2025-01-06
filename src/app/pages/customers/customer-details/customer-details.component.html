@@ -3,10 +3,12 @@
   <nb-card-body>
     <ngx-custom-actions
       [selectedRows]="selectedRows"
+      [showOrder]="true"
       (handleAddAction)="addDialog()"
       (handleEditAction)="editDialog()"
       (handleReloadAction)="refresh()"
       (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
+      (handleOrderAction)="goToOrder()"
     ></ngx-custom-actions>
   </nb-card-body>
 </nb-card>

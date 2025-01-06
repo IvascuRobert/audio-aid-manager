@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -128,10 +128,19 @@ export class CustomerDetailsComponent
   override dialogTemplateRef = CustomerDetailsAddDialogComponent;
 
   constructor(
+    private router: Router,
     override readonly dialogService: NbDialogService,
     coreService: CoreService,
-    activatedRoute: ActivatedRoute
+    override readonly activatedRoute: ActivatedRoute
   ) {
     super(coreService, dialogService, activatedRoute);
+  }
+
+  goToOrder(): void {
+    if (this.selectedRows.length > 0) {
+      this.router.navigate(['order', this.selectedRows[0].id], {
+        relativeTo: this.activatedRoute,
+      });
+    }
   }
 }

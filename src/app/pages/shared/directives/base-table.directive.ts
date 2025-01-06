@@ -46,7 +46,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService,
-    private activatedRoute: ActivatedRoute
+    readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

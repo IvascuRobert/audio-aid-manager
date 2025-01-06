@@ -36,6 +36,14 @@
     [disabled]="selectedRows.length !== 1"
     (click)="handlePulseAction.emit(true)"
   ></nb-action>
+  <nb-action
+    *ngIf="showOrder"
+    [nbTooltip]="'Go to order'"
+    nbTooltipPlacement="top"
+    [icon]="'shopping-cart-outline'"
+    [disabled]="selectedRows.length !== 1"
+    (click)="handleOrderAction.emit(true)"
+  ></nb-action>
 </nb-actions>
 <ng-template #editTpl>
   <nb-action

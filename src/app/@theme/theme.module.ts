@@ -30,10 +30,12 @@ import {
 } from './layouts';
 import {
   CapitalizePipe,
+  FilterByQuantityPipe,
   NumberWithCommasPipe,
   PluralPipe,
   RoundPipe,
   TimingPipe,
+  XorPipe,
 } from './pipes';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { COSMIC_THEME } from './styles/theme.cosmic';
@@ -69,6 +71,8 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  XorPipe,
+  FilterByQuantityPipe,
 ];
 
 @NgModule({

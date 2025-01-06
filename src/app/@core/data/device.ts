@@ -4,10 +4,12 @@ import { StoreEntity } from './lite-store.model';
 
 export enum DeviceStatus {
   Free = 'Free',
-  Sending = 'Sending',
-  Reserved = 'Reserved',
   Trial = 'Trial',
   Sold = 'Sold',
+
+  // for later
+  Sending = 'Sending',
+  Reserved = 'Reserved',
 }
 
 export enum DeviceAslGroup {

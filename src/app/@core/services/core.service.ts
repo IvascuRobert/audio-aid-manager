@@ -17,6 +17,7 @@ import { DeviceState } from '../data/device';
 import { DoctorState } from '../data/doctor';
 import { Entity } from '../data/entity';
 import { Store } from '../data/lite-store';
+import { OrderState } from '../data/order';
 import { ProcessState } from '../data/process';
 import { RoomState } from '../data/room';
 import { ServiceState } from '../data/service';
@@ -37,6 +38,7 @@ export interface State extends StateType {
   [Entity.Accessory]: AccessoryState;
   [Entity.Device]: DeviceState;
   [Entity.Process]: ProcessState;
+  [Entity.Order]: OrderState;
 }
 
 const initialState: State = {
@@ -50,6 +52,7 @@ const initialState: State = {
   [Entity.Accessory]: { entities: {}, ids: [], loading: false },
   [Entity.Device]: { entities: {}, ids: [], loading: false },
   [Entity.Process]: { entities: {}, ids: [], loading: false },
+  [Entity.Order]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({

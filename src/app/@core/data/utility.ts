@@ -21,7 +21,7 @@ export interface Utility {
 }
 
 export type UtilityForm = {
-  [field in keyof Omit<Utility, 'status'>]: FormControl<Utility[field]>;
+  [field in keyof Utility]: FormControl<Utility[field]>;
 };
 
 export interface UtilityState extends StoreEntity<Utility> {

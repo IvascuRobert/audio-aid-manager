@@ -15,6 +15,8 @@ export class CustomActionsComponent {
 
   @Input() showProcess = false;
 
+  @Input() showOrder = false;
+
   @Output() handleAddAction = new EventEmitter<boolean>();
 
   @Output() handleEditAction = new EventEmitter<boolean>();
@@ -26,4 +28,6 @@ export class CustomActionsComponent {
   @Output() handleSettingsAction = new EventEmitter<boolean>();
 
   @Output() handlePulseAction = new EventEmitter<boolean>();
+
+  @Output() handleOrderAction = new EventEmitter<boolean>();
 }
