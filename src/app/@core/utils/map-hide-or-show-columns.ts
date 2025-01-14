@@ -4,7 +4,7 @@ export function mapHideOrShowColumns(
   columns: string[],
   settings: any,
   hiddenColumns: string[]
-): Record<string, any> {
+): any {
   const cloneSettings = cloneDeep(settings);
 
   for (let hiddenColumn of hiddenColumns) {
@@ -18,10 +18,7 @@ export function mapHideOrShowColumns(
   return cloneSettings;
 }
 
-export function mapShowColumns(
-  columns: string[],
-  settings: any
-): Record<string, any> {
+export function mapShowColumns(columns: string[], settings: any): any {
   const cloneSettings = cloneDeep(settings);
   if (columns) {
     for (let column of columns) {

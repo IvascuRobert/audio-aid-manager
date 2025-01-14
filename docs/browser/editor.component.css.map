@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/ng2-smart-table/components/cell/cell-editors/editor.component.scss"],
+  "sourcesContent": [":host {\r\n  input,\r\n  textarea {\r\n    width: 100%;\r\n    line-height: normal;\r\n    padding: .375em .75em;\r\n  }\r\n}\r\n"],
+  "mappings": ";AACE,MAAA;AAAA,MAAA;AAEE,SAAA;AACA,eAAA;AACA,WAAA,QAAA;;",
+  "names": []
+}

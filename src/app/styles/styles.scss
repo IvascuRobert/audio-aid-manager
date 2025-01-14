@@ -1,0 +1,46 @@
+// import Nebular Theme System and the default theme
+@forward "@nebular/theme/styles/theming";
+@use "@nebular/theme/styles/theming" as *;
+@use "@nebular/theme/styles/themes/default";
+
+// this is our just created themes.scss file, make sure the path to the file is correct
+@use "themes" as *;
+@use "./components/ng2-smart-table" as *;
+@use "./components/pace" as *;
+
+// framework component styles
+@use "@nebular/theme/styles/globals" as *;
+@use "@nebular/auth/styles/globals" as *;
+
+@mixin app-layout() {
+  @include media-breakpoint-down(is) {
+    .row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+  }
+}
+
+@mixin nb-overrides() {
+  nb-select.size-medium button {
+    padding: 0.4375rem 2.2rem 0.4375rem 1.125rem !important;
+
+    nb-icon {
+      right: 0.41rem !important;
+    }
+  }
+}
+
+// install the framework styles
+@include nb-install() {
+  @include nb-theme-global();
+  @include nb-auth-global();
+
+  @include app-layout();
+  // loading progress bar
+  @include app-pace-theme();
+
+  @include nb-overrides();
+  @include nb-tables-smart-table-theme();
+}
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");

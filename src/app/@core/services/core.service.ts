@@ -5,8 +5,8 @@ import {
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { BehaviorSubject, of } from 'rxjs';
-import { Observable } from 'rxjs-compat';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AccessoryState } from '../data/accessory';

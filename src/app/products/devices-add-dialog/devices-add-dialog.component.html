@@ -1,0 +1,260 @@
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data"
+  ><form [formGroup]="form" (ngSubmit)="submit()">
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex align-items-center">
+          <ng-container *ngIf="data.selected; else titleAddTpl">
+            <nb-icon
+              class="skip me-2"
+              icon="edit-2-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Edit
+          </ng-container>
+          <ng-template #titleAddTpl>
+            <nb-icon
+              class="skip me-2"
+              icon="plus-circle-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Add new
+          </ng-template>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="name" class="label">Name</label>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="name"
+                placeholder="Name"
+                formControlName="name"
+                [status]="isValid(nameControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="group" class="label">Group</label>
+              <input
+                type="number"
+                nbInput
+                fullWidth
+                id="group"
+                placeholder="Group"
+                formControlName="group"
+                [status]="isValid(groupControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="position" class="label">Position</label>
+              <nb-select
+                id="position"
+                fullWidth
+                placeholder="Position"
+                formControlName="position"
+                [status]="isValid(positionControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of positions$ | async"
+                  [value]="item"
+                  >{{ item }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="brand" class="label">Brand</label>
+              <nb-select
+                id="brand"
+                fullWidth
+                placeholder="Brand"
+                formControlName="brand"
+                [status]="isValid(brandControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of brands$ | async"
+                  [value]="item"
+                  >{{ item }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="serialNumber" class="label">Serial number</label>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="serialNumber"
+                placeholder="Serial number"
+                formControlName="serialNumber"
+                [status]="isValid(serialNumberControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="type" class="label">Type</label>
+              <nb-select
+                id="type"
+                fullWidth
+                placeholder="Type"
+                formControlName="type"
+                [status]="isValid(typeControl) ? 'danger' : 'basic'"
+              >
+                <nb-option *ngFor="let item of types$ | async" [value]="item">{{
+                  item
+                }}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="battery" class="label">Battery</label>
+              <nb-select
+                id="battery"
+                fullWidth
+                placeholder="Battery"
+                formControlName="battery"
+                [status]="isValid(batteryControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of batteries$ | async"
+                  [value]="item"
+                  >{{ item }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="qualityLevel" class="label">Quality level</label>
+              <nb-select
+                id="qualityLevel"
+                fullWidth
+                placeholder="Quality level"
+                formControlName="qualityLevel"
+                [status]="isValid(qualityLevelControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of qualityLevel$ | async"
+                  [value]="item"
+                  >{{ item }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="color" class="label">Color</label>
+              <ngx-colors
+                ngx-colors-trigger
+                [formControl]="colorControl"
+                [hideTextInput]="true"
+              ></ngx-colors>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="aslGroup" class="label">ASL Group</label>
+              <nb-select
+                id="aslGroup"
+                fullWidth
+                placeholder="ASL Group"
+                formControlName="aslGroup"
+                [status]="isValid(aslGroupControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of aslGroup$ | async"
+                  [value]="item"
+                  >{{ item }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="price" class="label">Price</label>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="price"
+                placeholder="Price"
+                formControlName="price"
+                [status]="isValid(priceControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="shopId" class="label">Shop</label>
+              <nb-select
+                id="shopId"
+                fullWidth
+                placeholder="Shop"
+                formControlName="shopId"
+                [status]="isValid(shopIdControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let shop of shops$ | async"
+                  [value]="shop.id"
+                  >{{ shop.name }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-flex justify-content-end">
+          <button
+            class="me-2"
+            type="button"
+            nbButton
+            status="basic"
+            (click)="close()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            nbButton
+            hero
+            status="primary"
+            [nbSpinner]="data.loading!"
+            nbSpinnerStatus="success"
+            nbSpinnerMessage=""
+          >
+            Save
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </form>
+</ng-container>

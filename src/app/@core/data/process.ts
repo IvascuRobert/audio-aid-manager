@@ -48,6 +48,7 @@ export type EndProcessApi = {
     | 'currentRightEarDeviceName'
     | 'questionnaire'
     | 'comment'
+    | 'customerId'
   >]: Process[field];
 };
 
@@ -63,5 +64,6 @@ export type EndProcessForm = {
     | 'currentRightEarDeviceName'
     | 'questionnaire'
     | 'comment'
+    | 'customerId'
   >]: FormControl<Process[field]>;
 };

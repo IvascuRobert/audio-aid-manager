@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NbIconLibraries } from '@nebular/theme';
-import { AnalyticsService } from './@core/utils/analytics.service';
-import { SeoService } from './@core/utils/seo.service';
 
 @Component({
-  selector: 'ngx-app',
-  template: '<router-outlet></router-outlet>',
+  selector: 'app-root',
+  imports: [RouterModule],
+  standalone: true,
+  template: `<router-outlet></router-outlet>`,
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  constructor(
-    private analytics: AnalyticsService,
-    private seoService: SeoService,
-    private iconLibraries: NbIconLibraries
-  ) {
+export class AppComponent {
+  constructor(private iconLibraries: NbIconLibraries) {
     this.iconLibraries.registerFontPack('font-awesome', {
       packClass: 'fab',
       iconClassPrefix: 'fa',
@@ -25,11 +23,5 @@ export class AppComponent implements OnInit {
       packClass: 'far',
       iconClassPrefix: 'fa',
     });
-    this.iconLibraries.registerFontPack('ion', { iconClassPrefix: 'ion' });
-  }
-
-  ngOnInit(): void {
-    this.analytics.trackPageViews();
-    this.seoService.trackCanonicalChanges();
   }
 }

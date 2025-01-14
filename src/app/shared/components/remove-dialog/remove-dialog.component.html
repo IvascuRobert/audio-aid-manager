@@ -1,0 +1,41 @@
+<nb-card>
+  <nb-card-header>
+    <div class="d-flex align-items-center">
+      <nb-icon
+        class="skip me-2"
+        icon="trash-2-outline"
+        pack="eva"
+        status="danger"
+        [options]="{ animation: { type: 'pulse' } }"
+      ></nb-icon>
+      Remove items
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    Are you sure you want to delete this item? This action cannot be undone.
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="d-flex justify-content-end">
+      <button
+        class="me-2"
+        type="button"
+        nbButton
+        status="basic"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+
+      <button
+        nbButton
+        status="danger"
+        (click)="remove()"
+        [nbSpinner]="(loading$ | async)!"
+        nbSpinnerStatus="success"
+        nbSpinnerMessage=""
+      >
+        Remove
+      </button>
+    </div>
+  </nb-card-footer>
+</nb-card>

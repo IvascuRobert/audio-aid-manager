@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/ng2-smart-table/components/pager/pager.component.scss"],
+  "sourcesContent": [".ng2-smart-pagination {\r\n  display: inline-flex;\r\n  font-size: .875em;\r\n  padding: 0;\r\n\r\n  .sr-only {\r\n    position: absolute;\r\n    width: 1px;\r\n    height: 1px;\r\n    padding: 0;\r\n    margin: -1px;\r\n    overflow: hidden;\r\n    clip: rect(0,0,0,0);\r\n    border: 0;\r\n  }\r\n\r\n  .ng2-smart-page-item {\r\n    display: inline;\r\n  }\r\n\r\n  .page-link-next, .page-link-prev {\r\n    font-size: 10px;\r\n  }\r\n}\r\n\r\n:host {\r\n  display: flex;\r\n  justify-content: space-between;\r\n\r\n  select {\r\n    margin: 1rem 0 1rem 1rem;\r\n  }\r\n  label {\r\n    margin: 1rem 0 1rem 1rem;\r\n    line-height: 2.5rem;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,aAAA;AACA,WAAA;;AAEA,CALF,qBAKE,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,WAAA;AACA,UAAA;AACA,YAAA;AACA,QAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;AACA,UAAA;;AAGF,CAhBF,qBAgBE,CAAA;AACE,WAAA;;AAGF,CApBF,qBAoBE,CAAA;AAAA,CApBF,qBAoBE,CAAA;AACE,aAAA;;AAIJ;AACE,WAAA;AACA,mBAAA;;AAEA,MAAA;AACE,UAAA,KAAA,EAAA,KAAA;;AAEF,MAAA;AACE,UAAA,KAAA,EAAA,KAAA;AACA,eAAA;;",
+  "names": []
+}
