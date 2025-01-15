@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/components/ng2-smart-table/components/filter/filter.component.scss"],
-  "sourcesContent": [":host {\r\n  .ng2-smart-filter {\r\n    ::ng-deep {\r\n      input,\r\n      select {\r\n        width: 100%;\r\n        line-height: normal;\r\n        padding: .375em .75em;\r\n        font-weight: normal;\r\n      }\r\n      input[type=\"search\"] {\r\n        box-sizing: inherit;\r\n      }\r\n      .completer-dropdown-holder {\r\n        font-weight: normal;\r\n      }\r\n      a {\r\n        font-weight: normal;\r\n      }\r\n    }\r\n  }\r\n}\r\n"],
-  "mappings": ";AAGM,MAAA,CAAA,iBAAA,UAAA;AAAA,MAAA,CAAA,iBAAA,UAAA;AAEE,SAAA;AACA,eAAA;AACA,WAAA,QAAA;AACA,eAAA;;AAEF,MAAA,CAPA,iBAOA,UAAA,KAAA,CAAA;AACE,cAAA;;AAEF,MAAA,CAVA,iBAUA,UAAA,CAAA;AACE,eAAA;;AAEF,MAAA,CAbA,iBAaA,UAAA;AACE,eAAA;;",
-  "names": []
-}

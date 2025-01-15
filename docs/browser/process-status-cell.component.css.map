@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["process-status-cell.component.ts"],
-  "sourcesContent": ["\n      nb-card {\n        margin: 0;\n        max-width: 20rem;\n      }\n    "],
-  "mappings": ";AACM;AACE,UAAA;AACA,aAAA;;",
-  "names": []
-}

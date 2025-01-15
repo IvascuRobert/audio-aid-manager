@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/components/ng2-smart-table/components/tbody/tbody.component.scss"],
-  "sourcesContent": [":host {\r\n  .ng2-smart-row {\r\n    &.selected {\r\n      background: rgba(0, 0, 0, 0.05);\r\n    }\r\n    .ng2-smart-actions {\r\n      &.ng2-smart-action-multiple-select {\r\n        text-align: center;\r\n      }\r\n    }\r\n  }\r\n  ::ng-deep ng2-st-tbody-edit-delete, ::ng-deep ng2-st-tbody-create-cancel {\r\n    a:first-child {\r\n      margin-right: 0.25rem;\r\n    }\r\n  }\r\n}\r\n"],
-  "mappings": ";AAEI,MAAA,CAAA,aAAA,CAAA;AACE,cAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;AAGA,MAAA,CAJF,cAIE,CAAA,iBAAA,CAAA;AACE,cAAA;;AAKJ,MAAA,UAAA,yBAAA,CAAA;AAAA,MAAA,UAAA,2BAAA,CAAA;AACE,gBAAA;;",
-  "names": []
-}

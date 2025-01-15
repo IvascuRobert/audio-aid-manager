@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/components/not-found/not-found.component.scss"],
-  "sourcesContent": [".flex-centered {\r\n  margin: auto;\r\n}\r\nnb-card-body {\r\n  display: flex;\r\n}\r\n\r\n.title {\r\n  text-align: center;\r\n}\r\n\r\n.sub-title {\r\n  text-align: center;\r\n  display: block;\r\n  margin-bottom: 3rem;\r\n}\r\n\r\n.home-button {\r\n  margin-bottom: 2rem;\r\n}\r\n"],
-  "mappings": ";AAAA,CAAA;AACE,UAAA;;AAEF;AACE,WAAA;;AAGF,CAAA;AACE,cAAA;;AAGF,CAAA;AACE,cAAA;AACA,WAAA;AACA,iBAAA;;AAGF,CAAA;AACE,iBAAA;;",
-  "names": []
-}
