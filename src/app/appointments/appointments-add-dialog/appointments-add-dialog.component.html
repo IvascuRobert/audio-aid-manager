@@ -1,0 +1,208 @@
+<ng-container *ngIf="{ loading: loading$ | async, selected } as data"
+  ><form [formGroup]="form" (ngSubmit)="submit()">
+    <nb-card>
+      <nb-card-header>
+        <div class="d-flex align-items-center">
+          <ng-container *ngIf="data.selected; else titleAddTpl">
+            <nb-icon
+              class="skip me-2"
+              icon="edit-2-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Edit appointment
+          </ng-container>
+          <ng-template #titleAddTpl>
+            <nb-icon
+              class="skip me-2"
+              icon="plus-circle-outline"
+              pack="eva"
+              status="primary"
+              [options]="{ animation: { type: 'pulse' } }"
+            ></nb-icon>
+            Add new appointment
+          </ng-template>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label for="color" class="label">Color</label>
+              <ngx-colors
+                ngx-colors-trigger
+                [formControl]="colorControl"
+                [hideTextInput]="true"
+              ></ngx-colors>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="doctorId" class="label">Doctor</label>
+              <nb-select
+                [nbSpinner]="!(doctorsLoading$ | async)!"
+                nbSpinnerStatus="primary"
+                id="doctorId"
+                fullWidth
+                placeholder="Doctor"
+                formControlName="doctorId"
+                [status]="isValid(doctorIdControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of doctors$ | async"
+                  [value]="item.id"
+                  >{{ item.name }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="customerId" class="label">Customer</label>
+              <nb-select
+                [nbSpinner]="!(customersLoading$ | async)!"
+                nbSpinnerStatus="primary"
+                id="customerId"
+                fullWidth
+                placeholder="Customer"
+                formControlName="customerId"
+                [status]="isValid(customersIdControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of customers$ | async"
+                  [value]="item.id"
+                  >{{ item.firstName }} {{ item.lastName }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="description" class="label">Description</label>
+              <textarea
+                nbInput
+                fullWidth
+                id="description"
+                placeholder="Description"
+                formControlName="description"
+                [status]="isValid(descriptionControl) ? 'danger' : 'basic'"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="endReason" class="label">End reason</label>
+              <textarea
+                nbInput
+                fullWidth
+                id="endReason"
+                placeholder="End reason"
+                formControlName="endReason"
+                [status]="isValid(endReasonControl) ? 'danger' : 'basic'"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="roomId" class="label">Room</label>
+              <nb-select
+                [nbSpinner]="!(roomsLoading$ | async)!"
+                nbSpinnerStatus="primary"
+                id="roomId"
+                fullWidth
+                placeholder="Room"
+                formControlName="roomId"
+                [status]="isValid(roomIdControl) ? 'danger' : 'basic'"
+              >
+                <nb-option
+                  *ngFor="let item of rooms$ | async"
+                  [value]="item.id"
+                  >{{ item.name }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="startDate" class="label">Start date</label>
+
+              <input
+                id="startDate"
+                fullWidth
+                nbInput
+                placeholder="Start date"
+                formControlName="startDate"
+                [status]="isValid(startDateControl) ? 'danger' : 'basic'"
+                [nbDatepicker]="startDateTimePicker"
+              />
+              <nb-date-timepicker
+                withSeconds
+                #startDateTimePicker
+              ></nb-date-timepicker>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="endDate" class="label">End date</label>
+              <input
+                id="endDate"
+                fullWidth
+                nbInput
+                placeholder="End date"
+                formControlName="endDate"
+                [status]="isValid(endDateControl) ? 'danger' : 'basic'"
+                [nbDatepicker]="endDateTimePicker"
+              />
+              <nb-date-timepicker
+                withSeconds
+                #endDateTimePicker
+              ></nb-date-timepicker>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="title" class="label">Title</label>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="title"
+                placeholder="Title"
+                formControlName="title"
+                [status]="isValid(titleControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="d-flex justify-content-end">
+          <button
+            class="me-2"
+            type="button"
+            nbButton
+            status="basic"
+            (click)="close()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            nbButton
+            hero
+            status="primary"
+            [nbSpinner]="data.loading!"
+            nbSpinnerStatus="success"
+            nbSpinnerMessage=""
+          >
+            Save
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </form>
+</ng-container>

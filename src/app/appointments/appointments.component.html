@@ -1,66 +1,66 @@
-<div class="row text-center">
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
+@if (appointments$ | async) {
+<nb-card
+  [nbSpinner]="!(appointmentsLoading$ | async)!"
+  nbSpinnerStatus="danger"
+>
+  <nb-card-body>
+    <nb-actions size="medium" class="text-center">
+      <nb-action title="Today" mwlCalendarToday [(viewDate)]="viewDate"
+        ><button
+          type="button"
+          nbButton
+          [status]="(viewDate | isToday) ? 'primary' : 'basic'"
+          [appearance]="(viewDate | isToday) ? 'hero' : 'ghost'"
+        >
+          Today
+        </button>
+      </nb-action>
+      <nb-action
+        icon="arrow-left-outline"
+        title="Previous"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()"
-      >
-        Previous
-      </div>
-      <div
-        class="btn btn-outline-secondary"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
-        Today
-      </div>
-      <div
-        class="btn btn-primary"
+      ></nb-action>
+      <nb-action
+        icon="arrow-right-outline"
+        title="Next"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()"
+      ></nb-action>
+      <nb-action title="Select a calendar view">
+        <nb-select
+          [selected]="calendarViewTpl.Month"
+          (selectedChange)="setView($event)"
+        >
+          <nb-option [value]="calendarViewTpl.Month">Month</nb-option>
+          <nb-option [value]="calendarViewTpl.Week">Week</nb-option>
+          <nb-option [value]="calendarViewTpl.Day">Day</nb-option>
+        </nb-select></nb-action
       >
-        Next
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate : view + "ViewTitle" : "en" }}</h3>
-  </div>
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
-      >
-        Month
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
-        Week
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
-        Day
-      </div>
-    </div>
-  </div>
-</div>
+      <nb-action
+        [nbTooltip]="'Reload data'"
+        icon="refresh-outline"
+        nbTooltipPlacement="top"
+      ></nb-action>
+    </nb-actions>
+  </nb-card-body>
+</nb-card>
 
-<nb-card size="giant">
+<nb-card
+  class="calendar"
+  size="giant"
+  [nbSpinner]="!(appointmentsLoading$ | async)!"
+  nbSpinnerStatus="danger"
+>
+  <nb-card-header>
+    <h3>{{ viewDate | calendarDate : view + "ViewTitle" : "en" }}</h3>
+  </nb-card-header>
   <nb-card-body>
-    @switch (view) { @case (CalendarView.Month) {
+    @switch (view) { @case (calendarViewTpl.Month) {
 
     <mwl-calendar-month-view
       [viewDate]="viewDate"
@@ -72,22 +72,24 @@
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-month-view>
-    } @case (CalendarView.Week) {
+    } @case (calendarViewTpl.Week) {
 
     <mwl-calendar-week-view
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
+      (hourSegmentClicked)="hourSegmentClicked($event)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-week-view>
-    } @case (CalendarView.Day) {
+    } @case (calendarViewTpl.Day) {
 
     <mwl-calendar-day-view
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
+      (hourSegmentClicked)="hourSegmentClicked($event)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
@@ -95,3 +97,5 @@
     } }
   </nb-card-body>
 </nb-card>
+
+}

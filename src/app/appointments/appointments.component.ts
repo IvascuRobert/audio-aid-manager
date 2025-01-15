@@ -1,5 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
+import { AsyncPipe, JsonPipe, NgFor } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbDialogService,
+  NbIconModule,
+  NbSelectModule,
+  NbSpinnerModule,
+  NbTooltipModule,
+} from '@nebular/theme';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -7,43 +26,48 @@ import {
   CalendarModule,
   CalendarView,
 } from 'angular-calendar';
-import {
-  addDays,
-  addHours,
-  endOfDay,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  startOfDay,
-  subDays,
-} from 'date-fns';
-import { Subject } from 'rxjs';
-const colors: Record<string, { primary: string; secondary: string }> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
+import { isSameDay, isSameMonth } from 'date-fns';
+import { Subject, map, tap } from 'rxjs';
+import { AppointmentState } from '../@core/data/appointment';
+import { Entity } from '../@core/data/entity';
+import { IsTodayPipe } from '../@core/pipes/is-today.pipe';
+import { CoreService } from '../@core/services/core.service';
+import { AppointmentsAddDialogComponent } from './appointments-add-dialog/appointments-add-dialog.component';
+
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CalendarModule, NbCardModule],
+  imports: [
+    CalendarModule,
+    NbCardModule,
+    NbButtonModule,
+    NbActionsModule,
+    NbIconModule,
+    NbSelectModule,
+    JsonPipe,
+    IsTodayPipe,
+    NgFor,
+    FormsModule,
+    NbTooltipModule,
+    AsyncPipe,
+    NbSpinnerModule,
+  ],
   templateUrl: './appointments.component.html',
   styleUrl: './appointments.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppointmentsComponent {
+export class AppointmentsComponent implements OnInit {
+  dialogService = inject(NbDialogService);
+
+  destroyRef = inject(DestroyRef);
+
+  coreService = inject(CoreService);
+
+  readonly entity = signal<Entity>(Entity.Appointment);
+
   view: CalendarView = CalendarView.Month;
 
-  CalendarView = CalendarView;
+  calendarViewTpl = CalendarView;
 
   viewDate: Date = new Date();
 
@@ -67,50 +91,62 @@ export class AppointmentsComponent {
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  appointments$ = this.coreService
+    .getEntities$<AppointmentState>(Entity.Appointment)
+    .pipe(map(({ entities }) => Object.values(entities)));
+
+  appointmentsLoading$ = this.coreService
+    .getEntities$<AppointmentState>(Entity.Appointment)
+    .pipe(map(({ loading }) => loading));
+
+  events: CalendarEvent[] = [];
+  //   {
+  //     start: subDays(startOfDay(new Date()), 1),
+  //     end: addDays(new Date(), 1),
+  //     title: 'A 3 day event',
+  //     color: { ...colors['red'] },
+  //     actions: this.actions,
+  //     allDay: true,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
+  //   {
+  //     start: startOfDay(new Date()),
+  //     title: 'An event with no end date',
+  //     color: { ...colors['yellow'] },
+  //     actions: this.actions,
+  //   },
+  //   {
+  //     start: subDays(endOfMonth(new Date()), 3),
+  //     end: addDays(endOfMonth(new Date()), 3),
+  //     title: 'A long event that spans 2 months',
+  //     color: { ...colors['blue'] },
+  //     allDay: true,
+  //   },
+  //   {
+  //     start: addHours(startOfDay(new Date()), 2),
+  //     end: addHours(new Date(), 2),
+  //     title: 'A draggable and resizable event',
+  //     color: { ...colors['yellow'] },
+  //     actions: this.actions,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
 
   activeDayIsOpen: boolean = true;
 
+  ngOnInit(): void {
+    this.getAppointments();
+  }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log(date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -122,6 +158,20 @@ export class AppointmentsComponent {
       }
       this.viewDate = date;
     }
+
+    this.openCustomDialog();
+  }
+
+  hourSegmentClicked({
+    date,
+    sourceEvent,
+  }: {
+    date: Date;
+    sourceEvent: MouseEvent;
+  }): void {
+    console.log(date, sourceEvent);
+
+    this.openCustomDialog();
   }
 
   eventTimesChanged({
@@ -143,25 +193,24 @@ export class AppointmentsComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+    console.log(action, event);
   }
 
   addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors['red'],
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
+    // this.events = [
+    //   ...this.events,
+    //   {
+    //     title: 'New event',
+    //     start: startOfDay(new Date()),
+    //     end: endOfDay(new Date()),
+    //     color: colors['red'],
+    //     draggable: true,
+    //     resizable: {
+    //       beforeStart: true,
+    //       afterEnd: true,
+    //     },
+    //   },
+    // ];
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -169,10 +218,37 @@ export class AppointmentsComponent {
   }
 
   setView(view: CalendarView) {
+    console.log(view);
     this.view = view;
   }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  openCustomDialog() {
+    this.dialogService
+      .open(AppointmentsAddDialogComponent, {
+        context: {
+          entity: this.entity(),
+        },
+        closeOnBackdropClick: false,
+      })
+      .onClose.pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((fetchData: boolean) => {
+          if (fetchData) {
+            // TO DO implement refresh
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private getAppointments() {
+    this.coreService
+      .get(Entity.Appointment)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 }

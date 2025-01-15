@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { StoreEntity } from './lite-store.model';
 
 export enum CustomerStatus {
   new = 'new',
@@ -56,3 +57,7 @@ export type CustomerApi = {
     'status' | 'processStatus' | 'createdAt' | 'updatedAt'
   >]: Customer[field];
 };
+
+export interface CustomerState extends StoreEntity<Customer> {
+  loading: boolean;
+}

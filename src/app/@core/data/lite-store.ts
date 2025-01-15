@@ -168,6 +168,222 @@ export abstract class Store<T> {
     ) => Result
   ): Selector<State, Result>;
 
+  createSelector<State, S1, S2, S3, S4, S5, S6, S7, S8, S9, Result>(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9
+    ) => Result
+  ): Selector<State, Result>;
+
+  createSelector<State, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, Result>(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    s10: Selector<State, S10>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9,
+      s10: S10
+    ) => Result
+  ): Selector<State, Result>;
+
+  createSelector<State, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, Result>(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    s10: Selector<State, S10>,
+    s11: Selector<State, S11>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9,
+      s10: S10,
+      s11: S11
+    ) => Result
+  ): Selector<State, Result>;
+
+  createSelector<
+    State,
+    S1,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    S7,
+    S8,
+    S9,
+    S10,
+    S11,
+    S12,
+    Result
+  >(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    s10: Selector<State, S10>,
+    s11: Selector<State, S11>,
+    s12: Selector<State, S12>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9,
+      s10: S10,
+      s11: S11,
+      s12: S12
+    ) => Result
+  ): Selector<State, Result>;
+
+  createSelector<
+    State,
+    S1,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    S7,
+    S8,
+    S9,
+    S10,
+    S11,
+    S12,
+    S13,
+    Result
+  >(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    s10: Selector<State, S10>,
+    s11: Selector<State, S11>,
+    s12: Selector<State, S12>,
+    s13: Selector<State, S13>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9,
+      s10: S10,
+      s11: S11,
+      s12: S12,
+      s13: S13
+    ) => Result
+  ): Selector<State, Result>;
+
+  createSelector<
+    State,
+    S1,
+    S2,
+    S3,
+    S4,
+    S5,
+    S6,
+    S7,
+    S8,
+    S9,
+    S10,
+    S11,
+    S12,
+    S13,
+    S14,
+    Result
+  >(
+    s1: Selector<State, S1>,
+    s2: Selector<State, S2>,
+    s3: Selector<State, S3>,
+    s4: Selector<State, S4>,
+    s5: Selector<State, S5>,
+    s6: Selector<State, S6>,
+    s7: Selector<State, S7>,
+    s8: Selector<State, S8>,
+    s9: Selector<State, S9>,
+    s10: Selector<State, S10>,
+    s11: Selector<State, S11>,
+    s12: Selector<State, S12>,
+    s13: Selector<State, S13>,
+    s14: Selector<State, S14>,
+    projector: (
+      s1: S1,
+      s2: S2,
+      s3: S3,
+      s4: S4,
+      s5: S5,
+      s6: S6,
+      s7: S7,
+      s8: S8,
+      s9: S9,
+      s10: S10,
+      s11: S11,
+      s12: S12,
+      s13: S13,
+      s14: S14
+    ) => Result
+  ): Selector<State, Result>;
+
   createSelector(...args: any[]): Selector<any, any> {
     return (state) => {
       const selectors = args.slice(0, args.length - 1);

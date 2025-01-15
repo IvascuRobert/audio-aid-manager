@@ -10,9 +10,7 @@
     "lint": "ng lint",
     "lint:txt": "ng lint > lint-report.txt --silent",
     "lint:html": "ng lint > lint-report.html --format html --silent",
-    "lint:json": "ng lint > lint-report.json --format json --silent",
-    "deploy": "ng build --configuration=development --output-path docs --base-href /audio-aid-manager/",
-    "deploy-prod": "ng build --configuration=production --output-path docs --base-href /audio-aid-manager/"
+    "lint:json": "ng lint > lint-report.json --format json --silent"
   },
   "private": true,
   "dependencies": {

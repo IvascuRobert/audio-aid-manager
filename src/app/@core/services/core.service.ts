@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AccessoryState } from '../data/accessory';
+import { AppointmentState } from '../data/appointment';
 import { Brand } from '../data/brand';
 import { ClinicState } from '../data/clinic';
 import { Gender } from '../data/customer';
@@ -39,6 +40,8 @@ export interface State extends StateType {
   [Entity.Device]: DeviceState;
   [Entity.Process]: ProcessState;
   [Entity.Order]: OrderState;
+  [Entity.Appointment]: AppointmentState;
+  // [Entity.Customer]: AppointmentState;
 }
 
 const initialState: State = {
@@ -53,6 +56,8 @@ const initialState: State = {
   [Entity.Device]: { entities: {}, ids: [], loading: false },
   [Entity.Process]: { entities: {}, ids: [], loading: false },
   [Entity.Order]: { entities: {}, ids: [], loading: false },
+  [Entity.Appointment]: { entities: {}, ids: [], loading: false },
+  [Entity.Customer]: { entities: {}, ids: [], loading: false },
 };
 
 @Injectable({
@@ -167,7 +172,9 @@ export class CoreService extends Store<State> {
         error.error
       );
     }
-    this.toastrService.danger('Something went wrong', 'Server Error');
+    this.toastrService.danger(`${error.message}`, 'Server Error', {
+      duration: 10000,
+    });
     // Return an observable with a user-facing error message.
     return of([]);
   }

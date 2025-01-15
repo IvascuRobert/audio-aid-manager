@@ -20,6 +20,7 @@ import {
   NbMenuModule,
   NbSidebarModule,
   NbThemeModule,
+  NbTimepickerModule,
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
@@ -53,6 +54,7 @@ export const appConfig: ApplicationConfig = {
       NbDatepickerModule.forRoot(),
       NbDialogModule.forRoot(),
       NbWindowModule.forRoot(),
+      NbTimepickerModule.forRoot(),
       NbToastrModule.forRoot(),
       CalendarModule.forRoot({
         provide: DateAdapter,

@@ -1,0 +1,8 @@
+@use "../styles/themes" as *;
+
+@include nb-install-component() {
+  .calendar {
+    margin: auto;
+    min-height: 52vh;
+  }
+}
