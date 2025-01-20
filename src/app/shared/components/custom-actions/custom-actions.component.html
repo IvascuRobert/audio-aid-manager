@@ -49,7 +49,10 @@
     [nbTooltip]="'Go to order'"
     nbTooltipPlacement="top"
     [icon]="'shopping-cart-outline'"
-    [disabled]="selectedRows.length !== 1"
+    [disabled]="
+      selectedRows.length !== 1 ||
+      selectedRows[0]?.status !== processStatusTypeTpl.open
+    "
     (click)="handleOrderAction.emit(true)"
   ></nb-action>
   }

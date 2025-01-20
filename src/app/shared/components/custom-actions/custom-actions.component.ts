@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbActionsModule, NbTooltipModule } from '@nebular/theme';
+import { ProcessStatusType } from '../../../@core/data/customer';
 import { Entity } from '../../../@core/data/entity';
 
 export interface CustomAction {
@@ -40,4 +41,6 @@ export class CustomActionsComponent {
   @Output() handlePulseAction = new EventEmitter<boolean>();
 
   @Output() handleOrderAction = new EventEmitter<boolean>();
+
+  readonly processStatusTypeTpl = ProcessStatusType;
 }
