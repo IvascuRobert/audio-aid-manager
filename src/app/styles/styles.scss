@@ -29,6 +29,10 @@
       right: 0.41rem !important;
     }
   }
+
+  nb-layout-header {
+    z-index: 1;
+  }
 }
 
 // install the framework styles
@@ -43,4 +47,3 @@
   @include nb-overrides();
   @include nb-tables-smart-table-theme();
 }
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");
