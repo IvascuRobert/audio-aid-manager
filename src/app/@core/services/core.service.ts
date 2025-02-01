@@ -13,9 +13,10 @@ import { AccessoryState } from '../data/accessory';
 import { AppointmentState } from '../data/appointment';
 import { Brand } from '../data/brand';
 import { ClinicState } from '../data/clinic';
-import { Gender } from '../data/customer';
+import { CustomerState, Gender } from '../data/customer';
 import { DeviceState } from '../data/device';
 import { DoctorState } from '../data/doctor';
+import { EmployeeState } from '../data/employee';
 import { Entity } from '../data/entity';
 import { Store } from '../data/lite-store';
 import { OrderState } from '../data/order';
@@ -23,7 +24,7 @@ import { ProcessState } from '../data/process';
 import { RoomState } from '../data/room';
 import { ServiceState } from '../data/service';
 import { ShopState } from '../data/shop';
-import { UserState } from '../data/user';
+import { UserToken } from '../data/user-token';
 import { UtilityState } from '../data/utility';
 
 export type StateType = { [key in Entity]?: any };
@@ -32,7 +33,7 @@ export interface State extends StateType {
   [Entity.Doctor]: DoctorState;
   [Entity.Clinic]: ClinicState;
   [Entity.Room]: RoomState;
-  [Entity.User]: UserState;
+  [Entity.Employee]: EmployeeState;
   [Entity.Shop]: ShopState;
   [Entity.Service]: ServiceState;
   [Entity.Utility]: UtilityState;
@@ -41,14 +42,14 @@ export interface State extends StateType {
   [Entity.Process]: ProcessState;
   [Entity.Order]: OrderState;
   [Entity.Appointment]: AppointmentState;
-  // [Entity.Customer]: AppointmentState;
+  [Entity.Customer]: CustomerState;
 }
 
 const initialState: State = {
   [Entity.Doctor]: { entities: {}, ids: [], loading: false },
   [Entity.Clinic]: { entities: {}, ids: [], loading: false },
   [Entity.Room]: { entities: {}, ids: [], loading: false },
-  [Entity.User]: { entities: {}, ids: [], loading: false },
+  [Entity.Employee]: { entities: {}, ids: [], loading: false },
   [Entity.Shop]: { entities: {}, ids: [], loading: false },
   [Entity.Service]: { entities: {}, ids: [], loading: false },
   [Entity.Utility]: { entities: {}, ids: [], loading: false },
@@ -77,6 +78,8 @@ export class CoreService extends Store<State> {
   brands$ = new BehaviorSubject<string[]>(Object.values(Brand));
 
   gender$ = new BehaviorSubject<string[]>(Object.values(Gender));
+
+  user$ = new BehaviorSubject<UserToken | null>(null);
 
   constructor() {
     super(initialState);
@@ -131,6 +134,18 @@ export class CoreService extends Store<State> {
           entities: this.toEntities(entities),
           loading: true,
           ids: Object.keys(this.toEntities(entities)),
+        },
+      };
+    });
+  }
+
+  clearEntities(entity: Entity) {
+    this.setState(() => {
+      return {
+        [entity]: {
+          entities: {},
+          loading: false,
+          ids: [],
         },
       };
     });

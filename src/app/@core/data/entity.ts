@@ -8,8 +8,11 @@ export enum Entity {
   Utility = 'Utility',
   Shop = 'Shop',
   Room = 'Room',
-  User = 'User',
+  Employee = 'User',
   Order = 'Order',
   Appointment = 'Appointment',
   Customer = 'Customer',
+
+  // additional to add
+  Test = 'Test',
 }

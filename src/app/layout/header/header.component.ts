@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,6 +20,7 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 import { filter, map } from 'rxjs';
+import { CoreService } from '../../@core/services/core.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +32,7 @@ import { filter, map } from 'rxjs';
     NbSearchModule,
     NbUserModule,
     NbContextMenuModule,
+    AsyncPipe,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -41,6 +44,7 @@ export class HeaderComponent implements OnInit {
   menuService = inject(NbMenuService);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
+  coreService = inject(CoreService);
 
   currentTheme = 'default';
   themes = [
@@ -63,6 +67,8 @@ export class HeaderComponent implements OnInit {
   ];
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
   contextTag = 'user-context-menu-';
+
+  user$ = this.coreService.user$;
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;

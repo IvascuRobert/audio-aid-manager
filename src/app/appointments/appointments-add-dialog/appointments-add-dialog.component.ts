@@ -68,6 +68,10 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
   destroyRef = inject(DestroyRef);
 
   form = new FormGroup<AppointmentForm>({
+    userId: new FormControl(
+      parseInt(this.coreService.user$.getValue()?.UserId ?? ''),
+      { nonNullable: true }
+    ),
     id: new FormControl(0, { nonNullable: true }),
     color: new FormControl('rgb(79, 195, 255)', {
       nonNullable: true,

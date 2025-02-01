@@ -24,7 +24,7 @@ import { EmployeeAddDialogComponent } from '../employee-add-dialog/employee-add-
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent {
-  entity = Entity.User;
+  entity = Entity.Employee;
 
   settings: Record<string, any> = {
     selectMode: 'multi',

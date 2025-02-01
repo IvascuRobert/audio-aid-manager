@@ -5,6 +5,7 @@ import { StoreEntity } from './lite-store.model';
 export interface Order {
   id: number;
   processId: number;
+  userId: number;
   deviceList: { id: number; status: DeviceStatus }[];
   accessoryList: { id: number; status: AccessoryStatus }[];
   utilitiesList: { id: number; quantity: number }[];

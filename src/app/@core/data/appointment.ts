@@ -17,6 +17,7 @@ export interface Appointment {
   updatedBy: number | null;
   createdAt: string;
   updatedAt: string;
+  userId: number;
 }
 
 export type AppointmentForm = {

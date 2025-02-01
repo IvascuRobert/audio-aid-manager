@@ -22,9 +22,9 @@ import { omit } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Gender } from '../../@core/data/customer';
+import { Employee, EmployeeForm } from '../../@core/data/employee';
 import { Entity } from '../../@core/data/entity';
 import { Role } from '../../@core/data/role';
-import { User, UserForm } from '../../@core/data/user';
 
 import { CoreService } from '../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
@@ -51,7 +51,7 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
 export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   destroyRef = inject(DestroyRef);
 
-  form = new FormGroup<UserForm>({
+  form = new FormGroup<EmployeeForm>({
     id: new FormControl(0, { nonNullable: true }),
     email: new FormControl('', {
       nonNullable: true,
@@ -75,7 +75,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
     }),
   });
 
-  selected: User | null = null;
+  selected: Employee | null = null;
 
   loading$ = new BehaviorSubject(false);
 
@@ -140,7 +140,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .patch<Omit<User, 'password'>>(
+      .patch<Omit<Employee, 'password'>>(
         `${this.idControl.value ?? 0}`,
         this.form.getRawValue(),
         this.entity
@@ -158,7 +158,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
   private add(): void {
     this.loading$.next(true);
     this.coreService
-      .post<Omit<User, 'password' | 'id'>>(
+      .post<Omit<Employee, 'password' | 'id'>>(
         omit(this.form.getRawValue(), ['id']),
         this.entity
       )

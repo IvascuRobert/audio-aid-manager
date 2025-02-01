@@ -19,17 +19,16 @@
   orderLoading: (orderLoading$ | async)!,
 
   total: total$ | async,
-
-
 } as orderObj"
 >
   <ng-container
     *ngIf="{
-    emptyCart: orderObj.devicesAdded?.length === 0 && 
-    orderObj.accessoriesAdded?.length=== 0 && 
-    orderObj.utilitiesAdded?.length=== 0 && 
-    orderObj.servicesAdded?.length=== 0
-  } as state"
+      emptyCart:
+        orderObj.devicesAdded?.length === 0 &&
+        orderObj.accessoriesAdded?.length === 0 &&
+        orderObj.utilitiesAdded?.length === 0 &&
+        orderObj.servicesAdded?.length === 0
+    } as state"
   >
     <div class="row">
       <div class="col-8">
@@ -55,11 +54,16 @@
             >
               <nb-list>
                 <nb-list-item
-                  *ngFor="let device of orderObj.devices | xor: orderObj.devicesAdded"
+                  *ngFor="
+                    let device of orderObj.devices | xor : orderObj.devicesAdded
+                  "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{ item: device, productType: productTypeTpl.Device}"
+                    [ngTemplateOutletContext]="{
+                      item: device,
+                      productType: productTypeTpl.Device
+                    }"
                   ></ng-container>
                 </nb-list-item>
               </nb-list>
@@ -87,11 +91,17 @@
             >
               <nb-list>
                 <nb-list-item
-                  *ngFor="let accessory of orderObj.accessories | xor: orderObj.accessoriesAdded"
+                  *ngFor="
+                    let accessory of orderObj.accessories
+                      | xor : orderObj.accessoriesAdded
+                  "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{ item: accessory, productType: productTypeTpl.Accessories}"
+                    [ngTemplateOutletContext]="{
+                      item: accessory,
+                      productType: productTypeTpl.Accessories
+                    }"
                   ></ng-container>
                 </nb-list-item>
               </nb-list>
@@ -119,11 +129,17 @@
             >
               <nb-list>
                 <nb-list-item
-                  *ngFor="let utility of orderObj.utilities | filterByQuantity: orderObj.utilitiesAdded"
+                  *ngFor="
+                    let utility of orderObj.utilities
+                      | filterByQuantity : orderObj.utilitiesAdded
+                  "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{ item: utility, productType: productTypeTpl.Utilities}"
+                    [ngTemplateOutletContext]="{
+                      item: utility,
+                      productType: productTypeTpl.Utilities
+                    }"
                   ></ng-container>
                 </nb-list-item>
               </nb-list>
@@ -151,11 +167,17 @@
             >
               <nb-list>
                 <nb-list-item
-                  *ngFor="let service of orderObj.services | xor: orderObj.servicesAdded"
+                  *ngFor="
+                    let service of orderObj.services
+                      | xor : orderObj.servicesAdded
+                  "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{ item: service, productType: productTypeTpl.Services}"
+                    [ngTemplateOutletContext]="{
+                      item: service,
+                      productType: productTypeTpl.Services
+                    }"
                   ></ng-container>
                 </nb-list-item>
               </nb-list>
@@ -164,10 +186,7 @@
         </nb-accordion>
       </div>
       <div class="col-4">
-        <nb-card
-          accent="info"
-          size="giant"
-        >
+        <nb-card accent="info" size="giant">
           <nb-card-header>Cart</nb-card-header>
           <nb-card-body>
             <ng-container *ngIf="orderObj.devicesAdded as devices">
@@ -178,7 +197,10 @@
                     <nb-list-item *ngFor="let product of devices">
                       <ng-container
                         [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{ item: product, productType: productTypeTpl.Device}"
+                        [ngTemplateOutletContext]="{
+                          item: product,
+                          productType: productTypeTpl.Device
+                        }"
                       ></ng-container>
                     </nb-list-item>
                   </nb-list>
@@ -193,7 +215,10 @@
                     <nb-list-item *ngFor="let product of accessories">
                       <ng-container
                         [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{ item: product, productType: productTypeTpl.Accessories}"
+                        [ngTemplateOutletContext]="{
+                          item: product,
+                          productType: productTypeTpl.Accessories
+                        }"
                       ></ng-container>
                     </nb-list-item>
                   </nb-list>
@@ -208,7 +233,10 @@
                     <nb-list-item *ngFor="let product of utilities"
                       ><ng-container
                         [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{ item: product, productType: productTypeTpl.Utilities}"
+                        [ngTemplateOutletContext]="{
+                          item: product,
+                          productType: productTypeTpl.Utilities
+                        }"
                       ></ng-container>
                     </nb-list-item>
                   </nb-list>
@@ -223,7 +251,10 @@
                     <nb-list-item *ngFor="let product of services"
                       ><ng-container
                         [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{ item: product, productType: productTypeTpl.Services}"
+                        [ngTemplateOutletContext]="{
+                          item: product,
+                          productType: productTypeTpl.Services
+                        }"
                       ></ng-container>
                     </nb-list-item>
                   </nb-list>
@@ -236,25 +267,22 @@
           </nb-card-body>
         </nb-card>
 
-        <nb-card
-          size="tiny"
-          class="solar-card"
-        >
+        <nb-card size="tiny" class="solar-card">
           <nb-card-header>Total</nb-card-header>
           <nb-card-body>
             <div class="info">
-              <div class="h4 value">{{orderObj.total | currency: 'EUR'}}</div>
+              <div class="h4 value">
+                {{ orderObj.total | currency : "EUR" }}
+              </div>
               <div class="details subtitle-2">
-                <span>without V.A.T.</span>{{orderObj.total | currency: 'EUR'}}
+                <span>without V.A.T.</span
+                >{{ orderObj.total | currency : "EUR" }}
               </div>
             </div>
           </nb-card-body>
 
           <nb-card-footer
-            ><nb-actions
-              size="medium"
-              fullWidth
-            >
+            ><nb-actions size="medium" fullWidth>
               <nb-action
                 nbTooltip="Pay now"
                 icon="credit-card-outline"
@@ -280,11 +308,7 @@
   </ng-container>
 </ng-container>
 
-<ng-template
-  #listItem
-  let-item="item"
-  let-productType="productType"
->
+<ng-template #listItem let-item="item" let-productType="productType">
   <span (click)="addCart(item, productType)">
     <nb-icon
       class="skip"
@@ -297,20 +321,11 @@
     ></nb-icon>
   </span>
   <span class="mx-4">{{ item.name }}</span>
-  <span>{{ item.price | currency: 'EUR' }}</span>
-  <span
-    *ngIf="item.quantity"
-    class="mx-4"
-  >
-    x {{ item.quantity }}</span
-  >
+  <span>{{ item.price | currency : "EUR" }}</span>
+  <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
 </ng-template>
 
-<ng-template
-  #addedItem
-  let-item="item"
-  let-productType="productType"
->
+<ng-template #addedItem let-item="item" let-productType="productType">
   <span (click)="removeFromCart(item, productType)">
     <nb-icon
       class="skip"
@@ -323,11 +338,6 @@
     ></nb-icon>
   </span>
   <span class="mx-4">{{ item.name }}</span>
-  <span>{{ item.price | currency: 'EUR' }}</span>
-  <span
-    *ngIf="item.quantity"
-    class="mx-4"
-  >
-    x {{ item.quantity }}</span
-  >
+  <span>{{ item.price | currency : "EUR" }}</span>
+  <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
 </ng-template>

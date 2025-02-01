@@ -27,14 +27,71 @@
       </nb-card-header>
       <nb-card-body>
         <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="startDate" class="label">Start date</label>
+
+              <input
+                id="startDate"
+                fullWidth
+                nbInput
+                placeholder="Start date"
+                formControlName="startDate"
+                [status]="isValid(startDateControl) ? 'danger' : 'basic'"
+                [nbDatepicker]="startDateTimePicker"
+              />
+              <nb-date-timepicker
+                singleColumn
+                [step]="30"
+                #startDateTimePicker
+              ></nb-date-timepicker>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="form-group">
+              <label for="endDate" class="label">End date</label>
+              <input
+                id="endDate"
+                fullWidth
+                nbInput
+                placeholder="End date"
+                formControlName="endDate"
+                [status]="isValid(endDateControl) ? 'danger' : 'basic'"
+                [nbDatepicker]="endDateTimePicker"
+              />
+              <nb-date-timepicker
+                singleColumn
+                [step]="30"
+                #endDateTimePicker
+              ></nb-date-timepicker>
+            </div>
+          </div>
           <div class="col-12">
             <div class="form-group">
-              <label for="color" class="label">Color</label>
-              <ngx-colors
-                ngx-colors-trigger
-                [formControl]="colorControl"
-                [hideTextInput]="true"
-              ></ngx-colors>
+              <label for="title" class="label">Title</label>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                id="title"
+                placeholder="Title"
+                formControlName="title"
+                [status]="isValid(titleControl) ? 'danger' : 'basic'"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="description" class="label">Description</label>
+              <textarea
+                nbInput
+                fullWidth
+                id="description"
+                placeholder="Description"
+                formControlName="description"
+                [status]="isValid(descriptionControl) ? 'danger' : 'basic'"
+              ></textarea>
             </div>
           </div>
           <div class="col-12">
@@ -79,32 +136,6 @@
           </div>
           <div class="col-12">
             <div class="form-group">
-              <label for="description" class="label">Description</label>
-              <textarea
-                nbInput
-                fullWidth
-                id="description"
-                placeholder="Description"
-                formControlName="description"
-                [status]="isValid(descriptionControl) ? 'danger' : 'basic'"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
-              <label for="endReason" class="label">End reason</label>
-              <textarea
-                nbInput
-                fullWidth
-                id="endReason"
-                placeholder="End reason"
-                formControlName="endReason"
-                [status]="isValid(endReasonControl) ? 'danger' : 'basic'"
-              ></textarea>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-group">
               <label for="roomId" class="label">Room</label>
               <nb-select
                 [nbSpinner]="!(roomsLoading$ | async)!"
@@ -123,57 +154,27 @@
               </nb-select>
             </div>
           </div>
-
-          <div class="col-6">
+          <div class="col-12">
             <div class="form-group">
-              <label for="startDate" class="label">Start date</label>
-
-              <input
-                id="startDate"
-                fullWidth
+              <label for="endReason" class="label">End reason</label>
+              <textarea
                 nbInput
-                placeholder="Start date"
-                formControlName="startDate"
-                [status]="isValid(startDateControl) ? 'danger' : 'basic'"
-                [nbDatepicker]="startDateTimePicker"
-              />
-              <nb-date-timepicker
-                withSeconds
-                #startDateTimePicker
-              ></nb-date-timepicker>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group">
-              <label for="endDate" class="label">End date</label>
-              <input
-                id="endDate"
                 fullWidth
-                nbInput
-                placeholder="End date"
-                formControlName="endDate"
-                [status]="isValid(endDateControl) ? 'danger' : 'basic'"
-                [nbDatepicker]="endDateTimePicker"
-              />
-              <nb-date-timepicker
-                withSeconds
-                #endDateTimePicker
-              ></nb-date-timepicker>
+                id="endReason"
+                placeholder="End reason"
+                formControlName="endReason"
+                [status]="isValid(endReasonControl) ? 'danger' : 'basic'"
+              ></textarea>
             </div>
           </div>
           <div class="col-12">
             <div class="form-group">
-              <label for="title" class="label">Title</label>
-              <input
-                type="text"
-                nbInput
-                fullWidth
-                id="title"
-                placeholder="Title"
-                formControlName="title"
-                [status]="isValid(titleControl) ? 'danger' : 'basic'"
-              />
+              <label for="color" class="label">Color</label>
+              <ngx-colors
+                ngx-colors-trigger
+                [formControl]="colorControl"
+                [hideTextInput]="true"
+              ></ngx-colors>
             </div>
           </div>
         </div>

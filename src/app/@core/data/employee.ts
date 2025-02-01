@@ -3,7 +3,7 @@ import { Gender } from './customer';
 import { StoreEntity } from './lite-store.model';
 import { Role } from './role';
 
-export interface User {
+export interface Employee {
   id: number;
   firstName: string;
   lastName: string;
@@ -13,10 +13,10 @@ export interface User {
   gender: Gender;
 }
 
-export type UserForm = {
-  [field in keyof Omit<User, 'password'>]: FormControl<User[field]>;
+export type EmployeeForm = {
+  [field in keyof Omit<Employee, 'password'>]: FormControl<Employee[field]>;
 };
 
-export interface UserState extends StoreEntity<User> {
+export interface EmployeeState extends StoreEntity<Employee> {
   loading: boolean;
 }

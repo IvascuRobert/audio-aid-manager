@@ -8,6 +8,7 @@ import {
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { NbAuthService } from '@nebular/auth';
 import {
   NbAccordionModule,
   NbActionsModule,
@@ -61,6 +62,10 @@ export class CustomerOrderComponent implements OnInit {
   coreService = inject(CoreService);
 
   destroyRef = inject(DestroyRef);
+
+  activatedRoute = inject(ActivatedRoute);
+
+  nbAuthService = inject(NbAuthService);
 
   devices$ = this.coreService.state$.pipe(
     map(({ Device }) => Object.values(Device.entities))
@@ -131,8 +136,6 @@ export class CustomerOrderComponent implements OnInit {
       return totalDevices + totalAccessories + totalUtilities + totalServices;
     })
   );
-
-  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getDevice();
@@ -262,7 +265,8 @@ export class CustomerOrderComponent implements OnInit {
     this.coreService
       .post<Order>(
         {
-          id: 2,
+          id: 0, // asta trebuie trimis?!
+          userId: parseInt(this.coreService.user$.getValue()?.UserId ?? ''),
           processId: this.processId$.getValue(),
           total,
           accessoryList: this.accessoriesAdded$.getValue().map((item) => ({

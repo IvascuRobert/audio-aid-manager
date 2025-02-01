@@ -26,7 +26,7 @@
       <nb-user
         [nbContextMenu]="userMenu"
         [onlyPicture]="false"
-        [name]="'Robert'"
+        [name]="(user$ | async)?.UserName!"
         [nbContextMenuTag]="contextTag"
       >
       </nb-user>
