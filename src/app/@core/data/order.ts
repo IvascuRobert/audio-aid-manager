@@ -3,7 +3,7 @@ import { DeviceStatus } from './device';
 import { StoreEntity } from './lite-store.model';
 
 export interface Order {
-  id: number;
+  id?: number;
   processId: number;
   userId: number;
   deviceList: { id: number; status: DeviceStatus }[];

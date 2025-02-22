@@ -20,6 +20,7 @@ import {
   NbTooltipModule,
 } from '@nebular/theme';
 import {
+  CalendarDateFormatter,
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
@@ -33,6 +34,7 @@ import { Entity } from '../@core/data/entity';
 import { IsTodayPipe } from '../@core/pipes/is-today.pipe';
 import { CoreService } from '../@core/services/core.service';
 import { AppointmentsAddDialogComponent } from './appointments-add-dialog/appointments-add-dialog.component';
+import { CustomDateFormatter } from './services/custom-date-formatter.provider';
 
 @Component({
   selector: 'app-appointments',
@@ -55,6 +57,12 @@ import { AppointmentsAddDialogComponent } from './appointments-add-dialog/appoin
   templateUrl: './appointments.component.html',
   styleUrl: './appointments.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: CalendarDateFormatter,
+      useClass: CustomDateFormatter,
+    },
+  ],
 })
 export class AppointmentsComponent implements OnInit {
   dialogService = inject(NbDialogService);
@@ -146,7 +154,6 @@ export class AppointmentsComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log(date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -159,7 +166,7 @@ export class AppointmentsComponent implements OnInit {
       this.viewDate = date;
     }
 
-    this.openCustomDialog();
+    this.openCustomDialog(date);
   }
 
   hourSegmentClicked({
@@ -169,9 +176,7 @@ export class AppointmentsComponent implements OnInit {
     date: Date;
     sourceEvent: MouseEvent;
   }): void {
-    console.log(date, sourceEvent);
-
-    this.openCustomDialog();
+    this.openCustomDialog(date);
   }
 
   eventTimesChanged({
@@ -226,11 +231,12 @@ export class AppointmentsComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-  openCustomDialog() {
+  openCustomDialog(startDate: Date) {
     this.dialogService
       .open(AppointmentsAddDialogComponent, {
         context: {
           entity: this.entity(),
+          startDate,
         },
         closeOnBackdropClick: false,
       })

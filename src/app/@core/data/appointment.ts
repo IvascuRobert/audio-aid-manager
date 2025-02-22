@@ -3,8 +3,8 @@ import { StoreEntity } from './lite-store.model';
 
 export interface Appointment {
   id: number | null;
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
   roomId: number | null;
   customerId: number | null;
   title: string;

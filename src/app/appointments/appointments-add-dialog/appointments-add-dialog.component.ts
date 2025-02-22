@@ -27,7 +27,7 @@ import {
   NbSpinnerModule,
   NbTimepickerModule,
 } from '@nebular/theme';
-import { omit } from 'lodash-es';
+import { cloneDeep, omit } from 'lodash-es';
 import { NgxColorsModule } from 'ngx-colors';
 import { BehaviorSubject, finalize, map } from 'rxjs';
 import { Appointment, AppointmentForm } from '../../@core/data/appointment';
@@ -97,7 +97,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    startDate: new FormControl('', {
+    startDate: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -105,7 +105,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    endDate: new FormControl('', {
+    endDate: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -140,6 +140,8 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
   customersLoading$ = this.coreService
     .getEntities$<CustomerState>(Entity.Customer)
     .pipe(map(({ loading }) => loading));
+
+  startDate: Date | null = null;
 
   get colorControl() {
     return this.form.controls.color;
@@ -191,6 +193,15 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
     this.getDoctors();
     this.getRooms();
     this.getCustomers();
+
+    if (this.startDate) {
+      this.startDateControl.setValue(this.startDate);
+      const cloneStartDate = cloneDeep(this.startDate);
+      const endDate = new Date(
+        cloneStartDate.setMinutes(cloneStartDate.getMinutes() + 30)
+      );
+      this.endDateControl.setValue(endDate);
+    }
   }
 
   close(fetchData = false) {

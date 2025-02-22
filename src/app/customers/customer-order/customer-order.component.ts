@@ -265,7 +265,6 @@ export class CustomerOrderComponent implements OnInit {
     this.coreService
       .post<Order>(
         {
-          id: 0, // asta trebuie trimis?!
           userId: parseInt(this.coreService.user$.getValue()?.UserId ?? ''),
           processId: this.processId$.getValue(),
           total,
