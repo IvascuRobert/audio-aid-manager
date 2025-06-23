@@ -265,7 +265,7 @@ export class CustomerOrderComponent implements OnInit {
     this.coreService
       .post<Order>(
         {
-          userId: parseInt(this.coreService.user$.getValue()?.UserId ?? ''),
+          userId: 9,
           processId: this.processId$.getValue(),
           total,
           accessoryList: this.accessoriesAdded$.getValue().map((item) => ({
