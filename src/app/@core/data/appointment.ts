@@ -1,10 +1,8 @@
 import { FormControl } from '@angular/forms';
 import { StoreEntity } from './lite-store.model';
 
-export interface Appointment {
+export interface AppointmentBase {
   id: number | null;
-  startDate: Date | null;
-  endDate: Date | null;
   roomId: number | null;
   customerId: number | null;
   title: string;
@@ -18,6 +16,16 @@ export interface Appointment {
   createdAt: string;
   updatedAt: string;
   userId: number;
+}
+
+export interface Appointment extends AppointmentBase {
+  startDate: Date | null;
+  endDate: Date | null;
+}
+
+export interface AppointmentApiResponse extends AppointmentBase {
+  startDate: string;
+  endDate: string;
 }
 
 export type AppointmentForm = {

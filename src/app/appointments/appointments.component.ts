@@ -27,9 +27,9 @@ import {
   CalendarModule,
   CalendarView,
 } from 'angular-calendar';
-import { isSameDay, isSameMonth } from 'date-fns';
+import { isSameDay, isSameMonth, parseISO } from 'date-fns';
 import { Subject, map, tap } from 'rxjs';
-import { AppointmentState } from '../@core/data/appointment';
+import { AppointmentApiResponse, AppointmentState } from '../@core/data/appointment';
 import { Entity } from '../@core/data/entity';
 import { IsTodayPipe } from '../@core/pipes/is-today.pipe';
 import { CoreService } from '../@core/services/core.service';
@@ -91,7 +91,7 @@ export class AppointmentsComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
+        this.events.set(this.events().filter((iEvent) => iEvent !== event));
         this.handleEvent('Deleted', event);
       },
     },
@@ -107,45 +107,7 @@ export class AppointmentsComponent implements OnInit {
     .getEntities$<AppointmentState>(Entity.Appointment)
     .pipe(map(({ loading }) => loading));
 
-  events: CalendarEvent[] = [];
-  //   {
-  //     start: subDays(startOfDay(new Date()), 1),
-  //     end: addDays(new Date(), 1),
-  //     title: 'A 3 day event',
-  //     color: { ...colors['red'] },
-  //     actions: this.actions,
-  //     allDay: true,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
-  //   {
-  //     start: startOfDay(new Date()),
-  //     title: 'An event with no end date',
-  //     color: { ...colors['yellow'] },
-  //     actions: this.actions,
-  //   },
-  //   {
-  //     start: subDays(endOfMonth(new Date()), 3),
-  //     end: addDays(endOfMonth(new Date()), 3),
-  //     title: 'A long event that spans 2 months',
-  //     color: { ...colors['blue'] },
-  //     allDay: true,
-  //   },
-  //   {
-  //     start: addHours(startOfDay(new Date()), 2),
-  //     end: addHours(new Date(), 2),
-  //     title: 'A draggable and resizable event',
-  //     color: { ...colors['yellow'] },
-  //     actions: this.actions,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
+  events = signal<CalendarEvent[]>([])
 
   activeDayIsOpen: boolean = true;
 
@@ -184,17 +146,17 @@ export class AppointmentsComponent implements OnInit {
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
+    // this.events = this.events.map((iEvent) => {
+    //   if (iEvent === event) {
+    //     return {
+    //       ...event,
+    //       start: newStart,
+    //       end: newEnd,
+    //     };
+    //   }
+    //   return iEvent;
+    // });
+    // this.handleEvent('Dropped or resized', event);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -202,8 +164,8 @@ export class AppointmentsComponent implements OnInit {
   }
 
   addEvent(): void {
-    // this.events = [
-    //   ...this.events,
+    // this.events.set([
+    //   ...this.events(),
     //   {
     //     title: 'New event',
     //     start: startOfDay(new Date()),
@@ -215,11 +177,11 @@ export class AppointmentsComponent implements OnInit {
     //       afterEnd: true,
     //     },
     //   },
-    // ];
+    // ])
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    // this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
   setView(view: CalendarView) {
@@ -253,8 +215,50 @@ export class AppointmentsComponent implements OnInit {
 
   private getAppointments() {
     this.coreService
-      .get(Entity.Appointment)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .get<AppointmentApiResponse[]>(Entity.Appointment)
+      .pipe(
+        map((res) => this.#mapAppointmentsToCalendarEvent(res)),
+        tap((res) => {
+          console.log({ res })
+          this.events.set(res)
+        }),
+        takeUntilDestroyed(this.destroyRef))
       .subscribe();
+  }
+
+  #mapAppointmentsToCalendarEvent(appointment: AppointmentApiResponse[]): CalendarEvent[] {
+    return appointment.map(item => {
+      const startDate = parseISO(item.startDate);
+      const endDate = parseISO(item.endDate);
+
+      return {
+        start: startDate,
+        end: endDate,
+        title: item.title,
+        color: {
+          primary: this.#rgbToHex(item.color),
+          secondary: "#D1ECF1" // Alege o culoare secundară sau poți calcula din RGB
+        },
+        actions: [], // Dacă ești într-o componentă, pune aici `this.actions`
+        allDay: false, // Dacă are ore, setezi false
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        },
+        draggable: true
+      };
+    });
+  }
+
+  #rgbToHex(rgb: string): string {
+    const result = rgb.match(/\d+/g);
+    if (!result) return "#000000";
+
+    return (
+      "#" +
+      result
+        .map((val) => parseInt(val).toString(16).padStart(2, "0"))
+        .join("")
+    );
   }
 }
