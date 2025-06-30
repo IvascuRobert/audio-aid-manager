@@ -29,7 +29,7 @@ import {
 } from '@nebular/theme';
 import { cloneDeep, omit } from 'lodash-es';
 import { NgxColorsModule } from 'ngx-colors';
-import { BehaviorSubject, finalize, map } from 'rxjs';
+import { BehaviorSubject, finalize, map, tap } from 'rxjs';
 import { Appointment, AppointmentForm } from '../../@core/data/appointment';
 import { CustomerState } from '../../@core/data/customer';
 import { DoctorState } from '../../@core/data/doctor';
@@ -83,10 +83,6 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
       validators: [Validators.required],
     }),
     doctorId: new FormControl(null, {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    endReason: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -150,10 +146,6 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
 
   get descriptionControl() {
     return this.form.controls.description;
-  }
-
-  get endReasonControl() {
-    return this.form.controls.endReason;
   }
 
   get roomIdControl() {
@@ -223,12 +215,17 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
       .put<
         Omit<
           Appointment,
-          'status' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'
+          | 'status'
+          | 'createdAt'
+          | 'updatedAt'
+          | 'createdBy'
+          | 'updatedBy'
+          | 'endReason'
         >
       >(this.form.getRawValue(), this.entity)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
+        tap(() => {
           this.loading$.next(false);
           this.close(true);
         })
@@ -248,11 +245,12 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
           | 'createdBy'
           | 'updatedBy'
           | 'id'
+          | 'endReason'
         >
       >(omit(this.form.getRawValue(), ['id']), this.entity)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
+        tap(() => {
           this.loading$.next(false);
           this.close(true);
         })

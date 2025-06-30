@@ -31,7 +31,12 @@ export interface AppointmentApiResponse extends AppointmentBase {
 export type AppointmentForm = {
   [field in keyof Omit<
     Appointment,
-    'status' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'
+    | 'status'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'createdBy'
+    | 'updatedBy'
+    | 'endReason'
   >]: FormControl<Appointment[field]>;
 };
 

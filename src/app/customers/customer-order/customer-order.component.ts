@@ -7,7 +7,7 @@ import {
 } from '@angular/common';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import {
   NbAccordionModule,
@@ -20,7 +20,7 @@ import {
 } from '@nebular/theme';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
 import { Accessory } from '../../@core/data/accessory';
 import { Device } from '../../@core/data/device';
 import { Entity } from '../../@core/data/entity';
@@ -66,6 +66,8 @@ export class CustomerOrderComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
 
   nbAuthService = inject(NbAuthService);
+
+  router = inject(Router);
 
   devices$ = this.coreService.state$.pipe(
     map(({ Device }) => Object.values(Device.entities))
@@ -287,7 +289,12 @@ export class CustomerOrderComponent implements OnInit {
         },
         Entity.Order
       )
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => {
+          this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe();
   }
 
