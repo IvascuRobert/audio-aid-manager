@@ -35,6 +35,6 @@ export type AppointmentForm = {
   >]: FormControl<Appointment[field]>;
 };
 
-export interface AppointmentState extends StoreEntity<Appointment> {
+export interface AppointmentState extends StoreEntity<AppointmentApiResponse> {
   loading: boolean;
 }

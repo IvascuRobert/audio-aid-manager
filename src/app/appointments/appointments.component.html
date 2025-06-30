@@ -1,10 +1,21 @@
-@if (appointments$ | async) {
+@if (appointments$ | async; as events) {
 <nb-card
   [nbSpinner]="!(appointmentsLoading$ | async)!"
   nbSpinnerStatus="danger"
 >
   <nb-card-body>
     <nb-actions size="medium" class="text-center">
+      <nb-action 
+        ><button
+          type="button"
+          nbButton
+          status="primary"
+          appearance="hero"
+          (click)="openAddAppointmentDialog()"
+        >
+          Add appointment
+        </button>
+      </nb-action>
       <nb-action title="Today" mwlCalendarToday [(viewDate)]="viewDate"
         ><button
           type="button"
@@ -44,14 +55,14 @@
       <nb-action
         [nbTooltip]="'Reload data'"
         icon="refresh-outline"
-        nbTooltipPlacement="top"
+        nbTooltipPlacement="top"(click)="getAppointments()"
       ></nb-action>
     </nb-actions>
   </nb-card-body>
 </nb-card>
 
 <nb-card
-  class="calendar"
+  class="calendar h-100"
   size="giant"
   [nbSpinner]="!(appointmentsLoading$ | async)!"
   nbSpinnerStatus="danger"
@@ -64,34 +75,26 @@
 
     <mwl-calendar-month-view
       [viewDate]="viewDate"
-      [events]="events()"
+      [events]="events"
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-month-view>
     } @case (calendarViewTpl.Week) {
 
     <mwl-calendar-week-view
       [viewDate]="viewDate"
-      [events]="events()"
+      [events]="events"
       [refresh]="refresh"
-      (hourSegmentClicked)="hourSegmentClicked($event)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-week-view>
     } @case (calendarViewTpl.Day) {
 
     <mwl-calendar-day-view
       [viewDate]="viewDate"
-      [events]="events()"
+      [events]="events"
       [refresh]="refresh"
-      (hourSegmentClicked)="hourSegmentClicked($event)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-day-view>
     } }
