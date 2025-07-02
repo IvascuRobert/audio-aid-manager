@@ -53,7 +53,6 @@ export class AccessoriesComponent {
         title: 'Price',
         type: 'custom',
         renderComponent: PriceCellComponent,
-        hide: true,
       },
       shopId: {
         title: 'Shop',
@@ -61,10 +60,6 @@ export class AccessoriesComponent {
       },
     },
   };
-
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.accessories;
-
-  hiddenColumns = ['price'];
 
   dialogTemplateRef = AccessoriesAddDialogComponent;
 }

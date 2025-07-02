@@ -43,7 +43,6 @@ export class UtilitiesComponent {
         title: 'Price',
         type: 'custom',
         renderComponent: PriceCellComponent,
-        hide: true,
       },
       shopId: {
         title: 'Shop',
@@ -51,10 +50,6 @@ export class UtilitiesComponent {
       },
     },
   };
-
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.utilities;
-
-  hiddenColumns = ['price'];
 
   dialogTemplateRef = UtilitiesAddDialogComponent;
 }

@@ -30,14 +30,7 @@
     nbTooltipPlacement="top"
     (click)="handleReloadAction.emit(true)"
   ></nb-action>
-  @if (showAction.showSettings) {
-  <nb-action
-    [nbTooltip]="'Settings'"
-    nbTooltipPlacement="top"
-    icon="settings-2-outline"
-    (click)="handleSettingsAction.emit(true)"
-  ></nb-action
-  >} @if (showAction.showProcess) {
+  @if (showAction.showProcess) {
   <nb-action
     [nbTooltip]="'Processes'"
     nbTooltipPlacement="top"

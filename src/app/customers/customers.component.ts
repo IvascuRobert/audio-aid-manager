@@ -64,52 +64,34 @@ export class CustomersComponent {
         title: 'E-mail',
         type: 'custom',
         renderComponent: EmailCellComponent,
-        hide: true,
       },
       address: {
         title: 'Address',
         type: 'string',
-        hide: true,
       },
       doctorId: {
         title: 'Doctor',
         type: 'string',
-        hide: true,
       },
       clinicId: {
         title: 'Clinic',
         type: 'string',
-        hide: true,
       },
       contactNote: {
         title: 'Contact Note',
         type: 'string',
-        hide: true,
       },
       taxCode: {
         title: 'Tax code',
         type: 'string',
-        hide: true,
       },
       comment: {
         title: 'Note',
         type: 'custom',
         renderComponent: CommentCellComponent,
-        hide: true,
       },
     },
   };
-
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.customers;
-
-  hiddenColumns = [
-    'email',
-    'address',
-    'doctorId',
-    'clinicId',
-    'contactNote',
-    'comment',
-  ];
 
   dialogTemplateRef = CustomerAddDialogComponent;
 }

@@ -5,7 +5,6 @@ import { ProcessStatusType } from '../../../@core/data/customer';
 import { Entity } from '../../../@core/data/entity';
 
 export interface CustomAction {
-  showSettings: boolean;
   showProcess: boolean;
   showOrder: boolean;
 }
@@ -23,7 +22,6 @@ export class CustomActionsComponent {
   @Input() entity!: Entity;
 
   @Input() showAction: CustomAction = {
-    showSettings: false,
     showProcess: false,
     showOrder: false,
   };

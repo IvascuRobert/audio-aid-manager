@@ -66,30 +66,22 @@ export class DevicesComponent {
       aslGroup: {
         title: 'ASL Group',
         type: 'string',
-        hide: true,
       },
       price: {
         title: 'Price',
         type: 'custom',
         renderComponent: PriceCellComponent,
-        hide: true,
       },
       shopId: {
         title: 'Shop',
         type: 'string',
-        hide: true,
       },
       customer: {
         title: 'Customer',
         type: 'string',
-        hide: true,
       },
     },
   };
-
-  localStorageSettingsKey = LOCAL_STORAGE_KEYS_FOR_TABLE.devices;
-
-  hiddenColumns = ['aslGroup', 'price', 'shopId', 'customer'];
 
   dialogTemplateRef = DevicesAddDialogComponent;
 }

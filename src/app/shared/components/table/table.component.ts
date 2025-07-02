@@ -37,7 +37,6 @@ import { ActionsCellComponent } from '../custom-table-cell-render/actions-cell.c
 import { LocalDataSource } from '../ng2-smart-table/lib/data-source/local/local.data-source';
 import { Ng2SmartTableComponent } from '../ng2-smart-table/ng2-smart-table.component';
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
-import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'app-table',
@@ -71,7 +70,6 @@ export class TableComponent<T extends { id: number }>
   @Input() hiddenColumns: string[] = [];
 
   @Input() showAction: CustomAction = {
-    showSettings: false,
     showProcess: false,
     showOrder: false,
   };
@@ -142,7 +140,6 @@ export class TableComponent<T extends { id: number }>
   ) {}
 
   ngOnInit(): void {
-    this.loadTableSettingsFromLocalStorage();
     this.getServerData();
     this.entities$ = this.coreService.getEntities$<any>(this.entity()).pipe(
       filter((res: any) => !!this.entity() && !!res?.entities),
@@ -186,33 +183,6 @@ export class TableComponent<T extends { id: number }>
   resetSelectedRows(): void {
     this.selectedRows = [];
     this.isAllSelected = false;
-  }
-
-  openSettingsDialog() {
-    this.dialogService
-      .open(SettingsDialogComponent, {
-        context: {
-          hiddenColumns: this.hiddenColumns,
-          localStorageSettingsKey: this.localStorageSettingsKey,
-        },
-        closeOnBackdropClick: false,
-      })
-      .onClose.pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap((settings) => {
-          if (settings) {
-            const { columns, hiddenColumns } = settings;
-
-            this.settings = mapHideOrShowColumns(
-              columns,
-              this.settings,
-              hiddenColumns
-            );
-            setItem(this.localStorageSettingsKey, columns);
-          }
-        })
-      )
-      .subscribe();
   }
 
   openRemoveDialog(id?: number) {
@@ -310,12 +280,6 @@ export class TableComponent<T extends { id: number }>
         relativeTo: this.activatedRoute,
       });
     }
-  }
-
-  private loadTableSettingsFromLocalStorage() {
-    const columns = getItem(this.localStorageSettingsKey);
-
-    this.settings = mapShowColumns(columns, this.settings);
   }
 
   private getServerData(): void {
