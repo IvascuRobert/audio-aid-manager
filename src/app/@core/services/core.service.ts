@@ -96,6 +96,14 @@ export class CoreService extends Store<State> {
       );
   }
 
+  getById<T>(entity: Entity, id: number, params?: any) {
+    return this.http
+      .get<T>(`${this.apiUrl}${entity}/${id}`, {
+        params: new HttpParams({ fromObject: params || {} }),
+      })
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
   post<T>(value: T, entity: Entity): Observable<unknown> {
     return this.http.post<unknown>(`${this.apiUrl}${entity}`, value).pipe(
       tap(() => this.showSuccessMessage()),

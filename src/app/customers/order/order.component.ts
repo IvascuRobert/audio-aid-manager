@@ -19,8 +19,8 @@ import {
   NbTooltipModule,
 } from '@nebular/theme';
 import { cloneDeep } from 'lodash';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { Accessory } from '../../@core/data/accessory';
 import { Device } from '../../@core/data/device';
 import { Entity } from '../../@core/data/entity';
@@ -29,6 +29,8 @@ import { Service } from '../../@core/data/service';
 import { Utility } from '../../@core/data/utility';
 import { FilterByQuantityPipe, XorPipe } from '../../@core/pipes';
 import { CoreService } from '../../@core/services/core.service';
+import { Process } from '../../@core/data/process';
+import { ProcessStatusType } from '../../@core/data/customer';
 
 enum ProductType {
   Device,
@@ -38,9 +40,9 @@ enum ProductType {
 }
 
 @Component({
-  selector: 'app-customer-order',
-  templateUrl: './customer-order.component.html',
-  styleUrls: ['./customer-order.component.scss'],
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.scss'],
   imports: [
     AsyncPipe,
     CurrencyPipe,
@@ -58,7 +60,7 @@ enum ProductType {
     NbTooltipModule,
   ],
 })
-export class CustomerOrderComponent implements OnInit {
+export class OrderComponent implements OnInit {
   coreService = inject(CoreService);
 
   destroyRef = inject(DestroyRef);
@@ -260,7 +262,7 @@ export class CustomerOrderComponent implements OnInit {
     }
   }
 
-  payNow(total: number, emptyCart: boolean): void {
+  payNow(total: number, emptyCart: boolean, reserve = false): void {
     if (emptyCart) {
       return;
     }
@@ -290,6 +292,25 @@ export class CustomerOrderComponent implements OnInit {
         Entity.Order
       )
       .pipe(
+        switchMap(() =>
+          this.coreService
+            .getById<Process>(Entity.Process, this.processId$.value)
+            .pipe(
+              switchMap((process) =>
+                this.coreService.put(
+                  {
+                    ...process,
+                    ...{
+                      status: reserve
+                        ? ProcessStatusType.trial
+                        : ProcessStatusType.win,
+                    },
+                  },
+                  Entity.Process
+                )
+              )
+            )
+        ),
         finalize(() => {
           this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
         }),

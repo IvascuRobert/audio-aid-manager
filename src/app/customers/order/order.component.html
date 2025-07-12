@@ -299,7 +299,7 @@
                 nbSpinnerStatus="primary"
                 nbSpinnerSize="large"
                 [disabled]="state.emptyCart"
-                (click)="payNow(orderObj.total!, state.emptyCart)"
+                (click)="payNow(orderObj.total!, state.emptyCart, true)"
               ></nb-action> </nb-actions
           ></nb-card-footer>
         </nb-card>
@@ -321,7 +321,11 @@
     ></nb-icon>
   </span>
   <span class="mx-4">{{ item.name }}</span>
+
   <span>{{ item.price | currency : "EUR" }}</span>
+  @if (item.position) {
+  <span class="mx-4">{{ item.position }}</span>
+  }
   <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
 </ng-template>
 

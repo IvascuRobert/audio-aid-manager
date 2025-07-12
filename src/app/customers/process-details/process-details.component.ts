@@ -4,16 +4,16 @@ import { CommentCellComponent } from '../../shared/components/custom-table-cell-
 import { DateCellComponent } from '../../shared/components/custom-table-cell-render/date-cell.component';
 import { ProcessStatusCellComponent } from '../../shared/components/custom-table-cell-render/process-status-cell.component';
 import { TableComponent } from '../../shared/components/table/table.component';
-import { CustomerDetailsAddDialogComponent } from '../customer-details-add-dialog/customer-details-add-dialog.component';
+import { ProcessAddDialogComponent } from '../process-add-dialog/process-add-dialog.component';
 
 @Component({
-  selector: 'app-customer-details',
-  templateUrl: './customer-details.component.html',
-  styleUrls: ['./customer-details.component.scss'],
+  selector: 'app-process-details',
+  templateUrl: './process-details.component.html',
+  styleUrls: ['./process-details.component.scss'],
   standalone: true,
   imports: [TableComponent],
 })
-export class CustomerDetailsComponent {
+export class ProcessDetailsComponent {
   entity = Entity.Process;
 
   settings: Record<string, any> = {
@@ -75,5 +75,5 @@ export class CustomerDetailsComponent {
     },
   };
 
-  dialogTemplateRef = CustomerDetailsAddDialogComponent;
+  dialogTemplateRef = ProcessAddDialogComponent;
 }

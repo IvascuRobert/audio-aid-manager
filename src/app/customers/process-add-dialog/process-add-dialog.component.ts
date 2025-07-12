@@ -21,16 +21,24 @@ import {
   NbSpinnerModule,
 } from '@nebular/theme';
 import { omit } from 'lodash-es';
-import { BehaviorSubject, finalize, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  finalize,
+  map,
+  tap,
+} from 'rxjs';
 import { Entity } from '../../@core/data/entity';
 import { Duration, Process, ProcessForm } from '../../@core/data/process';
 import { CoreService } from '../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
+import { ProcessStatusType } from '../../@core/data/customer';
 
 @Component({
-  selector: 'app-customer-details-add-dialog',
-  templateUrl: './customer-details-add-dialog.component.html',
-  styleUrls: ['./customer-details-add-dialog.component.scss'],
+  selector: 'app-process-add-dialog',
+  templateUrl: './process-add-dialog.component.html',
+  styleUrls: ['./process-add-dialog.component.scss'],
   standalone: true,
   imports: [
     FormsModule,
@@ -50,16 +58,14 @@ import { BaseForm } from '../../shared/directives/base-form.directive';
     NbDatepickerModule,
   ],
 })
-export class CustomerDetailsAddDialogComponent
-  extends BaseForm
-  implements OnInit
-{
+export class ProcessAddDialogComponent extends BaseForm implements OnInit {
   coreService = inject(CoreService);
 
   destroyRef = inject(DestroyRef);
 
   form = new FormGroup<ProcessForm>({
     id: new FormControl(0, { nonNullable: true }),
+    status: new FormControl(ProcessStatusType.open, { nonNullable: true }),
     leftEarValue: new FormControl(0, { nonNullable: true }),
     leftEarDeviceDuration: new FormControl(Duration.none, {
       nonNullable: true,
@@ -125,9 +131,11 @@ export class CustomerDetailsAddDialogComponent
     return this.form.controls.customerId;
   }
 
-  constructor(
-    @Optional() private ref: NbDialogRef<CustomerDetailsAddDialogComponent>
-  ) {
+  get statusControl() {
+    return this.form.controls.status;
+  }
+
+  constructor(@Optional() private ref: NbDialogRef<ProcessAddDialogComponent>) {
     super();
   }
 
@@ -181,7 +189,7 @@ export class CustomerDetailsAddDialogComponent
   private update(): void {
     this.loading$.next(true);
     this.coreService
-      .put<Omit<Process, 'status'>>(this.form.getRawValue(), this.entity)
+      .put<Process>(this.form.getRawValue(), this.entity)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
@@ -194,8 +202,10 @@ export class CustomerDetailsAddDialogComponent
 
   private add(): void {
     this.loading$.next(true);
+    this.processStatusByExceededValue();
+
     this.coreService
-      .post<Omit<Process, 'status' | 'id'>>(
+      .post<Omit<Process, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
         this.entity
       )
@@ -207,5 +217,18 @@ export class CustomerDetailsAddDialogComponent
         })
       )
       .subscribe();
+  }
+
+  private processStatusByExceededValue(): void {
+    const isExceedTheNormalValue =
+      [this.leftEarValueControl.value, this.rightEarValueControl.value].filter(
+        (value) => value > 25
+      ).length > 0;
+
+    if (isExceedTheNormalValue) {
+      this.statusControl.setValue(ProcessStatusType.open);
+    } else {
+      this.statusControl.setValue(ProcessStatusType.end);
+    }
   }
 }

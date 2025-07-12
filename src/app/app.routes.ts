@@ -8,8 +8,7 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 import { AppointmentsComponent } from './appointments/appointments.component';
-import { CustomerDetailsComponent } from './customers/customer-details/customer-details.component';
-import { CustomerOrderComponent } from './customers/customer-order/customer-order.component';
+import { OrderComponent } from './customers/order/order.component';
 import { CustomersComponent } from './customers/customers.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -23,6 +22,7 @@ import { EmployeeComponent } from './setup/employee/employee.component';
 import { RoomsComponent } from './setup/rooms/rooms.component';
 import { ShopsComponent } from './setup/shops/shops.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { ProcessDetailsComponent } from './customers/process-details/process-details.component';
 
 export const routes: Routes = [
   {
@@ -74,12 +74,19 @@ export const routes: Routes = [
         component: CustomersComponent,
       },
       {
+        path: 'customers',
+        loadComponent: () =>
+          import(`./customers/customers.component`).then(
+            (mod) => mod.CustomersComponent
+          ),
+      },
+      {
         path: 'customers/details/:customerId',
-        component: CustomerDetailsComponent,
+        component: ProcessDetailsComponent,
       },
       {
         path: 'customers/details/:customerId/order/:processId',
-        component: CustomerOrderComponent,
+        component: OrderComponent,
       },
       {
         path: 'appointments',

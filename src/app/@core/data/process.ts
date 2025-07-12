@@ -33,7 +33,7 @@ export interface ProcessState extends StoreEntity<Process> {
 }
 
 export type ProcessForm = {
-  [field in keyof Omit<Process, 'status'>]: FormControl<Process[field]>;
+  [field in keyof Process]: FormControl<Process[field]>;
 };
 
 export type EndProcessApi = {
