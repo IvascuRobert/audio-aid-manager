@@ -1,25 +1,25 @@
 <ng-container
   *ngIf="{
-  deviceLoading: !(devicesLoading$ | async)!,
-  devices: devices$ | async,
-  devicesAdded: devicesAdded$ | async,
+    deviceLoading: !(devicesLoading$ | async)!,
+    devices: devices$ | async,
+    devicesAdded: devicesAdded$ | async,
 
-  accessoriesLoading: !(accessoriesLoading$ | async)!,
-  accessories: accessories$ | async,
-  accessoriesAdded: accessoriesAdded$ | async,
+    accessoriesLoading: !(accessoriesLoading$ | async)!,
+    accessories: accessories$ | async,
+    accessoriesAdded: accessoriesAdded$ | async,
 
-  utilitiesLoading: !(utilitiesLoading$ | async)!,
-  utilities: utilities$ | async,
-  utilitiesAdded: utilitiesAdded$ | async,
+    utilitiesLoading: !(utilitiesLoading$ | async)!,
+    utilities: utilities$ | async,
+    utilitiesAdded: utilitiesAdded$ | async,
 
-  servicesLoading: !(servicesLoading$ | async)!,
-  services: services$ | async,
-  servicesAdded: servicesAdded$ | async,
+    servicesLoading: !(servicesLoading$ | async)!,
+    services: services$ | async,
+    servicesAdded: servicesAdded$ | async,
 
-  orderLoading: (orderLoading$ | async)!,
+    orderLoading: (orderLoading$ | async)!,
 
-  total: total$ | async,
-} as orderObj"
+    total: total$ | async,
+  } as orderObj"
 >
   <ng-container
     *ngIf="{
@@ -27,13 +27,13 @@
         orderObj.devicesAdded?.length === 0 &&
         orderObj.accessoriesAdded?.length === 0 &&
         orderObj.utilitiesAdded?.length === 0 &&
-        orderObj.servicesAdded?.length === 0
+        orderObj.servicesAdded?.length === 0,
     } as state"
   >
     <div class="row">
       <div class="col-8">
         <nb-accordion multi>
-          <nb-accordion-item>
+          <nb-accordion-item [collapsed]="false">
             <nb-accordion-item-header
               accent="danger"
               size="tiny"
@@ -55,14 +55,14 @@
               <nb-list>
                 <nb-list-item
                   *ngFor="
-                    let device of orderObj.devices | xor : orderObj.devicesAdded
+                    let device of orderObj.devices | xor: orderObj.devicesAdded
                   "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
                     [ngTemplateOutletContext]="{
                       item: device,
-                      productType: productTypeTpl.Device
+                      productType: productTypeTpl.Device,
                     }"
                   ></ng-container>
                 </nb-list-item>
@@ -70,7 +70,7 @@
             </nb-accordion-item-body>
           </nb-accordion-item>
 
-          <nb-accordion-item>
+          <nb-accordion-item [collapsed]="false">
             <nb-accordion-item-header
               accent="danger"
               size="tiny"
@@ -93,14 +93,14 @@
                 <nb-list-item
                   *ngFor="
                     let accessory of orderObj.accessories
-                      | xor : orderObj.accessoriesAdded
+                      | xor: orderObj.accessoriesAdded
                   "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
                     [ngTemplateOutletContext]="{
                       item: accessory,
-                      productType: productTypeTpl.Accessories
+                      productType: productTypeTpl.Accessories,
                     }"
                   ></ng-container>
                 </nb-list-item>
@@ -108,7 +108,7 @@
             </nb-accordion-item-body>
           </nb-accordion-item>
 
-          <nb-accordion-item>
+          <nb-accordion-item [collapsed]="false">
             <nb-accordion-item-header
               accent="danger"
               size="tiny"
@@ -131,14 +131,14 @@
                 <nb-list-item
                   *ngFor="
                     let utility of orderObj.utilities
-                      | filterByQuantity : orderObj.utilitiesAdded
+                      | filterByQuantity: orderObj.utilitiesAdded
                   "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
                     [ngTemplateOutletContext]="{
                       item: utility,
-                      productType: productTypeTpl.Utilities
+                      productType: productTypeTpl.Utilities,
                     }"
                   ></ng-container>
                 </nb-list-item>
@@ -146,7 +146,7 @@
             </nb-accordion-item-body>
           </nb-accordion-item>
 
-          <nb-accordion-item>
+          <nb-accordion-item [collapsed]="false">
             <nb-accordion-item-header
               accent="danger"
               size="tiny"
@@ -169,14 +169,14 @@
                 <nb-list-item
                   *ngFor="
                     let service of orderObj.services
-                      | xor : orderObj.servicesAdded
+                      | xor: orderObj.servicesAdded
                   "
                 >
                   <ng-container
                     [ngTemplateOutlet]="listItem"
                     [ngTemplateOutletContext]="{
                       item: service,
-                      productType: productTypeTpl.Services
+                      productType: productTypeTpl.Services,
                     }"
                   ></ng-container>
                 </nb-list-item>
@@ -199,7 +199,7 @@
                         [ngTemplateOutlet]="addedItem"
                         [ngTemplateOutletContext]="{
                           item: product,
-                          productType: productTypeTpl.Device
+                          productType: productTypeTpl.Device,
                         }"
                       ></ng-container>
                     </nb-list-item>
@@ -217,7 +217,7 @@
                         [ngTemplateOutlet]="addedItem"
                         [ngTemplateOutletContext]="{
                           item: product,
-                          productType: productTypeTpl.Accessories
+                          productType: productTypeTpl.Accessories,
                         }"
                       ></ng-container>
                     </nb-list-item>
@@ -235,7 +235,7 @@
                         [ngTemplateOutlet]="addedItem"
                         [ngTemplateOutletContext]="{
                           item: product,
-                          productType: productTypeTpl.Utilities
+                          productType: productTypeTpl.Utilities,
                         }"
                       ></ng-container>
                     </nb-list-item>
@@ -253,7 +253,7 @@
                         [ngTemplateOutlet]="addedItem"
                         [ngTemplateOutletContext]="{
                           item: product,
-                          productType: productTypeTpl.Services
+                          productType: productTypeTpl.Services,
                         }"
                       ></ng-container>
                     </nb-list-item>
@@ -272,11 +272,11 @@
           <nb-card-body>
             <div class="info">
               <div class="h4 value">
-                {{ orderObj.total | currency : "EUR" }}
+                {{ orderObj.total | currency: "EUR" }}
               </div>
               <div class="details subtitle-2">
                 <span>without V.A.T.</span
-                >{{ orderObj.total | currency : "EUR" }}
+                >{{ orderObj.total | currency: "EUR" }}
               </div>
             </div>
           </nb-card-body>
@@ -322,9 +322,9 @@
   </span>
   <span class="mx-4">{{ item.name }}</span>
 
-  <span>{{ item.price | currency : "EUR" }}</span>
+  <span>{{ item.price | currency: "EUR" }}</span>
   @if (item.position) {
-  <span class="mx-4">{{ item.position }}</span>
+    <span class="mx-4">{{ item.position }}</span>
   }
   <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
 </ng-template>
@@ -342,6 +342,6 @@
     ></nb-icon>
   </span>
   <span class="mx-4">{{ item.name }}</span>
-  <span>{{ item.price | currency : "EUR" }}</span>
+  <span>{{ item.price | currency: "EUR" }}</span>
   <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
 </ng-template>

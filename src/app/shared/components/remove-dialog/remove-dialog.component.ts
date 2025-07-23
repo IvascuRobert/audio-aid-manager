@@ -37,7 +37,7 @@ export class RemoveDialogComponent {
 
   constructor(
     @Optional() private ref: NbDialogRef<RemoveDialogComponent>,
-    private coreService: CoreService
+    private coreService: CoreService,
   ) {}
 
   close(fetchData = false) {
@@ -53,7 +53,7 @@ export class RemoveDialogComponent {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

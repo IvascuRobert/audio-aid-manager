@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +30,7 @@ import { TbodyEditDeleteComponent } from './cells/edit-delete.component';
   ],
   standalone: true,
 })
-export class Ng2SmartTableTbodyComponent {
+export class Ng2SmartTableTbodyComponent implements OnChanges {
   @Input() grid!: Grid;
   @Input() source!: DataSource;
   @Input() deleteConfirm!: EventEmitter<any>;
@@ -76,7 +76,7 @@ export class Ng2SmartTableTbodyComponent {
     this.noDataMessage = this.grid.getSetting('noDataMessage');
   }
 
-  getVisibleCells(cells: Array<Cell>): Array<Cell> {
+  getVisibleCells(cells: Cell[]): Cell[] {
     return (cells || []).filter((cell: Cell) => !cell.getColumn().hide);
   }
 }

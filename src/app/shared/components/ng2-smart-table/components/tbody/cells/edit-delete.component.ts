@@ -18,21 +18,20 @@ import { Grid } from '../../../lib/grid';
   imports: [],
   template: `
     @if (isActionEdit) {
-
-    <a
-      href="#"
-      class="ng2-smart-action ng2-smart-action-edit-edit"
-      [innerHTML]="editRowButtonContent"
-      (click)="onEdit($event)"
-    ></a>
-    } @if (isActionDelete) {
-
-    <a
-      href="#"
-      class="ng2-smart-action ng2-smart-action-delete-delete"
-      [innerHTML]="deleteRowButtonContent"
-      (click)="onDelete($event)"
-    ></a>
+      <a
+        href="#"
+        class="ng2-smart-action ng2-smart-action-edit-edit"
+        [innerHTML]="editRowButtonContent"
+        (click)="onEdit($event)"
+      ></a>
+    }
+    @if (isActionDelete) {
+      <a
+        href="#"
+        class="ng2-smart-action ng2-smart-action-delete-delete"
+        [innerHTML]="deleteRowButtonContent"
+        (click)="onDelete($event)"
+      ></a>
     }
   `,
 })
@@ -87,7 +86,7 @@ export class TbodyEditDeleteComponent implements OnChanges {
     this.isActionDelete = this.grid.getSetting('actions.delete');
     this.editRowButtonContent = this.grid.getSetting('edit.editButtonContent');
     this.deleteRowButtonContent = this.grid.getSetting(
-      'delete.deleteButtonContent'
+      'delete.deleteButtonContent',
     );
   }
 }

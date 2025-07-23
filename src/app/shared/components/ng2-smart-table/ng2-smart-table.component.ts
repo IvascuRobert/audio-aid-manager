@@ -35,7 +35,7 @@ import { deepExtend, getPageForRowIndex } from './lib/helpers';
 })
 export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
   @Input() source: any;
-  @Input() settings: Object = {};
+  @Input() settings: object = {};
 
   @Output() rowSelect = new EventEmitter<any>();
   @Output() rowDeselect = new EventEmitter<any>();
@@ -58,7 +58,7 @@ export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
   rowClassFunction!: Function;
 
   grid!: Grid;
-  defaultSettings: Object = {
+  defaultSettings: object = {
     mode: 'inline', // inline|external|click-to-edit
     selectMode: 'single', // single|multi
     /**
@@ -113,13 +113,13 @@ export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
     rowClassFunction: () => '',
   };
 
-  isAllSelected: boolean = false;
+  isAllSelected = false;
 
   private onSelectRowSubscription!: Subscription;
   private onDeselectRowSubscription!: Subscription;
   private destroyed$: Subject<void> = new Subject<void>();
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+  ngOnChanges(changes: Record<string, SimpleChange>) {
     if (this.grid) {
       if (changes['settings']) {
         this.grid.setSettings(this.prepareSettings());
@@ -148,8 +148,8 @@ export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
   selectRow(
     index: number,
     switchPageToSelectedRowPage: boolean = this.grid.getSetting(
-      'switchPageToSelectedRowPage'
-    )
+      'switchPageToSelectedRowPage',
+    ),
   ): void {
     if (!this.grid) {
       return;
@@ -249,7 +249,7 @@ export class Ng2SmartTableComponent implements OnChanges, OnDestroy {
     return new LocalDataSource();
   }
 
-  prepareSettings(): Object {
+  prepareSettings(): object {
     return deepExtend({}, this.defaultSettings, this.settings);
   }
 

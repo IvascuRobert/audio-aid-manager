@@ -12,15 +12,14 @@ import { ViewCellComponent } from './cell-view-mode/view-cell.component';
   imports: [ViewCellComponent, EditCellComponent],
   template: `
     @if (!isInEditing) {
-    <table-cell-view-mode [cell]="cell"></table-cell-view-mode>
-    } @else{
-
-    <table-cell-edit-mode
-      [cell]="cell"
-      [inputClass]="inputClass"
-      (edited)="onEdited($event)"
-    >
-    </table-cell-edit-mode>
+      <table-cell-view-mode [cell]="cell"></table-cell-view-mode>
+    } @else {
+      <table-cell-edit-mode
+        [cell]="cell"
+        [inputClass]="inputClass"
+        (edited)="onEdited($event)"
+      >
+      </table-cell-edit-mode>
     }
   `,
 })
@@ -31,9 +30,9 @@ export class CellComponent {
   @Input() createConfirm!: EventEmitter<any>;
   @Input() isNew!: boolean;
   @Input() cell!: Cell;
-  @Input() inputClass: string = '';
-  @Input() mode: string = 'inline';
-  @Input() isInEditing: boolean = false;
+  @Input() inputClass = '';
+  @Input() mode = 'inline';
+  @Input() isInEditing = false;
 
   @Output() edited = new EventEmitter<any>();
 

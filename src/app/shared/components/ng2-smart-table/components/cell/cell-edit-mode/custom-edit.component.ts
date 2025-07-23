@@ -29,7 +29,7 @@ export class CustomEditComponent
   ngOnChanges(changes: SimpleChanges) {
     if (this.cell && !this.customComponent) {
       const componentFactory = this.viewContainerRef.createComponent(
-        this.cell.getColumn().editor.component
+        this.cell.getColumn().editor.component,
       );
 
       this.customComponent =
@@ -39,13 +39,13 @@ export class CustomEditComponent
       this.customComponent.instance.cell = this.cell;
       this.customComponent.instance.inputClass = this.inputClass;
       this.customComponent.instance.onStopEditing.subscribe(() =>
-        this.onStopEditing()
+        this.onStopEditing(),
       );
       this.customComponent.instance.onEdited.subscribe((event: any) =>
-        this.onEdited(event)
+        this.onEdited(event),
       );
       this.customComponent.instance.onClick.subscribe((event: any) =>
-        this.onClick(event)
+        this.onClick(event),
       );
     }
   }

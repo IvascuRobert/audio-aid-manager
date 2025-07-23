@@ -9,13 +9,17 @@ import { CustomViewComponent } from './custom-view.component';
   standalone: true,
   imports: [CustomViewComponent],
   template: `
-    @switch (cell.getColumn().type) { @case ('custom') {
-    <custom-view-component [cell]="cell"></custom-view-component>
-    } @case ('html') {
-    <div [innerHTML]="cell.getValue()"></div>
-    } @default {
-    <div>{{ cell.getValue() }}</div>
-    } }
+    @switch (cell.getColumn().type) {
+      @case ('custom') {
+        <custom-view-component [cell]="cell"></custom-view-component>
+      }
+      @case ('html') {
+        <div [innerHTML]="cell.getValue()"></div>
+      }
+      @default {
+        <div>{{ cell.getValue() }}</div>
+      }
+    }
   `,
 })
 export class ViewCellComponent {

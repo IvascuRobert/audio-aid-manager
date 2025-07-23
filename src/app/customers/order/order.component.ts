@@ -21,8 +21,8 @@ import {
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
-import { Accessory } from '../../@core/data/accessory';
-import { Device } from '../../@core/data/device';
+import { Accessory, AccessoryStatus } from '../../@core/data/accessory';
+import { Device, DeviceStatus } from '../../@core/data/device';
 import { Entity } from '../../@core/data/entity';
 import { Order } from '../../@core/data/order';
 import { Service } from '../../@core/data/service';
@@ -72,47 +72,57 @@ export class OrderComponent implements OnInit {
   router = inject(Router);
 
   devices$ = this.coreService.state$.pipe(
-    map(({ Device }) => Object.values(Device.entities))
+    map(({ Device }) =>
+      Object.values(Device.entities).filter(
+        (device) => device.status === DeviceStatus.Free,
+      ),
+    ),
   );
 
   devicesLoading$ = this.coreService.state$.pipe(
-    map(({ Device }) => Device.loading)
+    map(({ Device }) => Device.loading),
   );
 
   devicesAdded$ = new BehaviorSubject<Device[]>([]);
 
   accessories$ = this.coreService.state$.pipe(
-    map(({ Accessory }) => Object.values(Accessory.entities))
+    map(({ Accessory }) =>
+      Object.values(Accessory.entities).filter(
+        (device) => device.status === AccessoryStatus.Free,
+      ),
+    ),
   );
 
   accessoriesLoading$ = this.coreService.state$.pipe(
-    map(({ Accessory }) => Accessory.loading)
+    map(({ Accessory }) => Accessory.loading),
   );
 
   accessoriesAdded$ = new BehaviorSubject<Accessory[]>([]);
 
   utilities$ = this.coreService.state$.pipe(
-    map(({ Utility }) => Object.values(Utility.entities))
+    map(({ Utility }) =>
+      Object.values(Utility.entities).filter((utility) => utility.quantity > 0),
+    ),
   );
 
   utilitiesLoading$ = this.coreService.state$.pipe(
-    map(({ Utility }) => Utility.loading)
+    map(({ Utility }) => Utility.loading),
   );
 
   utilitiesAdded$ = new BehaviorSubject<Utility[]>([]);
 
   services$ = this.coreService.state$.pipe(
-    map(({ Service }) => Object.values(Service.entities))
+    map(({ Service }) => Object.values(Service.entities)),
   );
 
   servicesLoading$ = this.coreService.state$.pipe(
-    map(({ Service }) => Service.loading)
+    map(({ Service }) => Service.loading),
   );
 
   servicesAdded$ = new BehaviorSubject<Service[]>([]);
 
   orderLoading$ = this.coreService.state$.pipe(
-    map(({ Order }) => Order.loading)
+    map(({ Order }) => Order.loading),
   );
 
   processId$ = new BehaviorSubject<number>(0);
@@ -129,16 +139,16 @@ export class OrderComponent implements OnInit {
       const totalDevices = devicesAdded.reduce((a, b) => (a += b.price), 0);
       const totalAccessories = accessoriesAdded.reduce(
         (a, b) => (a += b.price),
-        0
+        0,
       );
       const totalUtilities = utilitiesAdded.reduce(
         (a, b) => (a += b.price * b.quantity),
-        0
+        0,
       );
       const totalServices = servicesAdded.reduce((a, b) => (a += b.price), 0);
 
       return totalDevices + totalAccessories + totalUtilities + totalServices;
-    })
+    }),
   );
 
   ngOnInit(): void {
@@ -152,14 +162,14 @@ export class OrderComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         tap(({ processId }) => {
           this.processId$.next(parseFloat(processId));
-        })
+        }),
       )
       .subscribe();
   }
 
   addCart(
     item: Device | Accessory | Service | Utility,
-    productType: ProductType
+    productType: ProductType,
   ): void {
     switch (productType) {
       case ProductType.Device:
@@ -178,10 +188,10 @@ export class OrderComponent implements OnInit {
         break;
 
       case ProductType.Utilities:
-        let addedItem = cloneDeep<Utility>(item as Utility);
+        const addedItem = cloneDeep<Utility>(item as Utility);
         const utilitiesAdded = this.utilitiesAdded$.getValue();
         const itemExists = utilitiesAdded.find(
-          (utility) => utility.id === addedItem.id
+          (utility) => utility.id === addedItem.id,
         );
 
         if (itemExists) {
@@ -208,7 +218,7 @@ export class OrderComponent implements OnInit {
 
   removeFromCart(
     item: Device | Accessory | Service | Utility,
-    productType: ProductType
+    productType: ProductType,
   ): void {
     switch (productType) {
       case ProductType.Device:
@@ -233,10 +243,10 @@ export class OrderComponent implements OnInit {
         break;
 
       case ProductType.Utilities:
-        let removedItem = cloneDeep<Utility>(item as Utility);
+        const removedItem = cloneDeep<Utility>(item as Utility);
         const utilitiesAdded = this.utilitiesAdded$.getValue();
         const itemExists = utilitiesAdded.find(
-          (utility) => utility.id === removedItem.id
+          (utility) => utility.id === removedItem.id,
         );
 
         if (removedItem.quantity === 1) {
@@ -274,11 +284,11 @@ export class OrderComponent implements OnInit {
           total,
           accessoryList: this.accessoriesAdded$.getValue().map((item) => ({
             id: item.id,
-            status: item.status,
+            status: reserve ? AccessoryStatus.Trial : AccessoryStatus.Sold,
           })),
           deviceList: this.devicesAdded$.getValue().map((item) => ({
             id: item.id,
-            status: item.status,
+            status: reserve ? DeviceStatus.Trial : DeviceStatus.Sold,
           })),
           serviceList: this.servicesAdded$.getValue().map((item) => ({
             id: item.id,
@@ -289,7 +299,7 @@ export class OrderComponent implements OnInit {
             quantity: item.quantity,
           })),
         },
-        Entity.Order
+        Entity.Order,
       )
       .pipe(
         switchMap(() =>
@@ -306,15 +316,15 @@ export class OrderComponent implements OnInit {
                         : ProcessStatusType.win,
                     },
                   },
-                  Entity.Process
-                )
-              )
-            )
+                  Entity.Process,
+                ),
+              ),
+            ),
         ),
         finalize(() => {
           this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

@@ -5,22 +5,22 @@ import { LocalPager } from './local.pager';
 import { LocalSorter } from './local.sorter';
 
 export class LocalDataSource extends DataSource {
-  protected data: Array<any> = [];
-  protected filteredAndSorted: Array<any> = [];
-  protected sortConf: Array<any> = [];
+  protected data: any[] = [];
+  protected filteredAndSorted: any[] = [];
+  protected sortConf: any[] = [];
   protected filterConf: any = {
     filters: [],
     andOperator: true,
   };
   protected pagingConf: any = {};
 
-  constructor(data: Array<any> = []) {
+  constructor(data: any[] = []) {
     super();
 
     this.data = data;
   }
 
-  override load(data: Array<any>): Promise<any> {
+  override load(data: any[]): Promise<any> {
     this.data = data;
 
     return super.load(data);
@@ -78,7 +78,7 @@ export class LocalDataSource extends DataSource {
   }
 
   getFilteredAndSorted(): Promise<any> {
-    let data = this.data.slice(0);
+    const data = this.data.slice(0);
     this.prepareData(data);
     return Promise.resolve(this.filteredAndSorted);
   }
@@ -123,7 +123,7 @@ export class LocalDataSource extends DataSource {
    * @param doEmit
    * @returns {LocalDataSource}
    */
-  override setSort(conf: Array<any>, doEmit = true): LocalDataSource {
+  override setSort(conf: any[], doEmit = true): LocalDataSource {
     if (conf !== null) {
       conf.forEach((fieldConf) => {
         if (
@@ -152,9 +152,9 @@ export class LocalDataSource extends DataSource {
    * @returns {LocalDataSource}
    */
   override setFilter(
-    conf: Array<any>,
+    conf: any[],
     andOperator = true,
-    doEmit = true
+    doEmit = true,
   ): LocalDataSource {
     if (conf && conf.length > 0) {
       conf.forEach((fieldConf) => {
@@ -176,7 +176,7 @@ export class LocalDataSource extends DataSource {
   override addFilter(
     fieldConf: any,
     andOperator = true,
-    doEmit: boolean = true
+    doEmit = true,
   ): LocalDataSource {
     if (!fieldConf['field'] || typeof fieldConf['search'] === 'undefined') {
       throw new Error('Filter configuration object is not valid');
@@ -200,7 +200,7 @@ export class LocalDataSource extends DataSource {
   override setPaging(
     page: number,
     perPage: number,
-    doEmit: boolean = true
+    doEmit = true,
   ): LocalDataSource {
     this.pagingConf['page'] = page;
     this.pagingConf['perPage'] = perPage;
@@ -209,7 +209,7 @@ export class LocalDataSource extends DataSource {
     return this;
   }
 
-  override setPage(page: number, doEmit: boolean = true): LocalDataSource {
+  override setPage(page: number, doEmit = true): LocalDataSource {
     this.pagingConf['page'] = page;
     super.setPage(page, doEmit);
     return this;
@@ -227,7 +227,7 @@ export class LocalDataSource extends DataSource {
     return this.pagingConf;
   }
 
-  protected prepareData(data: Array<any>): Array<any> {
+  protected prepareData(data: any[]): any[] {
     data = this.filter(data);
     data = this.sort(data);
     this.filteredAndSorted = data.slice(0);
@@ -235,14 +235,14 @@ export class LocalDataSource extends DataSource {
     return this.paginate(data);
   }
 
-  protected sort(data: Array<any>): Array<any> {
+  protected sort(data: any[]): any[] {
     if (this.sortConf) {
       this.sortConf.forEach((fieldConf) => {
         data = LocalSorter.sort(
           data,
           fieldConf['field'],
           fieldConf['direction'],
-          fieldConf['compare']
+          fieldConf['compare'],
         );
       });
     }
@@ -250,7 +250,7 @@ export class LocalDataSource extends DataSource {
   }
 
   // TODO: refactor?
-  protected filter(data: Array<any>): Array<any> {
+  protected filter(data: any[]): any[] {
     if (this.filterConf.filters) {
       if (this.filterConf.andOperator) {
         this.filterConf.filters.forEach((fieldConf: any) => {
@@ -259,7 +259,7 @@ export class LocalDataSource extends DataSource {
               data,
               fieldConf['field'],
               fieldConf['search'],
-              fieldConf['filter']
+              fieldConf['filter'],
             );
           }
         });
@@ -272,8 +272,8 @@ export class LocalDataSource extends DataSource {
                 data,
                 fieldConf['field'],
                 fieldConf['search'],
-                fieldConf['filter']
-              )
+                fieldConf['filter'],
+              ),
             );
           }
         });
@@ -286,7 +286,7 @@ export class LocalDataSource extends DataSource {
     return data;
   }
 
-  protected paginate(data: Array<any>): Array<any> {
+  protected paginate(data: any[]): any[] {
     if (
       this.pagingConf &&
       this.pagingConf['page'] &&
@@ -295,7 +295,7 @@ export class LocalDataSource extends DataSource {
       data = LocalPager.paginate(
         data,
         this.pagingConf['page'],
-        this.pagingConf['perPage']
+        this.pagingConf['perPage'],
       );
     }
     return data;

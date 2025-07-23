@@ -2,14 +2,20 @@ import { Column } from './column';
 import { DataSet } from './data-set';
 import { Row } from './row';
 
-export function prepareValue (value: any) { return value }
+export function prepareValue(value: any) {
+  return value;
+}
 
 export class Cell {
-
   newValue: any = '';
   protected static PREPARE = prepareValue;
 
-  constructor(protected value: any, protected row: Row, protected column: any, protected dataSet: DataSet) {
+  constructor(
+    protected value: any,
+    protected row: Row,
+    protected column: any,
+    protected dataSet: DataSet,
+  ) {
     this.newValue = value;
   }
 
@@ -23,7 +29,9 @@ export class Cell {
 
   getValue(): any {
     const valid = this.column.getValuePrepareFunction() instanceof Function;
-    const prepare = valid ? this.column.getValuePrepareFunction() : Cell.PREPARE;
+    const prepare = valid
+      ? this.column.getValuePrepareFunction()
+      : Cell.PREPARE;
     return prepare.call(null, this.value, this.row.getData(), this);
   }
 
@@ -42,10 +50,8 @@ export class Cell {
   isEditable(): boolean {
     if (this.getRow().index === -1) {
       return this.getColumn().isAddable;
-    }
-    else {
+    } else {
       return this.getColumn().isEditable;
     }
   }
-
 }

@@ -3,11 +3,11 @@ import { cloneDeep } from 'lodash';
 export function mapHideOrShowColumns(
   columns: string[],
   settings: any,
-  hiddenColumns: string[]
+  hiddenColumns: string[],
 ): any {
   const cloneSettings = cloneDeep(settings);
 
-  for (let hiddenColumn of hiddenColumns) {
+  for (const hiddenColumn of hiddenColumns) {
     if (columns.includes(hiddenColumn)) {
       cloneSettings.columns[hiddenColumn].hide = false;
     } else {
@@ -21,7 +21,7 @@ export function mapHideOrShowColumns(
 export function mapShowColumns(columns: string[], settings: any): any {
   const cloneSettings = cloneDeep(settings);
   if (columns) {
-    for (let column of columns) {
+    for (const column of columns) {
       cloneSettings.columns[column].hide = false;
     }
   }

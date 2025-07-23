@@ -62,7 +62,7 @@ export const appConfig: ApplicationConfig = {
         {
           name: 'default',
         },
-        [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME]
+        [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
       ),
       NbSidebarModule.forRoot(),
       NbMenuModule.forRoot(),
@@ -76,7 +76,7 @@ export const appConfig: ApplicationConfig = {
         provide: DateAdapter,
         useFactory: adapterFactory,
       }),
-      NbAuthModule.forRoot(AUTH_CONFIG)
+      NbAuthModule.forRoot(AUTH_CONFIG),
     ),
   ],
 };

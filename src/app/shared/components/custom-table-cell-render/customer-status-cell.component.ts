@@ -7,79 +7,80 @@ import { CustomerStatus } from '../../../@core/data/customer';
   imports: [NbTagModule, NbPopoverModule, NbCardModule],
   template: `
     <nb-tag-list>
-      @switch (value) { @case (customerStatusTpl.new) {
-
-      <nb-tag
-        status="danger"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="newRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-      } @case (customerStatusTpl.cc) {
-
-      <nb-tag
-        status="danger"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="ccRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-      } @case (customerStatusTpl.cl) {
-
-      <nb-tag
-        status="success"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="clRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-      } @case (customerStatusTpl.no) {
-
-      <nb-tag
-        status="basic"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="noRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-      } @case (customerStatusTpl.pc) {
-
-      <nb-tag
-        status="warning"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="pcRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-      } @default {
-      <nb-tag
-        status="basic"
-        class="text-uppercase"
-        appearance="outline"
-        [size]="'tiny'"
-        [nbPopover]="defaultRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-      ></nb-tag>
-
-      } }
+      @switch (value) {
+        @case (customerStatusTpl.new) {
+          <nb-tag
+            status="danger"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="newRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+        @case (customerStatusTpl.cc) {
+          <nb-tag
+            status="danger"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="ccRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+        @case (customerStatusTpl.cl) {
+          <nb-tag
+            status="success"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="clRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+        @case (customerStatusTpl.no) {
+          <nb-tag
+            status="basic"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="noRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+        @case (customerStatusTpl.pc) {
+          <nb-tag
+            status="warning"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="pcRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+        @default {
+          <nb-tag
+            status="basic"
+            class="text-uppercase"
+            appearance="outline"
+            [size]="'tiny'"
+            [nbPopover]="defaultRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+          ></nb-tag>
+        }
+      }
     </nb-tag-list>
 
     <ng-template #ccRef let-passdata>

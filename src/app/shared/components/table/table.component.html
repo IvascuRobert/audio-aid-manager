@@ -1,46 +1,46 @@
 @if (entities$ | async) {
-<nb-card accent="danger" [nbSpinner]="loading()" nbSpinnerStatus="danger">
-  <nb-card-header>Actions</nb-card-header>
-  <nb-card-body>
-    <app-custom-actions
-      [selectedRows]="selectedRows"
-      (handleAddAction)="addDialog()"
-      (handlePulseAction)="view()"
-      (handleOrderAction)="goToOrder()"
-      (handleEditAction)="editDialog()"
-      (handleReloadAction)="refresh()"
-      (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
-      [showAction]="showAction"
-    >
-    </app-custom-actions>
-  </nb-card-body>
-</nb-card>
-<nb-card>
-  <nb-card-header>
-    <div class="row align-items-center">
-      <div class="col-8">
-        <span *ngIf="selectedRows.length; else allRows">
-          {{ selectedRows.length }} selected {{ title() }}
-        </span>
-        <ng-template #allRows>{{ source.count() }} {{ title() }}</ng-template>
+  <nb-card [nbSpinner]="loading()" nbSpinnerStatus="danger">
+    <nb-card-header>Actions</nb-card-header>
+    <nb-card-body>
+      <app-custom-actions
+        [selectedRows]="selectedRows"
+        (handleAddAction)="addDialog()"
+        (handlePulseAction)="view()"
+        (handleOrderAction)="goToOrder()"
+        (handleEditAction)="editDialog()"
+        (handleReloadAction)="refresh()"
+        (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
+        [showAction]="showAction"
+      >
+      </app-custom-actions>
+    </nb-card-body>
+  </nb-card>
+  <nb-card>
+    <nb-card-header>
+      <div class="row align-items-center">
+        <div class="col-8">
+          <span *ngIf="selectedRows.length; else allRows">
+            {{ selectedRows.length }} selected {{ title() }}
+          </span>
+          <ng-template #allRows>{{ source.count() }} {{ title() }}</ng-template>
+        </div>
       </div>
-    </div>
-  </nb-card-header>
+    </nb-card-header>
 
-  <nb-card-body
-    accent="danger"
-    size="tiny"
-    [nbSpinner]="loading()"
-    nbSpinnerStatus="danger"
-    nbSpinnerSize="large"
-    nbSpinnerMessage=""
-  >
-    <ng2-smart-table
-      [source]="source"
-      [settings]="settings"
-      (rowSelect)="handleSelectedRow($event)"
+    <nb-card-body
+      accent="danger"
+      size="tiny"
+      [nbSpinner]="loading()"
+      nbSpinnerStatus="danger"
+      nbSpinnerSize="large"
+      nbSpinnerMessage=""
     >
-    </ng2-smart-table>
-  </nb-card-body>
-</nb-card>
+      <ng2-smart-table
+        [source]="source"
+        [settings]="settings"
+        (rowSelect)="handleSelectedRow($event)"
+      >
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
 }

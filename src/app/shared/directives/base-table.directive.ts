@@ -48,7 +48,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService,
-    readonly activatedRoute: ActivatedRoute
+    readonly activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
       tap(({ entities }) => {
         console.log(Object.values(entities));
         this.source.load(Object.values(entities));
-      })
+      }),
     );
   }
 
@@ -101,11 +101,11 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
             this.settings = mapHideOrShowColumns(
               columns,
               this.settings,
-              hiddenColumns
+              hiddenColumns,
             );
             setItem(this.localStorageSettingsKey, columns);
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -124,7 +124,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
     }
@@ -136,7 +136,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         tap((fetchData: boolean) => {
           if (fetchData) this.refresh();
-        })
+        }),
       )
       .subscribe();
   }
@@ -149,7 +149,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
   }
@@ -170,7 +170,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
   }
@@ -204,7 +204,7 @@ export abstract class BaseTable<T extends { id: number }> implements OnInit {
           this.params = params;
         }),
         switchMap((params) => this.coreService.get<T[]>(this.entity, params)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

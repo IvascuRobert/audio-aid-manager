@@ -218,14 +218,14 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .put<Omit<Device, 'status' | 'createdAt' | 'updatedAt'>>(
         this.form.getRawValue(),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -235,14 +235,14 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Device, 'status' | 'createdAt' | 'updatedAt' | 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

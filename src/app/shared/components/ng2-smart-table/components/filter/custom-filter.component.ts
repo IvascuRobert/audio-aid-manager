@@ -20,7 +20,7 @@ export class CustomFilterComponent
   extends FilterDefault
   implements OnChanges, OnDestroy
 {
-  @Input() override query: string = '';
+  @Input() override query = '';
   customComponent: any;
   @ViewChild('dynamicTarget', { read: ViewContainerRef, static: true })
   dynamicTarget: any;
@@ -32,7 +32,7 @@ export class CustomFilterComponent
   ngOnChanges(changes: SimpleChanges) {
     if (this.column && !this.customComponent) {
       const componentFactory = this.resolver.resolveComponentFactory(
-        this.column.filter.component
+        this.column.filter.component,
       );
       this.customComponent =
         this.dynamicTarget.createComponent(componentFactory);
@@ -43,7 +43,7 @@ export class CustomFilterComponent
       this.customComponent.instance.source = this.source;
       this.customComponent.instance.inputClass = this.inputClass;
       this.customComponent.instance.filter.subscribe((event: any) =>
-        this.onFilter(event)
+        this.onFilter(event),
       );
     }
     if (this.customComponent) {

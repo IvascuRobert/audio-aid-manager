@@ -1,17 +1,17 @@
 import { DataSet } from './data-set';
 
 export class Column {
-  title: string = '';
-  type: string = '';
-  class: string = '';
-  width: string = '';
-  hide: boolean = false;
-  isSortable: boolean = false;
-  isEditable: boolean = true;
-  isAddable: boolean = true;
-  isFilterable: boolean = false;
-  sortDirection: string = '';
-  defaultSortDirection: string = '';
+  title = '';
+  type = '';
+  class = '';
+  width = '';
+  hide = false;
+  isSortable = false;
+  isEditable = true;
+  isAddable = true;
+  isFilterable = false;
+  sortDirection = '';
+  defaultSortDirection = '';
   editor: { type: string; config: any; component: any } = {
     type: '',
     config: {},
@@ -31,7 +31,7 @@ export class Column {
   constructor(
     public id: string,
     protected settings: any,
-    protected dataSet: DataSet
+    protected dataSet: DataSet,
   ) {
     this.process();
   }

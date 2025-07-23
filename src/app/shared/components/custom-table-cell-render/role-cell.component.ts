@@ -8,29 +8,32 @@ import { Role } from '../../../@core/data/role';
   standalone: true,
   imports: [NgSwitch, NbTagModule, NbPopoverModule, NbCardModule],
   template: ` <nb-tag-list>
-      @switch (value) { @case (roleStatusTpl.admin) {
-      <nb-tag
-        status="warning"
-        class="text-uppercase"
-        appearance="outline"
-        [nbPopover]="adminRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-        [size]="'tiny'"
-      ></nb-tag>
-      } @case (roleStatusTpl.user) {
-      <nb-tag
-        status="primary"
-        class="text-uppercase"
-        appearance="outline"
-        [nbPopover]="userRef"
-        nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
-        [text]="value"
-        [size]="'tiny'"
-      ></nb-tag>
-      } }
+      @switch (value) {
+        @case (roleStatusTpl.admin) {
+          <nb-tag
+            status="warning"
+            class="text-uppercase"
+            appearance="outline"
+            [nbPopover]="adminRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+            [size]="'tiny'"
+          ></nb-tag>
+        }
+        @case (roleStatusTpl.user) {
+          <nb-tag
+            status="primary"
+            class="text-uppercase"
+            appearance="outline"
+            [nbPopover]="userRef"
+            nbPopoverTrigger="hint"
+            [nbPopoverContext]="{ value }"
+            [text]="value"
+            [size]="'tiny'"
+          ></nb-tag>
+        }
+      }
     </nb-tag-list>
 
     <ng-template #adminRef let-passdata>

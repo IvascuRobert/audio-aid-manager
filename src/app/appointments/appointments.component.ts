@@ -121,14 +121,14 @@ export class AppointmentsComponent implements OnInit {
       map((res) => this.#mapAppointmentsToCalendarEvent(res)),
       tap((res) => {
         console.log({ res });
-      })
+      }),
     );
 
   appointmentsLoading$ = this.coreService
     .getEntities$<AppointmentState>(Entity.Appointment)
     .pipe(map(({ loading }) => loading));
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen = true;
 
   ngOnInit(): void {
     this.getAppointments();
@@ -177,7 +177,7 @@ export class AppointmentsComponent implements OnInit {
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.getAppointments();
-          })
+          }),
         )
         .subscribe();
     }
@@ -206,7 +206,7 @@ export class AppointmentsComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         tap((fetchData: boolean) => {
           if (fetchData) this.getAppointments();
-        })
+        }),
       )
       .subscribe();
   }
@@ -216,13 +216,13 @@ export class AppointmentsComponent implements OnInit {
       .get<AppointmentApiResponse[]>(Entity.Appointment)
       .pipe(
         finalize(() => this.refresh.next()),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
 
   #mapAppointmentsToCalendarEvent(
-    appointment: AppointmentApiResponse[]
+    appointment: AppointmentApiResponse[],
   ): CalendarEvent<AppointmentApiResponse>[] {
     return appointment.map((item) => {
       const startDate = parseISO(item.startDate);

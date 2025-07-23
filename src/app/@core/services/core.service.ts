@@ -27,7 +27,7 @@ import { ShopState } from '../data/shop';
 import { UserToken } from '../data/user-token';
 import { UtilityState } from '../data/utility';
 
-export type StateType = { [key in Entity]?: any };
+export type StateType = Partial<Record<Entity, any>>;
 
 export interface State extends StateType {
   [Entity.Doctor]: DoctorState;
@@ -92,7 +92,7 @@ export class CoreService extends Store<State> {
       })
       .pipe(
         catchError((err) => this.handleError(err)),
-        tap((entities) => this.loadEntities(entity, entities))
+        tap((entities) => this.loadEntities(entity, entities)),
       );
   }
 
@@ -107,14 +107,14 @@ export class CoreService extends Store<State> {
   post<T>(value: T, entity: Entity): Observable<unknown> {
     return this.http.post<unknown>(`${this.apiUrl}${entity}`, value).pipe(
       tap(() => this.showSuccessMessage()),
-      catchError((err) => this.handleError(err))
+      catchError((err) => this.handleError(err)),
     );
   }
 
   put<T>(value: T, entity: Entity): Observable<unknown> {
     return this.http.put<unknown>(`${this.apiUrl}${entity}`, value).pipe(
       tap(() => this.showSuccessMessage()),
-      catchError((err) => this.handleError(err))
+      catchError((err) => this.handleError(err)),
     );
   }
 
@@ -123,14 +123,14 @@ export class CoreService extends Store<State> {
       .patch<unknown>(`${this.apiUrl}${entity}/${path}`, value)
       .pipe(
         tap(() => this.showSuccessMessage()),
-        catchError((err) => this.handleError(err))
+        catchError((err) => this.handleError(err)),
       );
   }
 
   delete(id: number, entity: Entity): Observable<unknown> {
     return this.http.delete<unknown>(`${this.apiUrl}${entity}/${id}`).pipe(
       tap(() => this.showSuccessMessage()),
-      catchError((err) => this.handleError(err))
+      catchError((err) => this.handleError(err)),
     );
   }
 
@@ -192,7 +192,7 @@ export class CoreService extends Store<State> {
       // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, body was: `,
-        error.error
+        error.error,
       );
     }
     this.toastrService.danger(`${error.message}`, 'Server Error', {

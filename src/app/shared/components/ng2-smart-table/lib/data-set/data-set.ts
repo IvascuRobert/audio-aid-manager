@@ -4,29 +4,32 @@ import { Row } from './row';
 export class DataSet {
   newRow!: Row;
 
-  protected data: Array<any> = [];
-  protected columns: Array<Column> = [];
-  protected rows: Array<Row> = [];
+  protected data: any[] = [];
+  protected columns: Column[] = [];
+  protected rows: Row[] = [];
   protected selectedRow: Row | undefined;
   protected willSelect!: string;
 
-  constructor(data: Array<any> = [], protected columnSettings: Object) {
+  constructor(
+    data: any[] = [],
+    protected columnSettings: object,
+  ) {
     this.createColumns(columnSettings);
     this.setData(data);
 
     this.createNewRow();
   }
 
-  setData(data: Array<any>) {
+  setData(data: any[]) {
     this.data = data;
     this.createRows();
   }
 
-  getColumns(): Array<Column> {
+  getColumns(): Column[] {
     return this.columns;
   }
 
-  getRows(): Array<Row> {
+  getRows(): Row[] {
     return this.rows;
   }
 

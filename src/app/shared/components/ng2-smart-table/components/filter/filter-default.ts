@@ -10,11 +10,11 @@ import { DataSource } from '../../lib/data-source/data-source';
 export class FilterDefault {
   @Input() column!: Column;
   @Input() source!: DataSource;
-  @Input() inputClass: string = '';
+  @Input() inputClass = '';
 
   @Output() filter = new EventEmitter<any>();
 
-  query: string = '';
+  query = '';
 
   onFilter(query: string) {
     this.source.addFilter({

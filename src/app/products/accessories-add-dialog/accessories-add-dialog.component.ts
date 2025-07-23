@@ -132,7 +132,7 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
   }
 
   constructor(
-    @Optional() private ref: NbDialogRef<AccessoriesAddDialogComponent>
+    @Optional() private ref: NbDialogRef<AccessoriesAddDialogComponent>,
   ) {
     super();
   }
@@ -169,7 +169,7 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -179,14 +179,14 @@ export class AccessoriesAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Accessory, 'status' | 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

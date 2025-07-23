@@ -10,32 +10,34 @@ import { FilterDefault } from './filter-default';
   standalone: true,
   imports: [CustomFilterComponent, DefaultFilterComponent],
   template: `
-    @if (column.isFilterable) { @switch (column.getFilterType()) { @case
-    ('custom') {
-
-    <custom-table-filter
-      [query]="query"
-      [column]="column"
-      [source]="source"
-      [inputClass]="inputClass"
-      (filter)="onFilter($event)"
-    >
-    </custom-table-filter>
-    } @default {
-
-    <default-table-filter
-      [query]="query"
-      [column]="column"
-      [source]="source"
-      [inputClass]="inputClass"
-      (filter)="onFilter($event)"
-    >
-    </default-table-filter>
-    } } }
+    @if (column.isFilterable) {
+      @switch (column.getFilterType()) {
+        @case ('custom') {
+          <custom-table-filter
+            [query]="query"
+            [column]="column"
+            [source]="source"
+            [inputClass]="inputClass"
+            (filter)="onFilter($event)"
+          >
+          </custom-table-filter>
+        }
+        @default {
+          <default-table-filter
+            [query]="query"
+            [column]="column"
+            [source]="source"
+            [inputClass]="inputClass"
+            (filter)="onFilter($event)"
+          >
+          </default-table-filter>
+        }
+      }
+    }
   `,
 })
 export class FilterComponent extends FilterDefault implements OnChanges {
-  override query: string = '';
+  override query = '';
   protected dataChangedSub!: Subscription;
 
   ngOnChanges(changes: SimpleChanges) {

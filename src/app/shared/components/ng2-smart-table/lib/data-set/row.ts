@@ -3,14 +3,14 @@ import { Column } from './column';
 import { DataSet } from './data-set';
 
 export class Row {
-  isSelected: boolean = false;
-  isInEditing: boolean = false;
-  cells: Array<Cell> = [];
+  isSelected = false;
+  isInEditing = false;
+  cells: Cell[] = [];
 
   constructor(
     public index: number,
     protected data: any,
-    protected _dataSet: DataSet
+    protected _dataSet: DataSet,
   ) {
     this.process();
   }
@@ -34,7 +34,7 @@ export class Row {
   getNewData(): any {
     const values = Object.assign({}, this.data);
     this.getCells().forEach(
-      (cell) => (values[cell.getColumn().id] = cell.newValue)
+      (cell) => (values[cell.getColumn().id] = cell.newValue),
     );
     return values;
   }

@@ -8,7 +8,7 @@ import { DataSource } from './data-source/data-source';
 import { Deferred, getDeepFromObject, getPageForRowIndex } from './helpers';
 
 export class Grid {
-  createFormShown: boolean = false;
+  createFormShown = false;
 
   source!: DataSource;
   settings: any;
@@ -59,7 +59,7 @@ export class Grid {
     return this.dataSet.newRow;
   }
 
-  setSettings(settings: Object) {
+  setSettings(settings: object) {
     this.settings = settings;
     this.dataSet = new DataSet([], this.getSetting('columns'));
 
@@ -92,11 +92,11 @@ export class Grid {
     return getDeepFromObject(this.settings, name, defaultValue);
   }
 
-  getColumns(): Array<Column> {
+  getColumns(): Column[] {
     return this.dataSet.getColumns();
   }
 
-  getRows(): Array<Row> {
+  getRows(): Row[] {
     return this.dataSet.getRows();
   }
 
@@ -217,7 +217,7 @@ export class Grid {
   shouldProcessChange(changes: any): boolean {
     if (
       ['filter', 'sort', 'page', 'remove', 'refresh', 'load', 'paging'].indexOf(
-        changes['action']
+        changes['action'],
       ) !== -1
     ) {
       return true;
@@ -240,7 +240,7 @@ export class Grid {
   determineRowToSelect(changes: any): Row | undefined | null {
     if (
       ['load', 'page', 'filter', 'sort', 'refresh'].indexOf(
-        changes['action']
+        changes['action'],
       ) !== -1
     ) {
       return this.dataSet.select(this.getRowIndexToSelect());
@@ -284,7 +284,7 @@ export class Grid {
       source.setPaging(
         this.getPageToSelect(source),
         this.getSetting('pager.perPage'),
-        false
+        false,
       );
     }
 
@@ -304,7 +304,7 @@ export class Grid {
     return sortConf;
   }
 
-  getSelectedRows(): Array<any> {
+  getSelectedRows(): any[] {
     return this.dataSet.getRows().filter((r) => r.isSelected);
   }
 
@@ -327,7 +327,7 @@ export class Grid {
     switchPageToSelectedRowPage: boolean;
   } {
     const switchPageToSelectedRowPage: boolean = this.getSetting(
-      'switchPageToSelectedRowPage'
+      'switchPageToSelectedRowPage',
     );
     const selectedRowIndex: number =
       Number(this.getSetting('selectedRowIndex', 0)) || 0;

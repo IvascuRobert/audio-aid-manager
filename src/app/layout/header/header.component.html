@@ -10,8 +10,8 @@
     (selectedChange)="changeTheme($event)"
     status="primary"
   >
-    @for ( theme of themes; track theme.value ) {
-    <nb-option [value]="theme.value"> {{ theme.name }}</nb-option>
+    @for (theme of themes; track theme.value) {
+      <nb-option [value]="theme.value"> {{ theme.name }}</nb-option>
     }
   </nb-select>
 </div>

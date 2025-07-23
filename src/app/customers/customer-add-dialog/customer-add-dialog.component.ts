@@ -124,7 +124,7 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
   gender$ = this.coreService.gender$;
 
   customerContactNoteType$ = new BehaviorSubject<string[]>(
-    Object.values(CustomerContactNoteType)
+    Object.values(CustomerContactNoteType),
   );
 
   clinics$ = this.coreService
@@ -184,7 +184,7 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
   }
 
   constructor(
-    @Optional() private ref: NbDialogRef<CustomerAddDialogComponent>
+    @Optional() private ref: NbDialogRef<CustomerAddDialogComponent>,
   ) {
     super();
   }
@@ -222,7 +222,7 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -232,14 +232,14 @@ export class CustomerAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<CustomerApi, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

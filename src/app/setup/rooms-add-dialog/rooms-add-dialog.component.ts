@@ -117,7 +117,7 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -127,14 +127,14 @@ export class RoomsAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Room, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

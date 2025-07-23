@@ -13,6 +13,6 @@ export const authGuard: CanActivateFn = () => {
       if (!isAuthenticated) {
         router.navigate(['/auth/login'], { relativeTo: route });
       }
-    })
+    }),
   );
 };

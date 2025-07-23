@@ -14,13 +14,13 @@ import { Grid } from '../../../lib/grid';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @for ( action of grid.getSetting('actions.custom'); track action) {
-    <a
-      href="#"
-      class="ng2-smart-action ng2-smart-action-custom-custom"
-      [innerHTML]="action.title"
-      (click)="onCustom(action, $event)"
-    ></a>
+    @for (action of grid.getSetting('actions.custom'); track action) {
+      <a
+        href="#"
+        class="ng2-smart-action ng2-smart-action-custom-custom"
+        [innerHTML]="action.title"
+        (click)="onCustom(action, $event)"
+      ></a>
     }
   `,
 })

@@ -69,7 +69,7 @@ export class TheadTitlesRowComponent implements OnChanges {
     this.showActionColumnRight = this.grid.showActionColumn('right');
   }
 
-  getVisibleColumns(columns: Array<Column>): Array<Column> {
+  getVisibleColumns(columns: Column[]): Column[] {
     return (columns || []).filter((column: Column) => !column.hide);
   }
 }

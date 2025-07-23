@@ -19,17 +19,16 @@ import { DataSource } from '../../../../lib/data-source/data-source';
   imports: [NgClass],
   template: `
     @if (column.isSortable) {
-
-    <a
-      href="#"
-      (click)="_sort($event)"
-      class="ng2-smart-sort-link sort"
-      [ngClass]="currentDirection"
-    >
-      {{ column.title }}
-    </a>
+      <a
+        href="#"
+        (click)="_sort($event)"
+        class="ng2-smart-sort-link sort"
+        [ngClass]="currentDirection"
+      >
+        {{ column.title }}
+      </a>
     } @else {
-    <span class="ng2-smart-sort">{{ column.title }}</span>
+      <span class="ng2-smart-sort">{{ column.title }}</span>
     }
   `,
 })

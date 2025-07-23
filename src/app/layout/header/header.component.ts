@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
       .onThemeChange()
       .pipe(
         map(({ name }) => name),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((themeName) => (this.currentTheme = themeName));
 
@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit {
       .onItemClick()
       .pipe(
         filter(({ tag }) => tag === this.contextTag),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((res) => {
         if (res.item.title === 'Log out') {

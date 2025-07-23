@@ -10,16 +10,19 @@ import { map } from 'rxjs/operators';
 export class ServerDataSource extends LocalDataSource {
   protected conf: ServerSourceConf;
 
-  protected lastRequestCount: number = 0;
+  protected lastRequestCount = 0;
 
-  constructor(protected http: HttpClient, conf: ServerSourceConf | {} = {}) {
+  constructor(
+    protected http: HttpClient,
+    conf: ServerSourceConf | {} = {},
+  ) {
     super();
 
     this.conf = new ServerSourceConf(conf);
 
     if (!this.conf.endPoint) {
       throw new Error(
-        'At least endPoint must be specified as a configuration of the server data source.'
+        'At least endPoint must be specified as a configuration of the server data source.',
       );
     }
   }
@@ -36,7 +39,7 @@ export class ServerDataSource extends LocalDataSource {
           this.data = this.extractDataFromResponse(res);
 
           return this.data;
-        })
+        }),
       )
       .toPromise();
   }
@@ -46,9 +49,9 @@ export class ServerDataSource extends LocalDataSource {
    * @param res
    * @returns {any}
    */
-  protected extractDataFromResponse(res: any): Array<any> {
+  protected extractDataFromResponse(res: any): any[] {
     const rawData = res.body;
-    const data = !!this.conf.dataKey
+    const data = this.conf.dataKey
       ? getDeepFromObject(rawData, this.conf.dataKey, [])
       : rawData;
 
@@ -76,7 +79,7 @@ export class ServerDataSource extends LocalDataSource {
   }
 
   protected requestElements(): Observable<any> {
-    let httpParams = this.createRequesParams();
+    const httpParams = this.createRequesParams();
     return this.http.get(this.conf.endPoint, {
       params: httpParams,
       observe: 'response',
@@ -97,7 +100,7 @@ export class ServerDataSource extends LocalDataSource {
         httpParams = httpParams.set(this.conf.sortFieldKey, fieldConf.field);
         httpParams = httpParams.set(
           this.conf.sortDirKey,
-          fieldConf.direction.toUpperCase()
+          fieldConf.direction.toUpperCase(),
         );
       });
     }
@@ -111,7 +114,7 @@ export class ServerDataSource extends LocalDataSource {
         if (fieldConf['search']) {
           httpParams = httpParams.set(
             this.conf.filterFieldKey.replace('#field#', fieldConf['field']),
-            fieldConf['search']
+            fieldConf['search'],
           );
         }
       });
@@ -128,11 +131,11 @@ export class ServerDataSource extends LocalDataSource {
     ) {
       httpParams = httpParams.set(
         this.conf.pagerPageKey,
-        this.pagingConf['page']
+        this.pagingConf['page'],
       );
       httpParams = httpParams.set(
         this.conf.pagerLimitKey,
-        this.pagingConf['perPage']
+        this.pagingConf['perPage'],
       );
     }
 

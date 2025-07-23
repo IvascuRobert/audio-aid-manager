@@ -65,7 +65,7 @@ export class TheadFiltersRowComponent implements OnChanges {
     this.filterInputClass = this.grid.getSetting('filter.inputClass');
   }
 
-  getVisibleColumns(columns: Array<Column>): Array<Column> {
+  getVisibleColumns(columns: Column[]): Column[] {
     return (columns || []).filter((column: Column) => !column.hide);
   }
 }

@@ -27,6 +27,7 @@ import {
 } from '../../@core/data/process';
 import { CoreService } from '../../@core/services/core.service';
 import { BaseForm } from '../../shared/directives/base-form.directive';
+import { ProcessStatusType } from '../../@core/data/customer';
 
 @Component({
   selector: 'app-end-process-dialog',
@@ -54,11 +55,11 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
   destroyRef = inject(DestroyRef);
 
   form = new FormGroup<EndProcessForm>({
-    id: new FormControl(0, { nonNullable: true }),
     reason: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    status: new FormControl(ProcessStatusType.end, { nonNullable: true }),
   });
 
   selected: Process | null = null;
@@ -75,8 +76,8 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
     return this.form.controls.reason;
   }
 
-  get idControl() {
-    return this.form.controls.id;
+  get statusControl() {
+    return this.form.controls.status;
   }
 
   constructor(@Optional() private ref: NbDialogRef<EndProcessDialogComponent>) {
@@ -104,19 +105,35 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
 
   private update(): void {
     this.loading$.next(true);
+    this.processStatusByExceededValue();
+
     this.coreService
       .patch<EndProcessApi>(
-        `${this.idControl.value}/end`,
+        `${this.selected?.id}`,
         this.form.getRawValue(),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
+  }
+
+  private processStatusByExceededValue(): void {
+    const isExceedTheNormalValue =
+      [
+        this.selected?.leftEarValue ?? 0,
+        this.selected?.rightEarValue ?? 0,
+      ].filter((value) => value > 25).length > 0;
+
+    if (isExceedTheNormalValue) {
+      this.statusControl.setValue(ProcessStatusType.lost);
+    } else {
+      this.statusControl.setValue(ProcessStatusType.end);
+    }
   }
 }

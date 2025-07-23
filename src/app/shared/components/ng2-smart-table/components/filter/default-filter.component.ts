@@ -16,36 +16,37 @@ import { SelectFilterComponent } from './filter-types/select-filter.component';
   standalone: true,
   selector: 'default-table-filter',
   template: `
-    @switch (column.getFilterType()) { @case ('list') {
-
-    <select-filter
-      [query]="query"
-      [ngClass]="inputClass"
-      [column]="column"
-      (filter)="onFilter($event)"
-    >
-    </select-filter>
-    } @case ('checkbox') {
-
-    <checkbox-filter
-      [query]="query"
-      [ngClass]="inputClass"
-      [column]="column"
-      (filter)="onFilter($event)"
-    >
-    </checkbox-filter>
-    } @default {
-
-    <input-filter
-      [query]="query"
-      [ngClass]="inputClass"
-      [column]="column"
-      (filter)="onFilter($event)"
-    >
-    </input-filter>
-    } }
+    @switch (column.getFilterType()) {
+      @case ('list') {
+        <select-filter
+          [query]="query"
+          [ngClass]="inputClass"
+          [column]="column"
+          (filter)="onFilter($event)"
+        >
+        </select-filter>
+      }
+      @case ('checkbox') {
+        <checkbox-filter
+          [query]="query"
+          [ngClass]="inputClass"
+          [column]="column"
+          (filter)="onFilter($event)"
+        >
+        </checkbox-filter>
+      }
+      @default {
+        <input-filter
+          [query]="query"
+          [ngClass]="inputClass"
+          [column]="column"
+          (filter)="onFilter($event)"
+        >
+        </input-filter>
+      }
+    }
   `,
 })
 export class DefaultFilterComponent extends FilterDefault {
-  @Input() override query: string = '';
+  @Input() override query = '';
 }

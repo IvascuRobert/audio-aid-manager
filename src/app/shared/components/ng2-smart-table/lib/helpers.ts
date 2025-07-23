@@ -9,7 +9,7 @@ import { cloneDeep } from 'lodash';
  * object as first argument, like this:
  *   deepExtend({}, yourObj_1, [yourObj_N]);
  */
-export const deepExtend = function(...objects: Array<any>): any {
+export const deepExtend = function (...objects: any[]): any {
   if (arguments.length < 1 || typeof arguments[0] !== 'object') {
     return false;
   }
@@ -53,7 +53,11 @@ export const deepExtend = function(...objects: Array<any>): any {
         return;
 
         // overwrite by new value if source isn't object or array
-      } else if (typeof src !== 'object' || src === null || Array.isArray(src)) {
+      } else if (
+        typeof src !== 'object' ||
+        src === null ||
+        Array.isArray(src)
+      ) {
         target[key] = deepExtend({}, val);
         return;
 
@@ -69,7 +73,6 @@ export const deepExtend = function(...objects: Array<any>): any {
 };
 
 export class Deferred {
-
   promise: Promise<any>;
 
   resolve: any;
@@ -84,7 +87,11 @@ export class Deferred {
 }
 
 // getDeepFromObject({result: {data: 1}}, 'result.data', 2); // returns 1
-export function getDeepFromObject(object = {}, name: string, defaultValue?: any) {
+export function getDeepFromObject(
+  object = {},
+  name: string,
+  defaultValue?: any,
+) {
   const keys = name.split('.');
   // clone the object
   let level = deepExtend({}, object);

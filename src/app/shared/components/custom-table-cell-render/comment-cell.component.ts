@@ -13,7 +13,7 @@ import { NbCardModule, NbIconModule, NbPopoverModule } from '@nebular/theme';
         [options]="{ animation: { type: 'pulse' } }"
         [nbPopover]="commentRef"
         nbPopoverTrigger="hint"
-        [nbPopoverContext]="{value}"
+        [nbPopoverContext]="{ value }"
       ></nb-icon>
     </div>
 

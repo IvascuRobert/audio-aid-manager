@@ -77,7 +77,7 @@ export const routes: Routes = [
         path: 'customers',
         loadComponent: () =>
           import(`./customers/customers.component`).then(
-            (mod) => mod.CustomersComponent
+            (mod) => mod.CustomersComponent,
           ),
       },
       {

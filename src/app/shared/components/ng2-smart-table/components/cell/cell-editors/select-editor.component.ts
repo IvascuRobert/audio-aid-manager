@@ -19,14 +19,13 @@ import { DefaultEditor } from './default-editor';
       (keydown.enter)="onEdited.emit($event)"
       (keydown.esc)="onStopEditing.emit()"
     >
-      @for ( option of cell.getColumn().getConfig()?.list; track option.value )
-      {
-      <option
-        [value]="option.value"
-        [selected]="option.value === cell.getValue()"
-      >
-        {{ option.title }}
-      </option>
+      @for (option of cell.getColumn().getConfig()?.list; track option.value) {
+        <option
+          [value]="option.value"
+          [selected]="option.value === cell.getValue()"
+        >
+          {{ option.title }}
+        </option>
       }
     </select>
   `,

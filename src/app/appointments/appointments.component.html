@@ -1,104 +1,105 @@
 @if (appointments$ | async; as events) {
-<nb-card
-  [nbSpinner]="!(appointmentsLoading$ | async)!"
-  nbSpinnerStatus="danger"
->
-  <nb-card-body>
-    <nb-actions size="medium" class="text-center">
-      <nb-action 
-        ><button
-          type="button"
-          nbButton
-          status="primary"
-          appearance="hero"
-          (click)="openAddAppointmentDialog()"
+  <nb-card
+    [nbSpinner]="!(appointmentsLoading$ | async)!"
+    nbSpinnerStatus="danger"
+  >
+    <nb-card-body>
+      <nb-actions size="medium" class="text-center">
+        <nb-action
+          ><button
+            type="button"
+            nbButton
+            status="primary"
+            appearance="hero"
+            (click)="openAddAppointmentDialog()"
+          >
+            Add appointment
+          </button>
+        </nb-action>
+        <nb-action title="Today" mwlCalendarToday [(viewDate)]="viewDate"
+          ><button
+            type="button"
+            nbButton
+            [status]="(viewDate | isToday) ? 'primary' : 'basic'"
+            [appearance]="(viewDate | isToday) ? 'hero' : 'ghost'"
+          >
+            Today
+          </button>
+        </nb-action>
+        <nb-action
+          icon="arrow-left-outline"
+          title="Previous"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        ></nb-action>
+        <nb-action
+          icon="arrow-right-outline"
+          title="Next"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        ></nb-action>
+        <nb-action title="Select a calendar view">
+          <nb-select
+            [selected]="calendarViewTpl.Month"
+            (selectedChange)="setView($event)"
+          >
+            <nb-option [value]="calendarViewTpl.Month">Month</nb-option>
+            <nb-option [value]="calendarViewTpl.Week">Week</nb-option>
+            <nb-option [value]="calendarViewTpl.Day">Day</nb-option>
+          </nb-select></nb-action
         >
-          Add appointment
-        </button>
-      </nb-action>
-      <nb-action title="Today" mwlCalendarToday [(viewDate)]="viewDate"
-        ><button
-          type="button"
-          nbButton
-          [status]="(viewDate | isToday) ? 'primary' : 'basic'"
-          [appearance]="(viewDate | isToday) ? 'hero' : 'ghost'"
-        >
-          Today
-        </button>
-      </nb-action>
-      <nb-action
-        icon="arrow-left-outline"
-        title="Previous"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      ></nb-action>
-      <nb-action
-        icon="arrow-right-outline"
-        title="Next"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
-      ></nb-action>
-      <nb-action title="Select a calendar view">
-        <nb-select
-          [selected]="calendarViewTpl.Month"
-          (selectedChange)="setView($event)"
-        >
-          <nb-option [value]="calendarViewTpl.Month">Month</nb-option>
-          <nb-option [value]="calendarViewTpl.Week">Week</nb-option>
-          <nb-option [value]="calendarViewTpl.Day">Day</nb-option>
-        </nb-select></nb-action
-      >
-      <nb-action
-        [nbTooltip]="'Reload data'"
-        icon="refresh-outline"
-        nbTooltipPlacement="top"(click)="getAppointments()"
-      ></nb-action>
-    </nb-actions>
-  </nb-card-body>
-</nb-card>
+        <nb-action
+          [nbTooltip]="'Reload data'"
+          icon="refresh-outline"
+          nbTooltipPlacement="top"
+          (click)="getAppointments()"
+        ></nb-action>
+      </nb-actions>
+    </nb-card-body>
+  </nb-card>
 
-<nb-card
-  class="calendar h-100"
-  size="giant"
-  [nbSpinner]="!(appointmentsLoading$ | async)!"
-  nbSpinnerStatus="danger"
->
-  <nb-card-header>
-    <h3>{{ viewDate | calendarDate : view + "ViewTitle" : "en" }}</h3>
-  </nb-card-header>
-  <nb-card-body>
-    @switch (view) { @case (calendarViewTpl.Month) {
-
-    <mwl-calendar-month-view
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-      [activeDayIsOpen]="activeDayIsOpen"
-      (dayClicked)="dayClicked($event.day)"
-    >
-    </mwl-calendar-month-view>
-    } @case (calendarViewTpl.Week) {
-
-    <mwl-calendar-week-view
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-    >
-    </mwl-calendar-week-view>
-    } @case (calendarViewTpl.Day) {
-
-    <mwl-calendar-day-view
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-    >
-    </mwl-calendar-day-view>
-    } }
-  </nb-card-body>
-</nb-card>
-
+  <nb-card
+    class="calendar h-100"
+    size="giant"
+    [nbSpinner]="!(appointmentsLoading$ | async)!"
+    nbSpinnerStatus="danger"
+  >
+    <nb-card-header>
+      <h3>{{ viewDate | calendarDate: view + "ViewTitle" : "en" }}</h3>
+    </nb-card-header>
+    <nb-card-body>
+      @switch (view) {
+        @case (calendarViewTpl.Month) {
+          <mwl-calendar-month-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen"
+            (dayClicked)="dayClicked($event.day)"
+          >
+          </mwl-calendar-month-view>
+        }
+        @case (calendarViewTpl.Week) {
+          <mwl-calendar-week-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+          >
+          </mwl-calendar-week-view>
+        }
+        @case (calendarViewTpl.Day) {
+          <mwl-calendar-day-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+          >
+          </mwl-calendar-day-view>
+        }
+      }
+    </nb-card-body>
+  </nb-card>
 }

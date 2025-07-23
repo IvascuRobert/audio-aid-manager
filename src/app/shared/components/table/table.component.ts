@@ -82,7 +82,7 @@ export class TableComponent<T extends { id: number }>
 
   selectedRows: T[] = [];
 
-  isAllSelected: boolean = false;
+  isAllSelected = false;
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -118,13 +118,13 @@ export class TableComponent<T extends { id: number }>
                 case Action.EndProcess:
                   this.openCustomDialog<Process>(
                     EndProcessDialogComponent,
-                    row
+                    row,
                   );
                   break;
                 default:
                   break;
               }
-            })
+            }),
           )
           .subscribe();
       },
@@ -136,7 +136,7 @@ export class TableComponent<T extends { id: number }>
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService,
-    readonly activatedRoute: ActivatedRoute
+    readonly activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -145,7 +145,7 @@ export class TableComponent<T extends { id: number }>
       filter((res: any) => !!this.entity() && !!res?.entities),
       tap(({ entities }) => {
         this.source.load(Object.values(entities));
-      })
+      }),
     );
   }
 
@@ -199,7 +199,7 @@ export class TableComponent<T extends { id: number }>
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
     }
@@ -211,7 +211,7 @@ export class TableComponent<T extends { id: number }>
         takeUntilDestroyed(this.destroyRef),
         tap((fetchData: boolean) => {
           if (fetchData) this.refresh();
-        })
+        }),
       )
       .subscribe();
   }
@@ -224,7 +224,7 @@ export class TableComponent<T extends { id: number }>
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
   }
@@ -245,7 +245,7 @@ export class TableComponent<T extends { id: number }>
           takeUntilDestroyed(this.destroyRef),
           tap((fetchData: boolean) => {
             if (fetchData) this.refresh();
-          })
+          }),
         )
         .subscribe();
   }
@@ -292,9 +292,9 @@ export class TableComponent<T extends { id: number }>
         switchMap((params) =>
           this.coreService
             .get<T[]>(this.entity(), params)
-            .pipe(finalize(() => this.loading.set(false)))
+            .pipe(finalize(() => this.loading.set(false))),
         ),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

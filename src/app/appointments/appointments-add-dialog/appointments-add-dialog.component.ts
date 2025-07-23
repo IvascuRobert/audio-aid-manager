@@ -169,7 +169,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
   }
 
   constructor(
-    @Optional() private ref: NbDialogRef<AppointmentsAddDialogComponent>
+    @Optional() private ref: NbDialogRef<AppointmentsAddDialogComponent>,
   ) {
     super();
   }
@@ -187,7 +187,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
       this.startDateControl.setValue(this.startDate);
       const cloneStartDate = cloneDeep(this.startDate);
       const endDate = new Date(
-        cloneStartDate.setMinutes(cloneStartDate.getMinutes() + 30)
+        cloneStartDate.setMinutes(cloneStartDate.getMinutes() + 30),
       );
       this.endDateControl.setValue(endDate);
     }
@@ -228,7 +228,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
         tap(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -253,7 +253,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
         tap(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

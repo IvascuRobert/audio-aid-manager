@@ -8,7 +8,7 @@ import { Cell } from '../../../lib/data-set/cell';
 })
 export class EditCellDefault {
   @Input() cell!: Cell;
-  @Input() inputClass: string = '';
+  @Input() inputClass = '';
 
   @Output() edited = new EventEmitter<any>();
 

@@ -111,7 +111,7 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<EmployeeAddDialogComponent>,
-    private coreService: CoreService
+    private coreService: CoreService,
   ) {
     super();
   }
@@ -143,14 +143,14 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
       .patch<Omit<Employee, 'password'>>(
         `${this.idControl.value ?? 0}`,
         this.form.getRawValue(),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -160,14 +160,14 @@ export class EmployeeAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Employee, 'password' | 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

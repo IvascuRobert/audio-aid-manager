@@ -51,8 +51,8 @@ export class ActionsCellComponent implements OnInit {
     { title: Action.EndProcess, icon: 'stop-circle-outline' },
   ];
 
-  @Output() actionChange: EventEmitter<{ action: Action; row: any }> =
-    new EventEmitter();
+  @Output() actionChange =
+    new EventEmitter<{ action: Action; row: any }>();
 
   readonly contextTag = 'actions-context-menu-';
 
@@ -69,7 +69,7 @@ export class ActionsCellComponent implements OnInit {
             action: res.item.title as Action,
             row: this.value,
           });
-        })
+        }),
       )
       .subscribe();
   }

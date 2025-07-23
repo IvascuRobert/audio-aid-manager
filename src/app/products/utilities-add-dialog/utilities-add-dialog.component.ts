@@ -119,7 +119,7 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
   }
 
   constructor(
-    @Optional() private ref: NbDialogRef<UtilitiesAddDialogComponent>
+    @Optional() private ref: NbDialogRef<UtilitiesAddDialogComponent>,
   ) {
     super();
   }
@@ -156,7 +156,7 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -166,14 +166,14 @@ export class UtilitiesAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Utility, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

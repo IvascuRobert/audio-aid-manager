@@ -73,7 +73,7 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
 
   constructor(
     @Optional() private ref: NbDialogRef<ClinicsAddDialogComponent>,
-    private coreService: CoreService
+    private coreService: CoreService,
   ) {
     super();
   }
@@ -108,7 +108,7 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -118,14 +118,14 @@ export class ClinicsAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Clinic, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }

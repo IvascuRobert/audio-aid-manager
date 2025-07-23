@@ -155,7 +155,7 @@ export class ProcessAddDialogComponent extends BaseForm implements OnInit {
             this.currentLeftEarDeviceNameControl.reset();
           }
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
 
@@ -166,7 +166,7 @@ export class ProcessAddDialogComponent extends BaseForm implements OnInit {
             this.currentRightEarDeviceNameControl.reset();
           }
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
@@ -195,7 +195,7 @@ export class ProcessAddDialogComponent extends BaseForm implements OnInit {
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -207,14 +207,14 @@ export class ProcessAddDialogComponent extends BaseForm implements OnInit {
     this.coreService
       .post<Omit<Process, 'id'>>(
         omit(this.form.getRawValue(), ['id']),
-        this.entity
+        this.entity,
       )
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.loading$.next(false);
           this.close(true);
-        })
+        }),
       )
       .subscribe();
   }
@@ -222,7 +222,7 @@ export class ProcessAddDialogComponent extends BaseForm implements OnInit {
   private processStatusByExceededValue(): void {
     const isExceedTheNormalValue =
       [this.leftEarValueControl.value, this.rightEarValueControl.value].filter(
-        (value) => value > 25
+        (value) => value > 25,
       ).length > 0;
 
     if (isExceedTheNormalValue) {

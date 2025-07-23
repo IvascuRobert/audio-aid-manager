@@ -9,28 +9,29 @@ import { DefaultEditComponent } from './default-edit.component';
   standalone: true,
   imports: [DefaultEditComponent, CustomEditComponent],
   template: `
-    @switch (getEditorType()) { @case ('custom') {
-
-    <table-cell-custom-editor
-      [cell]="cell"
-      [inputClass]="inputClass"
-      (edited)="onEdited($event)"
-    >
-    </table-cell-custom-editor>
-    } @default {
-
-    <table-cell-default-editor
-      [cell]="cell"
-      [inputClass]="inputClass"
-      (edited)="onEdited($event)"
-    >
-    </table-cell-default-editor>
-    } }
+    @switch (getEditorType()) {
+      @case ('custom') {
+        <table-cell-custom-editor
+          [cell]="cell"
+          [inputClass]="inputClass"
+          (edited)="onEdited($event)"
+        >
+        </table-cell-custom-editor>
+      }
+      @default {
+        <table-cell-default-editor
+          [cell]="cell"
+          [inputClass]="inputClass"
+          (edited)="onEdited($event)"
+        >
+        </table-cell-default-editor>
+      }
+    }
   `,
 })
 export class EditCellComponent {
   @Input() cell!: Cell;
-  @Input() inputClass: string = '';
+  @Input() inputClass = '';
 
   @Output() edited = new EventEmitter<any>();
 

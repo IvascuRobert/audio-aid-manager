@@ -39,7 +39,7 @@ export type ProcessForm = {
 export type EndProcessApi = {
   [field in keyof Omit<
     Process,
-    | 'status'
+    | 'id'
     | 'leftEarValue'
     | 'currentLeftEarDeviceName'
     | 'leftEarDeviceDuration'
@@ -55,7 +55,7 @@ export type EndProcessApi = {
 export type EndProcessForm = {
   [field in keyof Omit<
     Process,
-    | 'status'
+    | 'id'
     | 'leftEarValue'
     | 'currentLeftEarDeviceName'
     | 'leftEarDeviceDuration'

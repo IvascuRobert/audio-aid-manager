@@ -16,12 +16,12 @@ import { Grid } from '../../../lib/grid';
   standalone: true,
   template: `
     @if (isActionAdd) {
-    <a
-      href="#"
-      class="ng2-smart-action ng2-smart-action-add-add"
-      [innerHTML]="addNewButtonContent"
-      (click)="onAdd($event)"
-    ></a>
+      <a
+        href="#"
+        class="ng2-smart-action ng2-smart-action-add-add"
+        [innerHTML]="addNewButtonContent"
+        (click)="onAdd($event)"
+      ></a>
     }
   `,
 })
@@ -38,7 +38,7 @@ export class AddButtonComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     this.ref.nativeElement.classList.add(
       'ng2-smart-actions-title',
-      'ng2-smart-actions-title-add'
+      'ng2-smart-actions-title-add',
     );
   }
 

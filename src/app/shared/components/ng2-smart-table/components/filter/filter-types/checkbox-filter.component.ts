@@ -17,14 +17,14 @@ import { DefaultFilter } from './default-filter';
       class="form-control"
     />
     @if (filterActive) {
-    <a href="#" (click)="resetFilter($event)">{{
-      column.getFilterConfig()?.resetText || 'reset'
-    }}</a>
+      <a href="#" (click)="resetFilter($event)">{{
+        column.getFilterConfig()?.resetText || 'reset'
+      }}</a>
     }
   `,
 })
 export class CheckboxFilterComponent extends DefaultFilter implements OnInit {
-  filterActive: boolean = false;
+  filterActive = false;
   inputControl = new FormControl();
 
   constructor() {

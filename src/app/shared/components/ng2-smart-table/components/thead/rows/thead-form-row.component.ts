@@ -70,7 +70,7 @@ export class TheadFormRowComponent implements OnChanges {
     this.addInputClass = this.grid.getSetting('add.inputClass');
   }
 
-  getVisibleCells(cells: Array<Cell>): Array<Cell> {
+  getVisibleCells(cells: Cell[]): Cell[] {
     return (cells || []).filter((cell: Cell) => !cell.getColumn().hide);
   }
 }
