@@ -4,6 +4,7 @@
       [nbTooltip]="'Edit'"
       nbTooltipPlacement="top"
       [icon]="'edit-2-outline'"
+      [disabled]="loading()"
       (click)="handleEditAction.emit(true)"
     ></nb-action>
   } @else {
@@ -11,6 +12,7 @@
       [nbTooltip]="'Add'"
       nbTooltipPlacement="top"
       [icon]="'plus-circle-outline'"
+      [disabled]="loading()"
       (click)="handleAddAction.emit(true)"
     ></nb-action>
   }
@@ -19,9 +21,9 @@
     nbTooltipPlacement="top"
     icon="trash-2-outline"
     [badgeText]="selectedRows.length.toString()"
-    badgeStatus="warning"
-    [disabled]="selectedRows.length === 0"
-    (click)="handleRemoveAction.emit(true)"
+    badgeStatus="danger"
+    [disabled]="selectedRows.length === 0 || loading()"
+    (click)="onRemove()"
   >
   </nb-action>
   <nb-action
@@ -35,8 +37,8 @@
       [nbTooltip]="'Processes'"
       nbTooltipPlacement="top"
       [icon]="'activity-outline'"
-      [disabled]="selectedRows.length !== 1"
-      (click)="handlePulseAction.emit(true)"
+      [disabled]="selectedRows.length !== 1 || loading()"
+      (click)="onProcess()"
     ></nb-action>
   }
   @if (showAction.showOrder) {
@@ -46,9 +48,10 @@
       [icon]="'shopping-cart-outline'"
       [disabled]="
         selectedRows.length !== 1 ||
-        selectedRows[0]?.status !== processStatusTypeTpl.open
+        selectedRows[0]?.status !== processStatusTypeTpl.open ||
+        loading()
       "
-      (click)="handleOrderAction.emit(true)"
+      (click)="onOrder()"
     ></nb-action>
   }
 </nb-actions>

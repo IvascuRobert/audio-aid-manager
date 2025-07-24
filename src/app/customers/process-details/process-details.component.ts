@@ -60,7 +60,8 @@ export class ProcessDetailsComponent {
       },
       reason: {
         title: 'Reason',
-        type: 'string',
+        type: 'custom',
+        renderComponent: CommentCellComponent,
       },
       comment: {
         title: 'Comment',

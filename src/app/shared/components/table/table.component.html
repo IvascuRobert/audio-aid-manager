@@ -1,8 +1,8 @@
 @if (entities$ | async) {
-  <nb-card [nbSpinner]="loading()" nbSpinnerStatus="danger">
-    <nb-card-header>Actions</nb-card-header>
-    <nb-card-body>
+  <nb-card>
+    <nb-card-header>
       <app-custom-actions
+        [loading]="loading()"
         [selectedRows]="selectedRows"
         (handleAddAction)="addDialog()"
         (handlePulseAction)="view()"
@@ -11,20 +11,7 @@
         (handleReloadAction)="refresh()"
         (handleRemoveAction)="openRemoveDialog(selectedRows[0].id)"
         [showAction]="showAction"
-      >
-      </app-custom-actions>
-    </nb-card-body>
-  </nb-card>
-  <nb-card>
-    <nb-card-header>
-      <div class="row align-items-center">
-        <div class="col-8">
-          <span *ngIf="selectedRows.length; else allRows">
-            {{ selectedRows.length }} selected {{ title() }}
-          </span>
-          <ng-template #allRows>{{ source.count() }} {{ title() }}</ng-template>
-        </div>
-      </div>
+      />
     </nb-card-header>
 
     <nb-card-body

@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { NbActionsModule, NbTooltipModule } from '@nebular/theme';
 import { ProcessStatusType } from '../../../@core/data/customer';
 import { Entity } from '../../../@core/data/entity';
@@ -17,6 +17,8 @@ export interface CustomAction {
   styleUrls: ['./custom-actions.component.scss'],
 })
 export class CustomActionsComponent {
+  loading = input<boolean>(false);
+
   @Input() selectedRows: any = [];
 
   @Input() entity!: Entity;
@@ -41,4 +43,25 @@ export class CustomActionsComponent {
   @Output() handleOrderAction = new EventEmitter<boolean>();
 
   readonly processStatusTypeTpl = ProcessStatusType;
+
+  onRemove(): void {
+    if (this.selectedRows.length !== 0) {
+      this.handleRemoveAction.emit(true);
+    }
+  }
+
+  onProcess(): void {
+    if (this.selectedRows.length === 1) {
+      this.handlePulseAction.emit(true);
+    }
+  }
+
+  onOrder(): void {
+    if (
+      this.selectedRows.length === 1 &&
+      this.selectedRows[0].status == ProcessStatusType.open
+    ) {
+      this.handleOrderAction.emit(true);
+    }
+  }
 }

@@ -10,13 +10,14 @@ import { GenderCellComponent } from '../shared/components/custom-table-cell-rend
 import { PhoneCellComponent } from '../shared/components/custom-table-cell-render/phone-cell.component';
 import { TableComponent } from '../shared/components/table/table.component';
 import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-dialog.component';
+import { PieChartWrapperComponent } from '../shared/components/pie-chart-wrapper/pie-chart-wrapper.component';
 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
   standalone: true,
-  imports: [TableComponent],
+  imports: [TableComponent, PieChartWrapperComponent],
 })
 export class CustomersComponent {
   entity = Entity.Customer;
@@ -86,7 +87,7 @@ export class CustomersComponent {
         type: 'string',
       },
       comment: {
-        title: 'Note',
+        title: 'Comment',
         type: 'custom',
         renderComponent: CommentCellComponent,
       },

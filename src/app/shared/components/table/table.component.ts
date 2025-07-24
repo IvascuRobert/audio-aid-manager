@@ -14,7 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbCardModule, NbDialogService, NbSpinnerModule } from '@nebular/theme';
 import { isNull, remove } from 'lodash-es';
-import { Observable, filter, finalize, switchMap, tap } from 'rxjs';
+import { Observable, filter, finalize, map, switchMap, tap } from 'rxjs';
 import { Action } from '../../../@core/data/actions';
 import { Entity } from '../../../@core/data/entity';
 import { Process } from '../../../@core/data/process';
@@ -37,6 +37,8 @@ import { ActionsCellComponent } from '../custom-table-cell-render/actions-cell.c
 import { LocalDataSource } from '../ng2-smart-table/lib/data-source/local/local.data-source';
 import { Ng2SmartTableComponent } from '../ng2-smart-table/ng2-smart-table.component';
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
+import { PieChartWrapperComponent } from '../pie-chart-wrapper/pie-chart-wrapper.component';
+import { PieChartModel } from '../../../@core/data/pie-chart';
 
 @Component({
   selector: 'app-table',
@@ -49,14 +51,13 @@ import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component'
     NgIf,
     JsonPipe,
     NbSpinnerModule,
+    PieChartWrapperComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T extends { id: number }>
-  implements OnInit, AfterViewInit
-{
+export class TableComponent<T extends { id: number }> implements OnInit {
   destroyRef = inject(DestroyRef);
 
   router = inject(Router);
@@ -94,45 +95,6 @@ export class TableComponent<T extends { id: number }>
 
   loading = signal(false);
 
-  get actionColumn(): Record<string, any> {
-    return {
-      title: 'Actions',
-      type: 'custom',
-      width: '1%',
-      renderComponent: ActionsCellComponent,
-      valuePrepareFunction: (value: any, row: T, cell: any) => row,
-      onComponentInitFunction: (instance: ActionsCellComponent) => {
-        instance.actionChange
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            tap(({ action, row }) => {
-              switch (action) {
-                case Action.Delete:
-                  this.openRemoveDialog(row.id);
-                  break;
-
-                case Action.Edit:
-                  this.editDialog(row);
-                  break;
-
-                case Action.EndProcess:
-                  this.openCustomDialog<Process>(
-                    EndProcessDialogComponent,
-                    row,
-                  );
-                  break;
-                default:
-                  break;
-              }
-            }),
-          )
-          .subscribe();
-      },
-      sort: false,
-      filter: false,
-    };
-  }
-
   constructor(
     private coreService: CoreService,
     readonly dialogService: NbDialogService,
@@ -143,26 +105,11 @@ export class TableComponent<T extends { id: number }>
     this.getServerData();
     this.entities$ = this.coreService.getEntities$<any>(this.entity()).pipe(
       filter((res: any) => !!this.entity() && !!res?.entities),
-      tap(({ entities }) => {
+      map(({ entities }) => Object.values(entities)),
+      tap((entities) => {
         this.source.load(Object.values(entities));
       }),
     );
-  }
-
-  ngAfterViewInit(): void {
-    if (this.showActionColumn()) {
-      this.settings = {
-        ...this.settings,
-        ...{
-          columns: {
-            ...this.settings['columns'],
-            ...{
-              actions: this.actionColumn,
-            },
-          },
-        },
-      };
-    }
   }
 
   handleSelectedRow(row: any): void {
