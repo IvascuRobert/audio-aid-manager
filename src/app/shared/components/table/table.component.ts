@@ -176,6 +176,13 @@ export class TableComponent<T extends { id: number }> implements OnInit {
         .subscribe();
   }
 
+  onEndProcess(row?: Process) {
+    const selected = row ? row : this.selectedRows[0];
+    if (selected) {
+      this.openCustomDialog(EndProcessDialogComponent, selected);
+    }
+  }
+
   openCustomDialog<T>(template: any, row: T) {
     const selected = row ? row : this.selectedRows[0];
     if (selected)

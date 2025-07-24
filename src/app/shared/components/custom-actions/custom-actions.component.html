@@ -54,4 +54,17 @@
       (click)="onOrder()"
     ></nb-action>
   }
+  @if (showAction.showEndProcess) {
+    <nb-action
+      [nbTooltip]="'End process'"
+      nbTooltipPlacement="top"
+      [icon]="'slash-outline'"
+      [disabled]="
+        selectedRows.length !== 1 ||
+        selectedRows[0]?.status !== processStatusTypeTpl.open ||
+        loading()
+      "
+      (click)="onEndProcess()"
+    ></nb-action>
+  }
 </nb-actions>

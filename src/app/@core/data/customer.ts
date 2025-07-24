@@ -6,7 +6,7 @@ export enum CustomerStatus {
   no = 'no', // normal
   pc = 'pc', // potential client
   cc = 'cc', // concurent client
-  cl = 'cl', //
+  cl = 'cl', // client
 }
 export enum CustomerContactNoteType {
   MemberGetMember = 'MemberGetMember',
@@ -17,7 +17,6 @@ export enum CustomerContactNoteType {
 }
 export enum ProcessStatusType {
   open = 'Open',
-
   trial = 'Trial',
   win = 'Win',
   lost = 'Lost',

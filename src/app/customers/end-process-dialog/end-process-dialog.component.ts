@@ -68,8 +68,6 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
 
   entity!: Entity;
 
-  params: Record<string, string> | null = null;
-
   gender$ = this.coreService.gender$;
 
   get reasonControl() {
