@@ -1,3 +1,97 @@
+@if (showCharts()) {
+  <ng-content select="[message]"></ng-content>
+
+  <div class="row">
+    <div class="col-4">
+      <nb-card size="tiny" class="h-auto">
+        <nb-card-body>
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="chart-info">
+                <strong class="text-primary">{{
+                  selectedCustomerByStatus().name
+                }}</strong>
+
+                <div class="time-period caption">
+                  Nb. of {{ this.entity() }}:
+                </div>
+                <h2 class="text-primary">
+                  <strong>{{ selectedCustomerByStatus().value }}</strong>
+                </h2>
+              </div>
+            </div>
+            <div class="col">
+              <app-pie-chart-wrapper
+                [values]="(customersByStatus$ | async)!"
+                [loading]="loading()"
+                (selectedSection)="handleSelectedSectionByStatus($event)"
+              />
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-4">
+      <nb-card size="tiny" class="h-auto">
+        <nb-card-body>
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="chart-info">
+                <strong class="text-primary">{{
+                  selectedSectionByContactNote().name
+                }}</strong>
+
+                <div class="time-period caption">
+                  Nb. of {{ this.entity() }}:
+                </div>
+                <h2 class="text-primary">
+                  <strong>{{ selectedSectionByContactNote().value }}</strong>
+                </h2>
+              </div>
+            </div>
+            <div class="col">
+              <app-pie-chart-wrapper
+                [values]="(customerByContactNote$ | async)!"
+                [loading]="loading()"
+                (selectedSection)="handleSelectedSectionByContactNote($event)"
+              />
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-4">
+      <nb-card size="tiny" class="h-auto">
+        <nb-card-body>
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="chart-info">
+                <strong class="text-primary">{{
+                  selectedSectionByGender().name
+                }}</strong>
+
+                <div class="time-period caption">
+                  Nb. of {{ this.entity() }}:
+                </div>
+                <h2 class="text-primary">
+                  <strong>{{ selectedSectionByGender().value }}</strong>
+                </h2>
+              </div>
+            </div>
+            <div class="col">
+              <app-pie-chart-wrapper
+                [values]="(customerByGender$ | async)!"
+                [loading]="loading()"
+                (selectedSection)="handleSelectedSectionByGender($event)"
+              />
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+}
+
 @if (entities$ | async) {
   <nb-card>
     <nb-card-header>

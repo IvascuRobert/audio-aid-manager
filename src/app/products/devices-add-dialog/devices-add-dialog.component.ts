@@ -190,7 +190,6 @@ export class DevicesAddDialogComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.selected);
     if (this.selected) {
       this.form.patchValue(this.selected);
     }

@@ -3,6 +3,7 @@ import { NbCardModule, NbPopoverModule, NbTagModule } from '@nebular/theme';
 import { CustomerStatus } from '../../../@core/data/customer';
 
 @Component({
+  selector: 'app-customer-status-cell',
   standalone: true,
   imports: [NbTagModule, NbPopoverModule, NbCardModule],
   template: `

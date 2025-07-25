@@ -3,7 +3,7 @@ import {
   HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -80,6 +80,11 @@ export class CoreService extends Store<State> {
   gender$ = new BehaviorSubject<string[]>(Object.values(Gender));
 
   user$ = new BehaviorSubject<UserToken | null>(null);
+
+  subheaderInformation = signal<{
+    value: number;
+    title: string;
+  } | null>(null);
 
   constructor() {
     super(initialState);

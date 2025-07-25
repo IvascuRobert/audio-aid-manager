@@ -1,7 +1,20 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NbLayoutModule, NbMenuModule, NbSidebarModule } from '@nebular/theme';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import {
+  NbActionsModule,
+  NbLayoutModule,
+  NbMenuModule,
+  NbSidebarModule,
+} from '@nebular/theme';
 import { HeaderComponent } from './header/header.component';
+import { CoreService } from '../@core/services/core.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,12 +25,19 @@ import { HeaderComponent } from './header/header.component';
     NbSidebarModule,
     NbMenuModule,
     RouterModule,
+    NbActionsModule,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
+  #coreService = inject(CoreService);
+
+  subheaderInformation = computed(() =>
+    this.#coreService.subheaderInformation(),
+  );
+
   menu = [
     {
       title: 'Dashboard',

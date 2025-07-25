@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Entity } from '../@core/data/entity';
 import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../@core/utils/save-local-storage';
 import { AgeCellComponent } from '../shared/components/custom-table-cell-render/age-cell.component';
@@ -11,16 +11,36 @@ import { PhoneCellComponent } from '../shared/components/custom-table-cell-rende
 import { TableComponent } from '../shared/components/table/table.component';
 import { CustomerAddDialogComponent } from './customer-add-dialog/customer-add-dialog.component';
 import { PieChartWrapperComponent } from '../shared/components/pie-chart-wrapper/pie-chart-wrapper.component';
+import { CoreService } from '../@core/services/core.service';
+import { filter, finalize, map, Observable, tap } from 'rxjs';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import groupBy from 'lodash-es/groupBy';
+import { PieChartModel } from '../@core/data/pie-chart';
+import { NbAlertModule, NbCardModule } from '@nebular/theme';
+import {
+  Customer,
+  CustomerState,
+  CustomerStatus,
+} from '../@core/data/customer';
 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
   standalone: true,
-  imports: [TableComponent, PieChartWrapperComponent],
+  imports: [
+    TableComponent,
+    PieChartWrapperComponent,
+    AsyncPipe,
+    JsonPipe,
+    NbCardModule,
+    NbAlertModule,
+  ],
 })
-export class CustomersComponent {
-  entity = Entity.Customer;
+export class CustomersComponent implements OnInit {
+  coreService = inject(CoreService);
+
+  readonly entity = Entity.Customer;
 
   settings: Record<string, any> = {
     selectMode: 'multi',
@@ -95,4 +115,37 @@ export class CustomersComponent {
   };
 
   dialogTemplateRef = CustomerAddDialogComponent;
+
+  warningMessage = signal('');
+
+  showWarningMessage = signal(true);
+
+  countWithNewStatus$ = this.coreService
+    .getEntities$<CustomerState>(Entity.Customer)
+    .pipe(
+      filter((res) => !!this.entity && !!res?.entities),
+      map(
+        ({ entities }) =>
+          Object.values(entities).filter(
+            (res) => res.status === CustomerStatus.new,
+          ).length,
+      ),
+    );
+
+  ngOnInit(): void {
+    this.warningMessage.set(this.#getRandomFriendlyCustomerWarning());
+  }
+
+  #getRandomFriendlyCustomerWarning(): string {
+    const messages: string[] = [
+      'You’ve got a fresh list of customers! It’s the perfect time to give them a call. 📞',
+      'All customers are waiting for first contact. Let’s get started! 🚀',
+      'No actions taken yet — but it’s never too late to reach out.',
+      'Everything’s ready. You just need to start calling. 😉',
+      "Customers are marked as 'new'. A great opportunity to connect!",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    return messages[randomIndex];
+  }
 }

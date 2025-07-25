@@ -12,9 +12,22 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbCardModule, NbDialogService, NbSpinnerModule } from '@nebular/theme';
+import {
+  NbAlertModule,
+  NbCardModule,
+  NbDialogService,
+  NbSpinnerModule,
+} from '@nebular/theme';
 import { isNull, remove } from 'lodash-es';
-import { Observable, filter, finalize, map, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  filter,
+  finalize,
+  map,
+  single,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Action } from '../../../@core/data/actions';
 import { Entity } from '../../../@core/data/entity';
 import { Process } from '../../../@core/data/process';
@@ -39,6 +52,8 @@ import { Ng2SmartTableComponent } from '../ng2-smart-table/ng2-smart-table.compo
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
 import { PieChartWrapperComponent } from '../pie-chart-wrapper/pie-chart-wrapper.component';
 import { PieChartModel } from '../../../@core/data/pie-chart';
+import { CustomerState, CustomerStatus } from '../../../@core/data/customer';
+import groupBy from 'lodash-es/groupBy';
 
 @Component({
   selector: 'app-table',
@@ -52,6 +67,7 @@ import { PieChartModel } from '../../../@core/data/pie-chart';
     JsonPipe,
     NbSpinnerModule,
     PieChartWrapperComponent,
+    NbAlertModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -61,6 +77,8 @@ export class TableComponent<T extends { id: number }> implements OnInit {
   destroyRef = inject(DestroyRef);
 
   router = inject(Router);
+
+  coreService = inject(CoreService);
 
   @Input({ required: true }) settings: Record<string, any> = {
     columns: {},
@@ -94,9 +112,35 @@ export class TableComponent<T extends { id: number }> implements OnInit {
   showActionColumn = signal(true);
 
   loading = signal(false);
+  selectedCustomerByStatus = signal<PieChartModel>({
+    value: 0,
+    name: '',
+    color: '',
+  });
+
+  selectedSectionByContactNote = signal<PieChartModel>({
+    value: 0,
+    name: '',
+    color: '',
+  });
+
+  selectedSectionByGender = signal<PieChartModel>({
+    value: 0,
+    name: '',
+    color: '',
+  });
+
+  showCharts = input(false);
+
+  filterBy = input<string[]>([]);
+
+  customersByStatus$: Observable<PieChartModel[]> = new Observable();
+
+  customerByContactNote$: Observable<PieChartModel[]> = new Observable();
+
+  customerByGender$: Observable<PieChartModel[]> = new Observable();
 
   constructor(
-    private coreService: CoreService,
     readonly dialogService: NbDialogService,
     readonly activatedRoute: ActivatedRoute,
   ) {}
@@ -107,8 +151,46 @@ export class TableComponent<T extends { id: number }> implements OnInit {
       filter((res: any) => !!this.entity() && !!res?.entities),
       map(({ entities }) => Object.values(entities)),
       tap((entities) => {
-        this.source.load(Object.values(entities));
+        this.source.load(entities);
+        this.coreService.subheaderInformation.set({
+          value: entities.length,
+          title: this.entity(),
+        });
       }),
+    );
+
+    this.customersByStatus$ = this.#streamForCharts(this.filterBy()[0]);
+
+    this.customerByContactNote$ = this.#streamForCharts(this.filterBy()[1]);
+
+    this.customerByGender$ = this.#streamForCharts(this.filterBy()[2]);
+  }
+
+  handleSelectedSectionByStatus(event: PieChartModel): void {
+    this.selectedCustomerByStatus.set(event);
+  }
+
+  handleSelectedSectionByContactNote(event: PieChartModel): void {
+    this.selectedSectionByContactNote.set(event);
+  }
+
+  handleSelectedSectionByGender(event: PieChartModel): void {
+    this.selectedSectionByGender.set(event);
+  }
+
+  #streamForCharts(attribute: string): Observable<PieChartModel[]> {
+    return this.coreService.getEntities$<any>(this.entity()).pipe(
+      filter((res: any) => !!this.entity() && !!res?.entities),
+      map(({ entities }) => Object.values(entities)),
+      map((res) =>
+        Object.entries(groupBy(res, attribute)).map(
+          (res: any) =>
+            ({
+              value: res[1].length,
+              name: res[0],
+            }) as PieChartModel,
+        ),
+      ),
     );
   }
 

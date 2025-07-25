@@ -119,9 +119,6 @@ export class AppointmentsComponent implements OnInit {
     .pipe(
       map(({ entities }) => Object.values(entities)),
       map((res) => this.#mapAppointmentsToCalendarEvent(res)),
-      tap((res) => {
-        console.log({ res });
-      }),
     );
 
   appointmentsLoading$ = this.coreService
@@ -132,6 +129,10 @@ export class AppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAppointments();
+    this.coreService.subheaderInformation.set({
+      value: 0,
+      title: Entity.Appointment,
+    });
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -149,7 +150,6 @@ export class AppointmentsComponent implements OnInit {
   }
 
   handleEvent(action: CalendarAction, event: CalendarEvent<Appointment>): void {
-    console.log(action, event);
     switch (action) {
       case CalendarAction.EDIT:
         this.openAddAppointmentDialog(event.meta);
@@ -184,7 +184,6 @@ export class AppointmentsComponent implements OnInit {
   }
 
   setView(view: CalendarView) {
-    console.log(view);
     this.view = view;
   }
 

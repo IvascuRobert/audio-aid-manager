@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Entity } from '../../@core/data/entity';
 import { LOCAL_STORAGE_KEYS_FOR_TABLE } from '../../@core/utils/save-local-storage';
 import { AccessoryStatusCellComponent } from '../../shared/components/custom-table-cell-render/accessory-status-cell.component';
@@ -6,15 +6,22 @@ import { ColorCellComponent } from '../../shared/components/custom-table-cell-re
 import { PriceCellComponent } from '../../shared/components/custom-table-cell-render/price-cell.component';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { DevicesAddDialogComponent } from '../devices-add-dialog/devices-add-dialog.component';
+import { NbAlertModule } from '@nebular/theme';
+import { DeviceState, DeviceStatus } from '../../@core/data/device';
+import { filter, map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { CoreService } from '../../@core/services/core.service';
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
   styleUrls: ['./devices.component.scss'],
   standalone: true,
-  imports: [TableComponent],
+  imports: [TableComponent, NbAlertModule, AsyncPipe],
 })
-export class DevicesComponent {
+export class DevicesComponent implements OnInit {
+  coreService = inject(CoreService);
+
   entity = Entity.Device;
 
   settings: Record<string, any> = {
@@ -84,4 +91,25 @@ export class DevicesComponent {
   };
 
   dialogTemplateRef = DevicesAddDialogComponent;
+  warningMessage = signal('');
+
+  showWarningMessage = signal(true);
+
+  countWithFreeStatus$ = this.coreService
+    .getEntities$<DeviceState>(Entity.Device)
+    .pipe(
+      filter((res) => !!this.entity && !!res?.entities),
+      map(
+        ({ entities }) =>
+          Object.values(entities).filter(
+            (res) => res.status === DeviceStatus.Free,
+          ).length,
+      ),
+    );
+
+  ngOnInit(): void {
+    this.warningMessage.set(
+      'Devices stock is currently empty. Please restock as soon as possible.',
+    );
+  }
 }

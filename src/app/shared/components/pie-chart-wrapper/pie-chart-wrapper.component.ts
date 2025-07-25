@@ -2,12 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
+  effect,
   EventEmitter,
   inject,
   input,
   Input,
   OnDestroy,
+  output,
   Output,
   signal,
 } from '@angular/core';
@@ -26,18 +29,20 @@ import { PieChartModel } from '../../../@core/data/pie-chart';
 
 @Component({
   selector: 'app-pie-chart-wrapper',
-  imports: [NbCardModule, NgxEchartsDirective],
+  imports: [NgxEchartsDirective],
   styleUrl: './pie-chart-wrapper.component.scss',
   templateUrl: './pie-chart-wrapper.component.html',
   providers: [provideEchartsCore({ echarts })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PieChartWrapperComponent implements AfterViewInit {
-  #theme = inject(NbThemeService);
-
-  #destroyRef = inject(DestroyRef);
-
+export class PieChartWrapperComponent {
   values = input.required<PieChartModel[]>();
+
+  valuesWithOptions = effect(() => {
+    this.options.set(this.getOptions(this.values()));
+
+    if (this.values().length > 0) this.selectedSection.emit(this.values()[0]);
+  });
 
   loading = input<boolean>(false);
 
@@ -45,42 +50,22 @@ export class PieChartWrapperComponent implements AfterViewInit {
 
   echartsInstance = signal<EChartsType | null>(null);
 
-  selectedSection = signal<{ value: any; name: string; color: string }>({
-    value: 0,
-    name: '',
-    color: '',
-  });
-
-  ngAfterViewInit() {
-    this.#theme
-      .getJsTheme()
-      .pipe(
-        map(({ variables }) => variables),
-        filter(Boolean),
-        takeUntilDestroyed(this.#destroyRef),
-      )
-      .subscribe((variables) => {
-        this.options.set(this.getOptions(variables));
-      });
-  }
+  selectedSection = output<PieChartModel>();
 
   onChartInit(ec: EChartsType) {
     this.echartsInstance.set(ec);
   }
 
   onChartClick(event: ECElementEvent) {
-    const pieData = {
-      value: event.value,
+    const pieData: PieChartModel = {
+      value: event.value as any,
       name: event.name,
-      color: (event as any).color.colorStops[0].color,
     };
 
-    this.selectedSection.set(pieData);
+    this.selectedSection.emit(pieData);
   }
 
-  getOptions(variables: NbJSThemeVariable): EChartsCoreOption {
-    const earningPie: any = variables['earningPie'];
-
+  getOptions(values: PieChartModel[]): EChartsCoreOption {
     return {
       tooltip: {
         trigger: 'item',
@@ -89,126 +74,38 @@ export class PieChartWrapperComponent implements AfterViewInit {
       series: [
         {
           name: '',
-          clockWise: true,
-          hoverAnimation: false,
+          clockwise: true,
+          emphasis: {
+            scale: false,
+          },
           type: 'pie',
-          center: earningPie.center,
-          radius: earningPie.radius,
-          data: [
-            {
-              value: this.values()[0].value,
-              name: this.values()[0].name,
-              label: {
-                normal: {
-                  position: 'center',
-                  formatter: '',
-                  textStyle: {
-                    fontSize: '22',
-                    fontFamily: variables['fontSecondary'],
-                    fontWeight: '600',
-                    color: variables['fgHeading'],
-                  },
-                },
-              },
-              tooltip: {
-                show: false,
-              },
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: earningPie.firstPieGradientLeft,
-                    },
-                    {
-                      offset: 1,
-                      color: earningPie.firstPieGradientRight,
-                    },
-                  ]),
-                  shadowColor: earningPie.firstPieShadowColor,
-                  shadowBlur: 0,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 3,
-                },
-              },
-            },
-            {
-              value: this.values()[1].value,
-              name: this.values()[1].name,
-              label: {
-                normal: {
-                  position: 'center',
-                  formatter: '',
-                  textStyle: {
-                    fontSize: '22',
-                    fontFamily: variables['fontSecondary'],
-                    fontWeight: '600',
-                    color: variables['fgHeading'],
-                  },
-                },
-              },
-              tooltip: {
-                show: false,
-              },
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: earningPie.secondPieGradientLeft,
-                    },
-                    {
-                      offset: 1,
-                      color: earningPie.secondPieGradientRight,
-                    },
-                  ]),
-                  shadowColor: earningPie.secondPieShadowColor,
-                  shadowBlur: 0,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 3,
-                },
-              },
-            },
-            {
-              value: this.values()[2].value,
-              name: this.values()[2].name,
-              label: {
-                normal: {
-                  position: 'center',
-                  formatter: '',
-                  textStyle: {
-                    fontSize: '22',
-                    fontFamily: variables['fontSecondary'],
-                    fontWeight: '600',
-                    color: variables['fgHeading'],
-                  },
-                },
-              },
-              tooltip: {
-                show: false,
-              },
-              itemStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: earningPie.thirdPieGradientLeft,
-                    },
-                    {
-                      offset: 1,
-                      color: earningPie.thirdPieGradientRight,
-                    },
-                  ]),
-                  shadowColor: earningPie.thirdPieShadowColor,
-                  shadowBlur: 0,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 3,
-                },
-              },
-            },
-          ],
+          center: ['50%', '50%'],
+          radius: ['65%', '100%'],
+          data: values.map((value) => this.chartValueObject(value)),
         },
       ],
+    };
+  }
+
+  chartValueObject({ value, name }: PieChartModel): any {
+    return {
+      value: value,
+      name: name,
+      label: {
+        normal: {
+          position: 'center',
+          formatter: '',
+          textStyle: {
+            fontSize: '22',
+            fontFamily: '',
+            fontWeight: '600',
+            color: '',
+          },
+        },
+      },
+      tooltip: {
+        show: false,
+      },
     };
   }
 }

@@ -7,4 +7,28 @@
     showProcess: false,
     showOrder: false,
   }"
-></app-table>
+  [showCharts]="true"
+  [filterBy]="['status', 'brand', 'type']"
+>
+  @let countWithFreeStatus = countWithFreeStatus$ | async;
+
+  @if (countWithFreeStatus === 0) {
+    <nb-alert message outline="danger" (close)="showWarningMessage.set(false)">
+      <span>
+        There are currently
+        <strong class="text-danger">{{ countWithFreeStatus }}</strong>
+        free accessories in stock.
+        {{ warningMessage() }}
+      </span>
+    </nb-alert>
+  } @else {
+    <nb-alert message outline="info" (close)="showWarningMessage.set(false)">
+      <span>
+        You have
+        <strong class="text-primary">{{ countWithFreeStatus }}</strong>
+        free {{ countWithFreeStatus !== 1 ? "accessories" : "accessory" }}
+        available — time to connect with customers and close the sale!
+      </span>
+    </nb-alert>
+  }
+</app-table>

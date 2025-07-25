@@ -199,7 +199,7 @@ export class AppointmentsAddDialogComponent extends BaseForm implements OnInit {
 
   submit() {
     this.form.markAllAsTouched();
-    console.log(this.form);
+
     if (this.form.valid && this.loading$.value === false) {
       if (this.selected) {
         this.update();

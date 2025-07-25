@@ -1,20 +1,3 @@
-<app-pie-chart-wrapper
-  [values]="[
-    {
-      value: 80,
-      name: 'New',
-    },
-    {
-      value: 5,
-      name: 'Normal',
-    },
-    {
-      value: 15,
-      name: 'Potential client',
-    },
-  ]"
-/>
-
 <app-table
   [settings]="settings"
   [entity]="entity"
@@ -24,4 +7,22 @@
     showProcess: true,
     showOrder: false,
   }"
-></app-table>
+  [showCharts]="true"
+  [filterBy]="['status', 'contactNote', 'gender']"
+>
+  @if (showWarningMessage()) {
+    <nb-alert
+      message
+      outline="danger"
+      [closable]="true"
+      (close)="showWarningMessage.set(false)"
+    >
+      <span>
+        All
+        <strong class="text-danger">{{ countWithNewStatus$ | async }}</strong>
+        customers are in the <strong class="text-danger">new</strong> status!
+        {{ warningMessage() }}
+      </span>
+    </nb-alert>
+  }
+</app-table>

@@ -165,6 +165,11 @@ export class OrderComponent implements OnInit {
         }),
       )
       .subscribe();
+
+    this.coreService.subheaderInformation.set({
+      value: 0,
+      title: Entity.Order,
+    });
   }
 
   addCart(
