@@ -23,6 +23,7 @@ import { RoomsComponent } from './setup/rooms/rooms.component';
 import { ShopsComponent } from './setup/shops/shops.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ProcessDetailsComponent } from './customers/process-details/process-details.component';
+import { OrderDetailsComponent } from './customers/order-details/order-details.component';
 
 export const routes: Routes = [
   {
@@ -33,81 +34,51 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         title: 'Dashboard',
-        data: {
-          subHeaderTitle: 'Dashboard',
-        },
       },
       {
         path: 'employee',
         component: EmployeeComponent,
         title: 'Employee',
-        data: {
-          subHeaderTitle: 'Employee',
-        },
       },
       {
         path: 'rooms',
         component: RoomsComponent,
         title: 'Rooms',
-        data: {
-          subHeaderTitle: 'Rooms',
-        },
       },
       {
         path: 'shops',
         component: ShopsComponent,
         title: 'Shops',
-        data: {
-          subHeaderTitle: 'Shops',
-        },
       },
       {
         path: 'clinics',
         component: ClinicsComponent,
         title: 'Clinics',
-        data: {
-          subHeaderTitle: 'Clinics',
-        },
       },
       {
         path: 'doctors',
         component: DoctorsComponent,
         title: 'Doctors',
-        data: {
-          subHeaderTitle: 'Doctors',
-        },
       },
       {
         path: 'devices',
         component: DevicesComponent,
         title: 'Devices',
-        data: {
-          subHeaderTitle: 'Devices',
-        },
       },
       {
         path: 'accessories',
         component: AccessoriesComponent,
         title: 'Accessories',
-        data: {
-          subHeaderTitle: 'Accessories',
-        },
       },
       {
         path: 'utilities',
         component: UtilitiesComponent,
         title: 'Utilities',
-        data: {
-          subHeaderTitle: 'Utilities',
-        },
       },
       {
         path: 'services',
         component: ServicesComponent,
         title: 'Services',
-        data: {
-          subHeaderTitle: 'Services',
-        },
       },
       {
         path: 'customers',
@@ -116,33 +87,26 @@ export const routes: Routes = [
             (mod) => mod.CustomersComponent,
           ),
         title: 'Customers',
-        data: {
-          subHeaderTitle: 'Customers',
-        },
       },
       {
-        path: 'customers/details/:customerId',
+        path: 'customers/:customerId/process',
         component: ProcessDetailsComponent,
         title: 'Processes',
-        data: {
-          subHeaderTitle: 'Processes',
-        },
       },
       {
-        path: 'customers/details/:customerId/order/:processId',
+        path: 'customers/:customerId/process/:processId/order',
         component: OrderComponent,
         title: 'Orders',
-        data: {
-          subHeaderTitle: 'Orders',
-        },
+      },
+      {
+        path: 'customers/:customerId/process/:processId/detail',
+        component: OrderDetailsComponent,
+        title: 'Orders details',
       },
       {
         path: 'appointments',
         component: AppointmentsComponent,
         title: 'Appointments',
-        data: {
-          subHeaderTitle: 'Appointments',
-        },
       },
 
       {

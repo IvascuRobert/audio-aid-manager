@@ -47,3 +47,7 @@
   @include nb-overrides();
   @include nb-tables-smart-table-theme();
 }
+
+.fs-16 {
+  font-size: 16px !important;
+}

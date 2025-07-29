@@ -1,347 +1,375 @@
-<ng-container
-  *ngIf="{
-    deviceLoading: !(devicesLoading$ | async)!,
-    devices: devices$ | async,
-    devicesAdded: devicesAdded$ | async,
-
-    accessoriesLoading: !(accessoriesLoading$ | async)!,
-    accessories: accessories$ | async,
-    accessoriesAdded: accessoriesAdded$ | async,
-
-    utilitiesLoading: !(utilitiesLoading$ | async)!,
-    utilities: utilities$ | async,
-    utilitiesAdded: utilitiesAdded$ | async,
-
-    servicesLoading: !(servicesLoading$ | async)!,
-    services: services$ | async,
-    servicesAdded: servicesAdded$ | async,
-
-    orderLoading: (orderLoading$ | async)!,
-
-    total: total$ | async,
-  } as orderObj"
->
+@if (hasOrder()) {
+  <div class="row">
+    <div class="col-md-12">
+      <nb-card
+        [nbSpinner]="loadingOrder()"
+        nbSpinnerStatus="danger"
+        nbSpinnerSize="large"
+      >
+        <nb-card-body>
+          <div
+            class="text-center flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12"
+          >
+            <h2 class="title">Order Already Exists!</h2>
+            <small class="sub-title"
+              >The selected process already has an associated order. <br />You
+              can access it by clicking the button below.</small
+            >
+            <button
+              nbButton
+              fullWidth
+              (click)="goToViewOrder()"
+              type="button"
+              hero
+              status="primary"
+              class="home-button"
+            >
+              Take me to the order
+            </button>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+} @else {
   <ng-container
     *ngIf="{
-      emptyCart:
-        orderObj.devicesAdded?.length === 0 &&
-        orderObj.accessoriesAdded?.length === 0 &&
-        orderObj.utilitiesAdded?.length === 0 &&
-        orderObj.servicesAdded?.length === 0,
-    } as state"
+      deviceLoading: !(devicesLoading$ | async)!,
+      devices: devices$ | async,
+      devicesAdded: devicesAdded$ | async,
+
+      accessoriesLoading: !(accessoriesLoading$ | async)!,
+      accessories: accessories$ | async,
+      accessoriesAdded: accessoriesAdded$ | async,
+
+      utilitiesLoading: !(utilitiesLoading$ | async)!,
+      utilities: utilities$ | async,
+      utilitiesAdded: utilitiesAdded$ | async,
+
+      servicesLoading: !(servicesLoading$ | async)!,
+      services: services$ | async,
+      servicesAdded: servicesAdded$ | async,
+
+      orderLoading: (orderLoading$ | async)!,
+
+      total: total$ | async,
+    } as orderObj"
   >
-    <div class="row">
-      <div class="col-8">
-        <nb-accordion multi>
-          <nb-accordion-item [collapsed]="false">
-            <nb-accordion-item-header
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.deviceLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              Devices
-            </nb-accordion-item-header>
-            <nb-accordion-item-body
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.deviceLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              <nb-list>
-                <nb-list-item
-                  *ngFor="
-                    let device of orderObj.devices | xor: orderObj.devicesAdded
-                  "
-                >
-                  <ng-container
-                    [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{
-                      item: device,
-                      productType: productTypeTpl.Device,
-                    }"
-                  ></ng-container>
-                </nb-list-item>
-              </nb-list>
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-
-          <nb-accordion-item [collapsed]="false">
-            <nb-accordion-item-header
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.accessoriesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              Accessories
-            </nb-accordion-item-header>
-            <nb-accordion-item-body
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.accessoriesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              <nb-list>
-                <nb-list-item
-                  *ngFor="
-                    let accessory of orderObj.accessories
-                      | xor: orderObj.accessoriesAdded
-                  "
-                >
-                  <ng-container
-                    [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{
-                      item: accessory,
-                      productType: productTypeTpl.Accessories,
-                    }"
-                  ></ng-container>
-                </nb-list-item>
-              </nb-list>
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-
-          <nb-accordion-item [collapsed]="false">
-            <nb-accordion-item-header
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.utilitiesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              Utilities
-            </nb-accordion-item-header>
-            <nb-accordion-item-body
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.utilitiesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              <nb-list>
-                <nb-list-item
-                  *ngFor="
-                    let utility of orderObj.utilities
-                      | filterByQuantity: orderObj.utilitiesAdded
-                  "
-                >
-                  <ng-container
-                    [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{
-                      item: utility,
-                      productType: productTypeTpl.Utilities,
-                    }"
-                  ></ng-container>
-                </nb-list-item>
-              </nb-list>
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-
-          <nb-accordion-item [collapsed]="false">
-            <nb-accordion-item-header
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.servicesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              Services
-            </nb-accordion-item-header>
-            <nb-accordion-item-body
-              accent="danger"
-              size="tiny"
-              [nbSpinner]="orderObj.servicesLoading"
-              nbSpinnerStatus="danger"
-              nbSpinnerSize="large"
-              nbSpinnerMessage=""
-            >
-              <nb-list>
-                <nb-list-item
-                  *ngFor="
-                    let service of orderObj.services
-                      | xor: orderObj.servicesAdded
-                  "
-                >
-                  <ng-container
-                    [ngTemplateOutlet]="listItem"
-                    [ngTemplateOutletContext]="{
-                      item: service,
-                      productType: productTypeTpl.Services,
-                    }"
-                  ></ng-container>
-                </nb-list-item>
-              </nb-list>
-            </nb-accordion-item-body>
-          </nb-accordion-item>
-        </nb-accordion>
-      </div>
-      <div class="col-4">
-        <nb-card accent="info" size="giant">
-          <nb-card-header>Cart</nb-card-header>
-          <nb-card-body>
-            <ng-container *ngIf="orderObj.devicesAdded as devices">
-              <nb-card *ngIf="devices.length > 0">
-                <nb-card-header> Devices </nb-card-header>
-                <nb-card-body>
-                  <nb-list>
-                    <nb-list-item *ngFor="let product of devices">
-                      <ng-container
-                        [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{
-                          item: product,
-                          productType: productTypeTpl.Device,
-                        }"
-                      ></ng-container>
-                    </nb-list-item>
-                  </nb-list>
-                </nb-card-body>
-              </nb-card>
-            </ng-container>
-            <ng-container *ngIf="orderObj.accessoriesAdded as accessories">
-              <nb-card *ngIf="accessories.length > 0">
-                <nb-card-header> Accessories </nb-card-header>
-                <nb-card-body>
-                  <nb-list>
-                    <nb-list-item *ngFor="let product of accessories">
-                      <ng-container
-                        [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{
-                          item: product,
-                          productType: productTypeTpl.Accessories,
-                        }"
-                      ></ng-container>
-                    </nb-list-item>
-                  </nb-list>
-                </nb-card-body>
-              </nb-card>
-            </ng-container>
-            <ng-container *ngIf="orderObj.utilitiesAdded as utilities">
-              <nb-card *ngIf="utilities.length > 0">
-                <nb-card-header> Utilities </nb-card-header>
-                <nb-card-body>
-                  <nb-list>
-                    <nb-list-item *ngFor="let product of utilities"
-                      ><ng-container
-                        [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{
-                          item: product,
-                          productType: productTypeTpl.Utilities,
-                        }"
-                      ></ng-container>
-                    </nb-list-item>
-                  </nb-list>
-                </nb-card-body>
-              </nb-card>
-            </ng-container>
-            <ng-container *ngIf="orderObj.servicesAdded as services">
-              <nb-card *ngIf="services.length > 0">
-                <nb-card-header> Services </nb-card-header>
-                <nb-card-body>
-                  <nb-list>
-                    <nb-list-item *ngFor="let product of services"
-                      ><ng-container
-                        [ngTemplateOutlet]="addedItem"
-                        [ngTemplateOutletContext]="{
-                          item: product,
-                          productType: productTypeTpl.Services,
-                        }"
-                      ></ng-container>
-                    </nb-list-item>
-                  </nb-list>
-                </nb-card-body>
-              </nb-card>
-            </ng-container>
-            <ng-container *ngIf="state.emptyCart"
-              >No items in cart.</ng-container
-            >
-          </nb-card-body>
-        </nb-card>
-
-        <nb-card size="tiny" class="solar-card">
-          <nb-card-header>Total</nb-card-header>
-          <nb-card-body>
-            <div class="info">
-              <div class="h4 value">
-                {{ orderObj.total | currency: "EUR" }}
-              </div>
-              <div class="details subtitle-2">
-                <span>without V.A.T.</span
-                >{{ orderObj.total | currency: "EUR" }}
-              </div>
-            </div>
-          </nb-card-body>
-
-          <nb-card-footer
-            ><nb-actions size="medium" fullWidth>
-              <nb-action
-                nbTooltip="Pay now"
-                icon="credit-card-outline"
-                [nbSpinner]="orderObj.orderLoading"
-                nbSpinnerStatus="primary"
+    <ng-container
+      *ngIf="{
+        emptyCart:
+          orderObj.devicesAdded?.length === 0 &&
+          orderObj.accessoriesAdded?.length === 0 &&
+          orderObj.utilitiesAdded?.length === 0 &&
+          orderObj.servicesAdded?.length === 0,
+      } as state"
+    >
+      <div class="row">
+        <div class="col-8">
+          <nb-accordion multi>
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.deviceLoading"
+                nbSpinnerStatus="danger"
                 nbSpinnerSize="large"
-                [disabled]="state.emptyCart"
-                (click)="payNow(orderObj.total!, state.emptyCart)"
-              ></nb-action>
-              <nb-action
-                nbTooltip="Reserve"
-                icon="calendar-outline"
-                [nbSpinner]="orderObj.orderLoading"
-                nbSpinnerStatus="primary"
+                nbSpinnerMessage=""
+              >
+                Devices
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.deviceLoading"
+                nbSpinnerStatus="danger"
                 nbSpinnerSize="large"
-                [disabled]="state.emptyCart"
-                (click)="payNow(orderObj.total!, state.emptyCart, true)"
-              ></nb-action> </nb-actions
-          ></nb-card-footer>
-        </nb-card>
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="
+                      let device of orderObj.devices
+                        | xor: orderObj.devicesAdded
+                    "
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: device,
+                        productType: productTypeTpl.Device,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.accessoriesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Accessories
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.accessoriesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="
+                      let accessory of orderObj.accessories
+                        | xor: orderObj.accessoriesAdded
+                    "
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: accessory,
+                        productType: productTypeTpl.Accessories,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.utilitiesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Utilities
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.utilitiesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="
+                      let utility of orderObj.utilities
+                        | filterByQuantity: orderObj.utilitiesAdded
+                    "
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: utility,
+                        productType: productTypeTpl.Utilities,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.servicesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Services
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="orderObj.servicesLoading"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="
+                      let service of orderObj.services
+                        | xor: orderObj.servicesAdded
+                    "
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: service,
+                        productType: productTypeTpl.Services,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+        </div>
+        <div class="col-4">
+          <nb-card accent="info" size="giant">
+            <nb-card-header>Cart</nb-card-header>
+            <nb-card-body>
+              <ng-container *ngIf="orderObj.devicesAdded as devices">
+                <nb-card *ngIf="devices.length > 0">
+                  <nb-card-header> Devices </nb-card-header>
+                  <nb-card-body>
+                    <nb-list>
+                      <nb-list-item *ngFor="let product of devices">
+                        <ng-container
+                          [ngTemplateOutlet]="addedItem"
+                          [ngTemplateOutletContext]="{
+                            item: product,
+                            productType: productTypeTpl.Device,
+                          }"
+                        ></ng-container>
+                      </nb-list-item>
+                    </nb-list>
+                  </nb-card-body>
+                </nb-card>
+              </ng-container>
+              <ng-container *ngIf="orderObj.accessoriesAdded as accessories">
+                <nb-card *ngIf="accessories.length > 0">
+                  <nb-card-header> Accessories </nb-card-header>
+                  <nb-card-body>
+                    <nb-list>
+                      <nb-list-item *ngFor="let product of accessories">
+                        <ng-container
+                          [ngTemplateOutlet]="addedItem"
+                          [ngTemplateOutletContext]="{
+                            item: product,
+                            productType: productTypeTpl.Accessories,
+                          }"
+                        ></ng-container>
+                      </nb-list-item>
+                    </nb-list>
+                  </nb-card-body>
+                </nb-card>
+              </ng-container>
+              <ng-container *ngIf="orderObj.utilitiesAdded as utilities">
+                <nb-card *ngIf="utilities.length > 0">
+                  <nb-card-header> Utilities </nb-card-header>
+                  <nb-card-body>
+                    <nb-list>
+                      <nb-list-item *ngFor="let product of utilities"
+                        ><ng-container
+                          [ngTemplateOutlet]="addedItem"
+                          [ngTemplateOutletContext]="{
+                            item: product,
+                            productType: productTypeTpl.Utilities,
+                          }"
+                        ></ng-container>
+                      </nb-list-item>
+                    </nb-list>
+                  </nb-card-body>
+                </nb-card>
+              </ng-container>
+              <ng-container *ngIf="orderObj.servicesAdded as services">
+                <nb-card *ngIf="services.length > 0">
+                  <nb-card-header> Services </nb-card-header>
+                  <nb-card-body>
+                    <nb-list>
+                      <nb-list-item *ngFor="let product of services"
+                        ><ng-container
+                          [ngTemplateOutlet]="addedItem"
+                          [ngTemplateOutletContext]="{
+                            item: product,
+                            productType: productTypeTpl.Services,
+                          }"
+                        ></ng-container>
+                      </nb-list-item>
+                    </nb-list>
+                  </nb-card-body>
+                </nb-card>
+              </ng-container>
+              <ng-container *ngIf="state.emptyCart"
+                >No items in cart.</ng-container
+              >
+            </nb-card-body>
+          </nb-card>
+
+          <nb-card size="tiny" class="solar-card">
+            <nb-card-header>Total</nb-card-header>
+            <nb-card-body>
+              <div class="info">
+                <div class="h4 value">
+                  {{ orderObj.total | currency: "EUR" }}
+                </div>
+                <div class="details subtitle-2">
+                  <span>without V.A.T.</span
+                  >{{ orderObj.total | currency: "EUR" }}
+                </div>
+              </div>
+            </nb-card-body>
+
+            <nb-card-footer
+              ><nb-actions size="medium" fullWidth>
+                <nb-action
+                  nbTooltip="Pay now"
+                  icon="credit-card-outline"
+                  (click)="payNow(orderObj.total!, state.emptyCart)"
+                ></nb-action>
+                <nb-action
+                  nbTooltip="Reserve"
+                  icon="calendar-outline"
+                  (click)="payNow(orderObj.total!, state.emptyCart, true)"
+                ></nb-action> </nb-actions
+            ></nb-card-footer>
+          </nb-card>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
-</ng-container>
 
-<ng-template #listItem let-item="item" let-productType="productType">
-  <span (click)="addCart(item, productType)">
-    <nb-icon
-      class="skip"
-      icon="plus-circle-outline"
-      nbTooltip="Add cart"
-      nbTooltipStatus="primary"
-      pack="eva"
-      status="primary"
-      [options]="{ animation: { type: 'pulse' } }"
-    ></nb-icon>
-  </span>
-  <span class="mx-4">{{ item.name }}</span>
+  <ng-template #listItem let-item="item" let-productType="productType">
+    <span (click)="addCart(item, productType)">
+      <nb-icon
+        class="skip"
+        icon="plus-circle-outline"
+        nbTooltip="Add cart"
+        nbTooltipStatus="primary"
+        pack="eva"
+        status="primary"
+        [options]="{ animation: { type: 'pulse' } }"
+      ></nb-icon>
+    </span>
+    <span class="mx-4">{{ item.name }}</span>
 
-  <span>{{ item.price | currency: "EUR" }}</span>
-  @if (item.position) {
-    <span class="mx-4">{{ item.position }}</span>
-  }
-  <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
-</ng-template>
+    <span>{{ item.price | currency: "EUR" }}</span>
+    @if (item.position) {
+      <span class="mx-4">{{ item.position }}</span>
+    }
+    <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
+  </ng-template>
 
-<ng-template #addedItem let-item="item" let-productType="productType">
-  <span (click)="removeFromCart(item, productType)">
-    <nb-icon
-      class="skip"
-      icon="trash-2-outline"
-      nbTooltip="Remove from cart"
-      nbTooltipStatus="danger"
-      pack="eva"
-      status="danger"
-      [options]="{ animation: { type: 'pulse' } }"
-    ></nb-icon>
-  </span>
-  <span class="mx-4">{{ item.name }}</span>
-  <span>{{ item.price | currency: "EUR" }}</span>
-  <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
-</ng-template>
+  <ng-template #addedItem let-item="item" let-productType="productType">
+    <span (click)="removeFromCart(item, productType)">
+      <nb-icon
+        class="skip"
+        icon="trash-2-outline"
+        nbTooltip="Remove from cart"
+        nbTooltipStatus="danger"
+        pack="eva"
+        status="danger"
+        [options]="{ animation: { type: 'pulse' } }"
+      ></nb-icon>
+    </span>
+    <span class="mx-4">{{ item.name }}</span>
+    <span>{{ item.price | currency: "EUR" }}</span>
+    <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
+  </ng-template>
+}

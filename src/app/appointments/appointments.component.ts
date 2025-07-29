@@ -132,6 +132,7 @@ export class AppointmentsComponent implements OnInit {
     this.coreService.subheaderInformation.set({
       value: 0,
       title: Entity.Appointment,
+      showHome: true,
     });
   }
 

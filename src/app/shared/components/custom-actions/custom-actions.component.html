@@ -43,7 +43,7 @@
   }
   @if (showAction.showOrder) {
     <nb-action
-      [nbTooltip]="'Go to order'"
+      [nbTooltip]="'Go to place an order'"
       nbTooltipPlacement="top"
       [icon]="'shopping-cart-outline'"
       [disabled]="
@@ -52,6 +52,19 @@
         loading()
       "
       (click)="onOrder()"
+    ></nb-action>
+  }
+  @if (showAction.viewOrderDetails) {
+    <nb-action
+      [nbTooltip]="'View order details'"
+      nbTooltipPlacement="top"
+      [icon]="'eye-outline'"
+      [disabled]="
+        selectedRows.length !== 1 ||
+        selectedRows[0]?.status === processStatusTypeTpl.open ||
+        loading()
+      "
+      (click)="onViewOrder()"
     ></nb-action>
   }
   @if (showAction.showEndProcess) {
@@ -65,6 +78,15 @@
         loading()
       "
       (click)="onEndProcess()"
+    ></nb-action>
+  }
+  @if (showAction.showCustomerDetails) {
+    <nb-action
+      [nbTooltip]="'View selecte customer details'"
+      nbTooltipPlacement="top"
+      [icon]="'person-outline'"
+      [disabled]="loading()"
+      (click)="handleShowCustomerDetails.emit(true)"
     ></nb-action>
   }
 </nb-actions>

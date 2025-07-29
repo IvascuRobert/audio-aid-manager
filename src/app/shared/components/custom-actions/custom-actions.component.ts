@@ -7,7 +7,9 @@ import { Entity } from '../../../@core/data/entity';
 export interface CustomAction {
   showProcess: boolean;
   showOrder: boolean;
+  viewOrderDetails?: boolean;
   showEndProcess?: boolean;
+  showCustomerDetails?: boolean;
 }
 
 @Component({
@@ -27,7 +29,9 @@ export class CustomActionsComponent {
   @Input() showAction: CustomAction = {
     showProcess: false,
     showOrder: false,
+    viewOrderDetails: false,
     showEndProcess: false,
+    showCustomerDetails: false,
   };
 
   @Output() handleAddAction = new EventEmitter<boolean>();
@@ -43,6 +47,10 @@ export class CustomActionsComponent {
   @Output() handlePulseAction = new EventEmitter<boolean>();
 
   @Output() handleOrderAction = new EventEmitter<boolean>();
+
+  @Output() handleViewOrderAction = new EventEmitter<boolean>();
+
+  @Output() handleShowCustomerDetails = new EventEmitter<boolean>();
 
   @Output() handleOnEndProcess = new EventEmitter<boolean>();
 
@@ -63,9 +71,18 @@ export class CustomActionsComponent {
   onOrder(): void {
     if (
       this.selectedRows.length === 1 &&
-      this.selectedRows[0].status == ProcessStatusType.open
+      this.selectedRows[0].status === ProcessStatusType.open
     ) {
       this.handleOrderAction.emit(true);
+    }
+  }
+
+  onViewOrder(): void {
+    if (
+      this.selectedRows.length === 1 &&
+      this.selectedRows[0].status !== ProcessStatusType.open
+    ) {
+      this.handleViewOrderAction.emit(true);
     }
   }
 

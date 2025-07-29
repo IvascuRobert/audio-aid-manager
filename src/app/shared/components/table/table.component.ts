@@ -52,7 +52,11 @@ import { Ng2SmartTableComponent } from '../ng2-smart-table/ng2-smart-table.compo
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
 import { PieChartWrapperComponent } from '../pie-chart-wrapper/pie-chart-wrapper.component';
 import { PieChartModel } from '../../../@core/data/pie-chart';
-import { CustomerState, CustomerStatus } from '../../../@core/data/customer';
+import {
+  Customer,
+  CustomerState,
+  CustomerStatus,
+} from '../../../@core/data/customer';
 import groupBy from 'lodash-es/groupBy';
 
 @Component({
@@ -79,6 +83,8 @@ export class TableComponent<T extends { id: number }> implements OnInit {
   router = inject(Router);
 
   coreService = inject(CoreService);
+  dialogService = inject(NbDialogService);
+  activatedRoute = inject(ActivatedRoute);
 
   @Input({ required: true }) settings: Record<string, any> = {
     columns: {},
@@ -91,6 +97,8 @@ export class TableComponent<T extends { id: number }> implements OnInit {
   @Input() showAction: CustomAction = {
     showProcess: false,
     showOrder: false,
+    viewOrderDetails: false,
+    showCustomerDetails: false,
   };
 
   entity = input.required<Entity>();
@@ -140,11 +148,6 @@ export class TableComponent<T extends { id: number }> implements OnInit {
 
   customerByGender$: Observable<PieChartModel[]> = new Observable();
 
-  constructor(
-    readonly dialogService: NbDialogService,
-    readonly activatedRoute: ActivatedRoute,
-  ) {}
-
   ngOnInit(): void {
     this.getServerData();
     this.entities$ = this.coreService.getEntities$<any>(this.entity()).pipe(
@@ -155,6 +158,7 @@ export class TableComponent<T extends { id: number }> implements OnInit {
         this.coreService.subheaderInformation.set({
           value: entities.length,
           title: this.entity(),
+          showHome: true,
         });
       }),
     );
@@ -302,20 +306,33 @@ export class TableComponent<T extends { id: number }> implements OnInit {
     });
   }
 
-  view() {
+  goTorProces() {
     if (this.selectedRows.length > 0) {
       this.router.navigate([
-        `/pages/customers/details/${this.selectedRows[0].id}`,
+        `/pages/customers/${this.selectedRows[0].id}/process`,
       ]);
+      this.coreService.selectedCustomer.set(this.selectedRows[0] as any);
     }
   }
 
-  goToOrder(): void {
+  goToPlaceAnOrder(): void {
     if (this.selectedRows.length > 0) {
-      this.router.navigate(['order', this.selectedRows[0].id], {
+      this.router.navigate([this.selectedRows[0].id, 'order'], {
         relativeTo: this.activatedRoute,
       });
     }
+  }
+
+  goToViewOrder(): void {
+    if (this.selectedRows.length > 0) {
+      this.router.navigate([this.selectedRows[0].id, 'detail'], {
+        relativeTo: this.activatedRoute,
+      });
+    }
+  }
+
+  showCustomerDetails(): void {
+    this.coreService.showCustomerDetails.set(true);
   }
 
   private getServerData(): void {

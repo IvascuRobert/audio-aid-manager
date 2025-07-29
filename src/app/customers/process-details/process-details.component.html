@@ -1,13 +1,79 @@
-<app-table
-  [settings]="settings"
-  [entity]="entity"
-  [title]="'process'"
-  [dialogTemplateRef]="dialogTemplateRef"
-  [showAction]="{
-    showProcess: false,
-    showOrder: true,
-    showEndProcess: true,
-  }"
-  [showCharts]="true"
-  [filterBy]="['status', 'leftEarValue', 'rightEarValue']"
-></app-table>
+<div class="row">
+  <div
+    [class.col-9]="showCustomerDetails()"
+    [class.col-12]="!showCustomerDetails()"
+  >
+    <app-table
+      [settings]="settings"
+      [entity]="entity"
+      [title]="'process'"
+      [dialogTemplateRef]="dialogTemplateRef"
+      [showAction]="{
+        showProcess: false,
+        showOrder: true,
+        showEndProcess: true,
+        viewOrderDetails: true,
+        showCustomerDetails: true,
+      }"
+      [showCharts]="true"
+      [filterBy]="['status', 'leftEarValue', 'rightEarValue']"
+    ></app-table>
+  </div>
+  @if (showCustomerDetails()) {
+    <div class="col-3">
+      <nb-card [nbSpinner]="loadingCustomer()" nbSpinnerStatus="danger">
+        <nb-card-header>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>Customer details</div>
+            <button nbButton ghost (click)="closeCustomerDetails()">
+              <nb-icon icon="close-outline"></nb-icon>
+            </button>
+          </div>
+        </nb-card-header>
+        <nb-list>
+          <nb-list-item class="contact">
+            <nb-user
+              [onlyPicture]="false"
+              [name]="firstLastName()"
+              [title]="selectedCustomer()?.phoneNumber ?? ''"
+              size="large"
+            ></nb-user>
+            <nb-icon icon="phone-outline" pack="eva"></nb-icon>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="row">
+              <div class="col">Date of birth:</div>
+              <div class="col text-end">
+                {{ selectedCustomer()?.dateOfBirth }}
+              </div>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="row">
+              <div class="col">Status:</div>
+              <div class="col text-end">{{ selectedCustomer()?.status }}</div>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="row">
+              <div class="col">Gender:</div>
+              <div class="col text-end">{{ selectedCustomer()?.gender }}</div>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="row">
+              <div class="col">Email:</div>
+              <div class="col text-end">{{ selectedCustomer()?.email }}</div>
+            </div>
+          </nb-list-item>
+          <nb-list-item>
+            <div class="row">
+              <div class="col">Address:</div>
+              <div class="col text-end">{{ selectedCustomer()?.address }}</div>
+            </div>
+          </nb-list-item>
+        </nb-list>
+      </nb-card>
+    </div>
+  }
+</div>

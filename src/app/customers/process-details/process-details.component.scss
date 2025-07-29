@@ -1,0 +1,13 @@
+@use "../../styles/themes" as *;
+
+@include nb-install-component() {
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+}

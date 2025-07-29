@@ -13,7 +13,7 @@ import { AccessoryState } from '../data/accessory';
 import { AppointmentState } from '../data/appointment';
 import { Brand } from '../data/brand';
 import { ClinicState } from '../data/clinic';
-import { CustomerState, Gender } from '../data/customer';
+import { Customer, CustomerState, Gender } from '../data/customer';
 import { DeviceState } from '../data/device';
 import { DoctorState } from '../data/doctor';
 import { EmployeeState } from '../data/employee';
@@ -81,9 +81,14 @@ export class CoreService extends Store<State> {
 
   user$ = new BehaviorSubject<UserToken | null>(null);
 
+  selectedCustomer = signal<Customer | null>(null);
+
+  showCustomerDetails = signal(false);
+
   subheaderInformation = signal<{
     value: number;
     title: string;
+    showHome?: boolean;
   } | null>(null);
 
   constructor() {

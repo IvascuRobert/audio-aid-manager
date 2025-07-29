@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -6,12 +7,14 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   NbActionsModule,
+  NbIconModule,
   NbLayoutModule,
   NbMenuModule,
   NbSidebarModule,
+  NbSidebarService,
 } from '@nebular/theme';
 import { HeaderComponent } from './header/header.component';
 import { CoreService } from '../@core/services/core.service';
@@ -26,6 +29,7 @@ import { CoreService } from '../@core/services/core.service';
     NbMenuModule,
     RouterModule,
     NbActionsModule,
+    NbIconModule,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
@@ -33,6 +37,7 @@ import { CoreService } from '../@core/services/core.service';
 })
 export class LayoutComponent {
   #coreService = inject(CoreService);
+  router = inject(Router);
 
   subheaderInformation = computed(() =>
     this.#coreService.subheaderInformation(),
@@ -108,4 +113,8 @@ export class LayoutComponent {
       ],
     },
   ];
+
+  goToHome(): void {
+    this.router.navigateByUrl('/pages/dashboard');
+  }
 }

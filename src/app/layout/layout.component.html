@@ -1,16 +1,21 @@
-<nb-layout>
+<nb-layout windowMode>
   <nb-layout-header fixed><app-header /></nb-layout-header>
   <nb-layout-header subheader>
-    <h5 class="text-hint">
-      <strong
-        >{{ subheaderInformation()?.title }}
-        @if (subheaderInformation()?.value) {
-          {{ subheaderInformation()?.value }}
-        }
-      </strong>
-    </h5>
+    <nb-actions>
+      @if (subheaderInformation()?.showHome) {
+        <nb-action icon="home-outline" (click)="goToHome()"></nb-action>
+      }
+      <nb-action>
+        <strong class="fs-16 text-hint text-uppercase">
+          {{ subheaderInformation()?.title }}
+          @if (subheaderInformation()?.value) {
+            {{ subheaderInformation()?.value }}
+          }
+        </strong>
+      </nb-action>
+    </nb-actions>
   </nb-layout-header>
-  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+  <nb-sidebar class="menu-sidebar" tag="left" responsive>
     <nb-menu [items]="menu"></nb-menu>
   </nb-sidebar>
 
@@ -18,5 +23,5 @@
     <router-outlet />
   </nb-layout-column>
 
-  <nb-layout-footer fixed> footer </nb-layout-footer>
+  <nb-layout-footer fixed> Made by 3 guys </nb-layout-footer>
 </nb-layout>

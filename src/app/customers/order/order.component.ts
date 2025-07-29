@@ -5,13 +5,14 @@ import {
   NgIf,
   NgTemplateOutlet,
 } from '@angular/common';
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 import {
   NbAccordionModule,
   NbActionsModule,
+  NbButtonModule,
   NbCardModule,
   NbIconModule,
   NbListModule,
@@ -20,7 +21,7 @@ import {
 } from '@nebular/theme';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { filter, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { Accessory, AccessoryStatus } from '../../@core/data/accessory';
 import { Device, DeviceStatus } from '../../@core/data/device';
 import { Entity } from '../../@core/data/entity';
@@ -58,6 +59,7 @@ enum ProductType {
     XorPipe,
     FilterByQuantityPipe,
     NbTooltipModule,
+    NbButtonModule,
   ],
 })
 export class OrderComponent implements OnInit {
@@ -70,6 +72,10 @@ export class OrderComponent implements OnInit {
   nbAuthService = inject(NbAuthService);
 
   router = inject(Router);
+
+  hasOrder = signal(false);
+
+  loadingOrder = signal(false);
 
   devices$ = this.coreService.state$.pipe(
     map(({ Device }) =>
@@ -152,10 +158,7 @@ export class OrderComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.getDevice();
-    this.getAccessory();
-    this.getUtility();
-    this.getService();
+    this.#checkIfHasOrder();
 
     this.activatedRoute.params
       .pipe(
@@ -169,6 +172,7 @@ export class OrderComponent implements OnInit {
     this.coreService.subheaderInformation.set({
       value: 0,
       title: Entity.Order,
+      showHome: true,
     });
   }
 
@@ -330,6 +334,41 @@ export class OrderComponent implements OnInit {
           this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
         }),
         takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
+  goToViewOrder(): void {
+    this.router.navigate(['../detail'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  #checkIfHasOrder() {
+    this.loadingOrder.set(true);
+    this.activatedRoute.params
+      .pipe(
+        switchMap((params) =>
+          this.coreService
+            .get<Order[]>(Entity.Order, {
+              processId: params['processId'],
+            })
+            .pipe(
+              map((orders) => orders && orders.length > 0),
+              tap((hasOrders) => {
+                this.loadingOrder.set(false);
+                this.hasOrder.set(hasOrders);
+              }),
+              filter((hasOrders) => !hasOrders),
+              switchMap(() => [
+                this.getDevice(),
+                this.getAccessory(),
+                this.getUtility(),
+                this.getService(),
+              ]),
+              takeUntilDestroyed(this.destroyRef),
+            ),
+        ),
       )
       .subscribe();
   }
