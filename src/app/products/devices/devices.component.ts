@@ -11,6 +11,7 @@ import { DeviceState, DeviceStatus } from '../../@core/data/device';
 import { filter, map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { CoreService } from '../../@core/services/core.service';
+import { CustomerDetailsCellComponent } from '../../shared/components/custom-table-cell-render/customer-details-cell.component';
 
 @Component({
   selector: 'app-devices',
@@ -85,7 +86,8 @@ export class DevicesComponent implements OnInit {
       },
       customer: {
         title: 'Customer',
-        type: 'string',
+        type: 'custom',
+        renderComponent: CustomerDetailsCellComponent,
       },
     },
   };

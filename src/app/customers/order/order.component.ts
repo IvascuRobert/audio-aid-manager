@@ -131,8 +131,6 @@ export class OrderComponent implements OnInit {
     map(({ Order }) => Order.loading),
   );
 
-  processId$ = new BehaviorSubject<number>(0);
-
   readonly productTypeTpl = ProductType;
 
   total$ = combineLatest([
@@ -159,15 +157,6 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.#checkIfHasOrder();
-
-    this.activatedRoute.params
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(({ processId }) => {
-          this.processId$.next(parseFloat(processId));
-        }),
-      )
-      .subscribe();
 
     this.coreService.subheaderInformation.set({
       value: 0,
@@ -285,55 +274,73 @@ export class OrderComponent implements OnInit {
     if (emptyCart) {
       return;
     }
-    this.coreService
-      .post<Order>(
-        {
-          userId: 9,
-          processId: this.processId$.getValue(),
-          total,
-          accessoryList: this.accessoriesAdded$.getValue().map((item) => ({
-            id: item.id,
-            status: reserve ? AccessoryStatus.Trial : AccessoryStatus.Sold,
-          })),
-          deviceList: this.devicesAdded$.getValue().map((item) => ({
-            id: item.id,
-            status: reserve ? DeviceStatus.Trial : DeviceStatus.Sold,
-          })),
-          serviceList: this.servicesAdded$.getValue().map((item) => ({
-            id: item.id,
-            price: item.price,
-          })),
-          utilitiesList: this.utilitiesAdded$.getValue().map((item) => ({
-            id: item.id,
-            quantity: item.quantity,
-          })),
-        },
-        Entity.Order,
-      )
+
+    this.activatedRoute.params
       .pipe(
-        switchMap(() =>
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(({ processId, customerId }) =>
           this.coreService
-            .getById<Process>(Entity.Process, this.processId$.value)
+            .post<Order>(
+              {
+                userId: 9,
+                processId,
+                customerId,
+                total,
+                accessoryList: this.accessoriesAdded$
+                  .getValue()
+                  .map((item) => ({
+                    ...item,
+                    id: item.id,
+                    status: reserve
+                      ? AccessoryStatus.Trial
+                      : AccessoryStatus.Sold,
+                  })),
+                deviceList: this.devicesAdded$.getValue().map((item) => ({
+                  ...item,
+                  id: item.id,
+                  status: reserve ? DeviceStatus.Trial : DeviceStatus.Sold,
+                })),
+                serviceList: this.servicesAdded$.getValue().map((item) => ({
+                  ...item,
+                  id: item.id,
+                  price: item.price,
+                })),
+                utilitiesList: this.utilitiesAdded$.getValue().map((item) => ({
+                  ...item,
+                  id: item.id,
+                  quantity: item.quantity,
+                })),
+              },
+              Entity.Order,
+            )
             .pipe(
-              switchMap((process) =>
-                this.coreService.put(
-                  {
-                    ...process,
-                    ...{
-                      status: reserve
-                        ? ProcessStatusType.trial
-                        : ProcessStatusType.win,
-                    },
-                  },
-                  Entity.Process,
-                ),
+              switchMap(() =>
+                this.coreService
+                  .getById<Process>(Entity.Process, processId)
+                  .pipe(
+                    switchMap((process) =>
+                      this.coreService.put(
+                        {
+                          ...process,
+                          ...{
+                            status: reserve
+                              ? ProcessStatusType.trial
+                              : ProcessStatusType.win,
+                          },
+                        },
+                        Entity.Process,
+                      ),
+                    ),
+                  ),
               ),
+              finalize(() => {
+                this.router.navigate(['../../'], {
+                  relativeTo: this.activatedRoute,
+                });
+              }),
+              takeUntilDestroyed(this.destroyRef),
             ),
         ),
-        finalize(() => {
-          this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
-        }),
-        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

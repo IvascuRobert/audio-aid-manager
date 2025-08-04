@@ -106,7 +106,7 @@ export class CoreService extends Store<State> {
       );
   }
 
-  getById<T>(entity: Entity, id: number, params?: any) {
+  getById<T>(entity: Entity, id: number, params?: any): Observable<any> {
     return this.http
       .get<T>(`${this.apiUrl}${entity}/${id}`, {
         params: new HttpParams({ fromObject: params || {} }),

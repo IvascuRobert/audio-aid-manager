@@ -1,5 +1,208 @@
 @if (hasOrder()) {
-  <pre>{{ orders$ | async | json }}</pre>
+  <ng-container
+    *ngIf="{
+      orders: orders$ | async,
+    } as orderObj"
+  >
+    <ng-container
+      *ngIf="{
+        emptyCart:
+          orderObj.orders?.deviceList?.length === 0 &&
+          orderObj.orders?.accessoryList?.length === 0 &&
+          orderObj.orders?.utilitiesList?.length === 0 &&
+          orderObj.orders?.serviceList?.length === 0,
+      } as state"
+    >
+      <div class="row">
+        <div class="col-8">
+          <nb-accordion multi>
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Devices
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="let device of orderObj.orders?.deviceList"
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: device,
+                        productType: productTypeTpl.Device,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Accessories
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="let accessory of orderObj.orders?.accessoryList"
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: accessory,
+                        productType: productTypeTpl.Accessories,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Utilities
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="let utility of orderObj.orders?.utilitiesList"
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: utility,
+                        productType: productTypeTpl.Utilities,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item [collapsed]="false">
+              <nb-accordion-item-header
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                Services
+              </nb-accordion-item-header>
+              <nb-accordion-item-body
+                accent="danger"
+                size="tiny"
+                [nbSpinner]="loadingOrder()"
+                nbSpinnerStatus="danger"
+                nbSpinnerSize="large"
+                nbSpinnerMessage=""
+              >
+                <nb-list>
+                  <nb-list-item
+                    *ngFor="let service of orderObj.orders?.serviceList"
+                  >
+                    <ng-container
+                      [ngTemplateOutlet]="listItem"
+                      [ngTemplateOutletContext]="{
+                        item: service,
+                        productType: productTypeTpl.Services,
+                      }"
+                    ></ng-container>
+                  </nb-list-item>
+                </nb-list>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+        </div>
+        <div class="col-4">
+          <nb-card size="tiny" class="solar-card">
+            <nb-card-header>Total</nb-card-header>
+            <nb-card-body>
+              <div class="info">
+                <div class="h4 value">
+                  {{ orderObj.orders?.total | currency: "EUR" }}
+                </div>
+                <div class="details subtitle-2">
+                  <span>without V.A.T.</span
+                  >{{ orderObj.orders?.total | currency: "EUR" }}
+                </div>
+              </div>
+            </nb-card-body>
+
+            @if (processStatus() === processStatusTypeTpl.trial) {
+              <nb-card-footer
+                ><nb-actions size="medium" fullWidth>
+                  <nb-action
+                    nbTooltip="Pay now"
+                    icon="credit-card-outline"
+                    (click)="payNow(orderObj.orders!, state.emptyCart)"
+                  ></nb-action></nb-actions
+              ></nb-card-footer>
+            }
+          </nb-card>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #listItem let-item="item" let-productType="productType">
+    <span class="mx-4">{{ item.name }}</span>
+
+    <span>{{ item.price | currency: "EUR" }}</span>
+    @if (item.position) {
+      <span class="mx-4">{{ item.position }}</span>
+    }
+    <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
+  </ng-template>
+
+  <ng-template #addedItem let-item="item" let-productType="productType">
+    <span class="mx-4">{{ item.name }}</span>
+    <span>{{ item.price | currency: "EUR" }}</span>
+    <span *ngIf="item.quantity" class="mx-4"> x {{ item.quantity }}</span>
+  </ng-template>
 } @else {
   <div class="row">
     <div class="col-md-12">
@@ -9,26 +212,28 @@
         nbSpinnerSize="large"
       >
         <nb-card-body>
-          <div
-            class="text-center flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12"
-          >
-            <h2 class="title">No Order Found!</h2>
-            <small class="sub-title"
-              >The selected process does not have an order yet. Please create
-              one to proceed.</small
+          @if (!loadingOrder()) {
+            <div
+              class="text-center flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12"
             >
-            <button
-              nbButton
-              fullWidth
-              (click)="goToPlaceAnOrder()"
-              type="button"
-              hero
-              status="primary"
-              class="home-button"
-            >
-              Take me to the place order
-            </button>
-          </div>
+              <h2 class="title">No Order Found!</h2>
+              <small class="sub-title"
+                >The selected process does not have an order yet. Please create
+                one to proceed.</small
+              >
+              <button
+                nbButton
+                fullWidth
+                (click)="goToPlaceAnOrder()"
+                type="button"
+                hero
+                status="primary"
+                class="home-button"
+              >
+                Take me to the place order
+              </button>
+            </div>
+          }
         </nb-card-body>
       </nb-card>
     </div>

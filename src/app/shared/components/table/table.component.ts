@@ -142,11 +142,11 @@ export class TableComponent<T extends { id: number }> implements OnInit {
 
   filterBy = input<string[]>([]);
 
-  customersByStatus$: Observable<PieChartModel[]> = new Observable();
+  customersByStatus$ = new Observable<PieChartModel[]>();
 
-  customerByContactNote$: Observable<PieChartModel[]> = new Observable();
+  customerByContactNote$ = new Observable<PieChartModel[]>();
 
-  customerByGender$: Observable<PieChartModel[]> = new Observable();
+  customerByGender$ = new Observable<PieChartModel[]>();
 
   ngOnInit(): void {
     this.getServerData();

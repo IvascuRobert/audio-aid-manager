@@ -51,8 +51,7 @@ export class ActionsCellComponent implements OnInit {
     { title: Action.EndProcess, icon: 'stop-circle-outline' },
   ];
 
-  @Output() actionChange =
-    new EventEmitter<{ action: Action; row: any }>();
+  @Output() actionChange = new EventEmitter<{ action: Action; row: any }>();
 
   readonly contextTag = 'actions-context-menu-';
 

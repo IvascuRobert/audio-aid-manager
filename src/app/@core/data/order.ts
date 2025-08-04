@@ -1,15 +1,18 @@
-import { AccessoryStatus } from './accessory';
-import { DeviceStatus } from './device';
+import { Accessory, AccessoryStatus } from './accessory';
+import { Device, DeviceStatus } from './device';
 import { StoreEntity } from './lite-store.model';
+import { Service } from './service';
+import { Utility } from './utility';
 
 export interface Order {
   id?: number;
   processId: number;
+  customerId: number;
   userId: number;
-  deviceList: { id: number; status: DeviceStatus }[];
-  accessoryList: { id: number; status: AccessoryStatus }[];
-  utilitiesList: { id: number; quantity: number }[];
-  serviceList: { id: number; price: number }[];
+  deviceList: Device[];
+  accessoryList: Accessory[];
+  utilitiesList: Utility[];
+  serviceList: Service[];
   total: number;
 }
 

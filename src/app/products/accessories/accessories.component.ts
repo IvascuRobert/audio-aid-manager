@@ -11,6 +11,7 @@ import { DeviceState, DeviceStatus } from '../../@core/data/device';
 import { CoreService } from '../../@core/services/core.service';
 import { AccessoryState, AccessoryStatus } from '../../@core/data/accessory';
 import { AsyncPipe } from '@angular/common';
+import { CustomerDetailsCellComponent } from '../../shared/components/custom-table-cell-render/customer-details-cell.component';
 
 @Component({
   selector: 'app-accessories',
@@ -65,6 +66,11 @@ export class AccessoriesComponent implements OnInit {
       shopId: {
         title: 'Shop',
         type: 'string',
+      },
+      customer: {
+        title: 'Customer',
+        type: 'custom',
+        renderComponent: CustomerDetailsCellComponent,
       },
     },
   };
