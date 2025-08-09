@@ -3,10 +3,10 @@ import { StoreEntity } from './lite-store.model';
 
 export enum CustomerStatus {
   new = 'new',
-  no = 'no', // normal
-  pc = 'pc', // potential client
-  cc = 'cc', // concurent client
-  cl = 'cl', // client
+  no = 'normal', // normal
+  pc = 'potential', // potential client
+  cc = 'concurent', // concurent client
+  cl = 'client', // client
 }
 export enum CustomerContactNoteType {
   MemberGetMember = 'MemberGetMember',

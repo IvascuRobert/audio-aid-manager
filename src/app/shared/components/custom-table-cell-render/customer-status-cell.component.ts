@@ -11,7 +11,7 @@ import { CustomerStatus } from '../../../@core/data/customer';
       @switch (value) {
         @case (customerStatusTpl.new) {
           <nb-tag
-            status="danger"
+            status="primary"
             class="text-uppercase"
             appearance="outline"
             [size]="'tiny'"

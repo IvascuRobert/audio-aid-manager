@@ -65,5 +65,6 @@ export type EndProcessForm = {
     | 'questionnaire'
     | 'comment'
     | 'customerId'
+    | 'status'
   >]: FormControl<Process[field]>;
 };

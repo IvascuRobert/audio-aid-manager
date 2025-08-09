@@ -59,7 +59,6 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    status: new FormControl(ProcessStatusType.end, { nonNullable: true }),
   });
 
   selected: Process | null = null;
@@ -72,10 +71,6 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
 
   get reasonControl() {
     return this.form.controls.reason;
-  }
-
-  get statusControl() {
-    return this.form.controls.status;
   }
 
   constructor(@Optional() private ref: NbDialogRef<EndProcessDialogComponent>) {
@@ -103,35 +98,36 @@ export class EndProcessDialogComponent extends BaseForm implements OnInit {
 
   private update(): void {
     this.loading$.next(true);
-    this.processStatusByExceededValue();
 
-    this.coreService
-      .patch<EndProcessApi>(
-        `${this.selected?.id}`,
-        this.form.getRawValue(),
-        this.entity,
-      )
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => {
-          this.loading$.next(false);
-          this.close(true);
-        }),
-      )
-      .subscribe();
+    if (this.selected)
+      this.coreService
+        .put<Process>(
+          {
+            ...this.selected,
+            status: this.processStatusByExceededValue(),
+            reason: this.reasonControl.value,
+          },
+          this.entity,
+        )
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          finalize(() => {
+            this.loading$.next(false);
+            this.close(true);
+          }),
+        )
+        .subscribe();
   }
 
-  private processStatusByExceededValue(): void {
+  private processStatusByExceededValue(): ProcessStatusType {
     const isExceedTheNormalValue =
       [
         this.selected?.leftEarValue ?? 0,
         this.selected?.rightEarValue ?? 0,
       ].filter((value) => value > 25).length > 0;
 
-    if (isExceedTheNormalValue) {
-      this.statusControl.setValue(ProcessStatusType.lost);
-    } else {
-      this.statusControl.setValue(ProcessStatusType.end);
-    }
+    return isExceedTheNormalValue
+      ? ProcessStatusType.lost
+      : ProcessStatusType.end;
   }
 }
