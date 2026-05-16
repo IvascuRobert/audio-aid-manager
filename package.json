@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "github-build": "ng build --configuration production --base-href 'https://IvascuRobert.github.io/audio-aid-manager/'",
+    "github-deploy": "npx angular-cli-ghpages --dir=dist/audio-aid-manager/browser --no-silent",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
